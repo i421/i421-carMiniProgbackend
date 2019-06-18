@@ -43,6 +43,11 @@ class RolesTableSeeder extends Seeder
                 'display_zh_name' => '管理员',
                 'display_en_name' => 'admin',
                 'description' => '管理员'
+            ], [
+                'name' => 'normal',
+                'display_zh_name' => '普通用户',
+                'display_en_name' => 'normal',
+                'description' => '普通用户'
             ],
         ];
 

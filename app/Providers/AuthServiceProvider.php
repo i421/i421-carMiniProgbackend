@@ -53,7 +53,7 @@ class AuthServiceProvider extends ServiceProvider
     private function _registerDarlingUserProvider()
     {
         Auth::provider('darling', function ($app, array $config) {
-            return new MastiffUserProvider(new BcryptHasher(), config('auth.providers.darling.model'));
+            return new DarlingUserProvider(new BcryptHasher(), config('auth.providers.darling.model'));
         });
     }
 }

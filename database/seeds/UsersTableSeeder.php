@@ -34,11 +34,11 @@ class UsersTableSeeder extends Seeder
     {
         $list = [
             [
-                'nickname' => 'waiterx' . str_random(11),
-                'name' => 'waiterx',
+                'nickname' => 'username' . str_random(11),
+                'name' => 'shine',
                 'email' => 'shenjc@pheicloud.com',
                 'phone' => '13738283483',
-                'password' => bcrypt('waiterx'),
+                'password' => bcrypt('shine'),
                 'remember_token' => str_random(10),
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
@@ -47,7 +47,7 @@ class UsersTableSeeder extends Seeder
                 'name' => 'root',
                 'email' => 'root@etonesystem.com',
                 'phone' => '13700000000',
-                'password' => bcrypt('etone'),
+                'password' => bcrypt('root'),
                 'remember_token' => str_random(10),
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
