@@ -3,7 +3,7 @@
       <el-row class="topbar-wrap">
           <el-col :span="3">
             <div class="topbar-logo topbar-btn">
-              <img src="../../static/logo.png">
+              <img style="height: 65px" src="../../static/logo.png">
             </div>
           </el-col>
           
@@ -14,7 +14,7 @@
             <div class="topbar-account topbar-btn">
               <el-dropdown trigger="click">
                 <span class="el-dropdown-link userinfo-inner">
-                    <el-button type="primary" icon="el-icon-user" circle></el-button>
+                    <el-button type="info" icon="el-icon-user" circle></el-button>
                 </span>
                 <el-dropdown-menu slot="dropdown">
                   <el-dropdown-item @click.native="userinfo">个人信息</el-dropdown-item>
@@ -74,7 +74,7 @@
 .topbar-wrap {
     padding: 0;
     height: 66px;
-    background: #1d8ce0;
+    background: rgb(86, 95, 104);
     line-height: 66px
 }
 .topbar-btn {
@@ -82,10 +82,11 @@
 }
 .topbar-logo {
     height:66px;
+    padding-left: 30px;
 }
 .topbar-logo, .topbar-title {
     float:left;
-    border-right:1px solid #1d8ce0;
+    border-right:1px solid rgb(86, 95, 104);
     text-align:center
 }
 .topbar-title {

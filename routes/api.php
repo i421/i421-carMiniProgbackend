@@ -13,6 +13,18 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::group(['prefix' => 'v1/backend', 'namespace' => 'Backend', 'middleware' => 'auth:api'], function () {
+
+    //用户管理
+    Route::group(['prefix' => 'user'], function () {
+        Route::get('info', 'UserController@info');
+        Route::get('permission', 'UserController@getPermissionByUserId');
+        Route::get('updatePassword', 'UserController@updatePassword');
+        Route::get('/', 'UserController@index');
+        Route::post('/', 'UserController@store');
+        Route::get('{id}', 'UserController@show');
+        Route::put('{id}', 'UserController@update');
+        Route::delete('{id}', 'UserController@destroy');
+    });
+
 });

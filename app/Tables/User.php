@@ -39,14 +39,6 @@ class User extends Authenticatable
     ];
 
     /**
-     * 一对多关联
-     */
-    public function platforms()
-    {
-        return $this->hasMany(Platform::class);
-    }
-
-    /**
      * Passport multiple type login
      *
      * @param $identifier
@@ -58,29 +50,5 @@ class User extends Authenticatable
             ->orWhere('name', $identifier)
             ->orWhere('phone', $identifier)
             ->first();
-    }
-
-    /**
-     * 一对多关联
-     */
-    public function tags()
-    {
-        return $this->hasMany(Tag::class);
-    }
-
-    /**
-     * 一对多关联
-     */
-    public function shops()
-    {
-        return $this->hasMany(Shop::class);
-    }
-
-    /**
-     * 一对多关联
-     */
-    public function pictures()
-    {
-        return $this->hasMany(Picture::class);
     }
 }

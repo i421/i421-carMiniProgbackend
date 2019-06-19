@@ -1,0 +1,62 @@
+[
+  {
+    "id": "1",
+    "name": "/dashboard",
+    "display_en_name": "Dashboard",
+    "display_zh_name": "首页",
+    "icon": "fa-dashboard",
+    "is_menu": 1,
+    "pid": "0",
+    "order": "1"
+  },
+  {
+    "id": "2",
+    "name": "#",
+    "display_en_name": "History Inquiry",
+    "display_zh_name": "历史数据",
+    "icon": "fa-history",
+    "is_menu": 1,
+    "pid": "0",
+    "order": "2"
+  },
+  {
+    "id": "3",
+    "name": "/mall",
+    "display_en_name": "Mall Statistic",
+    "display_zh_name": "商场明细",
+    "icon": "fa-circle-o",
+    "is_menu": 1,
+    "pid": "2",
+    "order": "3"
+  },
+  {
+    "id": "4",
+    "name": "/floor",
+    "display_en_name": "Floor Statistic",
+    "display_zh_name": "楼层统计",
+    "icon": "fa-circle-o",
+    "is_menu": 1,
+    "pid": "2",
+    "order": "4"
+  },
+  {
+    "id": "5",
+    "name": "/shop/history",
+    "display_en_name": "Shop Hisotry",
+    "display_zh_name": "店铺历史",
+    "icon": "fa-circle-o",
+    "is_menu": 1,
+    "pid": "2",
+    "order": "5"
+  },
+  {
+    "id": "6",
+    "name": "/shop/relation",
+    "display_en_name": "Shop Relation",
+    "display_zh_name": "店铺关联度",
+    "icon": "fa-circle-o",
+    "is_menu": 1,
+    "pid": "2",
+    "order": "6"
+  }
+]

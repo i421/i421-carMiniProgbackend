@@ -64,5 +64,6 @@
 <style>
 .el-menu-vertical-demo {
     height: 100%;
+    min-width: 201px;
 }
 </style>
