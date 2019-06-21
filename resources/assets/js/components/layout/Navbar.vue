@@ -5,10 +5,7 @@
 		  class="el-menu-vertical-demo"
           :collapse="isCollapse"
 		  @open="handleOpen"
-		  @close="handleClose"
-		  background-color="#545c64"
-		  text-color="#fff"
-		  active-text-color="#ffd04b">
+		  @close="handleClose" >
 		  <el-submenu index="1">
 			<template slot="title">
 			  <i class="el-icon-location"></i>
@@ -64,6 +61,10 @@
 <style>
 .el-menu-vertical-demo {
     height: 100%;
-    min-width: 201px;
+    z-index: 1;
+    /*min-width: 201px;*/
+}
+.el-submenu .el-menu-item {
+    min-width: 50px !important;
 }
 </style>

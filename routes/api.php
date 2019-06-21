@@ -28,3 +28,13 @@ Route::group(['prefix' => 'v1/backend', 'namespace' => 'Backend', 'middleware' =
     });
 
 });
+
+Route::group(['prefix' => 'v1/backend', 'namespace' => 'Backend'], function () {
+
+    //认证模块
+    Route::group(['prefix' => 'oauth'], function () {
+        Route::post('token', 'AuthController@auth');
+    });
+
+});
+

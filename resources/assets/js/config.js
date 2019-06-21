@@ -7,7 +7,7 @@
 */
 
 const Api = {
-    'getUserTokenUrl': '/oauth/token',
+    'oauthToken': 'api/v1/backend/oauth/token',
 }
 
 export default Api

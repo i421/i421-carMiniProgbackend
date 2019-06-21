@@ -14,24 +14,13 @@ import store from '../store'
 import systemConfig from './../env.js'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
+import { Notification } from 'element-ui'
 
-/**
- * Create Axios
- */
 export const http = axios.create({
     baseURL: systemConfig.baseURL,
     timeout: 5000
 })
 
-
-//在实例创建后改变默认值
-//http.defaults.headers.common ['Authorization'] = AUTH_TOKEN;
-
-/**
- * We'll load the axios HTTP library which allows us to easily issue requests
- * to our Laravel back-end. This library automatically handles sending the
- * CSRF token as a header based on the value of the "XSRF" token cookie.
- */
 http.defaults.headers.common = {
     'X-CSRF-ToKen': document.querySelector('meta[name=csrf-token]').getAttribute('content'),
     'X-Requested-With': 'XMLHttpRequest',
@@ -62,44 +51,78 @@ http.interceptors.request.use(config => {
 })
 
 http.interceptors.response.use(function (response) {
-	NProgress.done()
-	return response;
-}, function (error) {
-	NProgress.done()
-	return Promise.reject(error);
-});
 
-http.interceptors.response.use(function (response) {
+    //用户名密码错误
+    if (response.data.error == "invalid_credentials") {
+        Notification({
+            title: '提示',
+            message: '用户名或者密码错误',
+            type: 'error'
+        });
+	    NProgress.done()
+        return Promise.reject(response);
+    }
+
+    //passport认证用户ID/密码
+    if (response.data.error == "invalid_client") {
+        Notification({
+            title: '提示',
+            message: 'Client信息错误',
+            type: 'error'
+        });
+	    NProgress.done()
+        return Promise.reject(response);
+    }
+
+	NProgress.done()
     return response;
+
 }, function (error) {
+
     const {response} = error
 
     if ([401].indexOf(response.status) >= 0) {
-        if (response.status == 401 && response.data.message != 'Unauthorized') {
+
+        if (response.data.error == "invalid_credentials") {
+            Notification.error({
+                title: '错误',
+                message: '用户名或者密码错误,请重试'
+            });
+	        NProgress.done()
             return Promise.reject(response);
         }
-        window.location = '/';
+
+        if (response.data.message == "invalid_client") {
+            Notification.error({
+                title: '错误',
+                message: '认证信息出错'
+            });
+	        NProgress.done()
+            return Promise.reject(response);
+        }
     }
 
     //根据返回码分别进行处理
     if ([500].indexOf(response.status) >= 0) {
-        this.$notify({
+        Notification({
             title: 'Notice',
             message: '操作失败',
             type: 'error'
         });
+	    NProgress.done()
+        return Promise.reject(response);
     }
 
     //格式不符合
     if ([422].indexOf(response.status) >= 0) {
-        this.$notify({
+        Notification({
             title: 'Notice',
             message: '操作失败',
             type: 'error'
         });
+	    NProgress.done()
+        return Promise.reject(error);
     }
-
-    return Promise.reject(error);
 });
 
 export default function install(Vue) {

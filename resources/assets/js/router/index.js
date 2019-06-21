@@ -14,10 +14,18 @@ export default new Router({
             component: resolve => require(['./../components/layout/Home.vue'], resolve),
             children: [
                 {
-                    path: '/register',
-                    component: resolve => require(['../pages/register.vue'], resolve)
+                    path: '/test',
+                    component: resolve => require(['../pages/test.vue'], resolve)
                 },
             ]
+        },
+        {
+            path: '/login',
+            component: resolve => require(['../pages/auth/Login.vue'], resolve)
+        },
+        {
+            path: '/register',
+            component: resolve => require(['../pages/auth/register.vue'], resolve)
         },
         {
             path: '/404',

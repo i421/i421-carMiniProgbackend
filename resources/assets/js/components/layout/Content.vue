@@ -9,3 +9,6 @@
 		name: 'AppContent'
 	}
 </script>
+
+<style scoped>
+</style>
