@@ -37,10 +37,7 @@ class InfoJob
         $response = [
             'code' => trans('pheicloud.response.success.code'),
             'msg' => trans('pheicloud.response.success.msg'),
-            'data' => [
-                'userInfo' => $this->user,
-                'roleInfo' => $roleLists,
-            ],
+            'data' => $this->user,
         ];
 
         return response()->json($response);

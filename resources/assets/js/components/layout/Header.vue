@@ -32,11 +32,6 @@
       //退出
       logout() {
         this.$confirm('确认要退出吗？','提示',{}).then(() => {
-            /*
-            window.localStorage.removeItem('token')
-            window.localStorage.removeItem('authUser')
-            window.localStorage.removeItem('version')
-            */
             this.$store.dispatch('doLogout')
             this.$router.push('/login');
         }).catch(() => {

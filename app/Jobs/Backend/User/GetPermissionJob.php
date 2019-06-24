@@ -4,10 +4,9 @@ namespace App\Jobs\Backend\User;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Support\Facades\Cache;
 use App\Tables as TablesModels;
 
-class GetPermissionByUserIdJob
+class GetPermissionJob
 {
     use Dispatchable, Queueable;
 
@@ -38,8 +37,9 @@ class GetPermissionByUserIdJob
         if (empty($roleLists)) {
 
             $response = [
-                'code' => trans('pheicloud.response.empty.code'),
-                'msg' => trans('pheicloud.response.empty.msg'),
+                'code' => trans('pheicloud.response.success.code'),
+                'msg' => trans('pheicloud.response.success.msg'),
+                'data' => [],
             ];
 
             return response()->json($response);
@@ -52,12 +52,26 @@ class GetPermissionByUserIdJob
             array_push($permissionInfo, $permission);
         }
 
-        $permissionInfo = generateMultiTree($permission);
+        $permissionInfo = array_collapse($permissionInfo);
+
+        $ids = [];
+        $resPerm = [];
+
+        foreach ($permissionInfo as $atom) {
+            if (in_array($atom['id'], $ids)) {
+                continue;
+            } else {
+                array_push($resPerm, $atom);
+                array_push($ids, $atom['id']);
+            }
+        }
+
+        $resPerm = sortMultidimArray($resPerm, 'id', 'asc');
 
         $response = [
             'code' => trans('pheicloud.response.success.code'),
             'msg' => trans('pheicloud.response.success.msg'),
-            'data' => $permissionInfo
+            'data' => generateTree($resPerm),
         ];
 
         return response()->json($response);

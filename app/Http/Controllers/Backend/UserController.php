@@ -108,10 +108,10 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @return json $response
      */
-    public function getPermissionByUserId(Request $request)
+    public function getPermission(Request $request)
     {
         $user = $request->user();
-        $response = $this->dispatch(new UserJobs\GetPermissionByUserIdJob($user));
+        $response = $this->dispatch(new UserJobs\GetPermissionJob($user));
         return $response;
     }
 

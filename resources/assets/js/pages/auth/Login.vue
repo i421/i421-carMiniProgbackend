@@ -68,6 +68,7 @@
             this.$router.push('/dashboard')
         }
     },
+
     methods: {
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
@@ -85,7 +86,6 @@
                 scope: ''
             }
 
-            const authUser = {}
             this.formDatas.push(formData);
             this.formData = {username: '', password: ''};
 
@@ -111,21 +111,7 @@
                     url: Api.userInfo,
                 }).then(response => {
 
-                    let resUserInfo = response.data.data.userInfo
-                    let resRoleInfo = response.data.data.roleInfo
-                    let roleLength = resRoleInfo.length
-                    let roles = []
-
-                    for (let i = 0; i < roleLength; i++) {
-                        roles.push(resRoleInfo[i]['name'])
-                    }
-
-                    authUser.id = resUserInfo.id
-                    authUser.name = resUserInfo.name
-                    authUser.email = resUserInfo.email
-                    authUser.avater = resUserInfo.avater
-                    authUser.nickname = resUserInfo.nickname
-                    authUser.roles = roles
+                    let authUser = response.data.data
 
                     /*
                     var encryptAuthUser = encryptData(authUser)

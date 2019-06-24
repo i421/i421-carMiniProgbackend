@@ -41,19 +41,40 @@
 </template>
 
 <script>
-	export default {
+
+    import Api from './../../config'
+    import { http } from './../../utils/fetch'
+
+    export default {
         data() {
             return {
                 isCollapse: false,
             }
         },
+
+        created() {
+            this.fetchMenuList()
+        },
+
 		methods: {
-		  handleOpen(key, keyPath) {
-			console.log(key, keyPath);
-		  },
-		  handleClose(key, keyPath) {
-			console.log(key, keyPath);
-		  }
+            handleOpen(key, keyPath) {
+                console.log(key, keyPath);
+            },
+
+            handleClose(key, keyPath) {
+                console.log(key, keyPath);
+            },
+
+            //获取菜单列表
+            fetchMenuList() {
+                http({
+                    url: Api.userPermission,
+                }).then(response => {
+                    console.log(response)
+                }, response => {
+                    console.log(err)
+                })
+            }
 		}
 	}
 </script>
