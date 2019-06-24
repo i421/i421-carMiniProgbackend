@@ -62,6 +62,12 @@
         }
       };
     },
+
+    mounted () {
+        if (this.$store.state.access_token !== null && this.$store.state.auth_user !== null) {
+            this.$router.push('/dashboard')
+        }
+    },
     methods: {
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
@@ -70,30 +76,80 @@
 
             var formData = this.newFormData;
 
-			const postData = {
-				grant_type: 'password',
-				client_id: aesEncrypt(systemConfig.clientId),
-				client_secret: aesEncrypt(systemConfig.clientSecret),
-				username: this.ruleForm.login,
-				password: aesEncrypt(this.ruleForm.password),
-				scope: ''
-			}
+            const postData = {
+                grant_type: 'password',
+                client_id: aesEncrypt(systemConfig.clientId),
+                client_secret: aesEncrypt(systemConfig.clientSecret),
+                username: this.ruleForm.login,
+                password: aesEncrypt(this.ruleForm.password),
+                scope: ''
+            }
 
-			const authUser = {}
-			this.formDatas.push(formData);
-			this.formData = {username: '', password: ''};
+            const authUser = {}
+            this.formDatas.push(formData);
+            this.formData = {username: '', password: ''};
 
-			http({
-				url: Api.oauthToken,
-				method: 'post',
-				data: postData
-			}).then(response => {
+            http({
+                url: Api.oauthToken,
+                method: 'post',
+                data: postData
+            }).then(response => {
 
-                console.log(response)
+                //set token
+                /*
+                const authToken = {}
+                authToken.access_token = response.data.access_token
+                authToken.refresh_token = response.data.refresh_token
+                */
+                this.$store.dispatch('setAccessToken', response.data.access_token)
+                /*
+                let encryptToken = encryptData(authToken)
+                window.localStorage.setItem('token', encryptToken)
+                */
 
-			}).catch(err => {
-				console.log(err)
-			})
+                http({
+                    url: Api.userInfo,
+                }).then(response => {
+
+                    let resUserInfo = response.data.data.userInfo
+                    let resRoleInfo = response.data.data.roleInfo
+                    let roleLength = resRoleInfo.length
+                    let roles = []
+
+                    for (let i = 0; i < roleLength; i++) {
+                        roles.push(resRoleInfo[i]['name'])
+                    }
+
+                    authUser.id = resUserInfo.id
+                    authUser.name = resUserInfo.name
+                    authUser.email = resUserInfo.email
+                    authUser.avater = resUserInfo.avater
+                    authUser.nickname = resUserInfo.nickname
+                    authUser.roles = roles
+
+                    /*
+                    var encryptAuthUser = encryptData(authUser)
+                    var encryptVersion = encryptData(systemConfig.version)
+                    */
+
+                    this.$store.dispatch('setAuthUser', authUser)
+                    this.$store.dispatch('setSysVersion', systemConfig.version)
+
+                    /*
+                    window.localStorage.setItem('authUser', encryptAuthUser)
+                    window.localStorage.setItem('version', encryptVersion)
+                    */
+                    this.$router.push('/dashboard')
+
+                }, response => {
+                    console.log(err)
+                })
+
+                this.loading = false;
+
+            }).catch(err => {
+                console.log(err)
+            })
 
             this.loading = false;
 

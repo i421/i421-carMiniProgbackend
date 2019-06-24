@@ -28,7 +28,6 @@ export default {
   },
   methods: {
       backHistory() {
-          console.log('te')
 		this.$router.go(-1)
       }
   }

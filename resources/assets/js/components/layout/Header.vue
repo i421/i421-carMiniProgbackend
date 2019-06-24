@@ -20,43 +20,37 @@
   </div>
 </template>
 <script type="text/ecmascript-6">
+
   export default {
     data() {
       return {
-        sysUserName: '',
-        sysUserAvatar: '',
         collapsed: false,
       }
     },
-    mounted() {
-      //var userSession = this.getCookie('session');
-      //if(userSession) {
-      //  this.sysUserName = userSession || '';
-      //}
-    },
+
     methods: {
       //退出
       logout() {
         this.$confirm('确认要退出吗？','提示',{}).then(() => {
-          this.$fetch('m/logout').then((res) =>{
-            if(res.errCode == 200) {
-              //this.delCookie('session');
-              //this.delCookie('u_uuid');
-              //this.$router.push({path: '/', query: {redirect: this.$router.currentRoute.fullPath}});
-            } else {
-              console.log(res.errMsg);
-            }
-          });
+            /*
+            window.localStorage.removeItem('token')
+            window.localStorage.removeItem('authUser')
+            window.localStorage.removeItem('version')
+            */
+            this.$store.dispatch('doLogout')
+            this.$router.push('/login');
         }).catch(() => {
         });
       },
+
       //个人信息
       userinfo() {
         this.$router.push('/userinfo');
       },
+
       //修改密码
       editpwd() {
-        this.$router.push('/editpwd');
+        this.$router.push('/update/password');
       }
     }
   }

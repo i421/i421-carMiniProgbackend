@@ -15,6 +15,7 @@ import systemConfig from './../env.js'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 import { Notification } from 'element-ui'
+import { decryptData } from './../utils/encrypt'
 
 export const http = axios.create({
     baseURL: systemConfig.baseURL,
@@ -26,30 +27,23 @@ http.defaults.headers.common = {
     'X-Requested-With': 'XMLHttpRequest',
 };
 
+// Do something before request is sent
 http.interceptors.request.use(config => {
 
 	NProgress.start()
-
     //在请求前添加认证头
-    /*
-    if (store.state.access_token != null) {
+    if (store.state.access_token !== null) {
         config.headers.authorization = "Bearer " + store.state.access_token;
-    } else {
-        let access_token = decryptData(window.localStorage.getItem("authUser")).access_token
-
-        if (access_token != 'undefined') {
-            config.headers.authorization = "Bearer " + access_token;
-        }
     }
-    */
-    // Do something before request is sent
     return config
+
 }, error => {
     // Do something with request error
 	NProgress.done()
     Promise.reject(error)
 })
 
+// Do something before response is sent
 http.interceptors.response.use(function (response) {
 
     //用户名密码错误
@@ -74,6 +68,18 @@ http.interceptors.response.use(function (response) {
         return Promise.reject(response);
     }
 
+    //204空
+    if (response.data.code == "204") {
+        Notification({
+            title: '提示',
+            message: '请求结果为空',
+            type: 'warning'
+        });
+	    NProgress.done()
+        return Promise.reject(response);
+    }
+
+    //正常返回
 	NProgress.done()
     return response;
 
@@ -96,6 +102,21 @@ http.interceptors.response.use(function (response) {
             Notification.error({
                 title: '错误',
                 message: '认证信息出错'
+            });
+	        NProgress.done()
+            return Promise.reject(response);
+        }
+
+        if (response.data.message == "Unauthenticated.") {
+
+            //window.localStorage.removeItem('token')
+            //window.localStorage.removeItem('authUser')
+            //window.localStorage.removeItem('version')
+            window.localStorage.removeItem('vuex')
+
+            Notification.error({
+                title: '错误',
+                message: '令牌错误,请重新登录'
             });
 	        NProgress.done()
             return Promise.reject(response);

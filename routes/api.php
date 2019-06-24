@@ -13,6 +13,12 @@ use Illuminate\Http\Request;
 |
 */
 
+Route::group(['prefix' => 'v1', 'middleware' => 'auth:api'], function () {
+    Route::get('/test', function () {
+        return 'test';
+    });
+});
+
 Route::group(['prefix' => 'v1/backend', 'namespace' => 'Backend', 'middleware' => 'auth:api'], function () {
 
     //用户管理

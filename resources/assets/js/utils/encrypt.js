@@ -32,9 +32,9 @@ export function decryptData(str) {
 //前端加密至后端
 export function aesEncrypt(plainText) {
     var encrypted = CryptoJS.AES.encrypt(
-            plainText,
-            CryptoJS.enc.Utf8.parse(systemConfig.aesKey),
-            {iv:  CryptoJS.enc.Utf8.parse(systemConfig.aesIv)}
+        plainText,
+        CryptoJS.enc.Utf8.parse(systemConfig.aesKey),
+        {iv: CryptoJS.enc.Utf8.parse(systemConfig.aesIv)}
     );
     return CryptoJS.enc.Base64.stringify(encrypted.ciphertext);
 }
