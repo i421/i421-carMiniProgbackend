@@ -24,8 +24,8 @@ Route::group(['prefix' => 'v1/backend', 'namespace' => 'Backend', 'middleware' =
     //用户管理
     Route::group(['prefix' => 'user'], function () {
         Route::get('info', 'UserController@info');
-        Route::get('permission', 'UserController@getPermission');
-        Route::get('updatePassword', 'UserController@updatePassword');
+        Route::get('permission', 'UserController@permission');
+        Route::post('update/password', 'UserController@updatePassword');
         Route::get('/', 'UserController@index');
         Route::post('/', 'UserController@store');
         Route::get('{id}', 'UserController@show');

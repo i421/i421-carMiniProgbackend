@@ -40,27 +40,29 @@ class UpdatePasswordJob
     {
         $user = TableModels\User::findOrFail($this->user->id);
 
-		$flag = Hash::check($this->params['oldPass'], $user->password);	
+        $flag = Hash::check($this->params['originPass'], $user->password);
 
-		if (!$flag) {
+        if (!$flag) {
 
-			$response = [
-				'code' => trans('pheicloud.response.passwordNotSameAsBefore.code'),
-				'msg' => trans('pheicloud.response.passwordNotSameAsBefore.msg'),
-			];
+            $response = [
+                'code' => trans("pheicloud.response.passwordNotSameAsBefore.code"),
+                'msg' => trans('pheicloud.response.passwordNotSameAsBefore.msg'),
+            ];
 
-			return response()->json($response);
-		}
+            return response()->json($response);
+        }
 
-		$user->password = Hash::make($this->params['pass']);
-		$user->save();
-		\Log::info("[update Password]: user_id " . $this->user->id . " update password to " . $this->params['pass']);
+        $user->password = Hash::make($this->params['pass']);
+        $user->save();
 
-		$response = [
-			'code' => trans('pheicloud.response.success.code'),
-			'msg' => trans('pheicloud.response.success.msg'),
-		];
+        //删除原有access_token
+        \Laravel\Passport\Token::where('user_id', $user->id)->delete();
 
-		return response()->json($response);
+        $response = [
+            'code' => trans('pheicloud.response.success.code'),
+            'msg' => trans('pheicloud.response.success.msg'),
+        ];
+
+        return response()->json($response);
     }
 }

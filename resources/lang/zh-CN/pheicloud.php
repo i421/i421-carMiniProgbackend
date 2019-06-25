@@ -72,7 +72,7 @@ return [
         ],
         'passwordNotSameAsBefore' => [
             'code' => '10008',
-            'msg' => '密码不能和之前相同',
+            'msg' => '原密码不正确',
         ],
     ],
 ];

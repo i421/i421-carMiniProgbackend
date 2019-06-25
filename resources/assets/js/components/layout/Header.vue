@@ -40,12 +40,12 @@
 
       //个人信息
       userinfo() {
-        this.$router.push('/userinfo');
+        this.$router.push('/user/info');
       },
 
       //修改密码
       editpwd() {
-        this.$router.push('/update/password');
+        this.$router.push('/reset/password');
       }
     }
   }

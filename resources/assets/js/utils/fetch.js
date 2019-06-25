@@ -72,13 +72,23 @@ http.interceptors.response.use(function (response) {
     if (response.data.code == "204") {
         Notification({
             title: '提示',
-            message: '请求结果为空',
+            message: response.data.msg,
             type: 'warning'
         });
 	    NProgress.done()
         return Promise.reject(response);
     }
 
+    //10008密码不一致
+    if (response.data.code == "10008") {
+        Notification({
+            title: '提示',
+            message: response.data.msg,
+            type: 'warning'
+        });
+	    NProgress.done()
+        return Promise.reject(response);
+    }
     //正常返回
 	NProgress.done()
     return response;
@@ -109,16 +119,16 @@ http.interceptors.response.use(function (response) {
 
         if (response.data.message == "Unauthenticated.") {
 
-            //window.localStorage.removeItem('token')
-            //window.localStorage.removeItem('authUser')
-            //window.localStorage.removeItem('version')
             window.localStorage.removeItem('vuex')
 
             Notification.error({
                 title: '错误',
                 message: '令牌错误,请重新登录'
             });
-	        NProgress.done()
+
+            window.location.href = "/#/login";
+
+            NProgress.done()
             return Promise.reject(response);
         }
     }
@@ -130,7 +140,7 @@ http.interceptors.response.use(function (response) {
             message: '操作失败',
             type: 'error'
         });
-	    NProgress.done()
+        NProgress.done()
         return Promise.reject(response);
     }
 
@@ -141,7 +151,7 @@ http.interceptors.response.use(function (response) {
             message: '操作失败',
             type: 'error'
         });
-	    NProgress.done()
+        NProgress.done()
         return Promise.reject(error);
     }
 });

@@ -22,6 +22,9 @@ export default new Router({
                     path: '/user',
                     component: resolve => require(['../pages/User.vue'], resolve)
                 }, {
+                    path: '/reset/password',
+                    component: resolve => require(['../pages/auth/ResetPassword.vue'], resolve)
+                }, {
                     path: '/role',
                     component: resolve => require(['../pages/Role.vue'], resolve)
                 }, {
@@ -39,7 +42,7 @@ export default new Router({
         },
         {
             path: '/register',
-            component: resolve => require(['../pages/auth/register.vue'], resolve)
+            component: resolve => require(['../pages/auth/Register.vue'], resolve)
         },
         {
             path: '/404',

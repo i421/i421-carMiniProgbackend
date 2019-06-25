@@ -1,6 +1,8 @@
 <template>
-    <section class="app-container">
-        <router-view></router-view>
+    <section id="app-container">
+        <transition>
+            <router-view></router-view>
+        </transition>
     </section>
 </template>
 
@@ -11,4 +13,7 @@
 </script>
 
 <style scoped>
+#app-container {
+    padding: 20px;
+}
 </style>

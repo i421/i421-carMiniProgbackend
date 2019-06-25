@@ -108,7 +108,7 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @return json $response
      */
-    public function getPermission(Request $request)
+    public function permission(Request $request)
     {
         $user = $request->user();
         $response = $this->dispatch(new UserJobs\GetPermissionJob($user));
@@ -121,7 +121,7 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @return json $response
      */
-    public function updatePassword(Request $request)
+    public function updatePassword(UserRequests\UpdatePasswordRequest $request)
     {
         $user = $request->user();
         $params = $request->all();
