@@ -19,6 +19,15 @@ export default new Router({
                     path: '/dashboard',
                     component: resolve => require(['../pages/Dashboard.vue'], resolve)
                 }, {
+                    path: '/user',
+                    component: resolve => require(['../pages/User.vue'], resolve)
+                }, {
+                    path: '/role',
+                    component: resolve => require(['../pages/Role.vue'], resolve)
+                }, {
+                    path: '/permission',
+                    component: resolve => require(['../pages/Permission.vue'], resolve)
+                }, {
                     path: '/test',
                     component: resolve => require(['../pages/Test.vue'], resolve)
                 },

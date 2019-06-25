@@ -1,43 +1,38 @@
 <template>
-    <div>
-		<el-menu
-		  default-active="2"
-		  class="el-menu-vertical-demo"
-          :collapse="isCollapse"
-		  @open="handleOpen"
-		  @close="handleClose" >
-		  <el-submenu index="1">
-			<template slot="title">
-			  <i class="el-icon-location"></i>
-			  <span>导航一</span>
-			</template>
-			<el-menu-item-group>
-			  <template slot="title">分组一</template>
-			  <el-menu-item index="1-1">选项1</el-menu-item>
-			  <el-menu-item index="1-2">选项2</el-menu-item>
-			</el-menu-item-group>
-			<el-menu-item-group title="分组2">
-			  <el-menu-item index="1-3">选项3</el-menu-item>
-			</el-menu-item-group>
-			<el-submenu index="1-4">
-			  <template slot="title">选项4</template>
-			  <el-menu-item index="1-4-1">选项1</el-menu-item>
-			</el-submenu>
-		  </el-submenu>
-		  <el-menu-item index="2">
-			<i class="el-icon-menu"></i>
-			<span slot="title">导航二</span>
-		  </el-menu-item>
-		  <el-menu-item index="3">
-			<i class="el-icon-document"></i>
-			<span slot="title">导航三</span>
-		  </el-menu-item>
-		  <el-menu-item index="4">
-			<i class="el-icon-setting"></i>
-			<span slot="title">导航四</span>
-		  </el-menu-item>
-		</el-menu>
-    </div>
+<div>
+    <el-menu
+        default-active="2"
+        router
+        class="el-menu-vertical-demo"
+        :collapse="isCollapse"
+        @open="handleOpen"
+        @close="handleClose" >
+
+        <el-col v-for="menu in menus" :key="menu.id">
+            <el-menu-item v-if="menu.child==null" :key="menu.id" :index="menu.name">
+                <i :class="menu.icon"></i>
+                <span slot="title" v-if="$store.state.language == 'zh_cn'"> {{ menu.display_zh_name }}</span>
+                <span slot="title" v-else>{{ menu.display_en_name }}</span>
+            </el-menu-item>
+
+            <el-submenu v-else :key="menu.id" :index="menu.name">
+                <template slot="title">
+                    <i :class="menu.icon"></i>
+                    <span slot="title" v-if="$store.state.language == 'zh_cn'"> {{ menu.display_zh_name }}</span>
+                    <span slot="title" v-else>{{ menu.display_en_name }}</span>
+                </template>
+
+                <el-menu-item-group v-for="atom in menu.child" :key="atom.name">
+                    <el-menu-item :key="atom.id" :index="atom.name">
+                        <span slot="title" v-if="$store.state.language == 'zh_cn'"> {{ atom.display_zh_name }}</span>
+                        <span slot="title" v-else> {{ atom.display_en_name }} </span>
+                    </el-menu-item>
+                </el-menu-item-group>
+            </el-submenu>
+        </el-col>
+
+    </el-menu>
+</div>
 </template>
 
 <script>
@@ -49,6 +44,7 @@
         data() {
             return {
                 isCollapse: false,
+                menus: [],
             }
         },
 
@@ -56,7 +52,7 @@
             this.fetchMenuList()
         },
 
-		methods: {
+        methods: {
             handleOpen(key, keyPath) {
                 console.log(key, keyPath);
             },
@@ -70,20 +66,19 @@
                 http({
                     url: Api.userPermission,
                 }).then(response => {
-                    console.log(response)
+                    this.menus = response.data.data
                 }, response => {
                     console.log(err)
                 })
             }
-		}
-	}
+        }
+    }
 </script>
 
 <style>
 .el-menu-vertical-demo {
     height: 100%;
     z-index: 1;
-    /*min-width: 201px;*/
 }
 .el-submenu .el-menu-item {
     min-width: 50px !important;
