@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Backend\User;
+namespace App\Http\Requests\Backend\Role;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -24,14 +24,10 @@ class UpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string',
-            'nickname' => 'string',
-            'email' => 'required|email',
-            'phone' => 'string',
-            'password' => 'required|string|min:6',
-            'role_id' => 'required|integer|exists:roles,id',
-            'avater' => 'image',
-            'info' => 'array',
+            'name' => 'required|alpha_num',
+            'display_en_name' => 'required|string',
+            'display_zh_name' => 'required|string',
+            'description' => 'required|string',
         ];
     }
 }

@@ -27,18 +27,7 @@ class IndexJob
      */
     public function handle()
     {
-        $users = TablesModels\User::whereHas('roles', function ($query) {
-            $query->where('name', '!=', 'developer');
-        })->get();
-
-        foreach ($users as $user) {
-            $user['roleList'] = $user->roles->pluck('display_en_name');
-        }
-
-        $roles = TablesModels\Role::where('name', '!=', 'developer')
-            ->select('id', 'name', 'display_en_name', 'display_zh_name')
-            ->get();
-
+        $users = TablesModels\User::all();
 
         $response = [
             'code' => trans('pheicloud.response.success.code'),

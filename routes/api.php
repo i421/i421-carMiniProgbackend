@@ -33,6 +33,15 @@ Route::group(['prefix' => 'v1/backend', 'namespace' => 'Backend', 'middleware' =
         Route::delete('{id}', 'UserController@destroy');
     });
 
+    //角色管理
+    Route::group(['prefix' => 'role'], function () {
+        Route::get('/', 'RoleController@index');
+        Route::post('/', 'RoleController@store');
+        Route::get('{id}', 'RoleController@show');
+        Route::put('{id}', 'RoleController@update');
+        Route::delete('{id}', 'RoleController@destroy');
+    });
+
 });
 
 Route::group(['prefix' => 'v1/backend', 'namespace' => 'Backend'], function () {

@@ -69,9 +69,9 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function update(int $id)
+    public function update(UserRequests\UpdateRequest $request, int $id)
     {
-        $params = request()->all();
+        $params = $request->all();
         $params['id'] = $id;
         $response = $this->dispatch(new UserJobs\UpdateJob($params));
         return $response;

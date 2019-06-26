@@ -47,7 +47,6 @@ class DestroyJob
         }
 
         $user->roles()->detach();
-        $user->buildings()->detach();
         $user->delete();
 
         $response = [
