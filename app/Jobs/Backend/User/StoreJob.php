@@ -11,12 +11,22 @@ class StoreJob
     use Dispatchable, Queueable;
 
     /**
-     * @var string $name
+     * @var string
      */
     private $name;
 
     /**
-     * @var string $email
+     * @var string
+     */
+    private $nickname;
+
+    /**
+     * @var string
+     */
+    private $phone;
+
+    /**
+     * @var string
      */
     private $email;
 
@@ -26,7 +36,7 @@ class StoreJob
     private $password;
 
     /**
-     * @var string $role_id
+     * @var array $role_id
      */
     private $role_id;
 
@@ -37,10 +47,12 @@ class StoreJob
      */
     public function __construct(array $params)
     {
-        $this->name = $params['name'];
         $this->email = $params['email'];
+        $this->phone = $params['phone'];
         $this->password = $params['password'];
         $this->role_id = $params['role_id'];
+        $this->name = isset($params['name']) ? $params['name'] : '';
+        $this->nickname = isset($params['nickname']) ? $params['nickname'] : '';
     }
 
     /**
@@ -50,9 +62,8 @@ class StoreJob
      */
     public function handle()
     {
-        $role = TableModels\Role::findOrFail($this->role_id);
-
         $user = TableModels\User::where('email', '=', $this->email)
+            ->orWhere('phone', '=', $this->phone)
             ->orWhere('name', '=', $this->name)
             ->first();
 
@@ -60,11 +71,13 @@ class StoreJob
 
             $user = TableModels\User::create([
                 'name' => $this->name,
+                'nickname' => $this->nickname,
+                'phone' => $this->phone,
                 'email' => $this->email,
                 'password' => bcrypt($this->password),
             ]);
 
-            $user->roles()->attach($role);
+            $user->roles()->attach($this->role_id);
 
             if ($user) {
 

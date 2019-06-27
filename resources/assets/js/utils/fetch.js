@@ -79,6 +79,17 @@ http.interceptors.response.use(function (response) {
         return Promise.reject(response);
     }
 
+    //10004已经存在
+    if (response.data.code == "10004") {
+        Notification({
+            title: '提示',
+            message: response.data.msg,
+            type: 'warning'
+        });
+	    NProgress.done()
+        return Promise.reject(response);
+    }
+
     //10008密码不一致
     if (response.data.code == "10008") {
         Notification({
@@ -89,6 +100,7 @@ http.interceptors.response.use(function (response) {
 	    NProgress.done()
         return Promise.reject(response);
     }
+
     //正常返回
 	NProgress.done()
     return response;

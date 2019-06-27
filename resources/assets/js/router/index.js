@@ -20,7 +20,11 @@ export default new Router({
                     component: resolve => require(['../pages/Dashboard.vue'], resolve)
                 }, {
                     path: '/user',
-                    component: resolve => require(['../pages/User.vue'], resolve)
+                    component: resolve => require(['../pages/user/Index.vue'], resolve)
+                }, {
+                    name: 'showUser',
+                    path: '/user/:id',
+                    component: resolve => require(['../pages/user/Show.vue'], resolve)
                 }, {
                     path: '/reset/password',
                     component: resolve => require(['../pages/auth/ResetPassword.vue'], resolve)

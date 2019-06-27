@@ -29,7 +29,7 @@ class UpdateRequest extends FormRequest
             'email' => 'required|email',
             'phone' => 'string',
             'password' => 'required|string|min:6',
-            'role_id' => 'required|integer|exists:roles,id',
+            'role_id' => 'required|array',
             'info' => 'array',
         ];
     }

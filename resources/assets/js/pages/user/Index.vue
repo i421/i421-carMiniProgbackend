@@ -17,9 +17,11 @@
 			<el-form-item label="姓名" :label-width="formLabelWidth" prop="name">
 			  <el-input v-model="form.name" autocomplete="off"></el-input>
 			</el-form-item>
+
 			<el-form-item label="昵称" :label-width="formLabelWidth" prop="nickname">
 			  <el-input v-model="form.nickname" autocomplete="off"></el-input>
 			</el-form-item>
+
 			<el-form-item label="邮箱" :label-width="formLabelWidth" prop="email"
 				:rules="[
 					{ required: true, message: '邮箱不能为空', trigger: 'blur' },
@@ -28,6 +30,7 @@
 			>
 			  <el-input v-model="form.email" autocomplete="off"></el-input>
 			</el-form-item>
+
 			<el-form-item label="手机号" :label-width="formLabelWidth" prop="phone"
 				:rules="[
 					{required: true, message: '手机号不能为空'},
@@ -36,6 +39,7 @@
 			>
 			  <el-input v-model.number="form.phone" autocomplete="off"></el-input>
 			</el-form-item>
+
 			<el-form-item label="密码" :label-width="formLabelWidth" prop="password"
 				:rules="[
 					{required: true, message: '密码不能为空'},
@@ -44,18 +48,35 @@
 			>
 			  <el-input type="password" v-model="form.password" autocomplete="off"></el-input>
 			</el-form-item>
+
+			<el-form-item label="角色" :label-width="formLabelWidth" prop="role_id"
+				:rules="[
+					{required: true, message: '角色不能为空', trigger: 'change'},
+					{type: 'array', message: '至少一种角色'},
+				]"
+            >
+                <el-select v-model="form.role_id" multiple placeholder="请选择">
+                    <el-option
+                        v-for="role in roles"
+                        :key="role.id"
+                        :label="role.display_zh_name"
+                        :value="role.id">
+                    </el-option>
+                </el-select>
+			</el-form-item>
+
 		  </el-form>
 		  <div slot="footer" class="dialog-footer">
 			<el-button @click="cancleAddUser">取 消</el-button>
-			<el-button type="primary" @click="addUser">确 定</el-button>
+			<el-button type="primary" @click="addUser('form')">确 定</el-button>
 		  </div>
 		</el-dialog>
 
 	</div>
 </template>
 <script>
-  import { http } from './../utils/fetch'
-  import Api from './../config'
+  import { http } from './../../utils/fetch'
+  import Api from './../../config'
 
   export default {
 	  data() {
@@ -122,8 +143,9 @@
 				email: '',
 				phone: '',
 				password: '',
-				avater: '',
+                role_id: '',
 			},
+            roles: [],
 	    }
 	  },
 
@@ -134,6 +156,7 @@
 
       created () {
         this.fetchUsers()
+        this.fetchRoles()
       },
 
       methods: {
@@ -156,11 +179,8 @@
 
         //编辑行
         editRow (row) {
-            console.log("method edit")
-            this.$message('Edit clicked')
-            row.id = 'hello word' + Math.random()
-            row.name = Math.random() > 0.5 ? 'Water flood' : 'Lock broken'
-            row.nickname = Math.random() > 0.5 ? 'Repair' : 'Help'
+            let userId = row.id
+            this.$router.push({ name: 'showUser', params: {userId} })
         },
 
         //删除某行
@@ -180,9 +200,8 @@
 						'title': "提示",
 						'message': response.data.msg
 					})
+            	    this.fetchUsers()
 				})
-
-            	this.fetchUsers()
 
 			}).catch(() => {
 				this.$notify({
@@ -208,9 +227,38 @@
 		},
 
         //确认添加用户
-        addUser () {
-            console.log('addUser')
-			this.dialogFormVisible = false;
+        addUser (form) {
+            this.$refs[form].validate((valid) => {
+              if (valid) {
+                http({
+                    method: 'post',
+                    url: Api.storeUser,
+                    data: this.form
+                }).then(response => {
+					this.$notify.success({
+						'title': "提示",
+						'message': response.data.msg
+					})
+            	    this.fetchUsers()
+                    this.$refs[form].resetFields();
+                }).catch(err => {
+                    console.log(err)
+                })
+
+			    this.dialogFormVisible = false;
+              } else {
+                return false;
+              }
+            })
+        },
+
+        //获取角色列表
+        fetchRoles () {
+            http({
+                url: Api.roles,
+            }).then(response => {
+                this.roles = response.data.data
+            })
         },
       }
     }

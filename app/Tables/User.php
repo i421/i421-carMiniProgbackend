@@ -46,7 +46,11 @@ class User extends Authenticatable
 	 */
 	public function getAvatarAttribute($value)
 	{
-		return '/storage/' . $value;
+        if (!empty($value)) {
+		    return '/storage/' . $value;
+        } else {
+		    return '';
+        }
 	}
 
     /**
