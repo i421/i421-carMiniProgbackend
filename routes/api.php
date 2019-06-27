@@ -26,6 +26,7 @@ Route::group(['prefix' => 'v1/backend', 'namespace' => 'Backend', 'middleware' =
         Route::get('info', 'UserController@info');
         Route::get('permission', 'UserController@permission');
         Route::post('update/password', 'UserController@updatePassword');
+        Route::post('update/avatar', 'UserController@updateAvatar');
         Route::get('/', 'UserController@index');
         Route::post('/', 'UserController@store');
         Route::get('{id}', 'UserController@show');

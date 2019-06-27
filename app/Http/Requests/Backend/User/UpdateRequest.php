@@ -30,7 +30,6 @@ class UpdateRequest extends FormRequest
             'phone' => 'string',
             'password' => 'required|string|min:6',
             'role_id' => 'required|integer|exists:roles,id',
-            'avater' => 'image',
             'info' => 'array',
         ];
     }

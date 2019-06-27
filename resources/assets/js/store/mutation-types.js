@@ -14,6 +14,7 @@ export const SET_LANGUAGE = 'SET_LANGUAGE'
 */
 
 export const SET_ACCESS_TOKEN = 'SET_ACCESS_TOKEN'
+export const SET_AVATAR = 'SET_AVATAR'
 export const SET_SYS_VERSION = 'SET_SYS_VERSION'
 export const SET_AUTH_USER = 'SET_AUTH_USER'
 export const CLEAR_AUTH_USER = 'CLEAR_AUTH_USER'

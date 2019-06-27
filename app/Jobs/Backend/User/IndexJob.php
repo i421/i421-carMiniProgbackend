@@ -4,7 +4,7 @@ namespace App\Jobs\Backend\User;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Foundation\Bus\Dispatchable;
-use App\Tables as TablesModels;
+use App\Tables as TableModels;
 
 class IndexJob
 {
@@ -27,7 +27,7 @@ class IndexJob
      */
     public function handle()
     {
-        $users = TablesModels\User::all();
+        $users = TableModels\User::all();
 
         $response = [
             'code' => trans('pheicloud.response.success.code'),

@@ -38,6 +38,17 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+	/**
+	 * Fixed image path
+	 *
+	 * @param string $value
+	 * @return mixed
+	 */
+	public function getAvatarAttribute($value)
+	{
+		return '/storage/' . $value;
+	}
+
     /**
      * Passport multiple type login
      *

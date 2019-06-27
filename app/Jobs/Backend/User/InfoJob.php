@@ -4,7 +4,7 @@ namespace App\Jobs\Backend\User;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Foundation\Bus\Dispatchable;
-use App\Tables as TablesModels;
+use App\Tables as TableModels;
 
 class InfoJob
 {
@@ -20,7 +20,7 @@ class InfoJob
      *
      * @return void
      */
-    public function __construct(TablesModels\User $user)
+    public function __construct(TableModels\User $user)
     {
         $this->user = $user;
     }

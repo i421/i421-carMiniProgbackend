@@ -22,6 +22,11 @@ export default {
         state.access_token = payload
     },
 
+    //设置头像
+    [types.SET_AVATAR](state, payload) {
+        state.auth_user.avatar = payload
+    },
+
     //设置系统版本
     [types.SET_SYS_VERSION](state, payload) {
         state.sys_version = payload

@@ -1,13 +1,56 @@
 <template>
 	<div>
+		<!-- table工具栏 -->
         <div id="tableTools">
-            <el-input class="table-search" v-model="search" placeholder="输入关键字查询" v-on:input="searchData"></el-input>
-            <el-button type="primary" class="table-button" icon="el-icon-plus" v-on:click="addUser">添加用户</el-button>
+            <el-input class="table-search" v-model="search" placeholder="输入关键字查询" @input="searchData"></el-input>
+            <el-button type="primary" class="table-button" icon="el-icon-plus" @click="dialogFormVisible = true">添加用户</el-button>
         </div>
+		<!-- table数据 -->
         <data-tables border :data="tableData" :action-col="actionCol" :pagination-props="{ pageSizes: [10, 15, 20] }">
             <el-table-column v-for="title in titles" :prop="title.prop" :label="title.label" :key="title.label">
             </el-table-column>
         </data-tables>
+
+		<!--添加用户表单-->
+		<el-dialog title="添加用户" :visible.sync="dialogFormVisible">
+		  <el-form :model="form" ref="form">
+			<el-form-item label="姓名" :label-width="formLabelWidth" prop="name">
+			  <el-input v-model="form.name" autocomplete="off"></el-input>
+			</el-form-item>
+			<el-form-item label="昵称" :label-width="formLabelWidth" prop="nickname">
+			  <el-input v-model="form.nickname" autocomplete="off"></el-input>
+			</el-form-item>
+			<el-form-item label="邮箱" :label-width="formLabelWidth" prop="email"
+				:rules="[
+					{ required: true, message: '邮箱不能为空', trigger: 'blur' },
+					{ type: 'email', message: '必须为邮件', trigger: ['blur', 'change'] },
+				]"
+			>
+			  <el-input v-model="form.email" autocomplete="off"></el-input>
+			</el-form-item>
+			<el-form-item label="手机号" :label-width="formLabelWidth" prop="phone"
+				:rules="[
+					{required: true, message: '手机号不能为空'},
+					{type: 'number', message: '必须为数字'},
+				]"
+			>
+			  <el-input v-model.number="form.phone" autocomplete="off"></el-input>
+			</el-form-item>
+			<el-form-item label="密码" :label-width="formLabelWidth" prop="password"
+				:rules="[
+					{required: true, message: '密码不能为空'},
+					{type: 'string', min: 6, message: '最少6位'},
+				]"
+			>
+			  <el-input type="password" v-model="form.password" autocomplete="off"></el-input>
+			</el-form-item>
+		  </el-form>
+		  <div slot="footer" class="dialog-footer">
+			<el-button @click="cancleAddUser">取 消</el-button>
+			<el-button type="primary" @click="addUser">确 定</el-button>
+		  </div>
+		</el-dialog>
+
 	</div>
 </template>
 <script>
@@ -17,6 +60,7 @@
   export default {
 	  data() {
 		return {
+			// module show
 			tableData: [],
 			originTableData: [],
             search: '',
@@ -67,7 +111,19 @@
                     },
                     label: ''
                 }]
-            }
+            },
+
+			// module store
+			dialogFormVisible: false,
+			formLabelWidth: '120px',
+			form: {
+				name: '',
+				nickname: '',
+				email: '',
+				phone: '',
+				password: '',
+				avater: '',
+			},
 	    }
 	  },
 
@@ -109,17 +165,31 @@
 
         //删除某行
         deleteRow (row) {
-            http({
-                method: 'delete',
-                url: Api.destroyUser + row.id,
-            }).then(response => {
-				this.$notify.success({
-					'title': "提示",
-					'message': response.data.msg
-            	})
-            })
 
-            this.fetchUsers()
+			this.$confirm('此操作将永久删除该用户, 是否继续?', '提示', {
+				confirmButtonText: '确定',
+				cancelButtonText: '取消',
+				type: 'warning'
+			}).then(() => {
+
+				http({
+					method: 'delete',
+					url: Api.destroyUser + row.id,
+				}).then(response => {
+					this.$notify.success({
+						'title': "提示",
+						'message': response.data.msg
+					})
+				})
+
+            	this.fetchUsers()
+
+			}).catch(() => {
+				this.$notify({
+					type: 'info',
+					message: '已取消删除'
+				});
+			})
         },
 
         //获取用户列表
@@ -132,9 +202,15 @@
             })
         },
 
-        //添加用户
+		//取消添加用户
+		cancleAddUser () {
+			this.dialogFormVisible = false;
+		},
+
+        //确认添加用户
         addUser () {
             console.log('addUser')
+			this.dialogFormVisible = false;
         },
       }
     }

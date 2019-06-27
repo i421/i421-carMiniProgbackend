@@ -33,6 +33,11 @@ export default {
         context.commit(types.CLEAR_AUTH_USER, payload)
     },
 
+    //设置头像
+    setAvatar(context, payload) {
+        context.commit(types.SET_AVATAR, payload)
+    },
+
     //登出并重置vuex状态
     doLogout(context, payload) {
         context.commit(types.DO_LOGOUT, payload)

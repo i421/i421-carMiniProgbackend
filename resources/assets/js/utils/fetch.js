@@ -133,15 +133,15 @@ http.interceptors.response.use(function (response) {
         }
     }
 
-    //根据返回码分别进行处理
-    if ([500].indexOf(response.status) >= 0) {
+    //格式不符合
+    if ([413].indexOf(response.status) >= 0) {
         Notification({
             title: 'Notice',
-            message: '操作失败',
+            message: '文件大小超过上限',
             type: 'error'
         });
         NProgress.done()
-        return Promise.reject(response);
+        return Promise.reject(error);
     }
 
     //格式不符合
@@ -154,6 +154,18 @@ http.interceptors.response.use(function (response) {
         NProgress.done()
         return Promise.reject(error);
     }
+
+    //根据返回码分别进行处理
+    if ([500].indexOf(response.status) >= 0) {
+        Notification({
+            title: 'Notice',
+            message: '操作失败',
+            type: 'error'
+        });
+        NProgress.done()
+        return Promise.reject(response);
+    }
+
 });
 
 export default function install(Vue) {

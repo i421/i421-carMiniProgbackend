@@ -1,10 +1,9 @@
 <?php
 
 namespace App\Jobs\Backend\User;
-
 use Illuminate\Bus\Queueable;
 use Illuminate\Foundation\Bus\Dispatchable;
-use App\Tables as TablesModels;
+use App\Tables as TableModels;
 
 class GetPermissionJob
 {
@@ -20,7 +19,7 @@ class GetPermissionJob
      *
      * @return void
      */
-    public function __construct(TablesModels\User $user)
+    public function __construct(TableModels\User $user)
     {
         $this->user = $user;
     }
@@ -48,7 +47,7 @@ class GetPermissionJob
         $permissionInfo = [];
 
         foreach ($roleLists as $role) {
-            $permission = TablesModels\Role::find($role['id'])->perms->toArray();
+            $permission = TableModels\Role::find($role['id'])->perms->toArray();
             array_push($permissionInfo, $permission);
         }
 

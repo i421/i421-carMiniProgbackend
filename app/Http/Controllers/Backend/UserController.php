@@ -128,4 +128,19 @@ class UserController extends Controller
         $response = $this->dispatch(new UserJobs\UpdatePasswordJob($user, $params));
         return $response;
     }
+
+    /**
+     * update Avatar
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @return json $response
+     */
+    public function updateAvatar(UserRequests\UpdateAvatarRequest $request)
+    {
+        $user = $request->user();
+        $fileName = date("YmdHis") . str_random(40) . '.jpg';
+        $path = $request->avatar->storeAs('images', $fileName, 'public');
+        $response = $this->dispatch(new UserJobs\UpdateAvatarJob($user, $path));
+        return $response;
+    }
 }

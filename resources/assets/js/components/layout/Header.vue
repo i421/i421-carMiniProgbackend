@@ -7,24 +7,45 @@
         <div class="topbar-account topbar-btn">
           <el-dropdown trigger="click">
             <span class="el-dropdown-link userinfo-inner">
-                <el-button size="small" icon="el-icon-user" circle></el-button>
+                <el-avatar size="small" :src="avatarUrl"></el-avatar>
             </span>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item @click.native="userinfo">个人信息</el-dropdown-item>
               <el-dropdown-item @click.native="editpwd">修改密码</el-dropdown-item>
+			  <el-dropdown-item @click.native="dialogVisible = true">更新头像</el-dropdown-item>
               <el-dropdown-item divided @click.native="logout">退出登录</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
         </div>
       </el-row>
+
+	  <el-dialog title="用户头像" :visible.sync="dialogVisible">
+		  <div style="text-align: center; margin: 0 auto">
+			<el-upload
+			  class="upload-avatar"
+			  :http-request="updateAvatar"
+			  ref="upload"
+			  drag
+			  action="">
+			  <i class="el-icon-upload"></i>
+			  <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+			  <div class="el-upload__tip" slot="tip">只能上传jpg文件，且不超过2M</div>
+			</el-upload>
+		  </div>
+	  </el-dialog>
   </div>
 </template>
 <script type="text/ecmascript-6">
+
+  import Api from './../../config'
+  import { http } from './../../utils/fetch'
 
   export default {
     data() {
       return {
         collapsed: false,
+		dialogVisible: false,
+        avatarUrl: this.$store.state.auth_user.avatar != '' ? this.$store.state.auth_user.avatar : '../../images/defaultAatarUrl.png',
       }
     },
 
@@ -46,7 +67,30 @@
       //修改密码
       editpwd() {
         this.$router.push('/reset/password');
-      }
+      },
+
+      //修改头像
+      updateAvatar(param) {
+		let formData = new FormData()
+		formData.append('avatar', param.file)
+
+		http({
+			url: Api.updateAvatar,
+			method: 'post',
+			data: formData
+		}).then(response => {
+			//关闭对话框 清除原有数据 成功提示 更新头像
+			this.dialogVisible = false
+			this.$refs.upload.clearFiles()
+			this.$notify.success({
+				'title': "提示",
+				'message': response.data.msg
+			})
+            this.$store.dispatch('setAvatar', response.data.data)
+		}).catch(err => {
+			console.log(err)
+		})
+      },
     }
   }
 </script>
@@ -77,5 +121,8 @@
     display: inline-block;
     padding-top: 16px;
     padding-right: 10px;
+}
+.upload-avatar .el-upload__input {
+	margin-top: -30px;
 }
 </style>
