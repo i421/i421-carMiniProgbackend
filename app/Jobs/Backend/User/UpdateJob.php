@@ -16,6 +16,11 @@ class UpdateJob
     private $id;
 
     /**
+     * @var string
+     */
+    private $nickname;
+
+    /**
      * @var string $name
      */
     private $name;
@@ -38,8 +43,10 @@ class UpdateJob
     public function __construct(array $params)
     {
         $this->id = $params['id'];
-        $this->name = $params['name'];
+        $this->name = isset($params['name']) ? $params['name'] : '';
+        $this->nickname = isset($params['nickname']) ? $params['nickname'] : '';
         $this->email = $params['email'];
+        $this->phone = $params['phone'];
         $this->role_id = $params['role_id'];
     }
 

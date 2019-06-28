@@ -53,6 +53,17 @@ class User extends Authenticatable
         }
 	}
 
+	/**
+	 * Fixed phone type to integer
+	 *
+	 * @param string $value
+	 * @return mixed
+	 */
+	public function getPhoneAttribute($value)
+	{
+        return (int)($value);
+	}
+
     /**
      * Passport multiple type login
      *

@@ -3,7 +3,7 @@
 		<transition mode="out-in" :duration="{ enter: 500, leave: 400 }"
 			enter-active-class="animated"
 			leave-active-class="animated fadeOutRight">
-            <router-view></router-view>
+            <router-view :key="$route.path"></router-view>
         </transition>
     </section>
 </template>

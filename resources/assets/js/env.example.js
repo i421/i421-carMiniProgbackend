@@ -21,6 +21,9 @@ const systemConfig = {
     'autoRefreshMinTime': '20000',
     'autoRefreshMidTime': '15000',
     'autoRefreshMaxTime': '10000',
+    'aesEncryptKey': '',
+    'aesIv': '',
+    'aesKey': '',
 }
 
 export default systemConfig

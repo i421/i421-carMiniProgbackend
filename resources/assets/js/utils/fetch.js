@@ -158,11 +158,16 @@ http.interceptors.response.use(function (response) {
 
     //格式不符合
     if ([422].indexOf(response.status) >= 0) {
-        Notification({
-            title: 'Notice',
-            message: '操作失败',
-            type: 'error'
-        });
+        for (let i in response.data.errors) {
+            for (let j = 0; j < response.data.errors[i].length; j++) {
+                let info = response.data.errors[i][j]
+                    Notification({
+                        title: 'Notice',
+                        message: info,
+                        type: 'error'
+                    });
+            }
+        }
         NProgress.done()
         return Promise.reject(error);
     }
