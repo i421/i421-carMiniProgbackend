@@ -23,14 +23,14 @@ export default new Router({
                     path: '/user',
                     component: resolve => require(['../pages/rbac/User.vue'], resolve)
                 }, {
-                    path: '/reset/password',
-                    component: resolve => require(['../pages/auth/ResetPassword.vue'], resolve)
-                }, {
                     path: '/role',
-                    component: resolve => require(['../pages/Role.vue'], resolve)
+                    component: resolve => require(['../pages/rbac/Role.vue'], resolve)
                 }, {
                     path: '/permission',
-                    component: resolve => require(['../pages/Permission.vue'], resolve)
+                    component: resolve => require(['../pages/rbac/Permission.vue'], resolve)
+                }, {
+                    path: '/reset/password',
+                    component: resolve => require(['../pages/auth/ResetPassword.vue'], resolve)
                 }, {
                     path: '/test',
                     component: resolve => require(['../pages/Test.vue'], resolve)

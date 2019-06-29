@@ -57,26 +57,38 @@ class UpdateJob
      */
     public function handle()
     {
-        $user = TableModels\User::findOrFail($this->id);
-        $user->name = $this->name;
-        $user->email = $this->email;
-        $user->save();
+        $user = Tablemodels\User::where('email', '=', $this->email)
+            ->orwhere('phone', '=', $this->phone)
+            ->orwhere('name', '=', $this->name)
+            ->first();
 
-        $user->roles()->detach();
+        if ($user->id == $this->id) {
 
-        $role = TableModels\Role::find($this->role_id);
+            $user = TableModels\User::findOrFail($this->id);
+            $user->name = $this->name;
+            $user->nickname = $this->nickname;
+            $user->email = $this->email;
+            $user->phone = $this->phone;
+            $user->save();
 
-        $user->roles()->attach($role);
+            $user->roles()->sync($this->role_id);
 
-        if ($user) {
+            if ($user) {
 
-            $code = trans('pheicloud.response.success.code');
-            $msg = trans('pheicloud.response.success.msg');
+                $code = trans('pheicloud.response.success.code');
+                $msg = trans('pheicloud.response.success.msg');
+
+            } else {
+
+                $code = trans('pheicloud.response.error.code');
+                $msg = trans('pheicloud.response.error.msg');
+
+            }
 
         } else {
 
-            $code = trans('pheicloud.response.error.code');
-            $msg = trans('pheicloud.response.error.msg');
+            $code = trans('pheicloud.response.exist.code');
+            $msg = trans('pheicloud.response.exist.msg');
 
         }
 

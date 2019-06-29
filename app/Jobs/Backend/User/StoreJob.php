@@ -63,8 +63,8 @@ class StoreJob
     public function handle()
     {
         $user = TableModels\User::where('email', '=', $this->email)
-            ->orWhere('phone', '=', $this->phone)
-            ->orWhere('name', '=', $this->name)
+            ->orwhere('phone', '=', $this->phone)
+            ->orwhere('name', '=', $this->name)
             ->first();
 
         if (is_null($user)) {

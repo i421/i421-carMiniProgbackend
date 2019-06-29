@@ -3,7 +3,7 @@
 		<!-- table工具栏 -->
         <div id="tableTools">
             <el-input class="table-search" v-model="search" placeholder="输入关键字查询" @input="searchData"></el-input>
-            <el-button type="primary" class="table-button" icon="el-icon-plus" @click="dialogFormVisible = true">添加用户</el-button>
+            <el-button type="primary" class="table-button" icon="el-icon-plus" @click="dialogFormVisible = true">添加角色</el-button>
         </div>
 		<!-- table数据 -->
         <data-tables border :data="tableData" :action-col="actionCol" :pagination-props="{ pageSizes: [10, 15, 20] }">
@@ -11,115 +11,79 @@
             </el-table-column>
         </data-tables>
 
-		<!--添加用户表单-->
-		<el-dialog title="添加用户" :visible.sync="dialogFormVisible">
+		<!--添加角色表单-->
+		<el-dialog title="添加角色" :visible.sync="dialogFormVisible">
 		  <el-form :model="form" ref="form">
-			<el-form-item label="姓名" :label-width="formLabelWidth" prop="name">
+			<el-form-item label="名称" :label-width="formLabelWidth" prop="name"
+				:rules="[
+					{required: true, message: '名称不能为空'}
+				]"
+            >
 			  <el-input v-model="form.name" autocomplete="off"></el-input>
 			</el-form-item>
 
-			<el-form-item label="昵称" :label-width="formLabelWidth" prop="nickname">
-			  <el-input v-model="form.nickname" autocomplete="off"></el-input>
-			</el-form-item>
-
-			<el-form-item label="邮箱" :label-width="formLabelWidth" prop="email"
+			<el-form-item label="中文名称" :label-width="formLabelWidth" prop="display_zh_name"
 				:rules="[
-					{ required: true, message: '邮箱不能为空', trigger: 'blur' },
-					{ type: 'email', message: '必须为邮件', trigger: ['blur', 'change'] },
-				]"
-			>
-			  <el-input v-model="form.email" autocomplete="off"></el-input>
-			</el-form-item>
-
-			<el-form-item label="手机号" :label-width="formLabelWidth" prop="phone"
-				:rules="[
-					{required: true, message: '手机号不能为空'},
-					{type: 'number', message: '必须为数字'},
-				]"
-			>
-			  <el-input v-model.number="form.phone" autocomplete="off"></el-input>
-			</el-form-item>
-
-			<el-form-item label="密码" :label-width="formLabelWidth" prop="password"
-				:rules="[
-					{required: true, message: '密码不能为空'},
-					{type: 'string', min: 6, message: '最少6位'},
-				]"
-			>
-			  <el-input type="password" v-model="form.password" autocomplete="off"></el-input>
-			</el-form-item>
-
-			<el-form-item label="角色" :label-width="formLabelWidth" prop="role_id"
-				:rules="[
-					{required: true, message: '角色不能为空', trigger: 'change'},
-					{type: 'array', message: '至少一种角色'},
+					{required: true, message: '中文名称不能为空'}
 				]"
             >
-                <el-select v-model="form.role_id" multiple placeholder="请选择">
-                    <el-option
-                        v-for="role in roles"
-                        :key="role.id"
-                        :label="role.display_zh_name"
-                        :value="role.id">
-                    </el-option>
-                </el-select>
+			  <el-input v-model="form.display_zh_name" autocomplete="off"></el-input>
+			</el-form-item>
+
+			<el-form-item label="英文名称" :label-width="formLabelWidth" prop="display_en_name"
+				:rules="[
+					{required: true, message: '英文名称不能为空'}
+				]"
+			>
+			  <el-input v-model.number="form.display_en_name" autocomplete="off"></el-input>
+			</el-form-item>
+
+			<el-form-item label="描述" :label-width="formLabelWidth" prop="description" >
+			  <el-input v-model="form.description" autocomplete="off"></el-input>
 			</el-form-item>
 
 		  </el-form>
 		  <div slot="footer" class="dialog-footer">
-			<el-button @click="cancleAddUser">取 消</el-button>
-			<el-button type="primary" @click="addUser('form')">确 定</el-button>
+			<el-button @click="cancleAddRole">取 消</el-button>
+			<el-button type="primary" @click="addRole('form')">确 定</el-button>
 		  </div>
 		</el-dialog>
 
-		<!--更新用户表单-->
-		<el-dialog title="更新用户" :visible.sync="dialogUpdateFormVisible">
+		<!--更新角色表单-->
+		<el-dialog title="更新角色" :visible.sync="dialogUpdateFormVisible">
 		  <el-form :model="updateForm" ref="updateForm">
-			<el-form-item label="姓名" :label-width="formLabelWidth" prop="name">
+			<el-form-item label="名称" :label-width="formLabelWidth" prop="name"
+				:rules="[
+					{ required: true, message: '名称不能为空', trigger: 'blur' }
+				]"
+            >
 			  <el-input v-model="updateForm.name" autocomplete="off"></el-input>
 			</el-form-item>
 
-			<el-form-item label="昵称" :label-width="formLabelWidth" prop="nickname">
-			  <el-input v-model="updateForm.nickname" autocomplete="off"></el-input>
-			</el-form-item>
-
-			<el-form-item label="邮箱" :label-width="formLabelWidth" prop="email"
+			<el-form-item label="中文名称" :label-width="formLabelWidth" prop="display_zh_name"
 				:rules="[
-					{ required: true, message: '邮箱不能为空', trigger: 'blur' },
-					{ type: 'email', message: '必须为邮件', trigger: ['blur', 'change'] },
+					{ required: true, message: '中文名称不能为空', trigger: 'blur' }
 				]"
-			>
-			  <el-input v-model="updateForm.email" autocomplete="off"></el-input>
-			</el-form-item>
-
-			<el-form-item label="手机号" :label-width="formLabelWidth" prop="phone"
-				:rules="[
-					{required: true, message: '手机号不能为空'},
-					{type: 'number', message: '必须为数字'},
-				]"
-			>
-			  <el-input v-model.number="updateForm.phone" autocomplete="off"></el-input>
-			</el-form-item>
-
-			<el-form-item label="角色" :label-width="formLabelWidth" prop="role_id"
-				:rules="[
-					{required: true, message: '角色不能为空'},
-                ]"
             >
-                <el-select v-model="updateForm.role_id" multiple placeholder="请选择" @change="changeRole">
-                    <el-option
-                        v-for="role in roles"
-                        :key="role.id"
-                        :label="role.display_zh_name"
-                        :value="role.id">
-                    </el-option>
-                </el-select>
+			  <el-input v-model="updateForm.display_zh_name" autocomplete="off"></el-input>
+			</el-form-item>
+
+			<el-form-item label="英文名称" :label-width="formLabelWidth" prop="display_en_name"
+				:rules="[
+					{ required: true, message: '英文名称不能为空', trigger: 'blur' },
+				]"
+			>
+			  <el-input v-model="updateForm.display_en_name" autocomplete="off"></el-input>
+			</el-form-item>
+
+			<el-form-item label="描述" :label-width="formLabelWidth" prop="description" >
+			  <el-input v-model.number="updateForm.description" autocomplete="off"></el-input>
 			</el-form-item>
 
 		  </el-form>
 		  <div slot="footer" id="edit-form-footer">
-			<el-button type="primary" @click="updateUser('updateForm')">确 定</el-button>
-			<el-button @click="cancleUpdateUser">取 消</el-button>
+			<el-button type="primary" @click="updateRole('updateForm')">确 定</el-button>
+			<el-button @click="cancleUpdateRole">取 消</el-button>
 		  </div>
         </el-dialog>
 	</div>
@@ -139,17 +103,17 @@
                 label: "序号",
                 prop: "id",
             }, {
-                label: "姓名",
+                label: "名称",
                 prop: "name",
             }, {
-                label: "昵称",
-                prop: "nickname",
+                label: "中文名称",
+                prop: "display_zh_name",
             }, {
-                label: "邮箱",
-                prop: "email",
+                label: "英文名称",
+                prop: "display_en_name",
             }, {
-                label: "手机号",
-                prop: "phone",
+                label: "描述",
+                prop: "description",
             }, {
                 label: "创建时间",
                 prop: "created_at",
@@ -189,21 +153,19 @@
 			formLabelWidth: '120px',
 			form: {
 				name: '',
-				nickname: '',
-				email: '',
-				phone: '',
-				password: '',
-                role_id: '',
+				display_zh_name: '',
+				display_en_name: '',
+				description: '',
+				status: 1,
 			},
-            roles: [],
             dialogUpdateFormVisible: false,
 			updateForm: {
 				id: '',
 				name: '',
-				nickname: '',
-				email: '',
-				phone: '',
-                role_id: '',
+				display_zh_name: '',
+				display_en_name: '',
+				description: '',
+				status: 1,
 			},
 	    }
 	  },
@@ -214,7 +176,6 @@
       },
 
       created () {
-        this.fetchUsers()
         this.fetchRoles()
       },
 
@@ -239,13 +200,13 @@
         //编辑行
         editRow (row) {
             this.dialogUpdateFormVisible = true
-            this.showUser(row.id)
+            this.showRole(row.id)
         },
 
-        //获取用户信息
-        showUser (user_id) {
+        //获取角色信息
+        showRole (role_id) {
             http({
-                url: Api.showUser + user_id,
+                url: Api.showRole + role_id,
             }).then(response => {
                 this.updateForm = response.data.data
                 let roleArr = [];
@@ -256,18 +217,18 @@
             })
         },
 
-		//取消添加用户
-		cancleUpdateUser () {
+		//取消添加角色
+		cancleUpdateRole () {
 			this.dialogUpdateFormVisible = false;
 		},
 
-        //确认更新用户
-        updateUser (updateForm) {
+        //确认更新角色
+        updateRole (updateForm) {
             this.$refs[updateForm].validate((valid) => {
               if (valid) {
                 http({
                     method: 'put',
-                    url: Api.updateUser + this.updateForm.id,
+                    url: Api.updateRole + this.updateForm.id,
                     data: this.updateForm
                 }).then(response => {
 					this.$notify.success({
@@ -276,7 +237,7 @@
 					})
                     this.$refs[updateForm].resetFields()
                     this.dialogUpdateFormVisible = false
-                    this.fetchUsers()
+                    this.fetchRoles()
                 }).catch(err => {
                     console.log(err)
                 })
@@ -290,7 +251,7 @@
         //删除某行
         deleteRow (row) {
 
-			this.$confirm('此操作将永久删除该用户, 是否继续?', '提示', {
+			this.$confirm('此操作将永久删除该角色, 是否继续?', '提示', {
 				confirmButtonText: '确定',
 				cancelButtonText: '取消',
 				type: 'warning'
@@ -298,13 +259,13 @@
 
 				http({
 					method: 'delete',
-					url: Api.destroyUser + row.id,
+					url: Api.destroyRole + row.id,
 				}).then(response => {
 					this.$notify.success({
 						'title': "提示",
 						'message': response.data.msg
 					})
-            	    this.fetchUsers()
+            	    this.fetchRoles()
 				})
 
 			}).catch(() => {
@@ -315,35 +276,25 @@
 			})
         },
 
-        //获取用户列表
-        fetchUsers () {
-            http({
-                url: Api.users,
-            }).then(response => {
-                this.tableData = response.data.data
-                this.originTableData = response.data.data
-            })
-        },
-
-		//取消添加用户
-		cancleAddUser () {
+		//取消添加角色
+		cancleAddRole () {
 			this.dialogFormVisible = false;
 		},
 
-        //确认添加用户
-        addUser (form) {
+        //确认添加角色
+        addRole (form) {
             this.$refs[form].validate((valid) => {
               if (valid) {
                 http({
                     method: 'post',
-                    url: Api.storeUser,
+                    url: Api.storeRole,
                     data: this.form
                 }).then(response => {
 					this.$notify.success({
 						'title': "提示",
 						'message': response.data.msg
 					})
-            	    this.fetchUsers()
+            	    this.fetchRoles()
                     this.$refs[form].resetFields();
                 }).catch(err => {
                     console.log(err)
@@ -361,13 +312,11 @@
             http({
                 url: Api.roles,
             }).then(response => {
-                this.roles = response.data.data
+                this.tableData = response.data.data
+                this.originTableData = response.data.data
             })
         },
 
-        changeRole () {
-            this.$forceUpdate()
-        }
       }
     }
 </script>

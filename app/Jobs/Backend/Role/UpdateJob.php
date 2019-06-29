@@ -61,8 +61,8 @@ class UpdateJob
     {
         $this->id = $params['id'];
         $this->name = $params['name'];
-        $this->display_en_name = $params['display_name'];
-        $this->display_zh_name = $params['display_name'];
+        $this->display_en_name = $params['display_zh_name'];
+        $this->display_zh_name = $params['display_en_name'];
         $this->description = $params['description'];
         $this->status = isset($params['status']) ? $params['status'] : 1;
     }

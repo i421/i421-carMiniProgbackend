@@ -38,6 +38,13 @@ class StoreJob
      */
     private $description;
 
+    /**
+     * 状态
+     *
+     * @var string $status
+     */
+    private $status;
+
 
     /**
      * Create a new job instance.
@@ -47,9 +54,10 @@ class StoreJob
     public function __construct(array $params)
     {
         $this->name = $params['name'];
-        $this->display_zh_name = $params['display_name'];
-        $this->display_en_name = $params['display_name'];
+        $this->display_zh_name = $params['display_zh_name'];
+        $this->display_en_name = $params['display_en_name'];
         $this->description = isset($params['description']) ? $params['description'] : '';
+        $this->status = isset($params['status']) ? $params['status'] : 1;
     }
 
     /**

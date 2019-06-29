@@ -24,13 +24,13 @@ class StoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'nickname' => 'string',
-            'name' => 'string',
+            'nickname' => 'nullable|string',
+            'name' => 'nullable|string',
             'email' => 'required|email',
             'phone' => 'required|integer',
             'password' => 'required|string|min:6',
             'role_id' => 'required|array',
-            'info' => 'array',
+            'info' => 'nullable|array',
         ];
     }
 }

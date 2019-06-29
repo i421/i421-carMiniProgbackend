@@ -24,11 +24,12 @@ class UpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'string',
-            'nickname' => 'string',
+            'name' => 'nullable|string',
+            'nickname' => 'nullable|string',
             'email' => 'required|email',
             'phone' => 'integer',
             'role_id' => 'required|array',
+            'info' => 'nullable|array'
         ];
     }
 }

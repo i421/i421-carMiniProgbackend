@@ -33,7 +33,7 @@ class DestroyJob
      */
     public function handle()
     {
-        $role = Role::where('name', '!=', 'admin')->find($this->id);
+        $role = Role::find($this->id);
 
         if (empty($role)) {
 
