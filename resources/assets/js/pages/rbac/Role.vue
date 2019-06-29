@@ -13,7 +13,7 @@
 
 		<!--添加角色表单-->
 		<el-dialog title="添加角色" :visible.sync="dialogFormVisible">
-		  <el-form :model="form" ref="form">
+		  <el-form :model="form" ref="form" :inline="true">
 			<el-form-item label="名称" :label-width="formLabelWidth" prop="name"
 				:rules="[
 					{required: true, message: '名称不能为空'}
@@ -51,7 +51,7 @@
 
 		<!--更新角色表单-->
 		<el-dialog title="更新角色" :visible.sync="dialogUpdateFormVisible">
-		  <el-form :model="updateForm" ref="updateForm">
+		  <el-form :model="updateForm" ref="updateForm" :inline="true">
 			<el-form-item label="名称" :label-width="formLabelWidth" prop="name"
 				:rules="[
 					{ required: true, message: '名称不能为空', trigger: 'blur' }

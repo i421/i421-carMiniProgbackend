@@ -13,7 +13,7 @@
 
 		<!--添加用户表单-->
 		<el-dialog title="添加用户" :visible.sync="dialogFormVisible">
-		  <el-form :model="form" ref="form">
+		  <el-form :model="form" ref="form" :inline="true">
 			<el-form-item label="姓名" :label-width="formLabelWidth" prop="name">
 			  <el-input v-model="form.name" autocomplete="off"></el-input>
 			</el-form-item>
@@ -74,7 +74,7 @@
 
 		<!--更新用户表单-->
 		<el-dialog title="更新用户" :visible.sync="dialogUpdateFormVisible">
-		  <el-form :model="updateForm" ref="updateForm">
+		  <el-form :model="updateForm" ref="updateForm" :inline="true">
 			<el-form-item label="姓名" :label-width="formLabelWidth" prop="name">
 			  <el-input v-model="updateForm.name" autocomplete="off"></el-input>
 			</el-form-item>
