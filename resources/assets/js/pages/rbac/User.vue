@@ -159,6 +159,7 @@
                 label: '操作',
                 props: {
                     align: 'center',
+                    width: '200px',
                 },
 
                 buttons: [{
@@ -170,7 +171,7 @@
                     handler: row => {
                         this.editRow(row)
                     },
-                    label: ''
+                    label: '编辑'
                 }, {
                     props: {
                         type: 'danger',
@@ -180,7 +181,7 @@
                     handler: row => {
                         this.deleteRow(row)
                     },
-                    label: ''
+                    label: '删除'
                 }]
             },
 
@@ -209,8 +210,6 @@
 	  },
 
       computed: {
-          tables: function() {
-          }
       },
 
       created () {

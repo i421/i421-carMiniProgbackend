@@ -26,7 +26,8 @@ export default new Router({
                     path: '/role',
                     component: resolve => require(['../pages/rbac/Role.vue'], resolve)
                 }, {
-                    path: '/permission',
+                    name: 'rolePermission',
+                    path: '/permission/:role_id',
                     component: resolve => require(['../pages/rbac/Permission.vue'], resolve)
                 }, {
                     path: '/reset/password',

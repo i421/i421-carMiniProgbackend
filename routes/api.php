@@ -41,6 +41,8 @@ Route::group(['prefix' => 'v1/backend', 'namespace' => 'Backend', 'middleware' =
         Route::get('{id}', 'RoleController@show');
         Route::put('{id}', 'RoleController@update');
         Route::delete('{id}', 'RoleController@destroy');
+        Route::get('permission/{id}', 'RoleController@getPermission');
+        Route::put('permission/{id}', 'RoleController@updatePermission');
     });
 
 });

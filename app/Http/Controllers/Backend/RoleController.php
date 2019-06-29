@@ -88,4 +88,30 @@ class RoleController extends Controller
         $response = $this->dispatch(new RoleJobs\DestroyJob($id));
         return $response;
     }
+
+    /**
+     * 获取角色权限
+     *
+     * @param  int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function getPermission(int $id)
+    {
+        $response = $this->dispatch(new RoleJobs\GetPermissionJob($id));
+        return $response;
+    }
+
+    /**
+     * 更新角色权限
+     *
+     * @param  int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function updatePermission(RoleRequests\UpdatePermissionRequest $request, int $id)
+    {
+        $params = $request->all();
+        $params['id'] = $id;
+        $response = $this->dispatch(new RoleJobs\UpdatePermissionJob($params));
+        return $response;
+    }
 }

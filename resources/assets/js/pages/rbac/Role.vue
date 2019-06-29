@@ -38,7 +38,7 @@
 			  <el-input v-model.number="form.display_en_name" autocomplete="off"></el-input>
 			</el-form-item>
 
-			<el-form-item label="描述" :label-width="formLabelWidth" prop="description" >
+			<el-form-item label="描述" :label-width="formLabelWidth">
 			  <el-input v-model="form.description" autocomplete="off"></el-input>
 			</el-form-item>
 
@@ -123,6 +123,7 @@
                 label: '操作',
                 props: {
                     align: 'center',
+                    width: '300px',
                 },
 
                 buttons: [{
@@ -134,7 +135,7 @@
                     handler: row => {
                         this.editRow(row)
                     },
-                    label: ''
+                    label: '编辑'
                 }, {
                     props: {
                         type: 'danger',
@@ -144,7 +145,17 @@
                     handler: row => {
                         this.deleteRow(row)
                     },
-                    label: ''
+                    label: '删除'
+                }, {
+                    props: {
+                        type: 'primary',
+                        size: "mini",
+                        icon: 'el-icon-menu'
+                    },
+                    handler: row => {
+                        this.configRow(row)
+                    },
+                    label: '权限'
                 }]
             },
 
@@ -171,8 +182,6 @@
 	  },
 
       computed: {
-          tables: function() {
-          }
       },
 
       created () {
@@ -181,6 +190,26 @@
 
       methods: {
 
+        //获取角色列表
+        fetchRoles () {
+            http({
+                url: Api.roles,
+            }).then(response => {
+                this.tableData = response.data.data
+                this.originTableData = response.data.data
+            })
+        },
+
+        //获取某一角色信息
+        showRole (role_id) {
+            http({
+                url: Api.showRole + role_id,
+            }).then(response => {
+                this.updateForm = response.data.data
+            })
+        },
+
+        //表格搜索支持
         searchData () {
             var search = this.search;
             if (search) {
@@ -201,20 +230,6 @@
         editRow (row) {
             this.dialogUpdateFormVisible = true
             this.showRole(row.id)
-        },
-
-        //获取角色信息
-        showRole (role_id) {
-            http({
-                url: Api.showRole + role_id,
-            }).then(response => {
-                this.updateForm = response.data.data
-                let roleArr = [];
-                for (let i = 0; i < this.updateForm.roles.length; i++) {
-                    roleArr.push(this.updateForm.roles[i].id)
-                }
-                this.updateForm.role_id = roleArr
-            })
         },
 
 		//取消添加角色
@@ -276,11 +291,6 @@
 			})
         },
 
-		//取消添加角色
-		cancleAddRole () {
-			this.dialogFormVisible = false;
-		},
-
         //确认添加角色
         addRole (form) {
             this.$refs[form].validate((valid) => {
@@ -307,15 +317,15 @@
             })
         },
 
-        //获取角色列表
-        fetchRoles () {
-            http({
-                url: Api.roles,
-            }).then(response => {
-                this.tableData = response.data.data
-                this.originTableData = response.data.data
-            })
-        },
+		//取消添加角色
+		cancleAddRole () {
+			this.dialogFormVisible = false;
+		},
+
+        //跳转配置权限
+        configRow (row) {
+            this.$router.push({ name: 'rolePermission', params: {role_id: row.id} })
+        }
 
       }
     }
