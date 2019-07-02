@@ -21,6 +21,8 @@ const Api = {
     'showRole': 'api/v1/backend/role/',
     'updateRole': 'api/v1/backend/role/',
     'destroyRole': 'api/v1/backend/role/',
+    'rolePermission': 'api/v1/backend/role/permission/',
+    'updateRolePermission': 'api/v1/backend/role/permission/',
 }
 
 export default Api
