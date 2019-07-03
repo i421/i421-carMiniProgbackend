@@ -7,6 +7,8 @@
 | define common methods for the system
 */
 
+use App\Tables as TableModels;
+
 /**
  * aes解密
  *
@@ -99,4 +101,19 @@ function sortMultidimArray(array $list, string $field, string $sortby = 'asc')
     }
 
     return false;
+}
+
+/**
+ * 根据子节点ID获取整个地址
+ */
+function getFullByAddressId($id, $address = '')
+{
+    $nav = TableModels\Address::find($id);
+
+    if($nav['p_id'] != 0) {
+        $address = $nav->division_name . $address;
+        return getFullByAddressId($nav['p_id'], $address);
+    }
+
+    return $address;
 }

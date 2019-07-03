@@ -13,6 +13,7 @@ class CreateAddressesTable extends Migration
      */
     public function up()
     {
+        //地址管理省市区
         Schema::create('addresses', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('division_code')->index()->comment("划分代号");

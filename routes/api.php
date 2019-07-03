@@ -13,9 +13,14 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::group(['prefix' => 'v1', 'middleware' => 'auth:api'], function () {
-    Route::get('/test', function () {
-        return 'test';
+Route::group(['prefix' => 'v1', 'namespace' => 'Api\V1'], function () {
+
+    //地址管理
+    Route::group(['prefix' => 'address'], function () {
+        Route::get('provinces', 'AddressController@getProvinces');
+        Route::get('cities/{id}', 'AddressController@getCities');
+        Route::get('towns/{id}', 'AddressController@getTowns');
+        Route::get('fullpath/{id}', 'AddressController@getFullPath');
     });
 });
 

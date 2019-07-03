@@ -22,6 +22,8 @@ class CreateCustomersTable extends Migration
             $table->string('avatar')->nullable()->comment('头像');
             $table->string('gender')->nullable()->comment('性别');
             $table->string('referrer')->nullable()->comment('推荐人open_id');
+            $table->json('info')->nullable()->comment('其他信息');
+            $table->softDeletes();
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'));
         });
