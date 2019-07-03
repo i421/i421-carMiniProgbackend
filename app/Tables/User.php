@@ -77,4 +77,12 @@ class User extends Authenticatable
             ->orWhere('phone', $identifier)
             ->first();
     }
+
+	/**
+	 * 获取该用户拥有的门店
+	 */
+	public function shops()
+	{
+		return $this->hasMany(Shop::class);
+	}
 }

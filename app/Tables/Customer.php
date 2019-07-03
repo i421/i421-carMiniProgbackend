@@ -6,5 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Customer extends Model
 {
-    //
+    /**
+     * 禁止字段批量插入
+     *
+     * @var array
+     */
+    protected $guarded = [
+        'id', 'created_at',
+    ];
 }

@@ -22,6 +22,17 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api\V1'], function () {
         Route::get('towns/{id}', 'AddressController@getTowns');
         Route::get('fullpath/{id}', 'AddressController@getFullPath');
     });
+
+    //标签管理
+    Route::group(['prefix' => 'tag'], function () {
+        Route::get('classify', 'TagController@classify');
+    });
+
+    //品牌管理
+    Route::group(['prefix' => 'brand'], function () {
+        Route::get('/', 'BrandController@index');
+        Route::get('search/{key}', 'BrandController@search');
+    });
 });
 
 Route::group(['prefix' => 'v1/backend', 'namespace' => 'Backend', 'middleware' => 'auth:api'], function () {
