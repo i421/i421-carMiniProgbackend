@@ -43,6 +43,7 @@ class DestroyJob
         } else {
 
             $role->users()->detach();
+            $role->perms()->detach();
             $role->forceDelete();
 
             $code = trans('pheicloud.response.success.code');
