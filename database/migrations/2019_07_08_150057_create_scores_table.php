@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCarsTable extends Migration
+class CreateScoresTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,17 @@ class CreateCarsTable extends Migration
      */
     public function up()
     {
-        //汽车表
-        Schema::create('cars', function (Blueprint $table) {
+        Schema::create('scores', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name')->index()->comment("汽车名称");
-            $table->string('guide_price')->comment("汽车指导价");
-            $table->string('remarks')->nullable()->comment("备注");
-            $table->json('info')->comment("详细信息");
-            $table->softDeletes()->comment("软删除");
+            $table->integer('customer_id')->unsigned()->comment("客户ID");
+            $table->integer('count')->unsigned()->comment("积分");
+            $table->string('desc')->nullable()->comment("描述");
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+
+            $table->foreign('customer_id')
+                ->references('id')->on('customers')
+                ->onUpdate('cascade');
         });
     }
 
@@ -33,6 +34,6 @@ class CreateCarsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('cars');
+        Schema::dropIfExists('scores');
     }
 }

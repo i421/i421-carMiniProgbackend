@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateOrdersTable extends Migration
+class CreateInoutsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,21 +13,16 @@ class CreateOrdersTable extends Migration
      */
     public function up()
     {
-        //订单
-        Schema::create('orders', function (Blueprint $table) {
+        //进出货表
+        Schema::create('inouts', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('customer_id')->unsigned()->comment("客户ID");
-            $table->integer('shop_id')->unsigned()->comment("店铺ID");
-            $table->integer('car_id')->unsigned()->comment("汽车");
-            $table->integer('collection_id')->unsigned()->comment("拼团号");
-            $table->integer('status')->comment("订单状态");
-            $table->json('info')->nullable()->comment("详细信息");
+            $table->integer('shop_id')->unsigned()->index()->comment("店铺ID");
+            $table->integer('car_id')->unsigned()->index()->comment("汽车ID");
+            $table->integer('type')->index()->comment("进货1/出货0");
+            $table->integer('count')->default(0)->index()->comment("数量");
+            $table->json('info')->nullable()->comment("其他信息");
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'));
-
-            $table->foreign('customer_id')
-                ->references('id')->on('customers')
-                ->onUpdate('cascade');
 
             $table->foreign('shop_id')
                 ->references('id')->on('shops')
@@ -46,6 +41,6 @@ class CreateOrdersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('orders');
+        Schema::dropIfExists('inouts');
     }
 }

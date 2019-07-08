@@ -21,6 +21,7 @@ class CreateShopsTable extends Migration
             $table->integer('address_id')->unsigned()->comment("地址ID");
             $table->string('img_url')->nullable()->comment("封面图");
             $table->string('detail_address')->comment("详细地址");
+            $table->json('info')->nullable()->comment("其他信息");
             $table->softDeletes()->comment("软删除");
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'));

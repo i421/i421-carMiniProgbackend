@@ -2,10 +2,13 @@
 
 namespace App\Tables;
 
+use App\Tables\Traits\InfoTrait;
 use Illuminate\Database\Eloquent\Model;
 
 class Shop extends Model
 {
+    use InfoTrait;
+
     /**
      * 禁止字段批量插入
      *

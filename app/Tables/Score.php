@@ -5,7 +5,7 @@ namespace App\Tables;
 use App\Tables\Traits\InfoTrait;
 use Illuminate\Database\Eloquent\Model;
 
-class FightingGroup extends Model
+class Score extends Model
 {
     use InfoTrait;
 
