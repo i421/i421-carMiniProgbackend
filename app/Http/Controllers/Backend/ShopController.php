@@ -88,16 +88,4 @@ class ShopController extends Controller
         $response = $this->dispatch(new ShopJobs\DestroyJob($id));
         return $response;
     }
-
-    /**
-     * Get user shops
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function user(Request $request)
-    {
-        $user = $request->user();
-        $response = $this->dispatch(new ShopJobs\UserJob($user));
-        return $response;
-    }
 }

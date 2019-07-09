@@ -143,4 +143,16 @@ class UserController extends Controller
         $response = $this->dispatch(new UserJobs\UpdateAvatarJob($user, $path));
         return $response;
     }
+
+    /**
+     * Get user shops
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function shop(Request $request)
+    {
+        $user = $request->user();
+        $response = $this->dispatch(new UserJobs\ShopJob($user));
+        return $response;
+    }
 }

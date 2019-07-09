@@ -40,6 +40,7 @@ Route::group(['prefix' => 'v1/backend', 'namespace' => 'Backend', 'middleware' =
     //用户管理
     Route::group(['prefix' => 'user'], function () {
         Route::get('info', 'UserController@info');
+        Route::get('shop', 'UserController@shop');
         Route::get('permission', 'UserController@permission');
         Route::post('update/password', 'UserController@updatePassword');
         Route::post('update/avatar', 'UserController@updateAvatar');
@@ -72,7 +73,6 @@ Route::group(['prefix' => 'v1/backend', 'namespace' => 'Backend', 'middleware' =
 
     //经销商管理(店铺管理)
     Route::group(['prefix' => 'shop'], function () {
-        Route::get('user', 'ShopController@user');
         Route::get('/', 'ShopController@index');
         Route::post('/', 'ShopController@store');
         Route::get('{id}', 'ShopController@show');
