@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Jobs\Backend\Role;
+namespace App\Jobs\Backend\Shop;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -27,12 +27,12 @@ class IndexJob
      */
     public function handle()
     {
-        $roles = TableModels\Role::all();
+        $shops = TableModels\Shop::all();
 
         $response = [
             'code' => trans('pheicloud.response.success.code'),
             'msg' => trans('pheicloud.response.success.msg'),
-            'data' => $roles,
+            'data' => $shops,
         ];
 
         return response()->json($response);

@@ -61,6 +61,24 @@ Route::group(['prefix' => 'v1/backend', 'namespace' => 'Backend', 'middleware' =
         Route::put('permission/{id}', 'RoleController@updatePermission');
     });
 
+    //汽车管理
+    Route::group(['prefix' => 'car'], function () {
+        Route::get('/', 'CarController@index');
+        Route::post('/', 'CarController@store');
+        Route::get('{id}', 'CarController@show');
+        Route::put('{id}', 'CarController@update');
+        Route::delete('{id}', 'CarController@destroy');
+    });
+
+    //经销商管理(店铺管理)
+    Route::group(['prefix' => 'shop'], function () {
+        Route::get('user', 'ShopController@user');
+        Route::get('/', 'ShopController@index');
+        Route::post('/', 'ShopController@store');
+        Route::get('{id}', 'ShopController@show');
+        Route::put('{id}', 'ShopController@update');
+        Route::delete('{id}', 'ShopController@destroy');
+    });
 });
 
 Route::group(['prefix' => 'v1/backend', 'namespace' => 'Backend'], function () {

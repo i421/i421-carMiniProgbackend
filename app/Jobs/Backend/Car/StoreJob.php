@@ -6,7 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Foundation\Bus\Dispatchable;
 use App\Tables as TableModels;
 
-class IndexJob
+class StoreJob
 {
     use Dispatchable, Queueable;
 
@@ -15,7 +15,7 @@ class IndexJob
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(array $params)
     {
         //
     }
@@ -27,14 +27,6 @@ class IndexJob
      */
     public function handle()
     {
-        $roles = TableModels\Role::all();
-
-        $response = [
-            'code' => trans('pheicloud.response.success.code'),
-            'msg' => trans('pheicloud.response.success.msg'),
-            'data' => $roles,
-        ];
-
-        return response()->json($response);
+        //
     }
 }

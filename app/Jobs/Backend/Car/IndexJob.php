@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Jobs\Backend\Role;
+namespace App\Jobs\Backend\Car;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -27,12 +27,12 @@ class IndexJob
      */
     public function handle()
     {
-        $roles = TableModels\Role::all();
+        $cars = TableModels\Car::all();
 
         $response = [
             'code' => trans('pheicloud.response.success.code'),
             'msg' => trans('pheicloud.response.success.msg'),
-            'data' => $roles,
+            'data' => $cars,
         ];
 
         return response()->json($response);
