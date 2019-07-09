@@ -19,6 +19,30 @@ export default new Router({
                     path: '/dashboard',
                     component: resolve => require(['../pages/Dashboard.vue'], resolve)
                 }, {
+                    path: '/customer',
+                    component: resolve => require(['../pages/Customer.vue'], resolve)
+                }, {
+                    path: '/shop',
+                    component: resolve => require(['../pages/Shop.vue'], resolve)
+                }, {
+                    path: '/brand',
+                    component: resolve => require(['../pages/Brand.vue'], resolve)
+                }, {
+                    path: '/car',
+                    component: resolve => require(['../pages/Car.vue'], resolve)
+                }, {
+                    path: '/group',
+                    component: resolve => require(['../pages/Group.vue'], resolve)
+                }, {
+                    path: '/order',
+                    component: resolve => require(['../pages/Order.vue'], resolve)
+                }, {
+                    path: '/message',
+                    component: resolve => require(['../pages/Message.vue'], resolve)
+                }, {
+                    path: '/setting',
+                    component: resolve => require(['../pages/Setting.vue'], resolve)
+                }, {
                     name: 'users',
                     path: '/user',
                     component: resolve => require(['../pages/rbac/User.vue'], resolve)

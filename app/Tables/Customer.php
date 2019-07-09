@@ -4,10 +4,11 @@ namespace App\Tables;
 
 use App\Tables\Traits\InfoTrait;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Customer extends Model
 {
-    use InfoTrait;
+    use InfoTrait, SoftDeletes;
 
     /**
      * 禁止字段批量插入

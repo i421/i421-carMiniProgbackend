@@ -5,6 +5,9 @@
             <span><p>后台管理系统</p></span>
         </div>
         <div class="topbar-account topbar-btn">
+          <el-badge is-dot class="item">
+              <el-button size="small" type="primary">消息</el-button>
+          </el-badge>
           <el-dropdown trigger="click">
             <span class="el-dropdown-link userinfo-inner">
                 <el-avatar size="small" :src="avatarUrl"></el-avatar>
@@ -124,5 +127,9 @@
 }
 .upload-avatar .el-upload__input {
 	margin-top: -30px;
+}
+.item {
+    margin-bottom: 15px;
+    margin-right: 20px;
 }
 </style>

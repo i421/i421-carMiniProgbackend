@@ -21,6 +21,7 @@ class CreateOrdersTable extends Migration
             $table->integer('car_id')->unsigned()->comment("汽车");
             $table->integer('collection_id')->unsigned()->comment("拼团号");
             $table->integer('status')->comment("订单状态");
+            $table->integer('payment_status')->nullable()->comment("支付状态");
             $table->json('info')->nullable()->comment("详细信息");
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'));
