@@ -80,6 +80,29 @@ Route::group(['prefix' => 'v1/backend', 'namespace' => 'Backend', 'middleware' =
         Route::delete('{id}', 'ShopController@destroy');
     });
 
+    //标签管理
+    Route::group(['prefix' => 'brand'], function () {
+        Route::get('/', 'BrandController@index');
+        Route::post('/', 'BrandController@store');
+        Route::get('{id}', 'BrandController@show');
+        Route::put('{id}', 'BrandController@update');
+        Route::delete('{id}', 'BrandController@destroy');
+    });
+
+    //客户管理
+    Route::group(['prefix' => 'customer'], function () {
+        Route::get('/', 'CustomerController@index');
+        Route::get('{id}', 'CustomerController@show');
+        Route::get('checkList', 'CustomerController@checkList');
+        Route::get('checkDetail/{id}', 'CustomerController@checkDetail');
+    });
+
+    //订单管理
+    Route::group(['prefix' => 'order'], function () {
+        Route::get('/', 'OrderController@index');
+        Route::get('{id}', 'OrderController@show');
+    });
+
     //微信认证
     Route::any('/wechat', 'WechatController@serve');
 });

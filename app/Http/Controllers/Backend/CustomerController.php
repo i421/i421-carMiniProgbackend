@@ -53,7 +53,7 @@ class CustomerController extends Controller
      *
      * @return void
      */
-    public function checkDetail(int id)
+    public function checkDetail(int $id)
     {
         $response = $this->dispatch(new CustomerJobs\CheckDetailJob($id));
         return $response;
