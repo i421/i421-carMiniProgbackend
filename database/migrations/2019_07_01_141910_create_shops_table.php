@@ -20,7 +20,10 @@ class CreateShopsTable extends Migration
             $table->string('name')->index()->comment("店铺名称");
             $table->integer('address_id')->unsigned()->comment("地址ID");
             $table->string('img_url')->nullable()->comment("封面图");
+            $table->string('license_url')->nullable()->comment("营业执照");
             $table->string('detail_address')->comment("详细地址");
+            $table->double('lat',8,2)->comment("经度");
+            $table->double('lng',8,2)->comment("纬度");
             $table->json('info')->nullable()->comment("其他信息");
             $table->softDeletes()->comment("软删除");
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));

@@ -79,6 +79,9 @@ Route::group(['prefix' => 'v1/backend', 'namespace' => 'Backend', 'middleware' =
         Route::put('{id}', 'ShopController@update');
         Route::delete('{id}', 'ShopController@destroy');
     });
+
+    //微信认证
+    Route::any('/wechat', 'WechatController@serve');
 });
 
 Route::group(['prefix' => 'v1/backend', 'namespace' => 'Backend'], function () {

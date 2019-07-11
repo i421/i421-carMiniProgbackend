@@ -20,6 +20,7 @@ class CreateFightingGroupsTable extends Migration
             $table->integer('total_num')->index()->comment("拼团总人数");
             $table->integer('currnet_num')->index()->comment("拼团当前人数");
             $table->integer('group_price')->comment("拼团价");
+            $table->integer('last_price')->comment("落地价");
             $table->datetime('start_time')->nullable()->index()->comment("拼团开始时间");
             $table->datetime('end_time')->nullable()->index()->comment("拼团结束时间");
             $table->integer('handling_fee')->default(0)->comment("手续费");
