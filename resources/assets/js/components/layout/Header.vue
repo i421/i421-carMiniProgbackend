@@ -6,7 +6,7 @@
         </div>
         <div class="topbar-account topbar-btn">
           <el-badge is-dot class="item">
-              <el-button size="small" type="primary">消息</el-button>
+              <el-button size="small" icon="el-icon-news" class="headMessage">消息</el-button>
           </el-badge>
           <el-dropdown trigger="click">
             <span class="el-dropdown-link userinfo-inner">
@@ -131,5 +131,20 @@
 .item {
     margin-bottom: 15px;
     margin-right: 20px;
+}
+.headMessage {
+    background-color: #00a9e0;
+    border-color: #00a9e0;
+    color: #fff;
+}
+.headMessage:hover {
+    background-color: #00a9e0;
+    cursor: pointer;
+    color: #fff;
+}
+.headMessage:focus {
+    background-color: #00a9e0;
+    cursor: pointer;
+    color: #fff;
 }
 </style>
