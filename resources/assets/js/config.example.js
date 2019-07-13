@@ -46,6 +46,7 @@ const Api = {
 
     'customers': 'api/v1/backend/customer',
     'showCustomer': 'api/v1/backend/customer/',
+    'searchCustomer': 'api/v1/backend/customer/search',
     'cutomerCheckList': 'api/v1/backend/customer/checkList',
     'customerCheckDetail': 'api/v1/backend/customer/checkDetail/',
 

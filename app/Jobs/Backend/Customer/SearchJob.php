@@ -7,18 +7,20 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use App\Tables as TableModels;
 use DB;
 
-class IndexJob
+class SearchJob
 {
     use Dispatchable, Queueable;
+
+    private $params;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(array $params)
     {
-        //
+        $this->params = $params;
     }
 
     /**
@@ -28,7 +30,29 @@ class IndexJob
      */
     public function handle()
     {
-        $customers = TableModels\Customer::all();
+        $tempRes = TableModels\Customer::select('id', 'phone', 'nickname', 'openid', 'gender', 'recommend_count', 'status', 'auth', 'created_at');
+
+        if (!is_null($this->params['phone']) && !empty($this->params['phone'])) {
+            $tempRes->where('phone', $this->params['phone']);
+        }
+
+        if (!is_null($this->params['nickname']) && !empty($this->params['nickname'])) {
+            $tempRes->where('nickname', $this->params['nickname']);
+        }
+
+        if (!is_null($this->params['time']) && count($this->params['time']) >= 1) {
+            $tempRes->where([
+                ['created_at', '>=', $this->params['time'][0] . ' 00:00:00'],
+                ['created_at', '<=', $this->params['time'][1] . ' 23:59:59']
+            ]);
+        }
+
+        if (count($this->params['auth']) >= 1) {
+            $tempRes->whereIn('auth', $this->params['auth']);
+        }
+
+        $customers = $tempRes->get();
+
         $scores = TableModels\Score::select('customer_id', DB::raw("sum(count) as scores"))->groupBy('customer_id')->get();
         $orders = TableModels\Order::select('customer_id', DB::raw("count(*) as orders"))->where('payment_status', 1)->groupBy('customer_id')->get();
         $collections = TableModels\Collection::select('customer_id', DB::raw("count(*) as collections"))->groupBy('customer_id')->get();

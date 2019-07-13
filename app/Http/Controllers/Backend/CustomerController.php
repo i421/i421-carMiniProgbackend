@@ -32,7 +32,19 @@ class CustomerController extends Controller
      */
     public function show($id)
     {
-        $response = $this->dispatch(new CustomerJobs\ShowJob());
+        $response = $this->dispatch(new CustomerJobs\ShowJob($id));
+        return $response;
+    }
+
+    /**
+     * 查询
+     *
+     * @return void
+     */
+    public function search(CustomerRequests\SearchRequest $request)
+    {
+        $params = $request->all();
+        $response = $this->dispatch(new CustomerJobs\SearchJob($params));
         return $response;
     }
 

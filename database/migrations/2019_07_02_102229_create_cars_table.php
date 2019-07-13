@@ -21,7 +21,7 @@ class CreateCarsTable extends Migration
             $table->string('final_price')->comment("落地价、成交价");
             $table->string('car_price')->comment("裸车价");
             $table->string('remarks')->nullable()->comment("备注");
-            $table->json('info')->comment("详细信息");
+            $table->json('info')->nullable()->comment("详细信息");
             $table->softDeletes()->comment("软删除");
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'));

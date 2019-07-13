@@ -20,7 +20,11 @@ export default new Router({
                     component: resolve => require(['../pages/Dashboard.vue'], resolve)
                 }, {
                     path: '/customer',
-                    component: resolve => require(['../pages/Customer.vue'], resolve)
+                    component: resolve => require(['../pages/customer/Index.vue'], resolve)
+                }, {
+                    path: '/customer/:id',
+                    name: 'showCustomer',
+                    component: resolve => require(['../pages/customer/Show.vue'], resolve)
                 }, {
                     path: '/shop',
                     component: resolve => require(['../pages/Shop.vue'], resolve)
