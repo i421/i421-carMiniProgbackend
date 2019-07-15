@@ -15,6 +15,12 @@ use Illuminate\Http\Request;
 
 Route::group(['prefix' => 'v1', 'namespace' => 'Api\V1'], function () {
 
+    //客户管理
+    Route::group(['prefix' => 'customer'], function () {
+        Route::get('login', 'CustomerController@login');
+        Route::get('decrypt/data', 'CustomerController@decryptData');
+    });
+
     //地址管理
     Route::group(['prefix' => 'address'], function () {
         Route::get('provinces', 'AddressController@getProvinces');
