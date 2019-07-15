@@ -2,32 +2,50 @@
     <div>
 		<!-- table工具栏 -->
         <div id="tableTools">
-            <el-input class="table-search" v-model="conditionNickname" placeholder="昵称"></el-input>
-            <el-input class="table-search" v-model="conditionPhone" placeholder="手机号"></el-input>
+            <el-row>
+                <el-col :span="6">
+                    <div style="width: 100%">
+                        <el-input class="table-search" v-model="conditionNickname" placeholder="昵称"></el-input>
+                        <el-input class="table-search" v-model="conditionPhone" placeholder="手机号"></el-input>
+                    </div>
+                </el-col>
 
-            <el-col>
-                <el-select v-model="conditionAuth" placeholder="是否认证" multiple="multiple" class="table-search">
-                    <el-option label="认证" value="1"></el-option>
-                    <el-option label="未认证" value="0"></el-option>
-                </el-select>
-            </el-col>
+                <el-col :span="6" :offset="1">
+                    <div>
+                        <el-select v-model="conditionAuth" placeholder="是否认证" multiple="multiple" class="table-search">
+                            <el-option label="认证" value="1"></el-option>
+                            <el-option label="未认证" value="0"></el-option>
+                        </el-select>
 
-            <el-col>
-                <el-date-picker
-                    v-model="conditionTime"
-                    type="daterange"
-                    class="table-search"
-                    align="right"
-                    value-format="yyyy-MM-dd"
-                    unlink-panels
-                    range-separator="至"
-                    start-placeholder="开始日期"
-                    end-placeholder="结束日期" >
-                </el-date-picker>
-            </el-col>
+                        <el-select v-model="conditionSeller" placeholder="是否销售" multiple="multiple" class="table-search">
+                            <el-option label="销售" value="1"></el-option>
+                            <el-option label="非销售" value="0"></el-option>
+                        </el-select>
+                    </div>
+                </el-col>
 
-            <el-button type="primary" class="table-button" icon="el-icon-search" @click="search">查询</el-button>
-            <el-button type="primary" class="table-button" icon="el-icon-refresh" @click="clearSearch">清除</el-button>
+                <el-col :span="6" :offset="1">
+                    <div>
+                        <el-date-picker
+                            v-model="conditionTime"
+                            type="daterange"
+                            class="table-search"
+                            align="right"
+                            value-format="yyyy-MM-dd"
+                            unlink-panels
+                            range-separator="至"
+                            start-placeholder="开始日期"
+                            end-placeholder="结束日期" >
+                        </el-date-picker>
+                    </div>
+                </el-col>
+            </el-row>
+
+
+            <div>
+                <el-button type="primary" class="table-button" icon="el-icon-search" @click="search">查询</el-button>
+                <el-button type="primary" class="table-button" icon="el-icon-refresh" @click="clearSearch">清除</el-button>
+            </div>
         </div>
 
 		<!-- table数据 -->
@@ -49,6 +67,7 @@
             conditionPhone: '',
             conditionAuth: [],
             conditionTime: '',
+            conditionSeller: '',
 			tableData: [],
             titles: [{
                 label: "序号",
@@ -78,8 +97,8 @@
                 label: "是否认证",
                 prop: "auth",
             }, {
-                label: "是否可用",
-                prop: "status",
+                label: "是否销售",
+                prop: "is_seller",
             }],
 
             actionCol: {
@@ -127,7 +146,7 @@
 
                 for (let i = 0; i < response.data.data.length; i++) {
                     response.data.data[i]['auth'] =  response.data.data[i]['auth'] == "1" ? "认证" : "未认证";
-                    response.data.data[i]['status'] =  response.data.data[i]['status'] == "1" ? "正常" : "禁用";
+                    response.data.data[i]['is_seller'] =  response.data.data[i]['is_seller'] == "1" ? "销售" : "非销售";
                 }
 
                 this.tableData = response.data.data
@@ -140,6 +159,7 @@
             this.conditionPhone = ''
             this.conditionTime = ''
             this.conditionAuth = []
+            this.conditionSeller =[]
           },
 
           //查询
@@ -152,13 +172,14 @@
                     'nickname': this.conditionNickname,
                     'auth': this.conditionAuth,
                     'time': this.conditionTime,
+                    'is_seller': this.conditionSeller,
                 }
             }).then(response => {
 
                 console.log((response.data.data))
                 for (let i = 0; i < response.data.data.length; i++) {
                     response.data.data[i]['auth'] =  response.data.data[i]['auth'] == "1" ? "认证" : "未认证";
-                    response.data.data[i]['status'] =  response.data.data[i]['status'] == "1" ? "正常" : "禁用";
+                    response.data.data[i]['is_seller'] =  response.data.data[i]['is_seller'] == "1" ? "销售" : "非销售";
                 }
 
                 this.tableData = response.data.data
@@ -180,7 +201,7 @@
 
 <style>
 #tableTools {
-    display: inline-flex;
+    display: inline-block;
 }
 #tableTools .table-button {
     margin: 0 0 15px 10px;

@@ -30,7 +30,9 @@ class SearchJob
      */
     public function handle()
     {
-        $tempRes = TableModels\Customer::select('id', 'phone', 'nickname', 'openid', 'gender', 'recommend_count', 'status', 'auth', 'created_at');
+        $tempRes = TableModels\Customer::select(
+            'id', 'phone', 'nickname', 'openid', 'gender', 'recommend_count', 'status', 'auth', 'is_seller', 'created_at'
+        );
 
         if (!is_null($this->params['phone']) && !empty($this->params['phone'])) {
             $tempRes->where('phone', $this->params['phone']);
@@ -49,6 +51,10 @@ class SearchJob
 
         if (count($this->params['auth']) >= 1) {
             $tempRes->whereIn('auth', $this->params['auth']);
+        }
+
+        if (count($this->params['is_seller']) >= 1) {
+            $tempRes->whereIn('is_seller', $this->params['is_seller']);
         }
 
         $customers = $tempRes->get();

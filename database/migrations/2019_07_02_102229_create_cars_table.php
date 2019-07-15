@@ -20,6 +20,7 @@ class CreateCarsTable extends Migration
             $table->string('guide_price')->comment("汽车指导价");
             $table->string('final_price')->comment("落地价、成交价");
             $table->string('car_price')->comment("裸车价");
+            $table->string('avatar')->nullable()->comment("汽车缩略图");
             $table->string('remarks')->nullable()->comment("备注");
             $table->json('info')->nullable()->comment("详细信息");
             $table->softDeletes()->comment("软删除");

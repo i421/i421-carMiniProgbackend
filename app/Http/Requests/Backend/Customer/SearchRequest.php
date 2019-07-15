@@ -28,6 +28,7 @@ class SearchRequest extends FormRequest
             'phone' => 'nullable|string',
             'time' => 'nullable|array',
             'auth' => 'nullable|array',
+            'seller' => 'nullable|array',
         ];
     }
 }
