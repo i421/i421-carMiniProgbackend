@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Jobs\Backend\Role;
+namespace App\Jobs\Backend\Shop;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Foundation\Bus\Dispatchable;
