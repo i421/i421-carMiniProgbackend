@@ -7,14 +7,14 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Support\Facades\Cache;
 use App\Events\Customer\StoreEvent;
 
-class DecryptDataJob
+class StoreJob
 {
     use Dispatchable, Queueable;
 
     private $iv;
-    private $encryptedData;
     private $openid;
     private $recommender;
+    private $encryptedData;
 
     /**
      * Create a new job instance.
@@ -23,8 +23,8 @@ class DecryptDataJob
      */
     public function __construct(array $params)
     {
-        $this->openid = $params['openid'];
         $this->iv = $params['iv'];
+        $this->openid = $params['openid'];
         $this->encryptedData = $params['encryptedData'];
         $this->recommender = isset($params['recommender']) ? $params['recommender'] : null;
     }

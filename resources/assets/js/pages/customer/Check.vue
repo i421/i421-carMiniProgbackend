@@ -12,20 +12,6 @@
 
                 <el-col :span="6" :offset="1">
                     <div>
-                        <el-select v-model="conditionAuth" placeholder="是否认证" multiple="multiple" class="table-search">
-                            <el-option label="认证" value="1"></el-option>
-                            <el-option label="未认证" value="0"></el-option>
-                        </el-select>
-
-                        <el-select v-model="conditionSeller" placeholder="是否销售" multiple="multiple" class="table-search">
-                            <el-option label="销售" value="1"></el-option>
-                            <el-option label="非销售" value="0"></el-option>
-                        </el-select>
-                    </div>
-                </el-col>
-
-                <el-col :span="6" :offset="1">
-                    <div>
                         <el-date-picker
                             v-model="conditionTime"
                             type="daterange"
@@ -41,18 +27,49 @@
                 </el-col>
             </el-row>
 
-
             <div>
-                <el-button type="primary" class="table-button" icon="el-icon-search" @click="search">查询</el-button>
+                <el-button
+                    type="primary"
+                    class="table-button"
+                    icon="el-icon-search"
+                    @click="fetchCutomerCheckList">
+                    查询
+                </el-button>
                 <el-button type="primary" class="table-button" icon="el-icon-refresh" @click="clearSearch">清除</el-button>
             </div>
         </div>
 
-		<!-- table数据 -->
-        <data-tables border :data="tableData" :action-col="actionCol" :pagination-props="{ pageSizes: [10, 15, 20] }">
-            <el-table-column v-for="title in titles" :prop="title.prop" :label="title.label" :key="title.label">
-            </el-table-column>
-        </data-tables>
+        <el-tabs v-model="activeName" @tab-click="handleClick">
+            <el-tab-pane label="全部" name="first">
+
+                <!-- table数据 -->
+                <data-tables border :data="allTableData" :action-col="actionCol" :pagination-props="{ pageSizes: [10, 15, 20] }">
+                    <el-table-column v-for="title in titles" :prop="title.prop" :label="title.label" :key="title.label">
+                    </el-table-column>
+                </data-tables>
+
+            </el-tab-pane>
+
+            <el-tab-pane label="待审核" name="second">
+
+                <!-- table数据 -->
+                <data-tables border :data="notAuthTableData" :pagination-props="{ pageSizes: [10, 15, 20] }">
+                    <el-table-column v-for="title in titles" :prop="title.prop" :label="title.label" :key="title.label">
+                    </el-table-column>
+                </data-tables>
+
+            </el-tab-pane>
+
+            <el-tab-pane label="已审核" name="third">
+
+                <!-- table数据 -->
+                <data-tables border :data="authTableData" :pagination-props="{ pageSizes: [10, 15, 20] }">
+                    <el-table-column v-for="title in titles" :prop="title.prop" :label="title.label" :key="title.label">
+                    </el-table-column>
+                </data-tables>
+
+            </el-tab-pane>
+        </el-tabs>
     </div>
 </template>
 
@@ -63,12 +80,13 @@
   export default {
 	  data() {
 		return {
+            activeName: 'first',
             conditionNickname: '',
             conditionPhone: '',
-            conditionAuth: [],
             conditionTime: '',
-            conditionSeller: '',
-			tableData: [],
+			allTableData: [],
+			authTableData: [],
+			notAuthTableData: [],
             titles: [{
                 label: "序号",
                 prop: "id",
@@ -82,23 +100,8 @@
                 label: "昵称",
                 prop: "nickname",
             }, {
-                label: "积分数",
-                prop: "score_count",
-            }, {
-                label: "订单数",
-                prop: "order_count",
-            }, {
-                label: "推荐人数",
-                prop: "recommend_count",
-            }, {
-                label: "收藏数",
-                prop: "collection_count",
-            }, {
-                label: "是否认证",
+                label: "审核状态",
                 prop: "auth",
-            }, {
-                label: "是否销售",
-                prop: "is_seller",
             }],
 
             actionCol: {
@@ -125,75 +128,73 @@
                         icon: 'el-icon-delete-solid'
                     },
                     handler: row => {
-                        this.ban(row)
+                        this.togglePass(row)
                     },
-                    label: '禁用'
+                    label: '切换审核状态'
                 }]
             },
         }
       },
 
       created () {
-          this.fetchCustomers()
+          this.fetchCutomerCheckList()
       },
 
       methods: {
 
-          fetchCustomers() {
+          fetchCutomerCheckList() {
             http({
-                url: Api.customers,
-            }).then(response => {
-
-                for (let i = 0; i < response.data.data.length; i++) {
-                    response.data.data[i]['auth'] =  response.data.data[i]['auth'] == "1" ? "认证" : "未认证";
-                    response.data.data[i]['is_seller'] =  response.data.data[i]['is_seller'] == "1" ? "销售" : "非销售";
-                }
-
-                this.tableData = response.data.data
-            })
-          },
-
-          //清楚查询条件
-          clearSearch() {
-            this.conditionNickname = ''
-            this.conditionPhone = ''
-            this.conditionTime = ''
-            this.conditionAuth = []
-            this.conditionSeller =[]
-          },
-
-          //查询
-          search() {
-            http({
-                url: Api.searchCustomer,
+                url: Api.cutomerCheckList,
                 method: "post",
                 data: {
                     'phone': this.conditionPhone,
                     'nickname': this.conditionNickname,
-                    'auth': this.conditionAuth,
                     'time': this.conditionTime,
-                    'is_seller': this.conditionSeller,
                 }
             }).then(response => {
+                //先初始化
+                this.allTableData = []
+                this.authTableData = []
+                this.notAuthTableData = []
 
-                console.log((response.data.data))
+                //赋值
                 for (let i = 0; i < response.data.data.length; i++) {
-                    response.data.data[i]['auth'] =  response.data.data[i]['auth'] == "1" ? "认证" : "未认证";
-                    response.data.data[i]['is_seller'] =  response.data.data[i]['is_seller'] == "1" ? "销售" : "非销售";
+
+                    if (response.data.data[i]['auth'] == 1) {
+                        response.data.data[i]['auth'] = '认证'
+                        this.authTableData.push(response.data.data[i]);
+                        this.allTableData.push(response.data.data[i]);
+                    } else {
+                        response.data.data[i]['auth'] = '未认证'
+                        this.notAuthTableData.push(response.data.data[i]);
+                        this.allTableData.push(response.data.data[i]);
+                    }
                 }
 
                 this.tableData = response.data.data
             })
           },
-        
+
+          //清除查询条件
+          clearSearch() {
+            this.conditionNickname = ''
+            this.conditionPhone = ''
+            this.conditionTime = ''
+          },
+
           //查看详情
           show(row) {
-              this.$router.push({ name: 'showCustomer', params: {"id": row.id} })
+              this.$router.push({ name: 'showCustomerCheck', params: {"id": row.id} })
           },
 
           //禁止
-          ban(row) {
+          togglePass(row) {
             //todo
+          },
+
+          //处理切换
+          handleClick(tab, event) {
+            console.log(tab, event);
           }
       }
   }

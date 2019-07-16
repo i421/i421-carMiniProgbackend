@@ -5,21 +5,26 @@ namespace App\Jobs\Api\V1\Customer;
 use Illuminate\Bus\Queueable;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Support\Facades\Cache;
+use App\Tables as TableModels;
 
-class LoginJob
+class UpdatePhoneJob
 {
     use Dispatchable, Queueable;
 
-    private $code;
+    private $iv;
+    private $encryptedData;
+    private $openid;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct(string $code)
+    public function __construct(array $params)
     {
-        $this->code = $code;
+        $this->openid = $params['openid'];
+        $this->iv = $params['iv'];
+        $this->encryptedData = $params['encryptedData'];
     }
 
     /**
@@ -30,28 +35,31 @@ class LoginJob
     public function handle()
     {
         $miniProgram = \EasyWeChat::miniProgram();
-        $res = $miniProgram->auth->session($this->code);
+        $decryptedData = $miniProgram->encryptor->decryptData(Cache::get($this->openid), $this->iv, $this->encryptedData);
 
-        if (isset($res['errcode'])) {
+        \Log::info($decryptedData);
+
+        $customer = TableModels\Customer::where("openid", $this->openid)->first();
+
+        if (!empty($customer)) {
+            $customer->phone = $decryptedData['phoneNumber'];
+            $customer->save();
+        } else {
 
             $response = [
                 'code' => trans('pheicloud.response.error.code'),
                 'msg' => trans('pheicloud.response.error.msg'),
-                'data' => '',
+                'data' => [],
             ];
 
             return response()->json($response);
 
         }
 
-        \Log::info($res);
-
-        Cache::put($res['openid'], $res['session_key'], 5);
-
         $response = [
             'code' => trans('pheicloud.response.success.code'),
             'msg' => trans('pheicloud.response.success.msg'),
-            'data' => $res['openid'],
+            'data' => $decryptedData,
         ];
 
         return response()->json($response);

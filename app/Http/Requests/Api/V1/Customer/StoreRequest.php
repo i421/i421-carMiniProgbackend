@@ -4,7 +4,7 @@ namespace App\Http\Requests\Api\V1\Customer;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class DescryptDataRequest extends FormRequest
+class StoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +24,8 @@ class DescryptDataRequest extends FormRequest
     public function rules()
     {
         return [
-            'openid' => 'required|string',
             'iv' => 'required|string',
+            'openid' => 'required|string',
             'encryptedData' => 'required|string',
             'recommender' => 'nullable|string|size:40',
         ];

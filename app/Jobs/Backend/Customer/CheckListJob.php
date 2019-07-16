@@ -10,10 +10,7 @@ class CheckListJob
 {
     use Dispatchable, Queueable;
 
-    private $opend_id;
-    private $phone;
-    private $start_time;
-    private $end_time;
+    private $params;
 
     /**
      * Create a new job instance.
@@ -22,10 +19,7 @@ class CheckListJob
      */
     public function __construct(array $params)
     {
-        $this->open_id = isset($params['open_id']) ? $params['open_id'] : null;
-        $this->phone = isset($params['phone']) ? $params['phone'] : null;
-        $this->start_time = isset($params['start_time']) ? $params['start_time'] : null;
-        $this->end_time = isset($params['end_time']) ? $params['end_time'] : null;
+        $this->params = $params;
     }
 
     /**
@@ -35,25 +29,24 @@ class CheckListJob
      */
     public function handle()
     {
-        $tempRes = TableModels\Customer::select('id', 'openid', 'phone', 'nickname', 'status');
+        $tempRes = TableModels\Customer::select('id', 'openid', 'phone', 'nickname', 'auth');
 
-        if (! is_null($this->open_id)) {
-            $tempRes = $tempRes->where('open_id', 'like', "%$this->open_id%");
+        if (!is_null($this->params['nickname']) && !empty($this->params['nickname'])) {
+            $tempRes->where('nickname', $this->params['nickname']);
         }
 
-        if (! is_null($this->phone)) {
-            $tempRes = $tempRes->where('phone', 'like', "%$this->phone%");
+        if (!is_null($this->params['phone']) && !empty($this->params['phone'])) {
+            $tempRes->where('phone', $this->params['phone']);
         }
 
-        if (! is_null($this->start_time)) {
-            $tempRes = $tempRes->where('created_at', '>=', $this->start_time);
+        if (!is_null($this->params['time']) && count($this->params['time']) >= 1) {
+            $tempRes->where([
+                ['created_at', '>=', $this->params['time'][0] . ' 00:00:00'],
+                ['created_at', '<=', $this->params['time'][1] . ' 23:59:59']
+            ]);
         }
 
-        if (! is_null($this->end_time)) {
-            $tempRes = $tempRes->where('created_at', '<=', $this->end_time);
-        }
-
-        $res = $tempRes->get()->toArrary();
+        $res = $tempRes->get()->toArray();
 
         $response = [
             'code' => trans('pheicloud.response.success.code'),

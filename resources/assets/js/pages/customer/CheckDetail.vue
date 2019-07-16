@@ -22,50 +22,17 @@
                     性别: <el-button type="warning" icon="el-icon-female" circle></el-button> 女 
                 </span>
             </el-col>
+        </el-row>
+
+        <el-row id="userAuthTitle">
+            <span class="infoGroup">用户认证信息</span>
+        </el-row>
+
+        <el-row id="userAuth">
             <el-col :span="6">
-                <span>国别: {{ customerInfo.country }}</span>
-                <el-divider></el-divider>
-                <span>省份: {{ customerInfo.province }}</span>
-                <el-divider></el-divider>
-                <span>城市: {{ customerInfo.city }}</span>
-                <el-divider></el-divider>
             </el-col>
         </el-row>
 
-        <el-row id="userActionTitle">
-            <span class="infoGroup">用户行为信息</span>
-        </el-row>
-
-        <el-row id="userAction">
-            <el-col :span="6">
-                <span>积分: {{ appendData.scoreCount }}</span>
-                <el-divider></el-divider>
-                <span>订单数: {{ appendData.orderCount }}</span>
-                <el-divider></el-divider>
-                <span>收藏数: {{ appendData.collectionCount }}</span>
-                <el-divider></el-divider>
-            </el-col>
-            <el-col :span="6">
-                <span>推荐人数: {{ customerInfo.recommend_count }}</span>
-                <el-divider></el-divider>
-                <span>推荐人: {{ appendData.recommender }}</span>
-                <el-divider></el-divider>
-                <span>收藏数: {{ appendData.collectionCount }}</span>
-                <el-divider></el-divider>
-            </el-col>
-        </el-row>
-
-        <div v-if="customerInfo.auth == 1">
-
-            <el-row id="userAuthTitle">
-                <span class="infoGroup">用户认证信息</span>
-            </el-row>
-
-            <el-row id="userAuth">
-                <el-col :span="6">
-                </el-col>
-            </el-row>
-        </div>
     </div>
 </template>
 
@@ -89,7 +56,7 @@
 
           fetchCustomer() {
             http({
-                url: Api.showCustomer + this.$route.params.id,
+                url: Api.customerCheckDetail + this.$route.params.id,
             }).then(response => {
                 this.customerInfo = response.data.data
                 this.appendData = response.data.append
@@ -124,20 +91,6 @@
     width: 100%;
     height: auto;
     font-size: 16px;
-}
-#userAction {
-    margin-top: 10px;
-    border: 1px solid #ccc;
-    padding-top: 30px;
-    padding-bottom: 30px;
-    padding-left: 20px;
-    padding-right: 20px;
-    width: 100%;
-    height: auto;
-    font-size: 16px;
-}
-#userActionTitle {
-    margin-top: 30px;
 }
 #userAuth {
     margin-top: 10px;

@@ -14,17 +14,24 @@ class CustomerController extends Controller
         //
     }
 
-    public function login(Request $request)
+    public function code2Session(Request $request)
     {
         $code = $request->input('code');
-        $response = $this->dispatch(new CustomerJobs\LoginJob($code));
+        $response = $this->dispatch(new CustomerJobs\Code2SessionJob($code));
         return $response;
     }
 
-    public function decryptData(CustomerRequests\DescryptDataRequest $request)
+    public function store(CustomerRequests\StoreRequest $request)
     {
         $params = $request->all();
-        $response = $this->dispatch(new CustomerJobs\DecryptDataJob($params));
+        $response = $this->dispatch(new CustomerJobs\StoreJob($params));
+        return $response;
+    }
+
+    public function updatePhone(CustomerRequests\UpdatePhoneRequest $request)
+    {
+        $params = $request->all();
+        $response = $this->dispatch(new CustomerJobs\UpdatePhoneJob($params));
         return $response;
     }
 }

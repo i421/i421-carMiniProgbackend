@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Backend\Customer;
+namespace App\Http\Requests\Api\V1\Customer;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CheckListRequest extends FormRequest
+class UpdatePhoneRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,9 +24,9 @@ class CheckListRequest extends FormRequest
     public function rules()
     {
         return [
-            'nickname' => 'nullable|string',
-            'phone' => 'nullable|string',
-            'time' => 'nullable|array',
+            'openid' => 'required|string',
+            'iv' => 'required|string',
+            'encryptedData' => 'required|string',
         ];
     }
 }

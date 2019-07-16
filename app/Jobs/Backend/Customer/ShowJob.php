@@ -51,7 +51,7 @@ class ShowJob
             'msg' => trans('pheicloud.response.success.msg'),
             'data' => $customer,
             'append' => [
-                'collection' => $collectionCount,
+                'collectionCount' => $collectionCount,
                 'orderCount' => $orderCount,
                 'scoreCount' => $scoreCount,
             ],

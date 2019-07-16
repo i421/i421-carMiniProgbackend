@@ -20,6 +20,13 @@
             </el-dropdown-menu>
           </el-dropdown>
         </div>
+        <div style="position: absolute; top: 60px; right: 5px; z-index:999">
+            <el-button @click="back" circle size="small" icon="el-icon-arrow-left">后退</el-button>
+            <el-button @click="forword" circle size="small" style="margin-left:0px">
+                前进<i class="el-icon-arrow-right el-icon--right"></i>
+            </el-button>
+        </div>
+
       </el-row>
 
 	  <el-dialog title="用户头像" :visible.sync="dialogVisible">
@@ -94,6 +101,16 @@
 			console.log(err)
 		})
       },
+
+      //上一页
+      back() {
+        this.$router.go(-1)
+      },
+
+      //下一页
+      forword() {
+        this.$router.go(1)
+      }
     }
   }
 </script>

@@ -17,8 +17,9 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api\V1'], function () {
 
     //客户管理
     Route::group(['prefix' => 'customer'], function () {
-        Route::get('login', 'CustomerController@login');
-        Route::get('decrypt/data', 'CustomerController@decryptData');
+        Route::get('code2session', 'CustomerController@code2Session');
+        Route::get('store', 'CustomerController@store');
+        Route::get('update/phone', 'CustomerController@updatePhone');
     });
 
     //地址管理
@@ -98,10 +99,10 @@ Route::group(['prefix' => 'v1/backend', 'namespace' => 'Backend', 'middleware' =
     //客户管理
     Route::group(['prefix' => 'customer'], function () {
         Route::get('/', 'CustomerController@index');
-        Route::get('{id}', 'CustomerController@show');
+        Route::post('check', 'CustomerController@checkList');
         Route::post('search', 'CustomerController@search');
-        Route::get('checkList', 'CustomerController@checkList');
-        Route::get('checkDetail/{id}', 'CustomerController@checkDetail');
+        Route::get('check/detail/{id}', 'CustomerController@checkDetail');
+        Route::get('{id}', 'CustomerController@show');
     });
 
     //订单管理
