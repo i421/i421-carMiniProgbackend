@@ -157,7 +157,7 @@
     width: 100%;
     height: 100%;
 	overflow: hidden;
-    background: url("./../../static/login.jpg") no-repeat center;
+    background: url("/images/login.jpg") no-repeat center;
     background-size: cover;
     z-index: -1;
 }
@@ -171,7 +171,7 @@
 	box-sizing: border-box;
 }
 #loginPage #darkbannerwrap {
-    background: url("../../static/darkbannerwrap.png");
+    background: url("/images/darkbannerwrap.png");
     width: 18px;
     height: 10px;
     margin: 0 0 20px -58px;

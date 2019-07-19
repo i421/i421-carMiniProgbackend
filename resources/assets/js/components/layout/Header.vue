@@ -55,7 +55,7 @@
       return {
         collapsed: false,
 		dialogVisible: false,
-        avatarUrl: this.$store.state.auth_user.avatar != '' ? this.$store.state.auth_user.avatar : '../../images/defaultAatarUrl.png',
+        avatarUrl: this.$store.state.auth_user.avatar != '' ? this.$store.state.auth_user.avatar : '/images/defaultAatarUrl.png',
       }
     },
 
