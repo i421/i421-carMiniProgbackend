@@ -5,9 +5,11 @@
         </el-row>
 
         <el-row id="userDetail">
+            <!--
             <el-col :span="3">
              <el-avatar shape="square" :size="100" fit="fill" :src="customerInfo.avatar"></el-avatar>
             </el-col>
+            -->
             <el-col :span="6">
                 <span>昵称: {{ customerInfo.nickname }}</span>
                 <el-divider></el-divider>
@@ -57,14 +59,58 @@
 
         <div v-if="customerInfo.auth == 1">
 
-            <el-row id="userAuthTitle">
+            <el-row class="userAuthTitle">
                 <span class="infoGroup">用户认证信息</span>
             </el-row>
 
-            <el-row id="userAuth">
+            <el-row class="userAuth">
                 <el-col :span="6">
+                    <span>姓名: {{ customerInfo.info.name }}</span>
+                    <el-divider></el-divider>
+                    <span>身份证号: {{ customerInfo.info.id_card }}</span>
+                    <el-divider></el-divider>
                 </el-col>
             </el-row>
+
+            <el-row class="userAuthTitle">
+                <span class="block">身份证</span>
+            </el-row>
+
+            <el-row :gutter="20">
+                <el-col :span="12">
+                    <div class="grid-content">
+                        <el-image fit="contain" :src="customerInfo.info.id_card_front_path"></el-image>
+                    </div>
+                </el-col>
+                <el-col :span="12">
+                    <div class="grid-content">
+                        <el-image fit="contain" :src="customerInfo.info.id_card_back_path"></el-image>
+                    </div>
+                </el-col>
+            </el-row>
+
+            <el-row class="userAuthTitle">
+                <span class="block">驾驶证</span>
+            </el-row>
+            <el-row :gutter="20">
+                <el-col :span="12">
+                    <div class="grid-content">
+                        <el-image fit="contain" :src="customerInfo.info.driver_license"></el-image>
+                    </div>
+                </el-col>
+            </el-row>
+
+            <el-row class="userAuthTitle">
+                <span class="block">银行卡</span>
+            </el-row>
+            <el-row :gutter="20">
+                <el-col :span="12">
+                    <div class="grid-content">
+                        <el-image fit="contain" :src="customerInfo.info.bank_card"></el-image>
+                    </div>
+                </el-col>
+            </el-row>
+
         </div>
     </div>
 </template>
@@ -139,7 +185,7 @@
 #userActionTitle {
     margin-top: 30px;
 }
-#userAuth {
+.userAuth {
     margin-top: 10px;
     border: 1px solid #ccc;
     padding-top: 30px;
@@ -150,7 +196,18 @@
     height: auto;
     font-size: 16px;
 }
-#userAuthTitle {
+.userAuthTitle {
     margin-top: 30px;
+}
+.grid-content {
+    width: auto;
+    height: 200px;
+    margin-top: 10px;
+    border: 1px solid #ccc;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    padding-left: 20px;
+    padding-right: 20px;
+    font-size: 16px;
 }
 </style>

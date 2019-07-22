@@ -20,7 +20,22 @@ trait InfoTrait
      */
     public function getInfoAttribute($value)
     {
-        return json_decode($value, true);
+        $temp = json_decode($value, true);
+
+        if (isset($temp['id_card_front_path'])) {
+            $temp['id_card_front_path'] = '/storage/'. $temp['id_card_front_path'];
+        }
+        if (isset($temp['id_card_back_path'])) {
+            $temp['id_card_back_path'] = '/storage/'. $temp['id_card_back_path'];
+        }
+        if (isset($temp['driver_license'])) {
+            $temp['driver_license'] = '/storage/'. $temp['driver_license'];
+        }
+        if (isset($temp['bank_card'])) {
+            $temp['bank_card'] = '/storage/'. $temp['bank_card'];
+        }
+
+        return $temp;
     }
 
     /**
