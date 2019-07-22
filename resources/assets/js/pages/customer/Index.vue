@@ -105,7 +105,7 @@
                 label: '操作',
                 props: {
                     align: 'center',
-                    width: '300px',
+                    width: '400px',
                 },
 
                 buttons: [{
@@ -118,6 +118,16 @@
                         this.show(row)
                     },
                     label: '详情'
+                }, {
+                    props: {
+                        type: 'danger',
+                        size: "mini",
+                        icon: 'el-icon-refresh'
+                    },
+                    handler: row => {
+                        this.togglePass(row)
+                    },
+                    label: '切换是否销售'
                 }, {
                     props: {
                         type: 'danger',
@@ -189,6 +199,25 @@
           //查看详情
           show(row) {
               this.$router.push({ name: 'showCustomer', params: {"id": row.id} })
+          },
+
+          togglePass(row) {
+
+              if (row.is_seller == '非销售') {
+                var is_seller = 1;
+              } else {
+                var is_seller = 0;
+              }
+
+              http({
+                  url: Api.customerToggleIsSeller, 
+                  params: {
+                      id: row.id,
+                      is_seller: is_seller
+                  }
+              }).then(response => {
+                this.fetchCustomers()
+              })
           },
 
           //禁止

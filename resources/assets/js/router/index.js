@@ -23,6 +23,7 @@ export default new Router({
                     component: resolve => require(['../pages/customer/Index.vue'], resolve)
                 }, {
                     path: '/customer/check',
+                    name: 'customerCheckList',
                     component: resolve => require(['../pages/customer/Check.vue'], resolve)
                 }, {
                     path: '/customer/:id',

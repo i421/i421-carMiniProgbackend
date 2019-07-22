@@ -39,7 +39,7 @@
         </el-row>
 
         <el-row id="userAction">
-            <el-col :span="6">
+            <el-col :span="12">
                 <span>积分: {{ appendData.scoreCount }}</span>
                 <el-divider></el-divider>
                 <span>订单数: {{ appendData.orderCount }}</span>
@@ -47,7 +47,7 @@
                 <span>收藏数: {{ appendData.collectionCount }}</span>
                 <el-divider></el-divider>
             </el-col>
-            <el-col :span="6">
+            <el-col :span="12">
                 <span>推荐人数: {{ customerInfo.recommend_count }}</span>
                 <el-divider></el-divider>
                 <span>推荐人: {{ appendData.recommender }}</span>
@@ -65,9 +65,13 @@
 
             <el-row class="userAuth">
                 <el-col :span="6">
-                    <span>姓名: {{ customerInfo.info.name }}</span>
+                    <div v-if="customerInfo.info">
+                        <span>姓名: {{ customerInfo.info.name }}</span>
+                    </div>
                     <el-divider></el-divider>
-                    <span>身份证号: {{ customerInfo.info.id_card }}</span>
+                    <div v-if="customerInfo.info">
+                        <span>身份证号: {{ customerInfo.info.id_card }}</span>
+                    </div>
                     <el-divider></el-divider>
                 </el-col>
             </el-row>
@@ -78,12 +82,12 @@
 
             <el-row :gutter="20">
                 <el-col :span="12">
-                    <div class="grid-content">
+                    <div class="grid-content" v-if="customerInfo.info">
                         <el-image fit="contain" :src="customerInfo.info.id_card_front_path"></el-image>
                     </div>
                 </el-col>
                 <el-col :span="12">
-                    <div class="grid-content">
+                    <div class="grid-content" v-if="customerInfo.info">
                         <el-image fit="contain" :src="customerInfo.info.id_card_back_path"></el-image>
                     </div>
                 </el-col>
@@ -94,7 +98,7 @@
             </el-row>
             <el-row :gutter="20">
                 <el-col :span="12">
-                    <div class="grid-content">
+                    <div class="grid-content" v-if="customerInfo.info">
                         <el-image fit="contain" :src="customerInfo.info.driver_license"></el-image>
                     </div>
                 </el-col>
@@ -105,7 +109,7 @@
             </el-row>
             <el-row :gutter="20">
                 <el-col :span="12">
-                    <div class="grid-content">
+                    <div class="grid-content" v-if="customerInfo.info">
                         <el-image fit="contain" :src="customerInfo.info.bank_card"></el-image>
                     </div>
                 </el-col>

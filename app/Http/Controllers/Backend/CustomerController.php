@@ -70,4 +70,28 @@ class CustomerController extends Controller
         $response = $this->dispatch(new CustomerJobs\CheckDetailJob($id));
         return $response;
     }
+
+    /**
+     * 认证状态
+     *
+     * @return void
+     */
+    public function authStatus(CustomerRequests\AuthStatusRequest $request)
+    {
+        $params = $request->all();
+        $response = $this->dispatch(new CustomerJobs\AuthStatusJob($params));
+        return $response;
+    }
+
+    /**
+     * 是否销售
+     *
+     * @return void
+     */
+    public function isSeller(CustomerRequests\IsSellerRequest $request)
+    {
+        $params = $request->all();
+        $response = $this->dispatch(new CustomerJobs\IsSellerJob($params));
+        return $response;
+    }
 }

@@ -125,7 +125,7 @@
                     props: {
                         type: 'danger',
                         size: "mini",
-                        icon: 'el-icon-delete-solid'
+                        icon: 'el-icon-refresh'
                     },
                     handler: row => {
                         this.togglePass(row)
@@ -189,7 +189,23 @@
 
           //禁止
           togglePass(row) {
-            //todo
+
+              if (row.auth == '认证') {
+                var auth = 0;
+              } else {
+                var auth = 1;
+              }
+
+              http({
+                  url: Api.customerAuthStatus, 
+                  params: {
+                      id: row.id,
+                      auth: auth
+                  }
+              }).then(response => {
+                this.fetchCutomerCheckList()
+              })
+
           },
 
           //处理切换

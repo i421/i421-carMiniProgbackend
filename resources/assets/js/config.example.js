@@ -49,6 +49,8 @@ const Api = {
     'searchCustomer': 'api/v1/backend/customer/search',
     'cutomerCheckList': 'api/v1/backend/customer/checkList',
     'customerCheckDetail': 'api/v1/backend/customer/checkDetail/',
+    'customerAuthStatus': 'api/v1/backend/customer/authStatus',
+    'customerToggleIsSeller': 'api/v1/backend/customer/isSeller',
 
     'orders': 'api/v1/backend/order',
     'showOrder': 'api/v1/backend/order/',

@@ -10,7 +10,7 @@
              <el-avatar shape="square" :size="100" fit="fill" :src="customerInfo.avatar"></el-avatar>
             </el-col>
             -->
-            <el-col :span="6">
+            <el-col :span="12">
                 <span>昵称: {{ customerInfo.nickname }}</span>
                 <el-divider></el-divider>
                 <span>微信openid: {{ customerInfo.openid }}</span>
@@ -32,12 +32,12 @@
 
         <el-row :gutter="20">
             <el-col :span="12">
-                <div class="auth-grid-content">
+                <div class="auth-grid-content" v-if="customerInfo.info">
                     <span>姓名: {{ customerInfo.info.name }}</span>
                 </div>
             </el-col>
             <el-col :span="12">
-                <div class="auth-grid-content">
+                <div class="auth-grid-content" v-if="customerInfo.info">
                     <span>身份证号: {{ customerInfo.info.id_card }}</span>
                 </div>
             </el-col>
@@ -48,12 +48,12 @@
         </el-row>
         <el-row :gutter="20">
             <el-col :span="12">
-                <div class="grid-content">
+                <div class="grid-content" v-if="customerInfo.info">
                     <el-image fit="contain" :src="customerInfo.info.id_card_front_path"></el-image>
                 </div>
             </el-col>
             <el-col :span="12">
-                <div class="grid-content">
+                <div class="grid-content" v-if="customerInfo.info">
                     <el-image fit="contain" :src="customerInfo.info.id_card_back_path"></el-image>
                 </div>
             </el-col>
@@ -64,7 +64,7 @@
         </el-row>
         <el-row :gutter="20">
             <el-col :span="12">
-                <div class="grid-content">
+                <div class="grid-content" v-if="customerInfo.info">
                     <el-image fit="contain" :src="customerInfo.info.driver_license"></el-image>
                 </div>
             </el-col>
@@ -75,7 +75,7 @@
         </el-row>
         <el-row :gutter="20">
             <el-col :span="12">
-                <div class="grid-content">
+                <div class="grid-content" v-if="customerInfo.info">
                     <el-image fit="contain" :src="customerInfo.info.bank_card"></el-image>
                 </div>
             </el-col>
@@ -117,7 +117,18 @@
           },
 
           submitCheck(auth) {
-              console.log(auth);
+
+              http({
+                  url: Api.customerAuthStatus, 
+                  params: {
+                      id: this.$route.params.id,
+                      auth: auth
+                  }
+              }).then(response => {
+                  if (response.data.code == '200') {
+                      this.$router.push({ name: 'customerCheckList'})
+                  }
+              })
           }
       }
   }

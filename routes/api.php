@@ -99,9 +99,11 @@ Route::group(['prefix' => 'v1/backend', 'namespace' => 'Backend', 'middleware' =
     //客户管理
     Route::group(['prefix' => 'customer'], function () {
         Route::get('/', 'CustomerController@index');
-        Route::post('check', 'CustomerController@checkList');
         Route::post('search', 'CustomerController@search');
-        Route::get('check/detail/{id}', 'CustomerController@checkDetail');
+        Route::post('checkList', 'CustomerController@checkList');
+        Route::get('checkDetail/{id}', 'CustomerController@checkDetail');
+        Route::get('authStatus', 'CustomerController@authStatus');
+        Route::get('isSeller', 'CustomerController@isSeller');
         Route::get('{id}', 'CustomerController@show');
     });
 
