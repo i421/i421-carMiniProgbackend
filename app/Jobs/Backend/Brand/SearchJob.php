@@ -7,18 +7,22 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use App\Tables as TableModels;
 use DB;
 
-class IndexJob
+class SearchJob
 {
     use Dispatchable, Queueable;
+
+    private $name;
+    private $time;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(array $params)
     {
-        //
+        $this->name = isset($params['name']) ? $params['name'] : null;
+        $this->time = isset($params['time']) ? $params['time'] : null;
     }
 
     /**
@@ -28,7 +32,22 @@ class IndexJob
      */
     public function handle()
     {
-        $brands = TableModels\Brand::all();
+        $tempRes = TableModels\Brand::select(
+            'id', 'name', 'logo', 'created_at'
+        );
+
+        if (!is_null($this->name) && !empty($this->name)) {
+            $tempRes->where('name', $this->name);
+        }
+
+        if (!is_null($this->time) && count($this->time) > 1) {
+            $tempRes->where([
+                ['created_at', '>=', $this->time[0] . ' 00:00:00'],
+                ['created_at', '<=', $this->time[1] . ' 23:59:59']
+            ]);
+        }
+
+        $brands = $tempRes->get();
 
         $cars = TableModels\Car::select(DB::raw('count(*) as car_count'), 'brand_id')->groupBy('brand_id')->get();
 
@@ -42,7 +61,6 @@ class IndexJob
                 }
             }
         }
-
         $response = [
             'code' => trans('pheicloud.response.success.code'),
             'msg' => trans('pheicloud.response.success.msg'),

@@ -16,6 +16,7 @@ class CreateCarsTable extends Migration
         //汽车表
         Schema::create('cars', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('brand_id')->unsigned()->index()->comment("品牌名");
             $table->string('name')->index()->comment("汽车名称");
             $table->string('guide_price')->comment("汽车指导价");
             $table->string('final_price')->comment("落地价、成交价");
@@ -26,6 +27,10 @@ class CreateCarsTable extends Migration
             $table->softDeletes()->comment("软删除");
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+
+            $table->foreign('brand_id')
+                ->references('id')->on('brands')
+                ->onUpdate('cascade');
         });
     }
 

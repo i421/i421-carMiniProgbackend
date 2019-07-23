@@ -36,8 +36,22 @@
 
 		<!-- table数据 -->
         <data-tables border :data="tableData" :action-col="actionCol" :pagination-props="{ pageSizes: [10, 15, 20] }">
-            <el-table-column v-for="title in titles" :prop="title.prop" :label="title.label" :key="title.label">
+
+            <el-table-column label="序号" prop="id" width="180">
             </el-table-column>
+
+            <el-table-column label="品牌图" prop="logo" width="180">
+                <template slot-scope="scope">
+                    <el-image style="width: 60px; height: 60px" :src="scope.row.logo"></el-image>
+                </template>
+            </el-table-column>
+
+            <el-table-column label="姓名" prop="name">
+            </el-table-column>
+
+            <el-table-column label="绑定汽车数" prop="car_count">
+            </el-table-column>
+
         </data-tables>
     </div>
 </template>
@@ -50,21 +64,8 @@
 	  data() {
 		return {
             conditionName: '',
-            conditionTime: '',
+            conditionTime: [],
 			tableData: [],
-            titles: [{
-                label: "序号",
-                prop: "id",
-            }, {
-                label: "品牌图",
-                prop: "logo",
-            }, {
-                label: "名称",
-                prop: "name",
-            }, {
-                label: "绑定车数量",
-                prop: "car_count",
-            }],
 
             actionCol: {
                 label: '操作',
@@ -122,14 +123,17 @@
           search() {
             http({
                 url: Api.searchBrand,
-                method: "post",
-                data: {
+                params: {
                     'name': this.conditionName,
                     'time': this.conditionTime,
                 }
             }).then(response => {
                 this.tableData = response.data.data
             })
+          },
+
+          //添加
+          addBrand() {
           },
         
           //查看详情
@@ -139,7 +143,30 @@
 
           //删除
           destroy(row) {
-            //todo
+
+			this.$confirm('此操作将永久该品牌, 是否继续?', '提示', {
+				confirmButtonText: '确定',
+				cancelButtonText: '取消',
+				type: 'warning'
+			}).then(() => {
+
+				http({
+					method: 'delete',
+					url: Api.destroyBrand + row.id,
+				}).then(response => {
+					this.$notify.success({
+						'title': "提示",
+						'message': response.data.msg
+					})
+            	    this.fetchBrands()
+				})
+
+			}).catch(() => {
+				this.$notify({
+					type: 'info',
+					message: '已取消删除'
+				});
+			})
           }
       }
   }

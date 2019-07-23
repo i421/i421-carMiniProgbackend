@@ -34,11 +34,14 @@ export default new Router({
                     name: 'showCustomerCheck',
                     component: resolve => require(['../pages/customer/CheckDetail.vue'], resolve)
                 }, {
+                    path: '/brand',
+                    component: resolve => require(['../pages/brand/Index.vue'], resolve)
+                }, {
+                    path: '/brand/show',
+                    component: resolve => require(['../pages/brand/Show.vue'], resolve)
+                }, {
                     path: '/shop',
                     component: resolve => require(['../pages/Shop.vue'], resolve)
-                }, {
-                    path: '/brand',
-                    component: resolve => require(['../pages/Brand.vue'], resolve)
                 }, {
                     path: '/car',
                     component: resolve => require(['../pages/Car.vue'], resolve)

@@ -89,6 +89,7 @@ Route::group(['prefix' => 'v1/backend', 'namespace' => 'Backend', 'middleware' =
 
     //标签管理
     Route::group(['prefix' => 'brand'], function () {
+        Route::get('search', 'BrandController@search');
         Route::get('/', 'BrandController@index');
         Route::post('/', 'BrandController@store');
         Route::get('{id}', 'BrandController@show');

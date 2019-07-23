@@ -5,6 +5,7 @@ namespace App\Jobs\Backend\Brand;
 use Illuminate\Bus\Queueable;
 use Illuminate\Foundation\Bus\Dispatchable;
 use App\Tables\Brand;
+use stdClass;
 
 class DestroyJob
 {

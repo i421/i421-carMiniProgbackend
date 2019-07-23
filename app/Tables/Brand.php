@@ -14,4 +14,9 @@ class Brand extends Model
     protected $guarded = [
         'id', 'created_at',
     ];
+
+    public function getLogoAttribute($value)
+    {
+        return '/storage/'. $value;
+    }
 }

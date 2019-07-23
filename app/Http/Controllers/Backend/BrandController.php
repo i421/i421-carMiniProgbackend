@@ -70,4 +70,17 @@ class BrandController extends Controller
         $response = $this->dispatch(new BrandJobs\StoreJob($params));
         return $response;
     }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function search(BrandRequests\SearchRequest $request)
+    {
+        $params = $request->all();
+        $response = $this->dispatch(new BrandJobs\SearchJob($params));
+        return $response;
+    }
 }
