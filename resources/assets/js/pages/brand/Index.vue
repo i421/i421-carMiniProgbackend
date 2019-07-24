@@ -134,6 +134,7 @@
 
           //添加
           addBrand() {
+              this.$router.push({ name: 'createBrand'})
           },
         
           //查看详情

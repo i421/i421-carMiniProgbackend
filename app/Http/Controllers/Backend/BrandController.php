@@ -42,6 +42,9 @@ class BrandController extends Controller
     {
         $params = $request->all();
         $params['id'] = $id;
+        $fileName = date("YmdHis") . str_random(40) . '.jpg';
+        $path = $request->logo->storeAs('carLogo', $fileName, 'public');
+        $params['logo'] = $path;
         $response = $this->dispatch(new BrandJobs\UpdateJob($params));
         return $response;
     }
@@ -67,6 +70,9 @@ class BrandController extends Controller
     public function store(BrandRequests\StoreRequest $request)
     {
         $params = $request->all();
+        $fileName = date("YmdHis") . str_random(40) . '.jpg';
+        $path = $request->logo->storeAs('carLogo', $fileName, 'public');
+        $params['logo'] = $path;
         $response = $this->dispatch(new BrandJobs\StoreJob($params));
         return $response;
     }

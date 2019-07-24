@@ -2,7 +2,7 @@
     <div>
         <el-row>
             <el-col>
-                <el-form ref="form" :model="form" label-width="100px" style="width:460px">
+                <el-form ref="form" :model="form" label-width="80px" style="width:440px">
 
                     <el-form-item label="名称" prop="name"
                         :rules="[
@@ -13,7 +13,7 @@
                         <el-input v-model="form.name"></el-input>
                     </el-form-item>
 
-                    <el-form-item label="首字母" label-width="100px" prop="head"
+                    <el-form-item label="首字母" prop="head"
                         :rules="[
                             { type: 'string', message: '必须为字符串', trigger: ['blur', 'change'] },
                         ]"
@@ -21,15 +21,7 @@
                         <el-input v-model="form.head"></el-input>
                     </el-form-item>
 
-                    <el-form-item label="品牌图" label-width="100px">
-                        <el-image
-                            style="width: 100px; height: 100px"
-                            :src="previewLogo"
-                            fit="fit">
-                        </el-image>
-                    </el-form-item>
-
-                    <el-form-item label="更新品牌图" label-width="100px">
+                    <el-form-item label="品牌图">
                         <el-upload
                             class="upload-demo"
                             ref="upload"
@@ -52,8 +44,9 @@
                         size="small"
                         type="primary"
                         @click="submitUpload">
-                        立即更新
+                        立即创建
                     </el-button>
+                    <el-button @click="cancleUpload">取消</el-button>
                     <el-button @click="back">返回列表</el-button>
                 </div>
             </el-col>
@@ -74,42 +67,28 @@
                   name: '',
                   head: '',
                   logo: {},
-              },
-              priviewLogo: '',
+              }
           }
       },
 
       created () {
-          this.fetchBrand();
       },
 
       methods: {
-
-        fetchBrand() {
-          http({
-              url: Api.showBrand + this.$route.params.id,
-          }).then(response => {
-              this.form = response.data.data
-              this.previewLogo = response.data.data.logo
-          })
-        },
-
         submitUpload() {
             let formData = new FormData()
             formData.append('name', this.form.name)
             formData.append('head', this.form.head)
             formData.append('logo', this.form.logo)
-
             http({
-                url: Api.updateBrand + this.$route.params.id,
+                url: Api.storeBrand,
                 method: 'post',
                 data: formData
             }).then(response => {
                 this.form.logo = {}
-                this.form.name = ''
-                this.form.head = ''
+                this.form.name = '' 
+                this.form.head = '' 
                 this.$refs.upload.clearFiles()
-                this.fetchBrand()
                 this.$notify.success({
                     'title': "提示",
                     'message': response.data.msg
@@ -119,8 +98,16 @@
             })
         },
 
+        cancleUpload() {
+            this.$refs.upload.clearFiles()
+            this.form.logo = {}
+            this.form.name = '' 
+            this.form.head = '' 
+        },
+
         addFile(file, fileList) {
             this.form.logo = file.raw;
+            console.log(file)
         },
 
         back() {

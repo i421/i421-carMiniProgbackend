@@ -33,14 +33,16 @@ class IndexJob
         $cars = TableModels\Car::select(DB::raw('count(*) as car_count'), 'brand_id')->groupBy('brand_id')->get();
 
         foreach ($brands as & $brand) {
+
+            $brand['car_count'] = 0;
+
             foreach ($cars as $car) {
                 if ($brand->id == $car->brand_id) {
                     $brand['car_count'] = $car->car_count;
                     break;
-                } else {
-                    $brand['car_count'] = 0;
                 }
             }
+
         }
 
         $response = [

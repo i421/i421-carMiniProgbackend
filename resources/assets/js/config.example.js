@@ -41,7 +41,7 @@ const Api = {
     'brands': 'api/v1/backend/brand',
     'storeBrand': 'api/v1/backend/brand',
     'showBrand': 'api/v1/backend/brand/',
-    'updateBrand': 'api/v1/backend/brand/',
+    'updateBrand': 'api/v1/backend/brand/update/',
     'destroyBrand': 'api/v1/backend/brand/',
     'searchBrand': 'api/v1/backend/brand/search',
 

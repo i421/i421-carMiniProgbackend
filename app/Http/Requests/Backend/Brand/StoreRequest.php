@@ -26,7 +26,7 @@ class StoreRequest extends FormRequest
         return [
             'name' => 'required|string',
             'head' => 'nullable|string',
-            'logo' => 'required|string',
+            'logo' => 'required|image',
         ];
     }
 }

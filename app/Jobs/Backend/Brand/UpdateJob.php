@@ -41,6 +41,13 @@ class UpdateJob
     public function handle()
     {
         $brand = TableModels\Brand::findOrFail($this->id);
+
+        $originPath = storage_path('app/public') . '/' . $brand->logo;
+
+        if (is_file($originPath)) {
+            unlink($originPath);
+        }
+
         $brand->name = $this->name;
         $brand->head = $this->head;
         $brand->logo = $this->logo;
