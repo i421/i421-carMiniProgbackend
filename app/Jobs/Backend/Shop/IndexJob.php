@@ -5,6 +5,7 @@ namespace App\Jobs\Backend\Shop;
 use Illuminate\Bus\Queueable;
 use Illuminate\Foundation\Bus\Dispatchable;
 use App\Tables as TableModels;
+use DB;
 
 class IndexJob
 {
@@ -28,6 +29,22 @@ class IndexJob
     public function handle()
     {
         $shops = TableModels\Shop::all();
+
+        $orders = TableModels\Order::select(DB::raw('count(*) as order_count'), 'shop_id')->groupBy('shop_id')->get();
+
+        foreach ($shops as & $shop) {
+
+            $shop['order_count'] = 0;
+
+            foreach ($orders as $order) {
+                if ($shop->id == $order->shop_id) {
+                    $shop['order_count'] = $order->order_count;
+                    break;
+                }
+            }
+
+            $shop['address'] = getFullByAddressId($shop->address_id) . $shop->detail_address;
+        }
 
         $response = [
             'code' => trans('pheicloud.response.success.code'),

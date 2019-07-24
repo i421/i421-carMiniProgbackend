@@ -17,7 +17,7 @@ class Shop extends Model
      */
     protected $guarded = [
         'id', 'created_at',
-    ;
+    ];
 
 	/**
 	 * 获取该用户拥有的门店
@@ -26,4 +26,14 @@ class Shop extends Model
 	{
 		return $this->belongsToMany(User::class);
 	}
+
+    public function getImgUrlAttribute($value)
+    {
+        return '/storage/'. $value;
+    }
+
+    public function getLicenseUrlAttribute($value)
+    {
+        return '/storage/'. $value;
+    }
 }

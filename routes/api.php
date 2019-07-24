@@ -80,10 +80,11 @@ Route::group(['prefix' => 'v1/backend', 'namespace' => 'Backend', 'middleware' =
 
     //经销商管理(店铺管理)
     Route::group(['prefix' => 'shop'], function () {
+        Route::get('search', 'ShopController@search');
         Route::get('/', 'ShopController@index');
+        Route::post('/update/{id}', 'BrandController@update');
         Route::post('/', 'ShopController@store');
         Route::get('{id}', 'ShopController@show');
-        Route::put('{id}', 'ShopController@update');
         Route::delete('{id}', 'ShopController@destroy');
     });
 

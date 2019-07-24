@@ -93,6 +93,7 @@
                     'title': "提示",
                     'message': response.data.msg
                 })
+
             }).catch(err => {
                 console.log(err)
             })
@@ -107,7 +108,6 @@
 
         addFile(file, fileList) {
             this.form.logo = file.raw;
-            console.log(file)
         },
 
         back() {

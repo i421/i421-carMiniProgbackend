@@ -37,6 +37,7 @@ const Api = {
     'showShop': 'api/v1/backend/shop/',
     'updateShop': 'api/v1/backend/shop/',
     'destroyShop': 'api/v1/backend/shop/',
+    'searchShop': 'api/v1/backend/shop/search',
 
     'brands': 'api/v1/backend/brand',
     'storeBrand': 'api/v1/backend/brand',

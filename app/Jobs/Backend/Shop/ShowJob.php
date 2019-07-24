@@ -4,7 +4,7 @@ namespace App\Jobs\Backend\Shop;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Foundation\Bus\Dispatchable;
-use App\Tables\Shop;
+use App\Tables as TableModels;
 
 class ShowJob
 {
@@ -32,7 +32,7 @@ class ShowJob
      */
     public function handle()
     {
-        $shop = Shop::find($this->shop_id);
+        $shop = TableModels\Shop::find($this->shop_id);
 	
         if (is_null($shop)) {
 
@@ -44,6 +44,11 @@ class ShowJob
             return response()->json($response);
 
         }
+
+        $orders = TableModels\Order::where('shop_id', $this->shop_id)->count();
+
+        $shop['order_count'] = $orders;
+        $shop['address'] = getFullByAddressId($shop->address_id);
 
         $response = [
             'code' => trans('pheicloud.response.success.code'),

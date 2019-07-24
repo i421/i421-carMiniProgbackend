@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Jobs\Backend\Brand;
+namespace App\Jobs\Backend\Shop;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -12,6 +12,7 @@ class SearchJob
     use Dispatchable, Queueable;
 
     private $name;
+    private $phone;
     private $time;
 
     /**
@@ -22,6 +23,7 @@ class SearchJob
     public function __construct(array $params)
     {
         $this->name = isset($params['name']) ? $params['name'] : null;
+        $this->phone = isset($params['phone']) ? $params['phone'] : null;
         $this->time = isset($params['time']) ? $params['time'] : null;
     }
 
@@ -32,12 +34,16 @@ class SearchJob
      */
     public function handle()
     {
-        $tempRes = TableModels\Brand::select(
-            'id', 'name', 'logo', 'created_at'
+        $tempRes = TableModels\Shop::select(
+            'id', 'name', 'phone', 'img_url', 'address_id', 'detail_address', 'created_at'
         );
 
         if (!is_null($this->name) && !empty($this->name)) {
             $tempRes->where('name', $this->name);
+        }
+
+        if (!is_null($this->phone) && !empty($this->phone)) {
+            $tempRes->where('phone', $this->phone);
         }
 
         if (!is_null($this->time) && count($this->time) > 1) {
@@ -47,17 +53,17 @@ class SearchJob
             ]);
         }
 
-        $brands = $tempRes->get();
+        $shops = $tempRes->get();
 
-        $cars = TableModels\Car::select(DB::raw('count(*) as car_count'), 'brand_id')->groupBy('brand_id')->get();
+        $orders = TableModels\Order::select(DB::raw('count(*) as order_count'), 'shop_id')->groupBy('shop_id')->get();
 
-        foreach ($brands as & $brand) {
+        foreach ($shops as & $shop) {
 
-            $brand['car_count'] = 0;
+            $shop['order_count'] = 0;
 
-            foreach ($cars as $car) {
-                if ($brand->id == $car->brand_id) {
-                    $brand['car_count'] = $car->car_count;
+            foreach ($orders as $order) {
+                if ($shop->id == $order->shop_id) {
+                    $shop['order_count'] = $order->order_count;
                     break;
                 }
             }
@@ -65,7 +71,7 @@ class SearchJob
         $response = [
             'code' => trans('pheicloud.response.success.code'),
             'msg' => trans('pheicloud.response.success.msg'),
-            'data' => $brands,
+            'data' => $shops,
         ];
 
         return response()->json($response);

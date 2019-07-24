@@ -75,7 +75,7 @@
                   head: '',
                   logo: {},
               },
-              priviewLogo: '',
+              previewLogo: '',
           }
       },
 

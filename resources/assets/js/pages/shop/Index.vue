@@ -3,13 +3,19 @@
 		<!-- table工具栏 -->
         <div id="tableTools">
             <el-row>
-                <el-col :span="6">
-                    <div style="width: 100%">
-                        <el-input class="table-search" v-model="conditionName" placeholder="品牌"></el-input>
+                <el-col :span="6" style="margin-right: 5px;">
+                    <div style="width: 100%;">
+                        <el-input class="table-search" v-model="conditionName" placeholder="经销商"></el-input>
                     </div>
                 </el-col>
 
-                <el-col :span="6" :offset="1">
+                <el-col :span="6" style="margin-right: 5px;">
+                    <div style="width: 100%">
+                        <el-input class="table-search" v-model="conditionPhone" placeholder="手机号"></el-input>
+                    </div>
+                </el-col>
+
+                <el-col :span="6">
                     <div>
                         <el-date-picker
                             v-model="conditionTime"
@@ -30,7 +36,7 @@
             <div>
                 <el-button type="primary" class="table-button" icon="el-icon-search" @click="search">查询</el-button>
                 <el-button type="primary" class="table-button" icon="el-icon-refresh" @click="clearSearch">清除</el-button>
-                <el-button type="primary" class="table-button" icon="el-icon-add" @click="addBrand">新增</el-button>
+                <el-button type="primary" class="table-button" icon="el-icon-add" @click="addShop">新增</el-button>
             </div>
         </div>
 
@@ -40,16 +46,22 @@
             <el-table-column label="序号" prop="id" width="180">
             </el-table-column>
 
-            <el-table-column label="品牌图" prop="logo" width="180">
+            <el-table-column label="门店" prop="img_url" width="180">
                 <template slot-scope="scope">
-                    <el-image style="width: 60px; height: 60px" :src="scope.row.logo"></el-image>
+                    <el-image style="width: 60px; height: 60px" :src="scope.row.img_url"></el-image>
                 </template>
             </el-table-column>
 
-            <el-table-column label="姓名" prop="name">
+            <el-table-column label="经销商名" prop="name">
             </el-table-column>
 
-            <el-table-column label="绑定汽车数" prop="car_count">
+            <el-table-column label="手机号" prop="phone">
+            </el-table-column>
+
+            <el-table-column label="地址" prop="address">
+            </el-table-column>
+
+            <el-table-column label="订单数" prop="order_count">
             </el-table-column>
 
         </data-tables>
@@ -64,6 +76,7 @@
 	  data() {
 		return {
             conditionName: '',
+            conditionPhone: '',
             conditionTime: [],
 			tableData: [],
 
@@ -81,9 +94,9 @@
                         icon: 'el-icon-edit'
                     },
                     handler: row => {
-                        this.showBrand(row)
+                        this.showShop(row)
                     },
-                    label: '编辑'
+                    label: '详情'
                 }, {
                     props: {
                         type: 'danger',
@@ -100,14 +113,14 @@
       },
 
       created () {
-          this.fetchBrands()
+          this.fetchShops()
       },
 
       methods: {
 
-          fetchBrands() {
+          fetchShops() {
             http({
-                url: Api.brands,
+                url: Api.shops,
             }).then(response => {
                 this.tableData = response.data.data
             })
@@ -116,15 +129,17 @@
           //清楚查询条件
           clearSearch() {
             this.conditionName = ''
+            this.conditionPhone = ''
             this.conditionTime = ''
           },
 
           //查询
           search() {
             http({
-                url: Api.searchBrand,
+                url: Api.searchShop,
                 params: {
                     'name': this.conditionName,
+                    'phone': this.conditionPhone,
                     'time': this.conditionTime,
                 }
             }).then(response => {
@@ -133,13 +148,13 @@
           },
 
           //添加
-          addBrand() {
-              this.$router.push({ name: 'createBrand'})
+          addShop() {
+              this.$router.push({ name: 'createShop'})
           },
         
           //查看详情
-          showBrand(row) {
-              this.$router.push({ name: 'showBrand', params: {"id": row.id} })
+          showShop(row) {
+              this.$router.push({ name: 'showShop', params: {"id": row.id} })
           },
 
           //删除
@@ -153,13 +168,13 @@
 
 				http({
 					method: 'delete',
-					url: Api.destroyBrand + row.id,
+					url: Api.destroyShop + row.id,
 				}).then(response => {
 					this.$notify.success({
 						'title': "提示",
 						'message': response.data.msg
 					})
-            	    this.fetchBrands()
+            	    this.fetchShops()
 				})
 
 			}).catch(() => {

@@ -88,4 +88,17 @@ class ShopController extends Controller
         $response = $this->dispatch(new ShopJobs\DestroyJob($id));
         return $response;
     }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function search(ShopRequests\SearchRequest $request)
+    {
+        $params = $request->all();
+        $response = $this->dispatch(new ShopJobs\SearchJob($params));
+        return $response;
+    }
 }
