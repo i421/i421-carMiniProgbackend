@@ -20,10 +20,13 @@ import router from './router/index';
 import store from './store/index';
 import i18n from './lang/index';
 import App from './App';
+import Distpicker from 'v-distpicker'
 
 Vue.use(ElementUI);
 Vue.use(DataTables)
 Vue.use(Http);
+
+Vue.component('v-distpicker', Distpicker)
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

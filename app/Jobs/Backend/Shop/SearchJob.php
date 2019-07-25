@@ -67,6 +67,8 @@ class SearchJob
                     break;
                 }
             }
+
+            $shop['address'] = getFullByAddressId($shop->address_id) . $shop->detail_address;
         }
         $response = [
             'code' => trans('pheicloud.response.success.code'),

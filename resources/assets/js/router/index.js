@@ -50,13 +50,13 @@ export default new Router({
                     name: 'shop',
                     component: resolve => require(['../pages/shop/Index.vue'], resolve)
                 }, {
-                    path: '/shop/:id',
-                    name: 'showShop',
-                    component: resolve => require(['../pages/shop/Show.vue'], resolve)
-                }, {
                     path: '/shop/create',
                     name: 'createShop',
                     component: resolve => require(['../pages/shop/Create.vue'], resolve)
+                }, {
+                    path: '/shop/:id',
+                    name: 'showShop',
+                    component: resolve => require(['../pages/shop/Show.vue'], resolve)
                 }, {
                     path: '/car',
                     component: resolve => require(['../pages/Car.vue'], resolve)

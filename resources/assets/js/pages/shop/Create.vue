@@ -12,6 +12,10 @@
                         <el-input v-model="form.phone"></el-input>
                     </el-form-item>
 
+                    <el-form-item label="地址" prop="detail_id">
+                        <v-distpicker @province="selectProvince" @city="selectCity" @area="selectArea"></v-distpicker>
+                    </el-form-item>
+
                     <el-form-item label="详细地址" prop="detail_address">
                         <el-input v-model="form.detail_address"></el-input>
                     </el-form-item>
@@ -63,7 +67,7 @@
                         @click="submitUpload">
                         立即创建
                     </el-button>
-                    <el-button @click="cancleUpload">取消</el-button>
+                    <el-button @click="resetUpload">重置</el-button>
                     <el-button @click="back">返回列表</el-button>
                 </div>
             </el-col>
@@ -86,7 +90,9 @@
                   lat: '',
                   lng: '',
                   detail_address: '',
-                  address_id: '',
+                  province: '',
+                  city: '',
+                  area: '',
                   img_url: {},
                   license_url: {},
               }
@@ -98,28 +104,12 @@
 
       methods: {
         submitUpload() {
-            let formData = new FormData()
-            formData.append('name', this.form.name)
-            formData.append('phone', this.form.phone)
-            formData.append('lat', this.form.lat)
-            formData.append('lng', this.form.lng)
-            formData.append('detail_address', this.form.detail_address)
-            formData.append('address_id', this.form.address_id)
-            formData.append('img_url', this.form.img_url)
-            formData.append('license_url', this.form.license_url)
             http({
                 url: Api.storeShop,
                 method: 'post',
-                data: formData
+                data: this.form
             }).then(response => {
-                this.form.img_url = {}
-                this.form.license_url = {}
-                this.form.name = '' 
-                this.form.phone = '' 
-                this.form.address_id = '' 
-                this.form.detail_address = '' 
-                this.form.lat = '' 
-                this.form.lng = '' 
+                this.$refs[form].resetFields();
                 this.$refs.uploadShop.clearFiles()
                 this.$refs.uploadLicense.clearFiles()
                 this.$notify.success({
@@ -132,17 +122,10 @@
             })
         },
 
-        cancleUpload() {
+        resetUpload() {
+            this.$refs[form].resetFields();
             this.$refs.uploadShop.clearFiles()
             this.$refs.uploadLicense.clearFiles()
-            this.form.img_url = {}
-            this.form.license_url = {}
-            this.form.name = '' 
-            this.form.phone = '' 
-            this.form.address_id = '' 
-            this.form.detail_address = '' 
-            this.form.lat = '' 
-            this.form.lng = '' 
         },
 
         addShopFile(file, fileList) {
@@ -156,6 +139,16 @@
         back() {
             this.$router.push({ name: 'shop'})
         },
+
+        selectProvince(value) {
+            this.form.province = value
+        },
+        selectCity(value) {
+            this.form.city = value
+        },
+        selectArea(value) {
+            this.form.area = value
+        }
       }
   }
 </script>

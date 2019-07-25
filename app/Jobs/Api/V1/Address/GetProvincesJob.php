@@ -27,7 +27,7 @@ class GetProvincesJob
      */
     public function handle()
     {
-        $data = Address::select('id', 'pinyin', 'division_name', 'division_t_name', 'p_id')
+        $data = Address::select('id as value', 'division_name as label')
             ->getProvinces()
             ->get()
             ->toArray();

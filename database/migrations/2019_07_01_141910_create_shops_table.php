@@ -19,7 +19,9 @@ class CreateShopsTable extends Migration
             $table->integer('user_id')->unsigned()->index()->comment("用户ID");
             $table->string('name')->index()->comment("店铺名称");
             $table->string('phone')->nullable()->index()->comment("手机号");
-            $table->integer('address_id')->unsigned()->comment("地址ID");
+            $table->json('province')->nullable()->comment("省份");
+            $table->json('city')->nullable()->comment("城市");
+            $table->json('area')->nullable()->comment("区");
             $table->string('img_url')->nullable()->comment("封面图");
             $table->string('license_url')->nullable()->comment("营业执照");
             $table->string('detail_address')->comment("详细地址");
