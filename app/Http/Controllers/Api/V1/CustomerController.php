@@ -14,6 +14,9 @@ class CustomerController extends Controller
         //
     }
 
+    /**
+     * code2Session
+     */
     public function code2Session(Request $request)
     {
         $code = $request->input('code');
@@ -21,6 +24,9 @@ class CustomerController extends Controller
         return $response;
     }
 
+    /**
+     * 保存用户
+     */
     public function store(CustomerRequests\StoreRequest $request)
     {
         $params = $request->all();
@@ -28,10 +34,37 @@ class CustomerController extends Controller
         return $response;
     }
 
+    /**
+     * 更新手机号
+     */
     public function updatePhone(CustomerRequests\UpdatePhoneRequest $request)
     {
         $params = $request->all();
         $response = $this->dispatch(new CustomerJobs\UpdatePhoneJob($params));
         return $response;
+    }
+
+    /**
+     * 上传身份证
+     */
+    public function uploadIdcard()
+    {
+
+    }
+
+    /**
+     * 上传银行卡
+     */
+    public function uploadBankcard()
+    {
+
+    }
+
+    /**
+     * 上传驾驶证
+     */
+    public function uploadDrivingLicense()
+    {
+
     }
 }

@@ -38,7 +38,7 @@
                             :limit="1"
                             :auto-upload="false">
                             <i class="el-icon-upload"></i>
-                            <div slot="tip" class="el-upload__tip">只能上传一张jpg/png文件，且不超过500kb</div>
+                            <div slot="tip" class="el-upload__tip">只能上传1张jpg/png文件，且不超过500kb</div>
                         </el-upload>
                     </el-form-item>
 
@@ -93,7 +93,7 @@
                   province: '',
                   city: '',
                   area: '',
-                  img_url: {},
+                  img_url: [],
                   license_url: {},
               }
           }
@@ -104,10 +104,22 @@
 
       methods: {
         submitUpload() {
+            let formData = new FormData()
+            formData.append('name', this.form.name)
+            formData.append('phone', this.form.phone)
+            formData.append('lat', this.form.lat)
+            formData.append('lng', this.form.lng)
+            formData.append('detail_address', this.form.detail_address)
+            formData.append('province', JSON.stringify(this.form.province))
+            formData.append('city', JSON.stringify(this.form.city))
+            formData.append('area', JSON.stringify(this.form.area))
+            formData.append('img_url', this.form.img_url)
+            formData.append('license_url', this.form.license_url)
+
             http({
                 url: Api.storeShop,
                 method: 'post',
-                data: this.form
+                data: formData
             }).then(response => {
                 this.$refs[form].resetFields();
                 this.$refs.uploadShop.clearFiles()

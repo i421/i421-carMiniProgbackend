@@ -48,7 +48,11 @@ class Shop extends Model
     //修改省份
     public function setProvinceAttribute(array $value)
     {
-        $this->attributes['province'] = json_encode($value);
+        if (is_array($value)) {
+            $this->attributes['province'] = json_encode($value);
+        } else {
+            $this->attributes['province'] = $value;
+        }
     }
 
     //修改市
@@ -60,7 +64,11 @@ class Shop extends Model
     //修改市
     public function setCityAttribute(array $value)
     {
-        $this->attributes['city'] = json_encode($value);
+        if (is_array($value)) {
+            $this->attributes['city'] = json_encode($value);
+        } else {
+            $this->attributes['city'] = $value;
+        }
     }
 
 
@@ -73,6 +81,10 @@ class Shop extends Model
     //修改区域
     public function setAreaAttribute(array $value)
     {
-        $this->attributes['province'] = json_encode($value);
+        if (is_array($value)) {
+            $this->attributes['area'] = json_encode($value);
+        } else {
+            $this->attributes['area'] = $value;
+        }
     }
 }

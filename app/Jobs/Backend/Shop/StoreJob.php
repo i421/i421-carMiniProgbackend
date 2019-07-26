@@ -10,6 +10,8 @@ class StoreJob
 {
     use Dispatchable, Queueable;
 
+    private $params;
+
     /**
      * Create a new job instance.
      *
@@ -17,7 +19,7 @@ class StoreJob
      */
     public function __construct(array $params)
     {
-        //
+        $this->params = $params;
     }
 
     /**
@@ -27,6 +29,38 @@ class StoreJob
      */
     public function handle()
     {
-        //
+        $shop = TableModels\Shop::where('name', $this->params['name'])
+            ->orWhere('phone', $this->params['phone'])
+            ->first();
+
+        if (empty($shop)) {
+
+            $res = TableModels\Shop::insert($this->params);
+
+            if ($res) {
+
+                $code = trans('pheicloud.response.success.code');
+                $msg = trans('pheicloud.response.success.msg');
+
+            } else {
+
+                $code = trans('pheicloud.response.error.code');
+                $msg = trans('pheicloud.response.error.msg');
+
+            }
+
+        } else {
+
+            $code = trans('pheicloud.response.exist.code');
+            $msg = trans('pheicloud.response.exist.msg');
+
+        }
+
+        $response = [
+            'code' => $code,
+            'msg' => $msg,
+        ];
+
+        return response()->json($response);
     }
 }

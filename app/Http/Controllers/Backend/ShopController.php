@@ -47,6 +47,13 @@ class ShopController extends Controller
     public function store(ShopRequests\StoreRequest $request)
     {
         $params = $request->all();
+        $imgUrlFileName = date("YmdHis") . str_random(40) . '.jpg';
+        $imgUrlPath = $request->img_url->storeAs('shopImg', $imgUrlFileName, 'public');
+        $params['img_url'] = $imgUrlPath;
+        $licenseUrlFileName = date("YmdHis") . str_random(40) . '.jpg';
+        $licenseUrlPath = $request->license_url->storeAs('shopImg', $licenseUrlFileName, 'public');
+        $params['license_url'] = $licenseUrlPath;
+        $params['user_id'] = $request->user()->id;
         $response = $this->dispatch(new ShopJobs\StoreJob($params));
         return $response;
     }

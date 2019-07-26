@@ -48,7 +48,7 @@ class ShowJob
         $orders = TableModels\Order::where('shop_id', $this->shop_id)->count();
 
         $shop['order_count'] = $orders;
-        $shop['address'] = getFullByAddressId($shop->address_id);
+        $shop['address'] = $shop->province['value'] . $shop->city['value'] . $shop->area['value'];
 
         $response = [
             'code' => trans('pheicloud.response.success.code'),

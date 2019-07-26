@@ -139,7 +139,7 @@ class UserController extends Controller
     {
         $user = $request->user();
         $fileName = date("YmdHis") . str_random(40) . '.jpg';
-        $path = $request->avatar->storeAs('images', $fileName, 'public');
+        $path = $request->avatar->storeAs('avatar', $fileName, 'public');
         $response = $this->dispatch(new UserJobs\UpdateAvatarJob($user, $path));
         return $response;
     }

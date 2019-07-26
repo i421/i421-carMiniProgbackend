@@ -25,12 +25,12 @@ class StoreRequest extends FormRequest
     {
         return [
             'name' => 'required|string',
-            'phone' => 'required|array',
-            'province' => 'nullable|object',
-            'city' => 'nullable|object',
-            'area' => 'nullable|object',
+            'phone' => 'required|integer',
+            'province' => 'nullable|string',
+            'city' => 'nullable|string',
+            'area' => 'nullable|string',
             'detail_address' => 'nullable|string',
-            'img_url' => 'nullable|array',
+            'img_url' => 'nullable|image',
             'license_url' => 'nullable|image',
             'info' => 'nullable|array',
             'lat' => 'nullable|integer',
