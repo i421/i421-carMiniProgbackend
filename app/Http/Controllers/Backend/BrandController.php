@@ -42,9 +42,11 @@ class BrandController extends Controller
     {
         $params = $request->all();
         $params['id'] = $id;
-        $fileName = date("YmdHis") . str_random(40) . '.jpg';
-        $path = $request->logo->storeAs('carLogo', $fileName, 'public');
-        $params['logo'] = $path;
+        if ($request->hasFile('logo')) {
+            $fileName = date("YmdHis") . str_random(40) . '.jpg';
+            $path = $request->logo->storeAs('carLogo', $fileName, 'public');
+            $params['logo'] = $path;
+        }
         $response = $this->dispatch(new BrandJobs\UpdateJob($params));
         return $response;
     }

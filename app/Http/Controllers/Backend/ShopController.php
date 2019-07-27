@@ -80,6 +80,21 @@ class ShopController extends Controller
     {
         $params = $request->all();
         $params['id'] = $id;
+
+        if ($request->hasFile('img_url')) {
+            $imgUrlFileName = date("YmdHis") . str_random(40) . '.jpg';
+            $imgUrlPath = $request->img_url->storeAs('shopImg', $imgUrlFileName, 'public');
+            $params['img_url'] = $imgUrlPath;
+        }
+
+        if ($request->hasFile('license_url')) {
+            $licenseUrlFileName = date("YmdHis") . str_random(40) . '.jpg';
+            $licenseUrlPath = $request->license_url->storeAs('shopImg', $licenseUrlFileName, 'public');
+            $params['license_url'] = $licenseUrlPath;
+        }
+
+        $params['user_id'] = $request->user()->id;
+
         $response = $this->dispatch(new ShopJobs\UpdateJob($params));
         return $response;
     }

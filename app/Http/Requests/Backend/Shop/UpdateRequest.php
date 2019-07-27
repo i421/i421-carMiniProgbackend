@@ -25,10 +25,16 @@ class UpdateRequest extends FormRequest
     {
         return [
             'name' => 'required|string',
-            'address_id' => 'required|integer',
-            'img_url' => 'nullable|array',
-            'detail_address' => 'nullable|string',
+            'phone' => 'required|integer',
+            'province' => 'required|string',
+            'city' => 'required|string',
+            'area' => 'required|string',
+            'detail_address' => 'required|string',
+            'img_url' => 'nullable|image',
+            'license_url' => 'nullable|image',
             'info' => 'nullable|array',
+            'lat' => 'required|integer',
+            'lng' => 'required|integer',
         ];
     }
 }

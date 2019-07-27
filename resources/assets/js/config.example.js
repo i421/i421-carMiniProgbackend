@@ -35,7 +35,7 @@ const Api = {
     'shops': 'api/v1/backend/shop',
     'storeShop': 'api/v1/backend/shop',
     'showShop': 'api/v1/backend/shop/',
-    'updateShop': 'api/v1/backend/shop/',
+    'updateShop': 'api/v1/backend/shop/update/',
     'destroyShop': 'api/v1/backend/shop/',
     'searchShop': 'api/v1/backend/shop/search',
 

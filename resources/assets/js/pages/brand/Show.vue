@@ -25,6 +25,7 @@
                         <el-image
                             style="width: 100px; height: 100px"
                             :src="previewLogo"
+                            :preview-src-list="[previewLogo]"
                             fit="fit">
                         </el-image>
                     </el-form-item>
@@ -96,9 +97,13 @@
 
         submitUpload() {
             let formData = new FormData()
+
             formData.append('name', this.form.name)
             formData.append('head', this.form.head)
-            formData.append('logo', this.form.logo)
+
+            if (typeof(this.form.logo) == 'object') {
+                formData.append('logo', this.form.logo)
+            }
 
             http({
                 url: Api.updateBrand + this.$route.params.id,
@@ -142,6 +147,6 @@
     z-index: 999;
 }
 .el-upload-list {
-    height: 100px;
+    height: 50px;
 }
 </style>

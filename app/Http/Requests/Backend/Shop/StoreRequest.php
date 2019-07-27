@@ -26,15 +26,15 @@ class StoreRequest extends FormRequest
         return [
             'name' => 'required|string',
             'phone' => 'required|integer',
-            'province' => 'nullable|string',
-            'city' => 'nullable|string',
-            'area' => 'nullable|string',
-            'detail_address' => 'nullable|string',
-            'img_url' => 'nullable|image',
-            'license_url' => 'nullable|image',
+            'province' => 'required|string',
+            'city' => 'required|string',
+            'area' => 'required|string',
+            'detail_address' => 'required|string',
+            'img_url' => 'required|image',
+            'license_url' => 'required|image',
             'info' => 'nullable|array',
-            'lat' => 'nullable|integer',
-            'lng' => 'nullable|integer',
+            'lat' => 'required|integer',
+            'lng' => 'required|integer',
         ];
     }
 }

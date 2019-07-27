@@ -28,9 +28,9 @@ class UpdateJob
     public function __construct(array $params)
     {
         $this->id = $params['id'];
-        $this->name = $params['name'];
-        $this->logo = $params['logo'];
-        $this->head = isset($params['head']) ? $params['head'] : '';
+        $this->name = isset($params['name']) ? $params['name'] : null;
+        $this->logo = isset($params['logo']) ? $params['logo'] : null;
+        $this->head = isset($params['head']) ? $params['head'] : null;
     }
 
     /**
@@ -42,18 +42,21 @@ class UpdateJob
     {
         $brand = TableModels\Brand::findOrFail($this->id);
 
-        $originPath = storage_path('app/public') . '/' . $brand->logo;
+        if (!is_null($this->logo)) {
 
-        if (is_file($originPath)) {
-            unlink($originPath);
+            $originPath = storage_path('app/public') . '/' . $brand->logo;
+
+            if (is_file($originPath)) {
+                unlink($originPath);
+            }
+            $brand->logo = $this->logo;
         }
 
         $brand->name = $this->name;
         $brand->head = $this->head;
-        $brand->logo = $this->logo;
-        $brand->save();
+        $res = $brand->save();
 
-        if ($brand) {
+        if ($res) {
 
             $code = trans('pheicloud.response.success.code');
             $msg = trans('pheicloud.response.success.msg');

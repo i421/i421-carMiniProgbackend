@@ -49,12 +49,12 @@
         <el-row :gutter="20">
             <el-col :span="12">
                 <div class="grid-content" v-if="customerInfo.info">
-                    <el-image fit="contain" :src="customerInfo.info.id_card_front_path"></el-image>
+                    <el-image fit="contain" :src="customerInfo.info.id_card_front_path" :preview-src-list="[customerInfo.info.id_card_front_path]"></el-image>
                 </div>
             </el-col>
             <el-col :span="12">
                 <div class="grid-content" v-if="customerInfo.info">
-                    <el-image fit="contain" :src="customerInfo.info.id_card_back_path"></el-image>
+                    <el-image fit="contain" :src="customerInfo.info.id_card_back_path" :preview-src-list="[customerInfo.info.id_card_back_path]"></el-image>
                 </div>
             </el-col>
         </el-row>
@@ -65,7 +65,7 @@
         <el-row :gutter="20">
             <el-col :span="12">
                 <div class="grid-content" v-if="customerInfo.info">
-                    <el-image fit="contain" :src="customerInfo.info.driver_license"></el-image>
+                    <el-image fit="contain" :src="customerInfo.info.driver_license" :preview-src-list="[customerInfo.info.driver_license]"></el-image>
                 </div>
             </el-col>
         </el-row>
@@ -76,7 +76,7 @@
         <el-row :gutter="20">
             <el-col :span="12">
                 <div class="grid-content" v-if="customerInfo.info">
-                    <el-image fit="contain" :src="customerInfo.info.bank_card"></el-image>
+                    <el-image fit="contain" :src="customerInfo.info.bank_card" :preview-src-list="[customerInfo.info.bank_card]"></el-image>
                 </div>
             </el-col>
         </el-row>
