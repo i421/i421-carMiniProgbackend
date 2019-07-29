@@ -28,20 +28,7 @@
                             :preview-src-list="[previewLogo]"
                             fit="fit">
                         </el-image>
-                    </el-form-item>
-
-                    <el-form-item label="更新品牌图" label-width="100px">
-                        <el-upload
-                            class="upload-demo"
-                            ref="upload"
-                            drag
-                            :onChange="addFile"
-                            action=""
-                            :limit="1"
-                            :auto-upload="false">
-                            <i class="el-icon-upload"></i>
-                            <div slot="tip" class="el-upload__tip">只能上传一张jpg/png文件，且不超过500kb</div>
-                        </el-upload>
+                        <el-button size="small" style="margin-left: 10px" @click="updateBrandLogo" icon="el-icon-upload">上传</el-button>
                     </el-form-item>
 
                 </el-form>
@@ -60,6 +47,24 @@
             </el-col>
 
         </el-row>
+
+        <div>
+          <el-dialog title="更新品牌图" :visible.sync="brandDialogVisible">
+              <div style="text-align: center; margin: 0 auto">
+                <el-upload
+                    class="upload-demo"
+                    ref="upload"
+                    drag
+                    :onChange="addFile"
+                    action=""
+                    :limit="1"
+                    :auto-upload="false">
+                    <i class="el-icon-upload"></i>
+                    <div slot="tip" class="el-upload__tip">只能上传一张jpg/png文件，且不超过500kb</div>
+                </el-upload>
+              </div>
+          </el-dialog>
+        </div>
     </div>
 </template>
 
@@ -70,6 +75,7 @@
   export default {
       data() {
           return {
+              brandDialogVisible: false,
               fileList: [],
               form: {
                   name: '',
@@ -110,22 +116,24 @@
                 method: 'post',
                 data: formData
             }).then(response => {
-                this.form.logo = {}
-                this.form.name = ''
-                this.form.head = ''
-                this.$refs.upload.clearFiles()
                 this.fetchBrand()
                 this.$notify.success({
                     'title': "提示",
                     'message': response.data.msg
                 })
+                this.$router.push({ name: 'brand'})
             }).catch(err => {
                 console.log(err)
             })
         },
 
+        updateBrandLogo() {
+            this.brandDialogVisible = true
+        },
+
         addFile(file, fileList) {
             this.form.logo = file.raw;
+            this.brandDialogVisible = false
         },
 
         back() {

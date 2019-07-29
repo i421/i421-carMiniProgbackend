@@ -5,7 +5,7 @@
 </template>
 
 <script>
-  import { http } from './../utils/fetch'
+  import { http } from './../../utils/fetch'
 
   export default {
       created () {

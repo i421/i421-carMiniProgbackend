@@ -143,13 +143,16 @@
                 method: 'post',
                 data: formData
             }).then(response => {
-                this.$refs[form].resetFields();
+                //this.$refs[form].resetFields();
                 this.$refs.uploadShop.clearFiles()
                 this.$refs.uploadLicense.clearFiles()
                 this.$notify.success({
                     'title': "提示",
                     'message': response.data.msg
                 })
+
+                this.$router.push({ name: 'shop' })
+
 
             }).catch(err => {
                 console.log(err)

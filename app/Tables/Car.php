@@ -26,4 +26,10 @@ class Car extends Model
 	{
 		return $this->belongsToMany(Tag::class);
 	}
+
+    //地址
+    public function getAvatarAttribute($value)
+    {
+        return '/storage/'. $value;
+    }
 }

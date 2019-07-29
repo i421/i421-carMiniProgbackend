@@ -224,7 +224,7 @@
 
         addLicenseFile(file, fileList) {
             this.form.license_url = file.raw;
-            this.previewLicenseLogo = URL.createObjectURL(file.raw);;
+            this.previewLicenseLogo = URL.createObjectURL(file.raw);
             this.licenseDialogVisible = false
         },
 

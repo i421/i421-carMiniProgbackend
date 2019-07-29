@@ -43,7 +43,7 @@ class IndexJob
                 }
             }
 
-            $shop['address'] = $shop->province['value'] . $shop->city['value'] . $shop->area['value'];
+            $shop['address'] = optional($shop->province)['value'] . optional($shop->city)['value'] . optional($shop->area)['value'];
         }
 
         $response = [

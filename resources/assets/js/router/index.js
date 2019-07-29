@@ -59,7 +59,16 @@ export default new Router({
                     component: resolve => require(['../pages/shop/Show.vue'], resolve)
                 }, {
                     path: '/car',
-                    component: resolve => require(['../pages/Car.vue'], resolve)
+                    name: 'car',
+                    component: resolve => require(['../pages/car/Index.vue'], resolve)
+                }, {
+                    path: '/car/create',
+                    name: 'createCar',
+                    component: resolve => require(['../pages/car/Create.vue'], resolve)
+                }, {
+                    path: '/car/:id',
+                    name: 'showCar',
+                    component: resolve => require(['../pages/car/Show.vue'], resolve)
                 }, {
                     path: '/group',
                     component: resolve => require(['../pages/Group.vue'], resolve)
