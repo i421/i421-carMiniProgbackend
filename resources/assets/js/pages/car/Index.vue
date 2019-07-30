@@ -3,13 +3,13 @@
 		<!-- table工具栏 -->
         <div id="tableTools">
             <el-row>
-                <el-col :span="5" style="margin-right: 5px;">
+                <el-col :span="6" style="margin-right: 5px;">
                     <div style="width: 100%;">
                         <el-input class="table-search" v-model="conditionName" placeholder="汽车名"></el-input>
                     </div>
                 </el-col>
 
-                <el-col :span="5" style="margin-right: 5px;">
+                <el-col :span="6" style="margin-right: 5px;">
                     <div style="width: 100%">
                         <el-input class="table-search" v-model="conditionBrand" placeholder="汽车品牌"></el-input>
                     </div>
@@ -63,31 +63,58 @@
 
         <!-- 拼团设置 -->
         <el-dialog title="拼团设置" :visible.sync="dialogVisible">
-            <el-tabs v-model="activeName" @tab-click="handleClick">
+            <el-tabs v-model="activeName" @tab-click="handleClick" tab-position="left" style="height: 200px;">
 
                 <el-tab-pane label="时间拼团" name="timeGroup">
                     <el-form ref="timeForm" :model="timeForm" label-width="80px">
-                        <el-date-picker
-                            v-model="timeForm.timeRange"
-                            type="datetimerange"
-                            value-format="yyyy-MM-dd"
-                            range-separator="至"
-                            start-placeholder="开始日期"
-                            end-placeholder="结束日期">
-                        </el-date-picker>
-                        <el-button type="primary" @click="onSubmit">立即创建</el-button>
+                        <el-form-item label="起止时间" prop="timeRange"
+                            :rules="[
+                                { required: true, message: '起止时间不能为空', trigger: 'blur' },
+                            ]"
+                        >
+                            <el-date-picker
+                                v-model="timeForm.timeRange"
+                                type="datetimerange"
+                                value-format="yyyy-MM-dd HH:mm:ss"
+                                range-separator="至"
+                                start-placeholder="开始日期"
+                                end-placeholder="结束日期">
+                            </el-date-picker>
+                        </el-form-item>
+
+                        <el-form-item>
+                            <el-button type="primary" @click="onSubmit('time')">立即创建</el-button>
+                        </el-form-item>
+
                     </el-form>
                 </el-tab-pane>
 
                 <el-tab-pane label="数量拼团" name="numGroup">
                     <el-form ref="numForm" :model="numForm" label-width="80px">
-                          <el-input-number v-model="numForm.num" @change="handleChangeNum" :min="1" :max="100" label="拼团总数"></el-input-number>
+                        <el-form-item label="数量" prop="num"
+                            :rules="[
+                                { required: true, message: '数量不能为空', trigger: 'blur' },
+                                { type: 'number', message: '必须为数字', trigger: ['blur', 'change'] },
+                            ]"
+                        >
+                            <el-input v-model.number="numForm.num" width="60px"></el-input>
+                        </el-form-item>
+
+                        <el-form-item label="截止时间" prop="endtime"
+                            :rules="[
+                                { required: true, message: '时间不能为空', trigger: 'blur' },
+                            ]"
+                        >
                           <el-date-picker
                             v-model="numForm.endtime"
                             type="datetime"
+                            value-format="yyyy-MM-dd HH:mm:ss"
                             placeholder="截止日期">
                           </el-date-picker>
-                        <el-button type="primary" @click="onSubmit">立即创建</el-button>
+                        </el-form-item>
+                        <el-form-item>
+                            <el-button type="primary" @click="onSubmit('num')">立即创建</el-button>
+                        </el-form-item>
                     </el-form>
                 </el-tab-pane>
 
@@ -108,6 +135,8 @@
             conditionName: '',
             conditionBrand: '',
             conditionGroup: [],
+            conditionMinPrice: '',
+            conditionMaxPrice: '',
 			tableData: [],
             timeForm: {
                 timeRange: '',
@@ -175,7 +204,7 @@
           },
 
           addCar() {
-
+              this.$router.push({ name: 'createCar' })
           },
 
           //处理切换
@@ -189,8 +218,12 @@
           },
 
           //提交组团信息
-          onSubmit() {
-
+          onSubmit(type) {
+              if (type == 'num') {
+                console.log(this.numForm)
+              } else {
+                console.log(this.timeForm)
+              }
           }
       }
   }

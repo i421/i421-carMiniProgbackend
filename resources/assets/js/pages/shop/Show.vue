@@ -21,7 +21,11 @@
                         <el-input v-model="form.phone"></el-input>
                     </el-form-item>
 
-                    <el-form-item label="地址">
+                    <el-form-item label="地址" prop="province"
+                        :rules="[
+                            { required: true, message: '地址不能为空', trigger: 'blur' },
+                        ]"
+					>
                         <v-distpicker
                             @province="selectProvince"
                             @city="selectCity"
@@ -62,7 +66,11 @@
                         <el-input v-model="form.order_count" disabled></el-input>
                     </el-form-item>
 
-                    <el-form-item label="门店图" label-width="100px">
+                    <el-form-item label="门店图" prop="img_url"
+                        :rules="[
+                            { required: true, message: '门店图不能为空', trigger: 'blur' },
+                        ]"
+					>
                         <el-image
                             style="width: 100px; height: 100px"
                             :src="previewShopLogo"
@@ -72,7 +80,11 @@
                         <el-button size="small" style="margin-left: 10px" @click="updateShopLogo" icon="el-icon-upload">上传</el-button>
                     </el-form-item>
 
-                    <el-form-item label="营业执照" label-width="100px" prop="img_url">
+                    <el-form-item label="营业执照" prop="license_url"
+                        :rules="[
+                            { required: true, message: '营业执照不能为空', trigger: 'blur' },
+                        ]"
+					>
                         <el-image
                             style="width: 100px; height: 100px"
                             :src="previewLicenseLogo"
@@ -211,6 +223,7 @@
                     'title': "提示",
                     'message': response.data.msg
                 })
+                this.$router.push({ name: 'shop' })
             }).catch(err => {
                 console.log(err)
             })

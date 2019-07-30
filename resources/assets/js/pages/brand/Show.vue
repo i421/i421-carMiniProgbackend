@@ -15,13 +15,18 @@
 
                     <el-form-item label="首字母" label-width="100px" prop="head"
                         :rules="[
+                            { required: true, message: '首字母不能为空', trigger: 'blur' },
                             { type: 'string', message: '必须为字符串', trigger: ['blur', 'change'] },
                         ]"
                     >
                         <el-input v-model="form.head"></el-input>
                     </el-form-item>
 
-                    <el-form-item label="品牌图" label-width="100px">
+                    <el-form-item label="品牌图" label-width="100px" prop="logo"
+                        :rules="[
+                            { required: true, message: '品牌图不能为空', trigger: 'blur' },
+                        ]"
+                    >
                         <el-image
                             style="width: 100px; height: 100px"
                             :src="previewLogo"
@@ -132,6 +137,7 @@
         },
 
         addFile(file, fileList) {
+            this.previewLogo = URL.createObjectURL(file.raw);;
             this.form.logo = file.raw;
             this.brandDialogVisible = false
         },

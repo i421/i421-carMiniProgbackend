@@ -38,13 +38,13 @@ export default new Router({
                     name: 'brand',
                     component: resolve => require(['../pages/brand/Index.vue'], resolve)
                 }, {
-                    path: '/brand/:id',
-                    name: 'showBrand',
-                    component: resolve => require(['../pages/brand/Show.vue'], resolve)
-                }, {
                     path: '/brand/create',
                     name: 'createBrand',
                     component: resolve => require(['../pages/brand/Create.vue'], resolve)
+                }, {
+                    path: '/brand/:id',
+                    name: 'showBrand',
+                    component: resolve => require(['../pages/brand/Show.vue'], resolve)
                 }, {
                     path: '/shop',
                     name: 'shop',

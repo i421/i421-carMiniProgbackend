@@ -21,7 +21,11 @@
                         <el-input v-model="form.phone"></el-input>
                     </el-form-item>
 
-                    <el-form-item label="地址">
+                    <el-form-item label="地址" prop="province"
+                        :rules="[
+                            { required: true, message: '地址不能为空', trigger: 'blur' },
+                        ]"
+					>
                         <v-distpicker @province="selectProvince" @city="selectCity" @area="selectArea"></v-distpicker>
                     </el-form-item>
 
@@ -50,7 +54,11 @@
                         <el-input v-model="form.lng"></el-input>
                     </el-form-item>
 
-                    <el-form-item label="门店图">
+                    <el-form-item label="门店图" prop="img_url"
+                        :rules="[
+                            { required: true, message: '门店图不能为空', trigger: 'blur' },
+                        ]"
+					>
                         <el-upload
                             class="upload-demo"
                             ref="uploadShop"
@@ -64,7 +72,11 @@
                         </el-upload>
                     </el-form-item>
 
-                    <el-form-item label="营业执照">
+                    <el-form-item label="营业执照" prop="license_url"
+                        :rules="[
+                            { required: true, message: '营业执照不能为空', trigger: 'blur' },
+                        ]"
+					>
                         <el-upload
                             class="upload-demo"
                             ref="uploadLicense"
@@ -126,41 +138,47 @@
 
       methods: {
         submitUpload() {
-            let formData = new FormData()
-            formData.append('name', this.form.name)
-            formData.append('phone', this.form.phone)
-            formData.append('lat', this.form.lat)
-            formData.append('lng', this.form.lng)
-            formData.append('detail_address', this.form.detail_address)
-            formData.append('province', JSON.stringify(this.form.province))
-            formData.append('city', JSON.stringify(this.form.city))
-            formData.append('area', JSON.stringify(this.form.area))
-            formData.append('img_url', this.form.img_url)
-            formData.append('license_url', this.form.license_url)
+			this.$refs['form'].validate((valid) => {
+				if (valid) {
+					let formData = new FormData()
+					formData.append('name', this.form.name)
+					formData.append('phone', this.form.phone)
+					formData.append('lat', this.form.lat)
+					formData.append('lng', this.form.lng)
+					formData.append('detail_address', this.form.detail_address)
+					formData.append('province', JSON.stringify(this.form.province))
+					formData.append('city', JSON.stringify(this.form.city))
+					formData.append('area', JSON.stringify(this.form.area))
+					formData.append('img_url', this.form.img_url)
+					formData.append('license_url', this.form.license_url)
 
-            http({
-                url: Api.storeShop,
-                method: 'post',
-                data: formData
-            }).then(response => {
-                //this.$refs[form].resetFields();
-                this.$refs.uploadShop.clearFiles()
-                this.$refs.uploadLicense.clearFiles()
-                this.$notify.success({
-                    'title': "提示",
-                    'message': response.data.msg
-                })
+					http({
+						url: Api.storeShop,
+						method: 'post',
+						data: formData
+					}).then(response => {
+						this.$refs['form'].resetFields();
+						this.$refs.uploadShop.clearFiles()
+						this.$refs.uploadLicense.clearFiles()
+						this.$notify.success({
+							'title': "提示",
+							'message': response.data.msg
+						})
 
-                this.$router.push({ name: 'shop' })
+						this.$router.push({ name: 'shop' })
 
 
-            }).catch(err => {
-                console.log(err)
-            })
+					}).catch(err => {
+						console.log(err)
+					})
+				} else {
+                    console.log('err')
+				}
+			});
         },
 
         resetUpload() {
-            this.$refs[form].resetFields();
+            this.$refs['form'].resetFields();
             this.$refs.uploadShop.clearFiles()
             this.$refs.uploadLicense.clearFiles()
         },

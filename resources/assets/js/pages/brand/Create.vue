@@ -15,13 +15,18 @@
 
                     <el-form-item label="首字母" prop="head"
                         :rules="[
+                            { required: true, message: '首字母不能为空', trigger: 'blur' },
                             { type: 'string', message: '必须为字符串', trigger: ['blur', 'change'] },
                         ]"
                     >
                         <el-input v-model="form.head"></el-input>
                     </el-form-item>
 
-                    <el-form-item label="品牌图">
+                    <el-form-item label="品牌图" prop="logo"
+                        :rules="[
+                            { required: true, message: '品牌图不能为空', trigger: 'blur' },
+                        ]"
+                    >
                         <el-upload
                             class="upload-demo"
                             ref="upload"
@@ -46,7 +51,7 @@
                         @click="submitUpload">
                         立即创建
                     </el-button>
-                    <el-button @click="cancleUpload">取消</el-button>
+                    <el-button @click="cancleUpload">重置</el-button>
                     <el-button @click="back">返回列表</el-button>
                 </div>
             </el-col>
@@ -76,34 +81,38 @@
 
       methods: {
         submitUpload() {
-            let formData = new FormData()
-            formData.append('name', this.form.name)
-            formData.append('head', this.form.head)
-            formData.append('logo', this.form.logo)
-            http({
-                url: Api.storeBrand,
-                method: 'post',
-                data: formData
-            }).then(response => {
-                this.form.logo = {}
-                this.form.name = '' 
-                this.form.head = '' 
-                this.$refs.upload.clearFiles()
-                this.$notify.success({
-                    'title': "提示",
-                    'message': response.data.msg
-                })
+			this.$refs['form'].validate((valid) => {
+				if (valid) {
+                    let formData = new FormData()
+                    formData.append('name', this.form.name)
+                    formData.append('head', this.form.head)
+                    formData.append('logo', this.form.logo)
+                    http({
+                        url: Api.storeBrand,
+                        method: 'post',
+                        data: formData
+                    }).then(response => {
+                        this.form.logo = {}
+                        this.form.name = '' 
+                        this.form.head = '' 
+                        this.$refs.upload.clearFiles()
+                        this.$notify.success({
+                            'title': "提示",
+                            'message': response.data.msg
+                        })
 
-            }).catch(err => {
-                console.log(err)
-            })
+                    }).catch(err => {
+                        console.log(err)
+                    })
+				} else {
+                    console.log('err')
+				}
+			});
         },
 
         cancleUpload() {
             this.$refs.upload.clearFiles()
-            this.form.logo = {}
-            this.form.name = '' 
-            this.form.head = '' 
+            this.$refs['form'].resetFields();
         },
 
         addFile(file, fileList) {
