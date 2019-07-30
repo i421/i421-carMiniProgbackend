@@ -58,6 +58,43 @@
                         <el-input v-model.number="form.final_price"></el-input>
                     </el-form-item>
 
+                    <el-form-item label="品牌" prop="brand_id"
+                        :rules="[
+                            {required: true, message: '品牌不能空', trigger: 'change'},
+                        ]"
+                    >
+                        <el-select v-model="form.brand_id" placeholder="请选择">
+                            <el-option
+                                v-for="brand in brands"
+                                :key="brand.id"
+                                :label="brand.name"
+                                :value="brand.id">
+                            </el-option>
+                        </el-select>
+                    </el-form-item>
+
+					<el-button type="primary" @click="addRow">Add row</el-button>
+
+					<table class="table">
+						<thead>
+							<tr>
+								<td><strong>配置项</strong></td>
+								<td><strong>配置值</strong></td>
+								<td></td>
+							</tr>
+						</thead>
+						<tbody>
+							<tr v-for="(row, index) in form.info">
+
+								<td><input type="text" v-model="row.key"></td>
+								<td><input type="text" v-model="row.value"></td>
+								<td>
+									<a v-on:click="removeElement(index);" style="cursor: pointer">Remove</a>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+
                 </el-form>
             </el-col>
 
@@ -86,6 +123,7 @@
       data() {
           return {
               fileList: [],
+              brands: [],
               form: {
                   name: '',
                   avatar: '',
@@ -93,15 +131,39 @@
                   final_price: '',
                   car_price: '',
                   brand_id: '',
-				  info: []
+				  info: [],
               }
           }
       },
 
       created () {
+          this.fetchBrand()
       },
 
       methods: {
+
+        fetchBrand() {
+            http({
+                url: Api.brands,
+            }).then(response => {
+                this.brands = response.data.data
+            }).catch(err => {
+                console.log(err)
+            })
+        },
+
+		addRow: function() {
+			var elem = document.createElement('tr');
+			this.form.info.push({
+				key: "",
+				value: "",
+			});
+		},
+
+		removeElement: function(index) {
+			this.form.info.splice(index, 1);
+		},
+
         submitUpload() {
 			this.$refs['form'].validate((valid) => {
 				if (valid) {

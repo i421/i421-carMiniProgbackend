@@ -11,7 +11,7 @@
 					<el-input type="text" v-model="ruleForm.login" autocomplete="off" placeholder="用户名/邮箱/手机号"></el-input>
 				  </el-form-item>
                   <el-form-item prop="password">
-                    <el-input type="password" v-model="ruleForm.password" auto-complete="off" placeholder="密码"></el-input>
+                    <el-input show-password type="password" v-model="ruleForm.password" auto-complete="off" placeholder="密码"></el-input>
                   </el-form-item>
 				  <el-form-item>
 					<el-button class="submit" type="primary" @click="submitForm('ruleForm')" :loading="loading">提交</el-button>
