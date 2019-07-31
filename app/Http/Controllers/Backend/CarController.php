@@ -47,6 +47,25 @@ class CarController extends Controller
     public function store(CarRequests\StoreRequest $request)
     {
         $params = $request->all();
+
+        //封面图
+        $avatar = $request->file('avatar');
+        $imgType = $avatar->extension();
+        $avatarImgName = date("YmdHis") . str_random(40) . ".$imgType";
+        $avatarUrl = $avatar->storeAs('carAvatar', $avatarImgName, 'public');
+        $params['avatar'] = $avatarUrl;
+
+        //轮播图
+        $carousels = $request->file('carousel');
+        $carouselPaths = [];
+        foreach ($carousels as $carousel) {
+            $imgType = $carousel->extension();
+            $imgName = date("YmdHis") . str_random(40) . ".$imgType";
+            $imgUrl = $carousel->storeAs('carCarousel', $imgName, 'public');
+            array_push($carouselPaths, $imgUrl);
+        }
+        $params['carousel'] = $carouselPaths;
+
         $response = $this->dispatch(new CarJobs\StoreJob($params));
         return $response;
     }

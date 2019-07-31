@@ -92,6 +92,11 @@ Route::group(['prefix' => 'v1/backend', 'namespace' => 'Backend', 'middleware' =
     });
 
     //标签管理
+    Route::group(['prefix' => 'tag'], function () {
+        Route::get('classify', 'TagController@classify');
+    });
+
+    //品牌管理
     Route::group(['prefix' => 'brand'], function () {
         Route::get('search', 'BrandController@search');
         Route::post('/update/{id}', 'BrandController@update');

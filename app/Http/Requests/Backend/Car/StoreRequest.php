@@ -25,9 +25,15 @@ class StoreRequest extends FormRequest
     {
         return [
             'name' => 'required|string',
-            'guide_price' => 'nullable|string',
+            'brand_id' => 'required|integer',
+            'guide_price' => 'required|string',
+            'final_price' => 'required|string',
+            'car_price' => 'required|string',
             'remarks' => 'nullable|string',
             'info' => 'nullable|array',
+            'carousel' => 'required',
+            'avatar' => 'required|image',
+            'attr' => 'required|array',
         ];
     }
 }

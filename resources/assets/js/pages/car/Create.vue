@@ -2,7 +2,7 @@
     <div>
         <el-row>
             <el-col>
-                <el-form ref="form" :model="form" label-width="80px" style="width:440px">
+                <el-form ref="form" :model="form" label-width="100px" style="width:540px">
 
                     <el-form-item label="头图" prop="avatar"
                         :rules="[
@@ -58,6 +58,28 @@
                         <el-input v-model.number="form.final_price"></el-input>
                     </el-form-item>
 
+                    <el-form-item label="轮播图" prop="carousel"
+                        :rules="[
+                            { required: true, message: '轮播图不能为空', trigger: 'blur' },
+						]"
+					>
+                        <el-upload
+                            class="upload-demo"
+                            ref="uploadCarousel"
+                            drag
+                            action=""
+                            :onChange="addCarCarouselFile"
+                            multiple
+							:file-list="form.carousel"
+                            :auto-upload="false"
+                        >
+                            <i class="el-icon-upload"></i>
+                            <div slot="tip" class="el-upload__tip">只能上传1张jpg/png文件，且不超过500kb</div>
+                        </el-upload>
+                    </el-form-item>
+
+
+
                     <el-form-item label="品牌" prop="brand_id"
                         :rules="[
                             {required: true, message: '品牌不能空', trigger: 'change'},
@@ -71,6 +93,18 @@
                                 :value="brand.id">
                             </el-option>
                         </el-select>
+                    </el-form-item>
+
+                    <el-form-item :label="index" v-for="(item, index, key) in tags" :key="key">
+                        <el-radio-group v-model="selected[index]" size="small" @change="updateSelect(index)">
+                            <el-radio-button
+                                :label="v.id"
+                                v-for="(v, i, k) in item"
+                                :key="k"
+                            >
+                                {{ v.name }}
+                            </el-radio-button>
+                        </el-radio-group>
                     </el-form-item>
 
 					<el-button type="primary" @click="addRow">Add row</el-button>
@@ -124,20 +158,25 @@
           return {
               fileList: [],
               brands: [],
+              tags: [],
+              selected: [],
               form: {
                   name: '',
                   avatar: '',
                   guide_price: '',
                   final_price: '',
                   car_price: '',
+                  selected: [],
                   brand_id: '',
-				  info: [],
+                  info: [],
+                  carousel: [],
               }
           }
       },
 
       created () {
           this.fetchBrand()
+          this.fetchTag()
       },
 
       methods: {
@@ -147,6 +186,16 @@
                 url: Api.brands,
             }).then(response => {
                 this.brands = response.data.data
+            }).catch(err => {
+                console.log(err)
+            })
+        },
+
+        fetchTag() {
+            http({
+                url: Api.classifyTag,
+            }).then(response => {
+                this.tags = response.data.data
             }).catch(err => {
                 console.log(err)
             })
@@ -166,35 +215,42 @@
 
         submitUpload() {
 			this.$refs['form'].validate((valid) => {
-				if (valid) {
-					let formData = new FormData()
-					formData.append('name', this.form.name)
-					formData.append('avatar', this.form.avatar)
-					formData.append('guide_price', this.form.guide_price)
-					formData.append('car_price', this.form.car_price)
-					formData.append('final_price', this.form.final_price)
+                if (valid) {
+                    let formData = new FormData()
+                    formData.append('name', this.form.name)
+                    formData.append('brand_id', this.form.brand_id)
+                    formData.append('avatar', this.form.avatar)
+                    formData.append('guide_price', this.form.guide_price)
+                    formData.append('car_price', this.form.car_price)
+                    formData.append('final_price', this.form.final_price)
 
-					http({
-						url: Api.storeCar,
-						method: 'post',
-						data: formData
-					}).then(response => {
-						this.$refs['form'].resetFields();
-						this.$refs.uploadCarAvatar.clearFiles()
-						this.$notify.success({
-							'title': "提示",
-							'message': response.data.msg
-						})
+                    for (let i = 0; i < this.form.selected.length; i++) {
+                        formData.append('attr[]', this.form.selected[i])
+                    }
+                    for (let i = 0; i < this.form.carousel.length; i++) {
+                        formData.append('carousel[]', this.form.carousel[i])
+                    }
 
-						this.$router.push({ name: 'car' })
+                    http({
+                        url: Api.storeCar,
+                        method: 'post',
+                        data: formData
+                    }).then(response => {
+                        this.$refs['form'].resetFields();
+                        this.$refs.uploadCarAvatar.clearFiles()
+                        this.$notify.success({
+                            'title': "提示",
+                            'message': response.data.msg
+                        })
 
+                        this.$router.push({ name: 'car' })
 
-					}).catch(err => {
-						console.log(err)
-					})
-				} else {
+                    }).catch(err => {
+                        console.log(err)
+                    })
+                } else {
                     console.log('err')
-				}
+                }
 			});
         },
 
@@ -204,12 +260,23 @@
         },
 
         addCarAvatarFile(file, fileList) {
-            this.form.avatar = file.raw;
+            this.form.avatar = file.raw
+        },
+
+        addCarCarouselFile(file, fileList) {
+            this.form.carousel.push(file.raw)
         },
 
         back() {
             this.$router.push({ name: 'car'})
         },
+
+        updateSelect (index) {
+            this.form.selected = []
+            for (let i in this.selected) {
+                this.form.selected.push(this.selected[i])
+            }
+        }
       }
   }
 </script>
