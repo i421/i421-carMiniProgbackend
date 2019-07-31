@@ -33,7 +33,8 @@ class StoreRequest extends FormRequest
             'info' => 'nullable|array',
             'carousel' => 'required',
             'avatar' => 'required|image',
-            'attr' => 'required|array',
+            'attr' => 'required|string',
+            'customize' => 'nullable|string',
         ];
     }
 }

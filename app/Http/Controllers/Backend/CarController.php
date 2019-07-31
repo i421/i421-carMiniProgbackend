@@ -62,7 +62,7 @@ class CarController extends Controller
             $imgType = $carousel->extension();
             $imgName = date("YmdHis") . str_random(40) . ".$imgType";
             $imgUrl = $carousel->storeAs('carCarousel', $imgName, 'public');
-            array_push($carouselPaths, $imgUrl);
+            array_push($carouselPaths, 'storage/' . $imgUrl);
         }
         $params['carousel'] = $carouselPaths;
 
@@ -92,6 +92,29 @@ class CarController extends Controller
     {
         $params = $request->all();
         $params['id'] = $id;
+
+        //封面图
+        if ($request->hasFile('avatar')) {
+            $avatar = $request->file('avatar');
+            $imgType = $avatar->extension();
+            $avatarImgName = date("YmdHis") . str_random(40) . ".$imgType";
+            $avatarUrl = $avatar->storeAs('carAvatar', $avatarImgName, 'public');
+            $params['avatar'] = $avatarUrl;
+        }
+
+        //轮播图
+        if ($request->hasFile('carousel')) {
+            $carousels = $request->file('carousel');
+            $carouselPaths = [];
+            foreach ($carousels as $carousel) {
+                $imgType = $carousel->extension();
+                $imgName = date("YmdHis") . str_random(40) . ".$imgType";
+                $imgUrl = $carousel->storeAs('carCarousel', $imgName, 'public');
+                array_push($carouselPaths, 'storage/' . $imgUrl);
+            }
+            $params['carousel'] = $carouselPaths;
+        }
+
         $response = $this->dispatch(new CarJobs\UpdateJob($params));
         return $response;
     }

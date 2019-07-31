@@ -32,8 +32,11 @@ class ShowJob
      */
     public function handle()
     {
-        $car = Car::find($this->car_id);
-	
+        $car = Car::select(
+            'id', 'name', 'brand_id', 'guide_price', 'final_price', 'car_price', 'avatar', 'info->attr as attr',
+            'info->carousel as carousel', 'info->customize as customize'
+        )->find($this->car_id);
+
         if (is_null($car)) {
 
             $response = [
@@ -44,6 +47,8 @@ class ShowJob
             return response()->json($response);
 
         }
+
+        $car->attr = json_decode($car->attr, true);
 
         $response = [
             'code' => trans('pheicloud.response.success.code'),

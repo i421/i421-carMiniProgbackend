@@ -10,12 +10,16 @@ class UpdateJob
 {
     use Dispatchable, Queueable;
 
-    /**
-     * ID
-     *
-     * @var integer
-     */
     private $id;
+    private $name;
+    private $brand_id;
+    private $avatar;
+    private $guide_price;
+    private $final_price;
+    private $car_price;
+    private $attr;
+    private $carousel;
+    private $customize;
 
     /**
      * Create a new job instance.
@@ -25,6 +29,14 @@ class UpdateJob
     public function __construct(array $params)
     {
         $this->id = $params['id'];
+        $this->name = $params['name'];
+        $this->brand_id = $params['brand_id'];
+        $this->guide_price = $params['guide_price'];
+        $this->final_price = $params['final_price'];
+        $this->car_price = $params['car_price'];
+        $this->attr = $params['attr'];
+        $this->avatar = isset($params['avatar']) ? $params['avatar'] : null;
+        $this->carousel = isset($params['carousel']) ? $params['carousel'] : null;
     }
 
     /**
@@ -34,6 +46,48 @@ class UpdateJob
      */
     public function handle()
     {
-        //
+        $car = TableModels\Car::findOrFail($this->id);
+
+        if (!is_null($this->avatar)) {
+
+            $originPath = storage_path('app/public') . '/' . $car->avatar;
+
+            if (is_file($originPath)) {
+                unlink($originPath);
+            }
+            $car->avatar = $this->avatar;
+        }
+
+        if (!is_null($this->carousel)) {
+            $info['carousel'] = $this->carousel;
+        } else {
+            $info['carousel'] = $car->carousel;
+        }
+
+        $info['attr'] = $this->attr;
+        $info['customize'] = json_decode($this->customize, true);
+        
+        $car->brand_id = $this->brand_id;
+        $car->name = $this->name;
+        $car->guide_price = $this->guide_price;
+        $car->car_price = $this->car_price;
+        $car->final_price = $this->final_price;
+        $car->info = $info;
+        $res = $car->save();
+
+        if ($res) {
+            $code = trans('pheicloud.response.success.code');
+            $msg = trans('pheicloud.response.success.msg');
+        } else {
+            $code = trans('pheicloud.response.error.code');
+            $msg = trans('pheicloud.response.error.msg');
+        }
+
+        $response = [
+            'code' => $code,
+            'msg' => $msg,
+        ];
+
+        return response()->json($response);
     }
 }

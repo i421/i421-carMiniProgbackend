@@ -1,8 +1,9 @@
 <template>
     <div>
         <el-row>
-            <el-col>
-                <el-form ref="form" :model="form" label-width="100px" style="width:540px">
+            <el-form ref="form" :model="form" label-width="100px">
+                <el-col :span="10" style="border: 1px #ccc solid; padding:20px">
+                    <el-tag type="primary">必选参数</el-tag>
 
                     <el-form-item label="头图" prop="avatar"
                         :rules="[
@@ -29,6 +30,21 @@
                         ]"
                     >
                         <el-input v-model="form.name"></el-input>
+                    </el-form-item>
+
+                    <el-form-item label="品牌" prop="brand_id"
+                        :rules="[
+                            {required: true, message: '品牌不能空', trigger: 'change'},
+                        ]"
+                    >
+                        <el-select v-model="form.brand_id" placeholder="请选择">
+                            <el-option
+                                v-for="brand in brands"
+                                :key="brand.id"
+                                :label="brand.name"
+                                :value="brand.id">
+                            </el-option>
+                        </el-select>
                     </el-form-item>
 
                     <el-form-item label="裸车价" prop="car_price"
@@ -77,23 +93,10 @@
                             <div slot="tip" class="el-upload__tip">只能上传1张jpg/png文件，且不超过500kb</div>
                         </el-upload>
                     </el-form-item>
+                </el-col>
 
-
-
-                    <el-form-item label="品牌" prop="brand_id"
-                        :rules="[
-                            {required: true, message: '品牌不能空', trigger: 'change'},
-                        ]"
-                    >
-                        <el-select v-model="form.brand_id" placeholder="请选择">
-                            <el-option
-                                v-for="brand in brands"
-                                :key="brand.id"
-                                :label="brand.name"
-                                :value="brand.id">
-                            </el-option>
-                        </el-select>
-                    </el-form-item>
+                <el-col :span="12" :offset="1" style="border: 1px #ccc solid; padding:20px">
+                    <el-tag type="primary">可选参数</el-tag>
 
                     <el-form-item :label="index" v-for="(item, index, key) in tags" :key="key">
                         <el-radio-group v-model="selected[index]" size="small" @change="updateSelect(index)">
@@ -107,7 +110,7 @@
                         </el-radio-group>
                     </el-form-item>
 
-					<el-button type="primary" @click="addRow">Add row</el-button>
+                    <el-button type="primary" @click="addRow" size="small">添加配置项</el-button>
 
 					<table class="table">
 						<thead>
@@ -118,23 +121,21 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr v-for="(row, index) in form.info">
-
+							<tr v-for="(row, index) in form.customize">
 								<td><input type="text" v-model="row.key"></td>
 								<td><input type="text" v-model="row.value"></td>
 								<td>
-									<a v-on:click="removeElement(index);" style="cursor: pointer">Remove</a>
+                                    <a v-on:click="removeElement(index);" style="cursor: pointer">移除配置项</a>
 								</td>
 							</tr>
 						</tbody>
 					</table>
-
-                </el-form>
-            </el-col>
+                </el-col>
+            </el-form>
 
             <el-col>
                 <div class="submitButton">
-                    <el-button style="margin-left: 50px;"
+                    <el-button
                         size="small"
                         type="primary"
                         @click="submitUpload">
@@ -156,7 +157,6 @@
   export default {
       data() {
           return {
-              fileList: [],
               brands: [],
               tags: [],
               selected: [],
@@ -168,7 +168,7 @@
                   car_price: '',
                   selected: [],
                   brand_id: '',
-                  info: [],
+                  customize: [],
                   carousel: [],
               }
           }
@@ -203,14 +203,14 @@
 
 		addRow: function() {
 			var elem = document.createElement('tr');
-			this.form.info.push({
+			this.form.customize.push({
 				key: "",
 				value: "",
 			});
 		},
 
 		removeElement: function(index) {
-			this.form.info.splice(index, 1);
+			this.form.customize.splice(index, 1);
 		},
 
         submitUpload() {
@@ -223,10 +223,9 @@
                     formData.append('guide_price', this.form.guide_price)
                     formData.append('car_price', this.form.car_price)
                     formData.append('final_price', this.form.final_price)
+					formData.append('customize', JSON.stringify(this.form.customize))
+                    formData.append('attr', JSON.stringify(this.form.selected))
 
-                    for (let i = 0; i < this.form.selected.length; i++) {
-                        formData.append('attr[]', this.form.selected[i])
-                    }
                     for (let i = 0; i < this.form.carousel.length; i++) {
                         formData.append('carousel[]', this.form.carousel[i])
                     }
@@ -272,10 +271,11 @@
         },
 
         updateSelect (index) {
-            this.form.selected = []
+            let obj = new Object()
             for (let i in this.selected) {
-                this.form.selected.push(this.selected[i])
+                obj[i] = this.selected[i]
             }
+            this.form.selected= obj
         }
       }
   }
@@ -291,6 +291,7 @@
 }
 .submitButton {
     z-index: 999;
+    margin: 0 auto;
 }
 .el-upload-list {
     height: 50px;

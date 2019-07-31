@@ -18,6 +18,7 @@ class StoreJob
     private $car_price;
     private $attr;
     private $carousel;
+    private $customize;
 
     /**
      * Create a new job instance.
@@ -33,7 +34,8 @@ class StoreJob
         $this->final_price = $params['final_price'];
         $this->car_price = $params['car_price'];
         $this->attr = $params['attr'];
-        $this->carousel = $params['carousel'];
+        $this->carousel = isset($params['carousel']) ? $params['carousel'] : null;
+        $this->customize = isset($params['customize']) ? $params['customize'] : null;
     }
 
     /**
@@ -57,6 +59,7 @@ class StoreJob
                 'info' => [
                     'carousel' => $this->carousel, 
                     'attr' => $this->attr, 
+                    'customize' => json_decode($this->customize, true), 
                 ],
             ]);
 

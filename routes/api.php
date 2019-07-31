@@ -77,7 +77,7 @@ Route::group(['prefix' => 'v1/backend', 'namespace' => 'Backend', 'middleware' =
         Route::get('/', 'CarController@index');
         Route::post('/', 'CarController@store');
         Route::get('{id}', 'CarController@show');
-        Route::put('{id}', 'CarController@update');
+        Route::post('update/{id}', 'CarController@update');
         Route::delete('{id}', 'CarController@destroy');
     });
 

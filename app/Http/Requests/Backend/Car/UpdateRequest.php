@@ -25,9 +25,16 @@ class UpdateRequest extends FormRequest
     {
         return [
             'name' => 'required|string',
-            'guide_price' => 'nullable|string',
+            'brand_id' => 'required|integer',
+            'guide_price' => 'required|string',
+            'final_price' => 'required|string',
+            'car_price' => 'required|string',
             'remarks' => 'nullable|string',
             'info' => 'nullable|array',
+            'attr' => 'required|string',
+            'customize' => 'nullable|string',
+            'carousel' => 'nullable',
+            'avatar' => 'nullable|image',
         ];
     }
 }
