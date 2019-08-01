@@ -30,7 +30,6 @@ class UpdateRequest extends FormRequest
             'final_price' => 'required|string',
             'car_price' => 'required|string',
             'remarks' => 'nullable|string',
-            'info' => 'nullable|array',
             'attr' => 'required|string',
             'customize' => 'nullable|string',
             'carousel' => 'nullable',

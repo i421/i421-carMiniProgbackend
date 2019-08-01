@@ -69,13 +69,9 @@
                         <el-input v-model.number="form.final_price"></el-input>
                     </el-form-item>
 
-                    <el-form-item label="轮播图" prop="carousel"
-                        :rules="[
-                            { required: true, message: '轮播图不能为空', trigger: 'blur' },
-						]"
-					>
+                    <el-form-item label="轮播图" prop="carousel">
                         <el-carousel>
-                            <el-carousel-item v-for="item in form.carousel" :key="item">
+                            <el-carousel-item v-for="item in carousels" :key="item">
                                 <el-image
                                     :src="item"
                                     :preview-src-list="[item]"
@@ -169,7 +165,6 @@
                     action=""
                     :onChange="addCarCarouselFile"
                     multiple
-                    :file-list="form.carousel"
                     :auto-upload="false"
                 >
                     <i class="el-icon-upload"></i>
@@ -200,13 +195,14 @@
               brands: [],
               tags: [],
               selected: [],
+              carousels: [],
               form: {
                   name: '',
                   avatar: '',
                   guide_price: '',
                   final_price: '',
                   car_price: '',
-                  selected: [],
+                  attr: [],
                   brand_id: '',
                   customize: [],
                   carousel: [],
@@ -227,13 +223,14 @@
                 url: Api.showCar + this.$route.params.id,
             }).then(response => {
                 this.form = response.data.data
-                this.previewCarAvatarLogo = response.data.data.avatar
-                this.selected= JSON.parse(response.data.data.attr)
-                this.form.carousel = JSON.parse(response.data.data.carousel)
-                this.form.customize = JSON.parse(response.data.data.customize)
                 this.form.car_price = parseInt(response.data.data.car_price)
-                this.form.guide_price = parseInt(response.data.data.guide_price)
                 this.form.final_price = parseInt(response.data.data.final_price)
+                this.form.guide_price = parseInt(response.data.data.guide_price)
+                this.previewCarAvatarLogo = response.data.data.avatar
+                this.carousels = response.data.data.carousel
+                this.selected = JSON.parse(response.data.data.attr)
+                this.form.customize = JSON.parse(JSON.parse(response.data.data.customize))
+                this.form.carousel = []
             }).catch(err => {
                 console.log(err)
             })
@@ -281,16 +278,19 @@
                     formData.append('car_price', this.form.car_price)
                     formData.append('final_price', this.form.final_price)
 					formData.append('customize', JSON.stringify(this.form.customize))
-					formData.append('attr', JSON.stringify(this.form.selected))
+
+                    if (typeof(this.form.attr) != 'string') {
+					    formData.append('attr', JSON.stringify(this.form.attr))
+                    } else {
+					    formData.append('attr', this.form.attr)
+                    }
 
                     if (typeof(this.form.avatar) == 'object') {
                         formData.append('avatar', this.form.avatar)
                     }
 
                     for (let i = 0; i < this.form.carousel.length; i++) {
-                        if (typeof(this.form.carousel[i]) == 'object') {
-                            formData.append('carousel[]', this.form.carousel[i])
-                        }
+                        formData.append('carousel[]', this.form.carousel[i])
                     }
 
                     http({
@@ -299,7 +299,6 @@
                         data: formData
                     }).then(response => {
                         this.$refs['form'].resetFields();
-                        this.$refs.uploadCarAvatar.clearFiles()
                         this.$notify.success({
                             'title': "提示",
                             'message': response.data.msg
@@ -316,13 +315,9 @@
 			});
         },
 
-        resetUpload() {
-            this.$refs['form'].resetFields();
-            this.$refs.uploadCarAvatar.clearFiles()
-        },
-
         addCarAvatarFile(file, fileList) {
             this.form.avatar = file.raw
+            this.previewCarAvatarLogo = URL.createObjectURL(file.raw);
         },
 
         addCarCarouselFile(file, fileList) {
@@ -338,7 +333,7 @@
             for (let i in this.selected) {
                 obj[i] = this.selected[i]
             }
-            this.form.selected= obj
+            this.form.attr= obj
         },
 
         //更新汽车头图
@@ -369,5 +364,8 @@
 }
 .el-upload-list {
     height: 50px;
+}
+.el-dialog__body .upload-demo {
+    height: 500px;
 }
 </style>

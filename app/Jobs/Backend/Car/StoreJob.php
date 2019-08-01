@@ -59,7 +59,7 @@ class StoreJob
                 'info' => [
                     'carousel' => $this->carousel, 
                     'attr' => $this->attr, 
-                    'customize' => json_decode($this->customize, true), 
+                    'customize' => $this->customize, 
                 ],
             ]);
 

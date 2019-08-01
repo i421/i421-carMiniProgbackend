@@ -48,7 +48,21 @@ class ShowJob
 
         }
 
-        $car->attr = json_decode($car->attr, true);
+        if (is_null($car->customize)) {
+            $car->customize = [];
+        }
+
+        if (is_null($car->attr)) {
+            $car->attr = [];
+        } else {
+            $car->attr = json_decode($car->attr, true);
+        }
+
+        if (is_null($car->carousel)) {
+            $car->carousel = [];
+        } else {
+            $car->carousel = json_decode($car->carousel, true);
+        }
 
         $response = [
             'code' => trans('pheicloud.response.success.code'),

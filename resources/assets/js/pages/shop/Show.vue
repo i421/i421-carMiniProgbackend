@@ -231,7 +231,7 @@
 
         addShopFile(file, fileList) {
             this.form.img_url = file.raw;
-            this.previewShopLogo = URL.createObjectURL(file.raw);;
+            this.previewShopLogo = URL.createObjectURL(file.raw);
             this.imgDialogVisible = false
         },
 

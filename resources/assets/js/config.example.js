@@ -29,7 +29,7 @@ const Api = {
     'cars': 'api/v1/backend/car',
     'storeCar': 'api/v1/backend/car',
     'showCar': 'api/v1/backend/car/',
-    'updateCar': 'api/v1/backend/car/',
+    'updateCar': 'api/v1/backend/car/update/',
     'destroyCar': 'api/v1/backend/car/',
 
     'shops': 'api/v1/backend/shop',
@@ -53,6 +53,8 @@ const Api = {
     'customerCheckDetail': 'api/v1/backend/customer/checkDetail/',
     'customerAuthStatus': 'api/v1/backend/customer/authStatus',
     'customerToggleIsSeller': 'api/v1/backend/customer/isSeller',
+
+    'classifyTag': 'api/v1/backend/tag/classify',
 
     'orders': 'api/v1/backend/order',
     'showOrder': 'api/v1/backend/order/',

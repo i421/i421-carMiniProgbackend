@@ -35,6 +35,7 @@ class UpdateJob
         $this->final_price = $params['final_price'];
         $this->car_price = $params['car_price'];
         $this->attr = $params['attr'];
+        $this->customize = $params['customize'];
         $this->avatar = isset($params['avatar']) ? $params['avatar'] : null;
         $this->carousel = isset($params['carousel']) ? $params['carousel'] : null;
     }
@@ -46,7 +47,10 @@ class UpdateJob
      */
     public function handle()
     {
-        $car = TableModels\Car::findOrFail($this->id);
+        $car = TableModels\Car::select(
+            'id', 'name', 'brand_id', 'guide_price', 'final_price', 'car_price', 'avatar', 'info->attr as attr',
+            'info->carousel as carousel', 'info->customize as customize'
+        )->findOrFail($this->id);
 
         if (!is_null($this->avatar)) {
 
@@ -59,13 +63,34 @@ class UpdateJob
         }
 
         if (!is_null($this->carousel)) {
+
+            $carousels = is_null($car->carousel) ? [] : $car->carousel;
+
+            if (is_array($carousels)) {
+                foreach ($carousels as $carousel) {
+
+                    $originPath = storage_path('app/public') . '/' . $carousel;
+
+                    if (is_file($originPath)) {
+                        unlink($originPath);
+                    }
+                }
+            } else {
+                $originPath = storage_path('app/public') . '/' . $carousels;
+
+                if (is_file($originPath)) {
+                    unlink($originPath);
+                }
+            }
+
             $info['carousel'] = $this->carousel;
+
         } else {
-            $info['carousel'] = $car->carousel;
+            $info['carousel'] = json_decode($car->carousel, true);
         }
 
         $info['attr'] = $this->attr;
-        $info['customize'] = json_decode($this->customize, true);
+        $info['customize'] = $this->customize;
         
         $car->brand_id = $this->brand_id;
         $car->name = $this->name;
