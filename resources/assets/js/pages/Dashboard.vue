@@ -13,7 +13,7 @@
   export default {
       created () {
         //console.log(this.$store.state.auth_user)
-        this.Test()
+        //this.Test()
       },
       methods: {
         Test () {

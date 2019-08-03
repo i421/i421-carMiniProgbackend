@@ -46,6 +46,18 @@ export default new Router({
                     name: 'showBrand',
                     component: resolve => require(['../pages/brand/Show.vue'], resolve)
                 }, {
+                    path: '/message',
+                    name: 'message',
+                    component: resolve => require(['../pages/message/Index.vue'], resolve)
+                }, {
+                    path: '/message/create',
+                    name: 'createMessage',
+                    component: resolve => require(['../pages/message/Create.vue'], resolve)
+                }, {
+                    path: '/message/:id',
+                    name: 'showMessage',
+                    component: resolve => require(['../pages/message/Show.vue'], resolve)
+                }, {
                     path: '/shop',
                     name: 'shop',
                     component: resolve => require(['../pages/shop/Index.vue'], resolve)
@@ -80,7 +92,7 @@ export default new Router({
                     component: resolve => require(['../pages/Message.vue'], resolve)
                 }, {
                     path: '/setting',
-                    component: resolve => require(['../pages/Setting.vue'], resolve)
+                    component: resolve => require(['../pages/setting/Index.vue'], resolve)
                 }, {
                     name: 'users',
                     path: '/user',

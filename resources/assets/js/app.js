@@ -21,10 +21,16 @@ import store from './store/index';
 import i18n from './lang/index';
 import App from './App';
 import Distpicker from 'v-distpicker'
+import VueQuillEditor from 'vue-quill-editor'
+
+import 'quill/dist/quill.core.css'
+import 'quill/dist/quill.snow.css'
+import 'quill/dist/quill.bubble.css'
 
 Vue.use(ElementUI);
 Vue.use(DataTables)
 Vue.use(Http);
+Vue.use(VueQuillEditor, /* { default global options } */)
 
 Vue.component('v-distpicker', Distpicker)
 

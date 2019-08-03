@@ -46,6 +46,13 @@ const Api = {
     'destroyBrand': 'api/v1/backend/brand/',
     'searchBrand': 'api/v1/backend/brand/search',
 
+    'messages': 'api/v1/backend/message',
+    'storeMessage': 'api/v1/backend/message',
+    'showMessage': 'api/v1/backend/message/',
+    'updateMessage': 'api/v1/backend/message/',
+    'destroyMessage': 'api/v1/backend/message/',
+    'searchMessage': 'api/v1/backend/message/search',
+
     'customers': 'api/v1/backend/customer',
     'showCustomer': 'api/v1/backend/customer/',
     'searchCustomer': 'api/v1/backend/customer/search',

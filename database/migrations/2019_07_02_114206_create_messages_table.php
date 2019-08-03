@@ -17,6 +17,7 @@ class CreateMessagesTable extends Migration
         Schema::create('messages', function (Blueprint $table) {
             $table->increments('id');
             $table->string('title')->nullable()->comment("标题");
+            $table->string('sub_title')->nullable()->comment("副标题");
             $table->longText('content')->nullable()->comment("内容");
             $table->integer('status')->default(0)->comment("是否已读");
             $table->datetime('start_time')->nullable()->comment("消息发布时间");

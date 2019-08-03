@@ -59,6 +59,7 @@ Route::group(['prefix' => 'v1/backend', 'namespace' => 'Backend', 'middleware' =
         Route::get('{id}', 'UserController@show');
         Route::put('{id}', 'UserController@update');
         Route::delete('{id}', 'UserController@destroy');
+
     });
 
     //角色管理
@@ -104,6 +105,16 @@ Route::group(['prefix' => 'v1/backend', 'namespace' => 'Backend', 'middleware' =
         Route::post('/', 'BrandController@store');
         Route::get('{id}', 'BrandController@show');
         Route::delete('{id}', 'BrandController@destroy');
+    });
+
+    //消息管理
+    Route::group(['prefix' => 'message'], function () {
+        Route::get('search', 'MessageController@search');
+        Route::put('{id}', 'MessageController@update');
+        Route::get('/', 'MessageController@index');
+        Route::post('/', 'MessageController@store');
+        Route::get('{id}', 'MessageController@show');
+        Route::delete('{id}', 'MessageController@destroy');
     });
 
     //客户管理

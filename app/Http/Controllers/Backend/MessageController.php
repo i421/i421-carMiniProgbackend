@@ -4,10 +4,10 @@ namespace App\Http\Controllers\Backend;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Backend\Brand as BrandRequests;
-use App\Jobs\Backend\Brand as BrandJobs;
+use App\Http\Requests\Backend\Message as MessageRequests;
+use App\Jobs\Backend\Message as MessageJobs;
 
-class BrandController extends Controller
+class MessageController extends Controller
 {
     public function __construct()
     {
@@ -16,7 +16,7 @@ class BrandController extends Controller
 
     public function index()
     {
-        $response = $this->dispatch(new BrandJobs\IndexJob());
+        $response = $this->dispatch(new MessageJobs\IndexJob());
         return $response;
     }
 
@@ -28,7 +28,7 @@ class BrandController extends Controller
      */
     public function show(int $id)
     {
-        $response = $this->dispatch(new BrandJobs\ShowJob($id));
+        $response = $this->dispatch(new MessageJobs\ShowJob($id));
         return $response;
     }
 
@@ -38,16 +38,11 @@ class BrandController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function update(BrandRequests\UpdateRequest $request, int $id)
+    public function update(MessageRequests\UpdateRequest $request, int $id)
     {
         $params = $request->all();
         $params['id'] = $id;
-        if ($request->hasFile('logo')) {
-            $fileName = date("YmdHis") . str_random(40) . '.jpg';
-            $path = $request->logo->storeAs('carLogo', $fileName, 'public');
-            $params['logo'] = $path;
-        }
-        $response = $this->dispatch(new BrandJobs\UpdateJob($params));
+        $response = $this->dispatch(new MessageJobs\UpdateJob($params));
         return $response;
     }
 
@@ -59,7 +54,7 @@ class BrandController extends Controller
      */
     public function destroy(int $id)
     {
-        $response = $this->dispatch(new BrandJobs\DestroyJob($id));
+        $response = $this->dispatch(new MessageJobs\DestroyJob($id));
         return $response;
     }
 
@@ -69,13 +64,10 @@ class BrandController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(BrandRequests\StoreRequest $request)
+    public function store(MessageRequests\StoreRequest $request)
     {
         $params = $request->all();
-        $fileName = date("YmdHis") . str_random(40) . '.jpg';
-        $path = $request->logo->storeAs('carLogo', $fileName, 'public');
-        $params['logo'] = $path;
-        $response = $this->dispatch(new BrandJobs\StoreJob($params));
+        $response = $this->dispatch(new MessageJobs\StoreJob($params));
         return $response;
     }
 
@@ -85,10 +77,10 @@ class BrandController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function search(BrandRequests\SearchRequest $request)
+    public function search(MessageRequests\SearchRequest $request)
     {
         $params = $request->all();
-        $response = $this->dispatch(new BrandJobs\SearchJob($params));
+        $response = $this->dispatch(new MessageJobs\SearchJob($params));
         return $response;
     }
 }
