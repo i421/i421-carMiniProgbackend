@@ -63,17 +63,17 @@
 
         <!-- 拼团设置 -->
         <el-dialog title="拼团设置" :visible.sync="dialogVisible">
-            <el-tabs v-model="activeName" @tab-click="handleClick" tab-position="left" style="height: 200px;">
+            <el-tabs v-model="activeName" @tab-click="handleClick" tab-position="left" style="height: 400px;">
 
                 <el-tab-pane label="时间拼团" name="timeGroup">
-                    <el-form ref="timeForm" :model="timeForm" label-width="80px">
-                        <el-form-item label="起止时间" prop="timeRange"
+                    <el-form ref="timeForm" :model="groupForm" label-width="80px">
+                        <el-form-item label="起止时间" prop="time_range"
                             :rules="[
                                 { required: true, message: '起止时间不能为空', trigger: 'blur' },
                             ]"
                         >
                             <el-date-picker
-                                v-model="timeForm.timeRange"
+                                v-model="groupForm.time_range"
                                 type="datetimerange"
                                 value-format="yyyy-MM-dd HH:mm:ss"
                                 range-separator="至"
@@ -82,38 +82,58 @@
                             </el-date-picker>
                         </el-form-item>
 
+                        <el-form-item label="拼团价" prop="group_price"
+                            :rules="[
+                                { required: true, message: '拼团价不能为空', trigger: 'blur' },
+                                { type: 'number', message: '必须为数字', trigger: ['blur', 'change'] },
+                            ]"
+                        >
+                            <el-input v-model.number="groupForm.group_price" width="60px"></el-input>
+                        </el-form-item>
+
                         <el-form-item>
-                            <el-button type="primary" @click="onSubmit('time')">立即创建</el-button>
+                            <el-button type="primary" @click="onSubmit('1')">立即创建</el-button>
                         </el-form-item>
 
                     </el-form>
                 </el-tab-pane>
 
                 <el-tab-pane label="数量拼团" name="numGroup">
-                    <el-form ref="numForm" :model="numForm" label-width="80px">
-                        <el-form-item label="数量" prop="num"
+                    <el-form ref="numForm" :model="groupForm" label-width="80px">
+                        <el-form-item label="数量" prop="total_num"
                             :rules="[
                                 { required: true, message: '数量不能为空', trigger: 'blur' },
                                 { type: 'number', message: '必须为数字', trigger: ['blur', 'change'] },
                             ]"
                         >
-                            <el-input v-model.number="numForm.num" width="60px"></el-input>
+                            <el-input v-model.number="groupForm.total_num" width="60px"></el-input>
                         </el-form-item>
 
-                        <el-form-item label="截止时间" prop="endtime"
+                        <el-form-item label="拼团价" prop="group_price"
+                            :rules="[
+                                { required: true, message: '拼团价不能为空', trigger: 'blur' },
+                                { type: 'number', message: '必须为数字', trigger: ['blur', 'change'] },
+                            ]"
+                        >
+                            <el-input v-model.number="groupForm.group_price" width="60px"></el-input>
+                        </el-form-item>
+
+                        <el-form-item label="截止时间" prop="time_range"
                             :rules="[
                                 { required: true, message: '时间不能为空', trigger: 'blur' },
                             ]"
                         >
-                          <el-date-picker
-                            v-model="numForm.endtime"
-                            type="datetime"
-                            value-format="yyyy-MM-dd HH:mm:ss"
-                            placeholder="截止日期">
-                          </el-date-picker>
+                            <el-date-picker
+                                v-model="groupForm.time_range"
+                                type="datetimerange"
+                                value-format="yyyy-MM-dd HH:mm:ss"
+                                range-separator="至"
+                                start-placeholder="开始日期"
+                                end-placeholder="结束日期">
+                            </el-date-picker>
                         </el-form-item>
                         <el-form-item>
-                            <el-button type="primary" @click="onSubmit('num')">立即创建</el-button>
+                            <el-button type="primary" @click="onSubmit('2')">立即创建</el-button>
                         </el-form-item>
                     </el-form>
                 </el-tab-pane>
@@ -138,12 +158,12 @@
             conditionMinPrice: '',
             conditionMaxPrice: '',
 			tableData: [],
-            timeForm: {
-                timeRange: '',
-            },
-            numForm: {
-                num: '',
-                endtime: '',
+            groupForm: {
+                car_id: '',
+                total_num: '',
+                type: '',
+                time_range: '',
+                group_price: '',
             },
             actionCol: {
                 label: '操作',
@@ -170,6 +190,7 @@
                     },
                     handler: row => {
                         this.dialogVisible = true
+                        this.groupForm.car_id = row.id
                     },
                     label: '设置拼团'
                 }, {
@@ -220,20 +241,16 @@
           //处理切换
           handleClick(tab, event) {
             console.log(tab, event);
-          },
-
-          //处理切换拼团数量
-          handleChangeNum(value) {
-              this.numForm.num = value
+            this.groupForm.time_range = ''
+            this.groupForm.group_price= ''
+            this.groupForm.total_num= ''
           },
 
           //提交组团信息
           onSubmit(type) {
-              if (type == 'num') {
-                console.log(this.numForm)
-              } else {
-                console.log(this.timeForm)
-              }
+              this.groupForm.type = type;
+
+              //todo http post
           },
 
           //删除
