@@ -248,9 +248,26 @@
 
           //提交组团信息
           onSubmit(type) {
+
               this.groupForm.type = type;
 
-              //todo http post
+              http({
+                  url: Api.storeFightingGroup,
+                  method: 'post',
+                  data: this.groupForm
+              }).then(response => {
+                  this.$refs['groupForm'].resetFields();
+                  this.$notify.success({
+                      'title': "提示",
+                      'message': response.data.msg
+                  })
+
+                  this.dialogVisible = false
+                  this.$router.push({ name: 'fightingGroup' })
+
+              }).catch(err => {
+                  console.log(err)
+              })
           },
 
           //删除

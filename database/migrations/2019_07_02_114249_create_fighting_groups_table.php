@@ -20,7 +20,7 @@ class CreateFightingGroupsTable extends Migration
             $table->integer('type')->index()->comment("拼团类型: 1时间拼团、2数量拼团");
             $table->integer('group_price')->comment("拼团价");
             $table->integer('total_num')->nullable()->index()->comment("拼团总人数");
-            $table->integer('currnet_num')->nullable()->index()->comment("拼团当前人数");
+            $table->integer('current_num')->nullable()->index()->comment("拼团当前人数");
             $table->datetime('start_time')->nullable()->index()->comment("拼团开始时间");
             $table->datetime('end_time')->nullable()->index()->comment("拼团结束时间");
             $table->integer('status')->nullable()->index()->comment("拼团状态0关闭/1正常");

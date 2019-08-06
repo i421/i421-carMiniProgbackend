@@ -9,7 +9,6 @@ use App\Tables as TableModels;
 class UpdateJob
 {
     use Dispatchable, Queueable;
-
     /**
      * ID
      *
@@ -43,7 +42,6 @@ class UpdateJob
     public function handle()
     {
         $message = TableModels\Message::findOrFail($this->id);
-
         $message->title = $this->title;
         $message->content = $this->content;
         $message->start_time = $this->start_time;
@@ -51,15 +49,11 @@ class UpdateJob
         $res = $message->save();
 
         if ($res) {
-
             $code = trans('pheicloud.response.success.code');
             $msg = trans('pheicloud.response.success.msg');
-
         } else {
-
             $code = trans('pheicloud.response.error.code');
             $msg = trans('pheicloud.response.error.msg');
-
         }
 
         $response = [
@@ -70,3 +64,4 @@ class UpdateJob
         return response()->json($response);
     }
 }
+

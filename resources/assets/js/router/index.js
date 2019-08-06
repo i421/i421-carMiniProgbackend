@@ -82,6 +82,18 @@ export default new Router({
                     name: 'showCar',
                     component: resolve => require(['../pages/car/Show.vue'], resolve)
                 }, {
+                    path: '/fighting/group',
+                    name: 'fightingGroup',
+                    component: resolve => require(['../pages/fightingGroup/Index.vue'], resolve)
+                }, {
+                    path: '/fighting/group/create',
+                    name: 'createFightingGroup',
+                    component: resolve => require(['../pages/fightingGroup/Create.vue'], resolve)
+                }, {
+                    path: '/fighting/group/:id',
+                    name: 'showFightingGroup',
+                    component: resolve => require(['../pages/fightingGroup/Show.vue'], resolve)
+                }, {
                     path: '/group',
                     component: resolve => require(['../pages/Group.vue'], resolve)
                 }, {

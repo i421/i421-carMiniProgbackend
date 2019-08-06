@@ -42,7 +42,7 @@ class DestroyJob
 
         } else {
 
-            $brand->delete();
+            $fightingGroup->delete();
 
             $code = trans('pheicloud.response.success.code');
             $msg = trans('pheicloud.response.success.msg');

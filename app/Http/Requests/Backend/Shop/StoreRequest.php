@@ -33,8 +33,8 @@ class StoreRequest extends FormRequest
             'img_url' => 'required|image',
             'license_url' => 'required|image',
             'info' => 'nullable|array',
-            'lat' => 'required|integer',
-            'lng' => 'required|integer',
+            'lat' => 'required|string',
+            'lng' => 'required|string',
         ];
     }
 }

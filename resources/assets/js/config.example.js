@@ -53,6 +53,12 @@ const Api = {
     'destroyMessage': 'api/v1/backend/message/',
     'searchMessage': 'api/v1/backend/message/search',
 
+    'fightingGroups': 'api/v1/backend/fighting/group',
+    'storeFightingGroup': 'api/v1/backend/fighting/group',
+    'showFightingGroup': 'api/v1/backend/fighting/group/',
+    'updateFightingGroup': 'api/v1/backend/fighting/group/',
+    'destroyFightingGroup': 'api/v1/backend/fighting/group/',
+
     'customers': 'api/v1/backend/customer',
     'showCustomer': 'api/v1/backend/customer/',
     'searchCustomer': 'api/v1/backend/customer/search',

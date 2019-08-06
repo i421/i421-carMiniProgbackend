@@ -33,8 +33,8 @@ class UpdateRequest extends FormRequest
             'img_url' => 'nullable|image',
             'license_url' => 'nullable|image',
             'info' => 'nullable|array',
-            'lat' => 'required|integer',
-            'lng' => 'required|integer',
+            'lat' => 'required|string',
+            'lng' => 'required|string',
         ];
     }
 }

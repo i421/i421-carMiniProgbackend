@@ -101,6 +101,8 @@
                             'message': response.data.msg
                         })
 
+                        this.$router.push({ name: 'brand' })
+
                     }).catch(err => {
                         console.log(err)
                     })

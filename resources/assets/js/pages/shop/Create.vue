@@ -2,7 +2,7 @@
     <div>
         <el-row>
             <el-col>
-                <el-form ref="form" :model="form" label-width="80px" style="width:440px">
+                <el-form ref="form" :model="form" label-width="120px" style="width:480px">
 
                     <el-form-item label="经销商名" prop="name"
                         :rules="[

@@ -128,6 +128,16 @@ Route::group(['prefix' => 'v1/backend', 'namespace' => 'Backend', 'middleware' =
         Route::get('{id}', 'CustomerController@show');
     });
 
+    //拼团管理
+    Route::group(['prefix' => 'fighting/group'], function () {
+        Route::get('/', 'FightingGroupController@index');
+        Route::put('{id}', 'FightingGroupController@update');
+        Route::get('/', 'FightingGroupController@index');
+        Route::post('/', 'FightingGroupController@store');
+        Route::get('{id}', 'FightingGroupController@show');
+        Route::delete('{id}', 'FightingGroupController@destroy');
+    });
+
     //订单管理
     Route::group(['prefix' => 'order'], function () {
         Route::get('/', 'OrderController@index');
