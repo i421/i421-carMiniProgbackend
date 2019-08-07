@@ -190,7 +190,7 @@
     width: 100%;
     background-color: #27a9e3;
 }
-.el-form-item__content {
+#loginForm .el-form-item__content {
     margin-left: 0px !important;
 }
 </style>
