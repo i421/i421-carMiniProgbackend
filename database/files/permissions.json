@@ -51,7 +51,7 @@
   },
   {
     "id": "6",
-    "name": "/group",
+    "name": "/fighting/group",
     "display_en_name": "Group Management",
     "display_zh_name": "拼团管理",
     "icon": "el-icon-shopping-cart-full",
