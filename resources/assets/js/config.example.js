@@ -68,6 +68,8 @@ const Api = {
     'customerAuthStatus': 'api/v1/backend/customer/authStatus',
     'customerToggleIsSeller': 'api/v1/backend/customer/isSeller',
 
+    'settingSetCarousel': 'api/v1/backend/setting/carousel',
+
     'classifyTag': 'api/v1/backend/tag/classify',
 
     'orders': 'api/v1/backend/order',

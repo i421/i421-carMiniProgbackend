@@ -139,6 +139,12 @@ Route::group(['prefix' => 'v1/backend', 'namespace' => 'Backend', 'middleware' =
         Route::delete('{id}', 'FightingGroupController@destroy');
     });
 
+    //轮播图管理
+    Route::group(['prefix' => 'setting'], function () {
+        Route::get('/carousel', 'SettingController@carouselList');
+        Route::post('/carousel', 'SettingController@setCarousel');
+    });
+
     //订单管理
     Route::group(['prefix' => 'order'], function () {
         Route::get('/', 'OrderController@index');

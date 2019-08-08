@@ -104,7 +104,12 @@ export default new Router({
                     component: resolve => require(['../pages/Message.vue'], resolve)
                 }, {
                     path: '/setting',
+                    name: '/setting',
                     component: resolve => require(['../pages/setting/Index.vue'], resolve)
+                }, {
+                    path: '/setting/create',
+                    name: 'createSetting',
+                    component: resolve => require(['../pages/setting/Create.vue'], resolve)
                 }, {
                     name: 'users',
                     path: '/user',
