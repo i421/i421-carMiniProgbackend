@@ -58,6 +58,7 @@ const Api = {
     'showFightingGroup': 'api/v1/backend/fighting/group/',
     'updateFightingGroup': 'api/v1/backend/fighting/group/',
     'destroyFightingGroup': 'api/v1/backend/fighting/group/',
+    'searchFightingGroup': 'api/v1/backend/fighting/group/search',
 
     'customers': 'api/v1/backend/customer',
     'showCustomer': 'api/v1/backend/customer/',

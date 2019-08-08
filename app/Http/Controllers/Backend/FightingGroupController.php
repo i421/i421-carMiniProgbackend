@@ -80,4 +80,17 @@ class FightingGroupController extends Controller
         $response = $this->dispatch(new FightingGroupJobs\DestroyJob($id));
         return $response;
     }
+
+    /**
+     * Search a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function search(FightingGroupRequests\SearchRequest $request)
+    {
+        $params = $request->all();
+        $response = $this->dispatch(new FightingGroupJobs\SearchJob($params));
+        return $response;
+    }
 }

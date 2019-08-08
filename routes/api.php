@@ -130,6 +130,7 @@ Route::group(['prefix' => 'v1/backend', 'namespace' => 'Backend', 'middleware' =
 
     //拼团管理
     Route::group(['prefix' => 'fighting/group'], function () {
+        Route::get('search', 'FightingGroupController@search');
         Route::get('/', 'FightingGroupController@index');
         Route::put('{id}', 'FightingGroupController@update');
         Route::get('/', 'FightingGroupController@index');

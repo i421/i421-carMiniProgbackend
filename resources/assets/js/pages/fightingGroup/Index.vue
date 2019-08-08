@@ -3,7 +3,20 @@
 		<!-- table工具栏 -->
         <div id="tableTools">
             <el-row>
-                <el-col :span="6" :offset="1">
+                <el-col :span="6" style="margin-right: 5px;">
+                    <div style="width: 100%;">
+                        <el-input class="table-search" v-model="conditionCarName" placeholder="汽车名称"></el-input>
+                    </div>
+                </el-col>
+
+                <el-col :span="8" style="margin-right: 5px;">
+                    <el-select v-model="conditionGroup" placeholder="拼团类型" multiple="multiple" class="table-search">
+                        <el-option label="时间拼团" value="1"></el-option>
+                        <el-option label="数量拼团" value="2"></el-option>
+                    </el-select>
+                </el-col>
+
+                <el-col :span="6">
                     <div>
                         <el-date-picker
                             v-model="conditionTime"
@@ -29,20 +42,20 @@
 		<!-- table数据 -->
         <data-tables border :data="tableData" :action-col="actionCol" :pagination-props="{ pageSizes: [10, 15, 20] }">
 
-            <el-table-column label="序号" prop="id" width="80">
+            <el-table-column label="序号" prop="id" width="60">
             </el-table-column>
 
             <el-table-column label="汽车名称" prop="car_name" width="180">
             </el-table-column>
 
-            <el-table-column label="拼团类型" prop="type" width="80">
+            <el-table-column label="类型" prop="type" width="130">
                 <template slot-scope="scope">
                     <el-tag v-if="scope.row.type == 1" type="success">时间拼团</el-tag>
                     <el-tag v-else type="primary">数量拼团</el-tag>
                 </template>
             </el-table-column>
 
-            <el-table-column label="拼团价格" prop="group_price" width="180">
+            <el-table-column label="拼团价格" prop="group_price" width="150">
             </el-table-column>
 
             <el-table-column label="开始时间" prop="start_time" width="180">
@@ -57,7 +70,7 @@
             <el-table-column label="拼团当前数" prop="current_num" width="120">
             </el-table-column>
 
-            <el-table-column label="拼团状态" prop="status" width="80">
+            <el-table-column label="状态" prop="status" width="80">
                 <template slot-scope="scope">
                     <el-tag v-if="scope.row.status == 1" type="success">正常</el-tag>
                     <el-tag v-else type="primary">关闭</el-tag>
@@ -76,6 +89,8 @@
 	  data() {
 		return {
             conditionTime: [],
+            conditionCarName: '',
+            conditionGroup: [],
 			tableData: [],
 
             actionCol: {
@@ -127,6 +142,8 @@
           //清楚查询条件
           clearSearch() {
             this.conditionTime = ''
+            this.conditionCarName = ''
+            this.conditionGroup = []
           },
 
           //查询
@@ -135,6 +152,8 @@
                 url: Api.searchFightingGroup,
                 params: {
                     'time': this.conditionTime,
+                    'type': this.conditionGroup,
+                    'car_name': this.conditionCarName,
                 }
             }).then(response => {
                 this.tableData = response.data.data

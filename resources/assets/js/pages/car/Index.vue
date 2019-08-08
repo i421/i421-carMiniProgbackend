@@ -256,7 +256,11 @@
                   method: 'post',
                   data: this.groupForm
               }).then(response => {
-                  this.$refs['groupForm'].resetFields();
+                  if (type == '1') {
+                    this.$refs['timeFrom'].resetFields();
+                  } else {
+                      this.$refs['numForm'].resetFields();
+                  }
                   this.$notify.success({
                       'title': "提示",
                       'message': response.data.msg
