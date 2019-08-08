@@ -47,24 +47,55 @@ class CustomerController extends Controller
     /**
      * 上传身份证
      */
-    public function uploadIdcard()
+    public function uploadIdcard(CustomerRequests\UploadIdcardRequest $request)
     {
+        $params = $request->all();
 
+        $front = $request->file('id_card_front_path');
+        $imgType = $front->extension();
+        $frontFileName = date("YmdHis") . str_random(40) . ".$imgType";
+        $frontPath = $front->storeAs('customer/idcard', $frontFileName, 'public');
+        $params['id_card_front_path'] = $frontPath;
+
+        $back = $request->file('id_card_back_path');
+        $imgType = $back->extension();
+        $backFileName = date("YmdHis") . str_random(40) . ".$imgType";
+        $backPath = $back->storeAs('customer/idcard', $backFileName, 'public');
+        $params['id_card_back_path'] = $backPath;
+
+        $response = $this->dispatch(new CustomerJobs\UploadIdcardJob($params));
+        return $response;
     }
 
     /**
      * 上传银行卡
      */
-    public function uploadBankcard()
+    public function uploadBankcard(CustomerRequests\UploadBankcardRequest $request)
     {
+        $params = $request->all();
+        $bank = $request->file('bank_card');
+        $imgType = $bank->extension();
+        $bankFileName = date("YmdHis") . str_random(40) . ".$imgType";
+        $bankPath = $bank->storeAs('customer/bankcard', $bankFileName, 'public');
+        $params['bank_card'] = $bankPath;
 
+        $response = $this->dispatch(new CustomerJobs\UploadBankcardJob($params));
+        return $response;
     }
 
     /**
      * 上传驾驶证
      */
-    public function uploadDrivingLicense()
+    public function uploadDrivingLicense(CustomerRequests\UploadDrivingLicenseRequest $request)
     {
+        $params = $request->all();
+        $driverLicense = $request->file('driver_license');
+        $imgType = $driverLicense->extension();
+        $driverLicenseFileName = date("YmdHis") . str_random(40) . ".$imgType";
+        $driverLicensePath = $driverLicense->storeAs('customer/driverLicense', $driverLicenseFileName, 'public');
+        $params['driver_license'] = $driverLicensePath;
 
+        $response = $this->dispatch(new CustomerJobs\UploadDrivingLicenseJob($params));
+        return $response;
     }
 }

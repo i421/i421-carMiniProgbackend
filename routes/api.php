@@ -22,7 +22,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api\V1'], function () {
         Route::get('update/phone', 'CustomerController@updatePhone');
         Route::post('upload/idcard', 'CustomerController@uploadIdcard');
         Route::post('upload/bankcard', 'CustomerController@uploadBankcard');
-        Route::post('upload/drivingLicense', 'CustomerController@uploadDrivingLicense');
+        Route::post('upload/drivinglicense', 'CustomerController@uploadDrivingLicense');
     });
 
     //地址管理

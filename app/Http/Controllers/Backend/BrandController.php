@@ -43,8 +43,10 @@ class BrandController extends Controller
         $params = $request->all();
         $params['id'] = $id;
         if ($request->hasFile('logo')) {
-            $fileName = date("YmdHis") . str_random(40) . '.jpg';
-            $path = $request->logo->storeAs('carLogo', $fileName, 'public');
+            $logo = $request->file('logo');
+            $imgType = $logo->extension();
+            $fileName = date("YmdHis") . str_random(40) . ".$imgType";
+            $path = $logo->storeAs('brandLogo', $fileName, 'public');
             $params['logo'] = $path;
         }
         $response = $this->dispatch(new BrandJobs\UpdateJob($params));
@@ -72,8 +74,10 @@ class BrandController extends Controller
     public function store(BrandRequests\StoreRequest $request)
     {
         $params = $request->all();
-        $fileName = date("YmdHis") . str_random(40) . '.jpg';
-        $path = $request->logo->storeAs('carLogo', $fileName, 'public');
+        $logo = $request->file('logo');
+        $imgType = $logo->extension();
+        $fileName = date("YmdHis") . str_random(40) . ".$imgType";
+        $path = $logo->storeAs('brandLogo', $fileName, 'public');
         $params['logo'] = $path;
         $response = $this->dispatch(new BrandJobs\StoreJob($params));
         return $response;

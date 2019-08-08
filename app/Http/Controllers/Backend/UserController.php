@@ -138,8 +138,10 @@ class UserController extends Controller
     public function updateAvatar(UserRequests\UpdateAvatarRequest $request)
     {
         $user = $request->user();
-        $fileName = date("YmdHis") . str_random(40) . '.jpg';
-        $path = $request->avatar->storeAs('avatar', $fileName, 'public');
+        $avatar = $request->file('avatar');
+        $imgType = $avatar->extension();
+        $fileName = date("YmdHis") . str_random(40) . ".$imgType";
+        $path = $avatar->storeAs('avatar', $fileName, 'public');
         $response = $this->dispatch(new UserJobs\UpdateAvatarJob($user, $path));
         return $response;
     }
