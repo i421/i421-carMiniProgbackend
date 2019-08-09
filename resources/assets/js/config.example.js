@@ -69,6 +69,9 @@ const Api = {
     'customerToggleIsSeller': 'api/v1/backend/customer/isSeller',
 
     'settingSetCarousel': 'api/v1/backend/setting/carousel',
+    'destroySettingCarousel': 'api/v1/backend/setting/carousel/',
+
+    'dashboard': 'api/v1/backend/dashboard',
 
     'classifyTag': 'api/v1/backend/tag/classify',
 

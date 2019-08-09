@@ -28,15 +28,31 @@ class CarouselListJob
      */
     public function handle()
     {
-        $carousels = TableModels\Setting::where('key', 'carousel')->firstOrFail();
+        $carousels = TableModels\Setting::where('key', 'carousel')->get()->toArray();
 
-        $carousels = $carousels->value;
+        if (count($carousels) < 1) {
 
-        $response = [
-            'code' => trans('pheicloud.response.success.code'),
-            'msg' => trans('pheicloud.response.success.msg'),
-            'data' => $carousels,
-        ];
+            $response = [
+                'code' => trans('pheicloud.response.success.code'),
+                'msg' => trans('pheicloud.response.success.msg'),
+                'data' => $carousels,
+            ];
+
+        } else {
+
+            $carousels = json_decode($carousels[0]['value'], true);
+
+            foreach ($carousels as &$carousel) {
+                $carousel['path'] = 'storage/' . $carousel['path']; 
+            }
+
+            $response = [
+                'code' => trans('pheicloud.response.success.code'),
+                'msg' => trans('pheicloud.response.success.msg'),
+                'data' => $carousels,
+            ];
+
+        }
 
         return response()->json($response);
     }

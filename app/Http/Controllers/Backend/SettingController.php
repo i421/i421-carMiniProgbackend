@@ -36,4 +36,10 @@ class SettingController extends Controller
         $response = $this->dispatch(new SettingJobs\SetCarouselJob($params));
         return $response;
     }
+
+    public function destroycarousel(string $uuid)
+    {
+        $response = $this->dispatch(new SettingJobs\DestroyCarouselJob($uuid));
+        return $response;
+    }
 }

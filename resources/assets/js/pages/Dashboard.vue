@@ -1,26 +1,42 @@
 <template>
     <div>
-        <el-steps :space="200" :active="1" finish-status="success">
-            <el-step title="已完成"></el-step>
-            <el-step title="进行中"></el-step>
-            <el-step title="步骤 3"></el-step>
-        </el-steps>
+        总人数:<dynamic-number v-bind:number="total_customer">人</dynamic-number>
+        认证人数:<dynamic-number v-bind:number="auth_customer">人</dynamic-number>
+        待认证人数:<dynamic-number v-bind:number="wait_auth_customer">人</dynamic-number>
     </div>
 </template>
 
 <script>
-  import { http } from './../utils/fetch'
-  export default {
-      created () {
-        //console.log(this.$store.state.auth_user)
-        //this.Test()
+    import DynamicNumber from './../components/animation/DynamicNumber.vue';
+    import { http } from './../utils/fetch'
+    import Api from './../config'
+
+    export default {
+
+	  data() {
+		return {
+            total_customer: 0,
+            auth_customer: 0,
+            wait_auth_customer: 0,
+        }
       },
+
+      components: {
+          DynamicNumber
+      },
+
+      created () {
+          this.dashboard()
+      },
+
       methods: {
-        Test () {
+        dashboard () {
             http({
-                url: "/api/v1/test",
+                url: Api.dashboard,
             }).then(response => {
-                //console.log(response)
+                this.total_customer = response.data.data.total_customer
+                this.auth_customer = response.data.data.auth_customer
+                this.wait_auth_customer = response.data.data.wait_auth_customer
             })
         }
     }

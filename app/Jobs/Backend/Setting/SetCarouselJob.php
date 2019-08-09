@@ -33,18 +33,18 @@ class SetCarouselJob
      */
     public function handle()
     {
-        $carousels = TableModels\Setting::where('key', 'carousel')->firstOrFail();
+        $carousels = TableModels\Setting::where('key', 'carousel')->first();
 
-        if (empty($carousels)) {
+        if (is_null($carousels)) {
 
-            $val = [
+            $val[] = [
                 'path' => $this->carousel,
                 'type' => $this->type,
                 'link' => $this->link,
                 'uuid' => date("YmdHis") . str_random(10),
             ];
 
-            TableModels\Setting::create([
+            $res = TableModels\Setting::create([
                 'key' => 'carousel',
                 'value' => json_encode($val),
             ]);

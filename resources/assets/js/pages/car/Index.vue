@@ -27,7 +27,7 @@
             <div class="searchControl">
                 <el-button type="primary" class="table-button" icon="el-icon-search" @click="search">查询</el-button>
                 <el-button type="primary" class="table-button" icon="el-icon-refresh" @click="clearSearch">清除</el-button>
-                <el-button type="primary" class="table-button" icon="el-icon-add" @click="addCar">新增</el-button>
+                <el-button type="primary" class="table-button" icon="el-icon-plus" @click="addCar">新增</el-button>
             </div>
         </div>
 

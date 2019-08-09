@@ -1,7 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
-
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -143,12 +141,18 @@ Route::group(['prefix' => 'v1/backend', 'namespace' => 'Backend', 'middleware' =
     Route::group(['prefix' => 'setting'], function () {
         Route::get('/carousel', 'SettingController@carouselList');
         Route::post('/carousel', 'SettingController@setCarousel');
+        Route::delete('/carousel/{uuid}', 'SettingController@destroyCarousel');
     });
 
     //订单管理
     Route::group(['prefix' => 'order'], function () {
         Route::get('/', 'OrderController@index');
         Route::get('{id}', 'OrderController@show');
+    });
+
+    //首页
+    Route::group(['prefix' => 'dashboard'], function () {
+        Route::get('/', 'DashboardController@index');
     });
 
     //微信认证

@@ -45,6 +45,7 @@
             <div>
                 <el-button type="primary" class="table-button" icon="el-icon-search" @click="search">查询</el-button>
                 <el-button type="primary" class="table-button" icon="el-icon-refresh" @click="clearSearch">清除</el-button>
+                <el-button type="primary" class="table-button" icon="el-icon-s-check" @click="checkCustomer">审核</el-button>
             </div>
         </div>
 
@@ -223,6 +224,10 @@
           //禁止
           ban(row) {
             //todo
+          },
+
+          checkCustomer() {
+              this.$router.push({ name: 'customerCheckList' })
           }
       }
   }
