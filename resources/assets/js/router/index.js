@@ -17,7 +17,8 @@ export default new Router({
             children: [
                 {
                     path: '/dashboard',
-                    component: resolve => require(['../pages/Dashboard.vue'], resolve)
+                    name: 'dashboard',
+                    component: resolve => require(['../pages/dashboard/Index.vue'], resolve)
                 }, {
                     path: '/customer',
                     component: resolve => require(['../pages/customer/Index.vue'], resolve)
@@ -70,6 +71,14 @@ export default new Router({
                     name: 'showShop',
                     component: resolve => require(['../pages/shop/Show.vue'], resolve)
                 }, {
+                    path: '/order',
+                    name: 'order',
+                    component: resolve => require(['../pages/order/Index.vue'], resolve)
+                }, {
+                    path: '/order/:id',
+                    name: 'showOrder',
+                    component: resolve => require(['../pages/order/Show.vue'], resolve)
+                }, {
                     path: '/car',
                     name: 'car',
                     component: resolve => require(['../pages/car/Index.vue'], resolve)
@@ -94,15 +103,6 @@ export default new Router({
                     name: 'showFightingGroup',
                     component: resolve => require(['../pages/fightingGroup/Show.vue'], resolve)
                 }, {
-                    path: '/group',
-                    component: resolve => require(['../pages/Group.vue'], resolve)
-                }, {
-                    path: '/order',
-                    component: resolve => require(['../pages/Order.vue'], resolve)
-                }, {
-                    path: '/message',
-                    component: resolve => require(['../pages/Message.vue'], resolve)
-                }, {
                     path: '/setting',
                     name: 'setting',
                     component: resolve => require(['../pages/setting/Index.vue'], resolve)
@@ -116,6 +116,7 @@ export default new Router({
                     component: resolve => require(['../pages/rbac/User.vue'], resolve)
                 }, {
                     path: '/role',
+                    name: 'roles',
                     component: resolve => require(['../pages/rbac/Role.vue'], resolve)
                 }, {
                     name: 'rolePermission',

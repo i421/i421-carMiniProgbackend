@@ -7,9 +7,9 @@
 </template>
 
 <script>
-    import DynamicNumber from './../components/animation/DynamicNumber.vue';
-    import { http } from './../utils/fetch'
-    import Api from './../config'
+    import DynamicNumber from './../../components/animation/DynamicNumber.vue';
+    import { http } from './../../utils/fetch'
+    import Api from './../../config'
 
     export default {
 

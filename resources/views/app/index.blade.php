@@ -22,7 +22,7 @@
         <link rel="stylesheet" href="/css/app.css" media="screen">
         @yield('css')
     </head>
-    <body>
+    <body style="overflow-y: hidden;">
         <div id="app"> </div>
         <script src="/js/app.js" defer="defer"></script>
         @yield('js')

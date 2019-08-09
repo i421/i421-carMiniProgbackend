@@ -7,7 +7,7 @@
             <el-col :span="3">
                 <navbar></navbar>
             </el-col>
-            <el-col :span="21">
+            <el-col :span="21" class="appContent">
                 <app-content></app-content>
             </el-col>
         </el-row>
@@ -28,3 +28,9 @@
 		}
 	}
 </script>
+<style>
+.appContent {
+    height: 100%;
+    overflow-y: scroll;
+}
+</style>

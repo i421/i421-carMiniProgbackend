@@ -17,5 +17,6 @@
 <style scoped>
 #app-container {
     padding: 20px;
+    margin-bottom: 66px;
 }
 </style>

@@ -27,7 +27,13 @@ class IndexJob
      */
     public function handle()
     {
-        $orders = TableModels\Order::all();
+        $orders = TableModels\Order::leftJoin('customers', 'orders.customer_id', '=', 'customers.id')
+            ->leftJoin('shops', 'orders.shop_id', '=', 'shops.id')
+            ->leftJoin('cars', 'orders.car_id', '=', 'cars.id')
+            ->select(
+                'orders.*', 'cars.name as car_name', 'cars.final_price as price', 'cars.avatar as avatar', 'shops.name as shop_name',
+                'customers.nickname as customer_nickname', 'customers.phone as phone'
+            )->get()->toArray();
 
         $response = [
             'code' => trans('pheicloud.response.success.code'),

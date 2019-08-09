@@ -13,7 +13,7 @@
 
 		<!--添加用户表单-->
 		<el-dialog title="添加用户" :visible.sync="dialogFormVisible">
-		  <el-form :model="form" ref="form" :inline="true">
+		  <el-form :model="form" ref="form">
 			<el-form-item label="姓名" :label-width="formLabelWidth" prop="name">
 			  <el-input v-model="form.name" autocomplete="off"></el-input>
 			</el-form-item>

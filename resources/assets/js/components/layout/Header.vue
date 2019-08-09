@@ -20,7 +20,7 @@
             </el-dropdown-menu>
           </el-dropdown>
         </div>
-        <div style="position: absolute; top: 60px; right: 5px; z-index:999">
+        <div style="position: absolute; top: 60px; right: 15px; z-index:999">
             <el-button @click="back" circle size="small" icon="el-icon-arrow-left">后退</el-button>
             <el-button @click="forword" circle size="small" style="margin-left:0px">
                 前进<i class="el-icon-arrow-right el-icon--right"></i>
