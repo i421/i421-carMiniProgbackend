@@ -257,7 +257,7 @@
                   data: this.groupForm
               }).then(response => {
                   if (type == '1') {
-                    this.$refs['timeFrom'].resetFields();
+                    this.$refs['timeForm'].resetFields();
                   } else {
                       this.$refs['numForm'].resetFields();
                   }
