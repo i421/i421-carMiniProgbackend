@@ -210,7 +210,7 @@
 
           //处理切换
           handleClick(tab, event) {
-            console.log(tab, event);
+            //console.log(tab, event);
           }
       }
   }

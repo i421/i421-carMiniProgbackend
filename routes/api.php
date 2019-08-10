@@ -147,6 +147,7 @@ Route::group(['prefix' => 'v1/backend', 'namespace' => 'Backend', 'middleware' =
     //订单管理
     Route::group(['prefix' => 'order'], function () {
         Route::get('/', 'OrderController@index');
+        Route::get('search', 'OrderController@search');
         Route::get('{id}', 'OrderController@show');
     });
 

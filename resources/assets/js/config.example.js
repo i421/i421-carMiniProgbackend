@@ -77,6 +77,7 @@ const Api = {
 
     'orders': 'api/v1/backend/order',
     'showOrder': 'api/v1/backend/order/',
+    'searchOrder': 'api/v1/backend/order/search',
 }
 
 export default Api

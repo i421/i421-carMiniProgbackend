@@ -31,9 +31,13 @@ class IndexJob
             ->leftJoin('shops', 'orders.shop_id', '=', 'shops.id')
             ->leftJoin('cars', 'orders.car_id', '=', 'cars.id')
             ->select(
-                'orders.*', 'cars.name as car_name', 'cars.final_price as price', 'cars.avatar as avatar', 'shops.name as shop_name',
-                'customers.nickname as customer_nickname', 'customers.phone as phone'
+                'orders.*', 'cars.name as car_name', 'cars.final_price as final_price', 'cars.avatar as avatar', 'shops.name as shop_name',
+                'customers.info->name as customer_name', 'customers.phone as phone'
             )->get()->toArray();
+
+        foreach ($orders as &$order) {
+            $order['avatar'] = 'storage/' . $order['avatar'];
+        }
 
         $response = [
             'code' => trans('pheicloud.response.success.code'),
