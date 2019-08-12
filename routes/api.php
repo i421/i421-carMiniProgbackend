@@ -21,9 +21,13 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api\V1'], function () {
         Route::post('upload/idcard', 'CustomerController@uploadIdcard');
         Route::post('upload/bankcard', 'CustomerController@uploadBankcard');
         Route::post('upload/drivinglicense', 'CustomerController@uploadDrivingLicense');
+        Route::get('collection/{openid}', 'CustomerController@collection');
+        Route::get('order/{openid}', 'CustomerController@order');
+        Route::get('score/{openid}', 'CustomerController@score');
+        Route::get('fighting/group/{openid}', 'CustomerController@fightingGroup');
     });
 
-    //地址管理
+    //地址管理(不用)
     Route::group(['prefix' => 'address'], function () {
         Route::get('provinces', 'AddressController@getProvinces');
         Route::get('cities/{id}', 'AddressController@getCities');
@@ -40,6 +44,30 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api\V1'], function () {
     Route::group(['prefix' => 'brand'], function () {
         Route::get('/', 'BrandController@index');
         Route::get('search/{key}', 'BrandController@search');
+    });
+
+    //轮播图管理
+    Route::group(['prefix' => 'setting'], function () {
+        Route::get('/carousel', 'SettingController@carouselList');
+    });
+
+    //经销商管理(店铺管理)
+    Route::group(['prefix' => 'shop'], function () {
+        Route::get('/', 'ShopController@index');
+        Route::get('{id}', 'ShopController@show');
+    });
+
+    //汽车管理
+    Route::group(['prefix' => 'car'], function () {
+        Route::get('search', 'CarController@search');
+        Route::get('/', 'CarController@index');
+        Route::get('{id}', 'CarController@show');
+    });
+
+    //拼团管理
+    Route::group(['prefix' => 'fighting/group'], function () {
+        Route::get('/', 'FightingGroupController@index');
+        Route::get('{id}', 'FightingGroupController@show');
     });
 });
 
@@ -73,6 +101,7 @@ Route::group(['prefix' => 'v1/backend', 'namespace' => 'Backend', 'middleware' =
 
     //汽车管理
     Route::group(['prefix' => 'car'], function () {
+        Route::get('search', 'CarController@search');
         Route::get('/', 'CarController@index');
         Route::post('/', 'CarController@store');
         Route::get('{id}', 'CarController@show');

@@ -98,4 +98,32 @@ class CustomerController extends Controller
         $response = $this->dispatch(new CustomerJobs\UploadDrivingLicenseJob($params));
         return $response;
     }
+
+    //用户订单
+    public function order($openid)
+    {
+        $response = $this->dispatch(new CustomerJobs\OrderJob($openid));
+        return $response;
+    }
+
+    //用户拼团
+    public function fightingGroup($openid)
+    {
+        $response = $this->dispatch(new CustomerJobs\FightingGroupJob($openid));
+        return $response;
+    }
+
+    //用户收藏
+    public function collection($openid)
+    {
+        $response = $this->dispatch(new CustomerJobs\CollectionJob($openid));
+        return $response;
+    }
+
+    //用户积分
+    public function score($openid)
+    {
+        $response = $this->dispatch(new CustomerJobs\ScoreJob($openid));
+        return $response;
+    }
 }

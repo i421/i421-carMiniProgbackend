@@ -31,6 +31,7 @@ const Api = {
     'showCar': 'api/v1/backend/car/',
     'updateCar': 'api/v1/backend/car/update/',
     'destroyCar': 'api/v1/backend/car/',
+    'searchCar': 'api/v1/backend/car/search',
 
     'shops': 'api/v1/backend/shop',
     'storeShop': 'api/v1/backend/shop',

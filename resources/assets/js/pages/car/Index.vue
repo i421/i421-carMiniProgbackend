@@ -3,23 +3,31 @@
 		<!-- table工具栏 -->
         <div id="tableTools">
             <el-row>
-                <el-col :span="6" style="margin-right: 5px;">
+                <el-col :span="6" style="padding-right: 5px">
                     <div style="width: 100%;">
                         <el-input class="table-search" v-model="conditionName" placeholder="汽车名"></el-input>
                     </div>
                 </el-col>
 
-                <el-col :span="6" style="margin-right: 5px;">
+                <el-col :span="6" style="padding-right: 5px">
                     <div style="width: 100%">
-                        <el-input class="table-search" v-model="conditionBrand" placeholder="汽车品牌"></el-input>
+                        <el-select v-model="conditionBrand" placeholder="请选择">
+                            <el-option
+                                v-for="brand in brands"
+                                :key="brand.id"
+                                :label="brand.name"
+                                :value="brand.id">
+                            </el-option>
+                        </el-select>
                     </div>
                 </el-col>
 
+                <el-col :span="6" style="padding-right: 5px">
+                    <el-input class="table-search" v-model.number="conditionMinPrice" placeholder="最低价格"></el-input>
+                </el-col>
+
                 <el-col :span="6">
-                    <el-select v-model="conditionGroup" placeholder="拼团类型" multiple="multiple" class="table-search">
-                        <el-option label="时间拼团" value="1"></el-option>
-                        <el-option label="数量拼团" value="2"></el-option>
-                    </el-select>
+                    <el-input class="table-search" v-model.number="conditionMaxPrice" placeholder="最高价格"></el-input>
                 </el-col>
             </el-row>
 
@@ -150,6 +158,7 @@
   export default {
       data () {
           return {
+            brands: [],
             activeName: 'timeGroup',
 		    dialogVisible: false,
             conditionName: '',
@@ -209,9 +218,32 @@
       },
       created () {
           this.fetchCars()
+          this.fetchBrand()
       },
       methods: {
+          fetchBrand() {
+              http({
+                  url: Api.brands,
+              }).then(response => {
+                  this.brands = response.data.data
+                  console.log(this.brands)
+              }).catch(err => {
+                  console.log(err)
+              })
+          },
+
           search() {
+            http({
+                url: Api.searchCar,
+                params: {
+                    'name': this.conditionName,
+                    'brand': this.conditionBrand,
+                    'min_price': this.conditionMinPrice,
+                    'max_price': this.conditionMaxPrice,
+                }
+            }).then(response => {
+                this.tableData = response.data.data
+            })
           },
 
           fetchCars() {
@@ -224,9 +256,10 @@
 
           //清楚查询条件
           clearSearch() {
-            this.conditionNickname = ''
+            this.conditionName = ''
+            this.conditionMinPrice = ''
+            this.conditionMaxPrice = ''
             this.conditionBrand = ''
-            this.conditionGroup = []
           },
 
           //查看详情
@@ -240,7 +273,6 @@
 
           //处理切换
           handleClick(tab, event) {
-            console.log(tab, event);
             this.groupForm.time_range = ''
             this.groupForm.group_price= ''
             this.groupForm.total_num= ''

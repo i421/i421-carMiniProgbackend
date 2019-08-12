@@ -130,4 +130,16 @@ class CarController extends Controller
         $response = $this->dispatch(new CarJobs\DestroyJob($id));
         return $response;
     }
+
+    /**
+     * 查询
+     *
+     * @return void
+     */
+    public function search(CarRequests\SearchRequest $request)
+    {
+        $params = $request->all();
+        $response = $this->dispatch(new CarJobs\SearchJob($params));
+        return $response;
+    }
 }

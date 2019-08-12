@@ -18,9 +18,9 @@ class CreateCarsTable extends Migration
             $table->increments('id');
             $table->integer('brand_id')->unsigned()->index()->comment("品牌名");
             $table->string('name')->index()->comment("汽车名称");
-            $table->string('guide_price')->comment("汽车指导价");
-            $table->string('final_price')->comment("落地价、成交价");
-            $table->string('car_price')->comment("裸车价");
+            $table->integer('guide_price')->comment("汽车指导价");
+            $table->integer('final_price')->comment("落地价、成交价");
+            $table->integer('car_price')->comment("裸车价");
             $table->string('avatar')->nullable()->comment("汽车缩略图");
             $table->string('remarks')->nullable()->comment("备注");
             $table->json('info')->nullable()->comment("详细信息");
