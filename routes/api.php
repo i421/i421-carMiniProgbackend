@@ -69,6 +69,16 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api\V1'], function () {
         Route::get('/', 'FightingGroupController@index');
         Route::get('{id}', 'FightingGroupController@show');
     });
+
+    //支付查询
+    Route::group(['prefix' => 'payment'], function () {
+        //微信发送支付结果
+        Route::post('notify', 'PaymentController@notify');
+        // 请求微信统一下单接口
+        Route::get('/payment/pre_order', 'PaymentController@pre_order');
+        // 请求微信接口, 查看订单支付状态
+        Route::get('/payment/paid', 'PaymentController@paid');
+    });
 });
 
 Route::group(['prefix' => 'v1/backend', 'namespace' => 'Backend', 'middleware' => 'auth:api'], function () {

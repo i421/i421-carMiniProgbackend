@@ -22,12 +22,17 @@ class CreateOrdersTable extends Migration
             $table->integer('car_id')->unsigned()->comment("汽车");
             $table->integer('type')->index()->nullable()->comment("类型:现车1，拼团2");
             $table->integer('fighting_group_id')->unsigned()->nullable()->comment("拼团号： 拼团才有");
-            $table->integer('status')->comment("订单状态:客户未到店0、已到店1");
+            $table->integer('status')->default(0)->comment("订单状态:客户未到店0、已到店1");
+            $table->integer('pay_log_id')->unsigned()->comment("预支付订单id");
             $table->integer('payment_count')->nullable()->comment("支付金额");
             $table->integer('payment_status')->nullable()->comment("支付状态0,1");
             $table->json('info')->nullable()->comment("详细信息");
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+
+            $table->foreign('pay_log_id')
+                ->references('id')->on('pay_logs')
+                ->onUpdate('cascade');
 
             $table->foreign('customer_id')
                 ->references('id')->on('customers')
