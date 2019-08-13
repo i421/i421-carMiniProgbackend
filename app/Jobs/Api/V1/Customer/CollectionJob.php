@@ -10,16 +10,16 @@ class CollectionJob
 {
     use Dispatchable, Queueable;
 
-    private $openid;
+    private $uuid;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct(string $openid)
+    public function __construct(string $uuid)
     {
-        $this->openid = $openid;
+        $this->uuid = $uuid;
     }
 
     /**
@@ -29,12 +29,19 @@ class CollectionJob
      */
     public function handle()
     {
-        //
+        $customer = TableModels\Customer::where('uuid', $this->uuid)->first();
+
+        if (!empty($customer)) {
+            $cars = $customer->cars;
+        } else {
+            $cars = [];
+        }
 
         $response = [
             'code' => trans('pheicloud.response.success.code'),
             'msg' => trans('pheicloud.response.success.msg'),
-        ];
+            'data' => $cars,
+        ]
 
         return response()->json($response);
     }

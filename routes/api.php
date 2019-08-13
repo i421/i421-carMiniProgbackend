@@ -21,10 +21,10 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api\V1'], function () {
         Route::post('upload/idcard', 'CustomerController@uploadIdcard');
         Route::post('upload/bankcard', 'CustomerController@uploadBankcard');
         Route::post('upload/drivinglicense', 'CustomerController@uploadDrivingLicense');
-        Route::get('collection/{openid}', 'CustomerController@collection');
-        Route::get('order/{openid}', 'CustomerController@order');
-        Route::get('score/{openid}', 'CustomerController@score');
-        Route::get('fighting/group/{openid}', 'CustomerController@fightingGroup');
+        Route::get('collection/{uuid}', 'CustomerController@collection');
+        Route::get('order/{uuid}', 'CustomerController@order');
+        Route::get('score/{uuid}', 'CustomerController@score');
+        Route::get('fighting/group/{uuid}', 'CustomerController@fightingGroup');
     });
 
     //地址管理(不用)

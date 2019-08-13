@@ -10,16 +10,16 @@ class FightingGroupJob
 {
     use Dispatchable, Queueable;
 
-    private $openid;
+    private $uuid;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct(string $openid)
+    public function __construct(string $uuid)
     {
-        $this->openid = $openid;
+        $this->uuid = $uuid;
     }
 
     /**

@@ -10,16 +10,16 @@ class ScoreJob
 {
     use Dispatchable, Queueable;
 
-    private $openid;
+    private $uuid;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct(string $openid)
+    public function __construct(string $uuid)
     {
-        $this->openid = $openid;
+        $this->uuid = $uuid;
     }
 
     /**
@@ -29,11 +29,19 @@ class ScoreJob
      */
     public function handle()
     {
-        //
+        $customer = TableModels\Customer::where('uuid', $this->uuid)->first();
+
+        if (!empty($customer)) {
+            $scores = $customer->scores;
+        } else {
+            $scores = [];
+        }
+
 
         $response = [
             'code' => trans('pheicloud.response.success.code'),
             'msg' => trans('pheicloud.response.success.msg'),
+            'data' => $scores,
         ];
 
         return response()->json($response);
