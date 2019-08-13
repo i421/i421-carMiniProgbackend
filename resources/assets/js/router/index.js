@@ -107,6 +107,10 @@ export default new Router({
                     name: 'setting',
                     component: resolve => require(['../pages/setting/Index.vue'], resolve)
                 }, {
+                    path: '/setting/showcarousel/:id',
+                    name: 'showSettingCarousel',
+                    component: resolve => require(['../pages/setting/ShowSettingCarousel.vue'], resolve)
+                }, {
                     path: '/setting/create',
                     name: 'createSettingCarousel',
                     component: resolve => require(['../pages/setting/CreateSettingCarousel.vue'], resolve)

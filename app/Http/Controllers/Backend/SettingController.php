@@ -25,7 +25,7 @@ class SettingController extends Controller
         return $response;
     }
 
-    public function setCarousel(SettingRequests\SetCarouselRequest $request)
+    public function storeCarousel(SettingRequests\StoreCarouselRequest $request)
     {
         $params = $request->all();
         $carousel = $request->file('carousel');
@@ -33,7 +33,26 @@ class SettingController extends Controller
         $imgName = date("YmdHis") . str_random(40) . ".$imgType";
         $imgUrl = $carousel->storeAs('system/Carousel', $imgName, 'public');
         $params['carousel'] = $imgUrl;
-        $response = $this->dispatch(new SettingJobs\SetCarouselJob($params));
+        $response = $this->dispatch(new SettingJobs\StoreCarouselJob($params));
+        return $response;
+    }
+
+    public function updateCarousel(SettingRequests\UpdateCarouselRequest $request, $uuid)
+    {
+        $params = $request->all();
+        $carousel = $request->file('carousel');
+        $imgType = $carousel->extension();
+        $imgName = date("YmdHis") . str_random(40) . ".$imgType";
+        $imgUrl = $carousel->storeAs('system/Carousel', $imgName, 'public');
+        $params['carousel'] = $imgUrl;
+        $params['uuid'] = $uuid;
+        $response = $this->dispatch(new SettingJobs\UpdateCarouselJob($params));
+        return $response;
+    }
+
+    public function showCarousel(string $uuid)
+    {
+        $response = $this->dispatch(new SettingJobs\ShowCarouselJob($uuid));
         return $response;
     }
 

@@ -44,6 +44,9 @@ class DestroyCarouselJob
             foreach ($valArr as $atom) {
                 if ($atom['uuid'] != $this->uuid) {
                     $temp[] = $atom;
+                } else {
+                    $originPath = storage_path('app/public') . '/' . $atom['path'];
+                    unlink($originPath);
                 }
             }
 

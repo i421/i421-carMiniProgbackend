@@ -4,7 +4,7 @@ namespace App\Http\Requests\Backend\Setting;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class SetCarouselRequest extends FormRequest
+class UpdateCarouselRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

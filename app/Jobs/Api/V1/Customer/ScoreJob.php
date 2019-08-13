@@ -29,14 +29,10 @@ class ScoreJob
      */
     public function handle()
     {
-        $customer = TableModels\Customer::where('uuid', $this->uuid)->first();
-
-        if (!empty($customer)) {
-            $scores = $customer->scores;
-        } else {
-            $scores = [];
-        }
-
+        $scores = TableModels\Score::join('customers', 'scores.customer_id', '=', 'customers.id')
+            ->where('customers.uuid', $this->uuid)
+            ->select('scores.*')
+            ->get();
 
         $response = [
             'code' => trans('pheicloud.response.success.code'),

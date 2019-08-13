@@ -179,7 +179,10 @@ Route::group(['prefix' => 'v1/backend', 'namespace' => 'Backend', 'middleware' =
     //轮播图管理
     Route::group(['prefix' => 'setting'], function () {
         Route::get('/carousel', 'SettingController@carouselList');
-        Route::post('/carousel', 'SettingController@setCarousel');
+        Route::post('/carousel', 'SettingController@storeCarousel');
+        Route::get('/carousel/{uuid}', 'SettingController@showCarousel');
+        Route::post('/carousel/update/{uuid}', 'SettingController@updateCarousel');
+        Route::get('/', 'BrandController@index');
         Route::delete('/carousel/{uuid}', 'SettingController@destroyCarousel');
     });
 

@@ -6,10 +6,11 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Foundation\Bus\Dispatchable;
 use App\Tables as TableModels;
 
-class SetCarouselJob
+class UpdateCarouselJob
 {
     use Dispatchable, Queueable;
 
+    private $uuid;
     private $carousel;
     private $type;
     private $link;
@@ -21,6 +22,7 @@ class SetCarouselJob
      */
     public function __construct(array $params)
     {
+        $this->uuid = $params['uuid'];
         $this->carousel = $params['carousel'];
         $this->type = $params['type'];
         $this->link = $params['link'];
@@ -37,40 +39,30 @@ class SetCarouselJob
 
         if (is_null($carousels)) {
 
-            $val[] = [
-                'path' => $this->carousel,
-                'type' => $this->type,
-                'link' => $this->link,
-                'uuid' => date("YmdHis") . str_random(10),
-            ];
-
-            $res = TableModels\Setting::create([
-                'key' => 'carousel',
-                'value' => json_encode($val),
-            ]);
-
-            if ($res) {
-                $code = trans('pheicloud.response.success.code');
-                $msg = trans('pheicloud.response.success.msg');
-            } else {
-                $code = trans('pheicloud.response.error.code');
-                $msg = trans('pheicloud.response.error.msg');
-            }
+            $code = trans('pheicloud.response.error.code');
+            $msg = trans('pheicloud.response.error.msg');
 
         } else {
 
             $valArr = is_null(json_decode($carousels->value, true)) ? [] : json_decode($carousels->value, true);
+            $temp = [];
 
-            $temp = [
+            foreach ($valArr as &$atom) {
+                if ($atom['uuid'] != $this->uuid) {
+                    $temp[] = $atom;
+                }
+            }
+
+            $tempNew = [
                 'path' => $this->carousel,
                 'type' => $this->type,
                 'link' => $this->link,
                 'uuid' => date("YmdHis") . str_random(10),
             ];
 
-            array_push($valArr, $temp);
+            array_push($temp, $tempNew);
 
-            $carousels->value = json_encode($valArr);
+            $carousels->value = json_encode($temp);
             $carousels->save();
         }
 

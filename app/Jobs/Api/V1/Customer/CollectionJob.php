@@ -29,19 +29,17 @@ class CollectionJob
      */
     public function handle()
     {
-        $customer = TableModels\Customer::where('uuid', $this->uuid)->first();
-
-        if (!empty($customer)) {
-            $cars = $customer->cars;
-        } else {
-            $cars = [];
-        }
+        $collections = TableModels\Collection::join('customers', 'collections.customer_id', '=', 'customers.id')
+            ->join('cars', 'collections.car_id', '=', 'cars.id')
+            ->where('customers.uuid', $this->uuid)
+            ->select('customers.*', 'cars.id as car_id', 'cars.avatar as car_avatar', 'cars.name as car_name')
+            ->get();
 
         $response = [
             'code' => trans('pheicloud.response.success.code'),
             'msg' => trans('pheicloud.response.success.msg'),
-            'data' => $cars,
-        ]
+            'data' => $collections,
+        ];
 
         return response()->json($response);
     }

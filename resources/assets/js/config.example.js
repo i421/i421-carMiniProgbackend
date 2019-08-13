@@ -70,6 +70,8 @@ const Api = {
     'customerToggleIsSeller': 'api/v1/backend/customer/isSeller',
 
     'settingSetCarousel': 'api/v1/backend/setting/carousel',
+    'settingShowCarousel': 'api/v1/backend/setting/carousel/',
+    'settingUpdateCarousel': 'api/v1/backend/setting/carousel/update/',
     'destroySettingCarousel': 'api/v1/backend/setting/carousel/',
 
     'dashboard': 'api/v1/backend/dashboard',
