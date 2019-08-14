@@ -24,7 +24,8 @@ class PreOrderRequest extends FormRequest
     public function rules()
     {
         return [
-            'iv' => 'required|string',
+            'info' => 'required|array',
+            'payment_count' => 'required|integer',
         ];
     }
 }

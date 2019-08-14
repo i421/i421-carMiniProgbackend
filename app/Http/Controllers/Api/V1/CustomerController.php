@@ -45,6 +45,16 @@ class CustomerController extends Controller
     }
 
     /**
+     * 完善姓名和idCard
+     */
+    public function updateNameAndIdcard(CustomerRequests\UpdateNameAndIdcardRequest $request)
+    {
+        $params = $request->all();
+        $response = $this->dispatch(new CustomerJobs\UpdateNameAndIdcardJob($params));
+        return $response;
+    }
+
+    /**
      * 上传身份证
      */
     public function uploadIdcard(CustomerRequests\UploadIdcardRequest $request)
@@ -100,9 +110,9 @@ class CustomerController extends Controller
     }
 
     //用户订单
-    public function order($openid)
+    public function order($uuid)
     {
-        $response = $this->dispatch(new CustomerJobs\OrderJob($openid));
+        $response = $this->dispatch(new CustomerJobs\OrderJob($uuid));
         return $response;
     }
 

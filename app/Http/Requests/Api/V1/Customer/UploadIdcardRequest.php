@@ -24,7 +24,7 @@ class UploadIdcardRequest extends FormRequest
     public function rules()
     {
         return [
-            'openid' => 'required|string',
+            'uuid' => 'required|string',
             'id_card_front_path' => 'required|image',
             'id_card_back_path' => 'required|image',
         ];

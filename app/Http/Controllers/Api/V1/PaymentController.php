@@ -9,7 +9,12 @@ use App\Jobs\Api\V1\Payment as PaymentJobs;
 
 class PaymentController extends Controller
 {
-    // 向微信请求统一下单接口, 创建预支付订单
+    /*
+     * 向微信请求统一下单接口, 创建预支付订单
+     *
+     * @param integer $payment_count
+     * @param array $info[customer_id, car_id, shop_id, type(1现车 2拼团), fighting_group_id(拼团才有)]
+     */
     public function pre_order(PaymentRequests\PreOrderRequest $request)
     {
         $params = $request->all();

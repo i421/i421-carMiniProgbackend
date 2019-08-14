@@ -4,15 +4,15 @@ namespace App\Jobs\Api\V1\Customer;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Support\Facades\Cache;
 use App\Tables as TableModels;
 
-class UploadDrivingLicenseJob
+class UpdateNameAndIdCardJob
 {
     use Dispatchable, Queueable;
 
-    private $uuid;
-    private $driver_license;
+    private $name;
+    private $id_card;
+    private $openid;
 
     /**
      * Create a new job instance.
@@ -22,7 +22,8 @@ class UploadDrivingLicenseJob
     public function __construct(array $params)
     {
         $this->uuid = $params['uuid'];
-        $this->driver_license = $params['driver_license'];
+        $this->name = $params['name'];
+        $this->id_card = $params['id_card'];
     }
 
     /**
@@ -37,7 +38,8 @@ class UploadDrivingLicenseJob
         if (!empty($customer)) {
 
             $infoArr = json_decode($customer->getOriginal('info'), true);
-            $infoArr['driver_license'] = $this->driver_license;
+            $infoArr['name'] = $this->name;
+            $infoArr['id_card'] = $this->id_card;
             $customer->info = $infoArr;
             $customer->save();
 

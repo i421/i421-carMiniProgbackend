@@ -13,6 +13,7 @@ class PreOrderJob
 
     private $app;
     private $payment_count;
+    private $info;
 
     /**
      * Create a new job instance.
@@ -23,6 +24,7 @@ class PreOrderJob
     {
         $this->app = Factory::payment(config('wechat.payment.default'));
         $this->payment_count = $params['payment_count'];
+        $this->info = $params['info'];
     }
 
     /**
@@ -36,7 +38,7 @@ class PreOrderJob
         //元换成分
         $payment_count = bcmul($this->payment_count, 100);
 
-        PayLog::create([
+        TableModels\PayLog::create([
             'appid' => config('wechat.payment.default.app_id'),
             'mch_id' => config('wechat.payment.default.mch_id'),
             'out_trade_no' => $order_num,
@@ -45,7 +47,7 @@ class PreOrderJob
 
         $result = $this->app->order->unify([
             'trade_type' => 'JSAPI',
-            'body' => '汽车定金',
+            'body' => '车辆定金',
             'out_trade_no' => $order_num,
             'total_fee' => $payment_count,
         ]);
@@ -55,7 +57,7 @@ class PreOrderJob
                 'code' => 200,
                 'msg' => 'success',
                 'order_num' => $order_num,
-                'data' => $result
+                'data' => $result,
             ];
         }
     }

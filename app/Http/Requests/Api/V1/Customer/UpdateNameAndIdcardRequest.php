@@ -4,7 +4,7 @@ namespace App\Http\Requests\Api\V1\Customer;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UploadBankcardRequest extends FormRequest
+class UpdateNameAndIdcardRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,7 +25,8 @@ class UploadBankcardRequest extends FormRequest
     {
         return [
             'uuid' => 'required|string',
-            'bank_card' => 'required|image',
+            'name' => 'required|string',
+            'id_card' => 'required|string',
         ];
     }
 }
