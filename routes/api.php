@@ -64,7 +64,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api\V1'], function () {
 
     //图片管理
     Route::group(['prefix' => 'image'], function () {
-        Route::match(['get', 'post'], 'ImageController@store');
+        Route::post('/', 'ImageController@store');
     });
 
     //支付查询
