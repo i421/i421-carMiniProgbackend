@@ -25,7 +25,7 @@ class UploadBankcardRequest extends FormRequest
     {
         return [
             'uuid' => 'required|string',
-            'bank_card' => 'required|image',
+            'bank_card' => 'required|string',
         ];
     }
 }

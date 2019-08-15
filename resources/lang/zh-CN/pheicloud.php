@@ -38,6 +38,10 @@ return [
             'code' => '10000',
             'msg' => '异常',
         ],
+        'userNotBindRole' => [
+            'code' => '10001',
+            'msg' => '用户未绑定角色',
+        ],
         'exist' => [
             'code' => '10004',
             'msg' => '已经存在，请重试',
@@ -54,6 +58,10 @@ return [
             'code' => '10007',
             'msg' => '验证码失效. 请重新获取验证码',
         ],
+        'passwordNotSameAsBefore' => [
+            'code' => '10008',
+            'msg' => '原密码不正确',
+        ],
         'missingParams' => [
             'code' => '20000',
             'msg' => '缺失参数',
@@ -66,13 +74,9 @@ return [
             'code' => '20002',
             'msg' => '手机号格式错误',
         ],
-        'userNotBindRole' => [
-            'code' => '10001',
-            'msg' => '用户未绑定角色',
-        ],
-        'passwordNotSameAsBefore' => [
-            'code' => '10008',
-            'msg' => '原密码不正确',
+        'fileNotValid' => [
+            'code' => '20003',
+            'msg' => '文件不合法',
         ],
     ],
 ];

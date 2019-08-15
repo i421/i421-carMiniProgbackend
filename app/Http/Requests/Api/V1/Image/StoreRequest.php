@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Api\V1\Customer;
+namespace App\Http\Requests\Api\V1\Image;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UploadDrivingLicenseRequest extends FormRequest
+class StoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +24,7 @@ class UploadDrivingLicenseRequest extends FormRequest
     public function rules()
     {
         return [
-            'uuid' => 'required|string',
-            'driver_license' => 'required|string',
+            'file' => 'required|image',
         ];
     }
 }

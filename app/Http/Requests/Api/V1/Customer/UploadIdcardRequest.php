@@ -25,8 +25,8 @@ class UploadIdcardRequest extends FormRequest
     {
         return [
             'uuid' => 'required|string',
-            'id_card_front_path' => 'required|image',
-            'id_card_back_path' => 'required|image',
+            'id_card_front_path' => 'required|string',
+            'id_card_back_path' => 'required|string',
         ];
     }
 }

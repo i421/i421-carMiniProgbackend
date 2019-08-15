@@ -27,14 +27,6 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api\V1'], function () {
         Route::get('fighting/group/{uuid}', 'CustomerController@fightingGroup');
     });
 
-    //地址管理(不用)
-    Route::group(['prefix' => 'address'], function () {
-        Route::get('provinces', 'AddressController@getProvinces');
-        Route::get('cities/{id}', 'AddressController@getCities');
-        Route::get('towns/{id}', 'AddressController@getTowns');
-        Route::get('fullpath/{id}', 'AddressController@getFullPath');
-    });
-
     //标签管理
     Route::group(['prefix' => 'tag'], function () {
         Route::get('classify', 'TagController@classify');
@@ -70,6 +62,11 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api\V1'], function () {
         Route::get('{id}', 'FightingGroupController@show');
     });
 
+    //图片管理
+    Route::group(['prefix' => 'image'], function () {
+        Route::match(['get', 'post'], 'ImageController@store');
+    });
+
     //支付查询
     Route::group(['prefix' => 'payment'], function () {
         //微信发送支付结果
@@ -79,6 +76,15 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api\V1'], function () {
         // 请求微信接口, 查看订单支付状态
         Route::get('/payment/paid', 'PaymentController@paid');
     });
+
+    //地址管理(不用)
+    Route::group(['prefix' => 'address'], function () {
+        Route::get('provinces', 'AddressController@getProvinces');
+        Route::get('cities/{id}', 'AddressController@getCities');
+        Route::get('towns/{id}', 'AddressController@getTowns');
+        Route::get('fullpath/{id}', 'AddressController@getFullPath');
+    });
+
 });
 
 Route::group(['prefix' => 'v1/backend', 'namespace' => 'Backend', 'middleware' => 'auth:api'], function () {
