@@ -85,6 +85,12 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api\V1'], function () {
         Route::get('fullpath/{id}', 'AddressController@getFullPath');
     });
 
+    //消息管理
+    Route::group(['prefix' => 'message'], function () {
+        Route::get('/', 'MessageController@index');
+        Route::get('{id}', 'MessageController@show');
+    });
+
 });
 
 Route::group(['prefix' => 'v1/backend', 'namespace' => 'Backend', 'middleware' => 'auth:api'], function () {
