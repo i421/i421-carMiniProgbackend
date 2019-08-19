@@ -6,7 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Foundation\Bus\Dispatchable;
 use EasyWeChat\Factory;
 
-class PlaceOrderJob
+class PaidJob
 {
     use Dispatchable, Queueable;
 
@@ -45,8 +45,8 @@ class PlaceOrderJob
         $response = [
             'code' => $code,
             'msg' => $msg,
-        ]
+        ];
 
-        return response->json($response);
+        return response()->json($response);
     }
 }

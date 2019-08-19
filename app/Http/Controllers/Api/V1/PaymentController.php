@@ -30,7 +30,7 @@ class PaymentController extends Controller
     }
 
     // 请求微信接口查看支付状态
-	public function paid(Request $request)
+	public function paid(PaymentRequests\PaidRequest $request)
     {
         $out_trade_no = $request->input('out_trade_no');
         $response = $this->dispatch(new PaymentJobs\PaidJob($out_trade_no));

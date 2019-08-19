@@ -72,9 +72,9 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api\V1'], function () {
         //微信发送支付结果
         Route::post('notify', 'PaymentController@notify');
         // 请求微信统一下单接口
-        Route::get('/payment/pre_order', 'PaymentController@pre_order');
+        Route::post('pre_order', 'PaymentController@pre_order');
         // 请求微信接口, 查看订单支付状态
-        Route::get('/payment/paid', 'PaymentController@paid');
+        Route::get('paid', 'PaymentController@paid');
     });
 
     //地址管理(不用)
