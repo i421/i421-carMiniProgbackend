@@ -44,7 +44,7 @@ class CarouselListJob
 
             foreach ($carousels as &$carousel) {
                 $carousel['path'] = 'storage/' . $carousel['path'];
-                $carousel['full_path'] = url('/') . '/storage/' . $carousel['path'];
+                $carousel['full_path'] = url('/') . '/' . $carousel['path'];
             }
 
             $response = [

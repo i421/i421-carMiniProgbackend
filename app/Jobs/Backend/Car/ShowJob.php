@@ -64,7 +64,7 @@ class ShowJob
             $car->carousel = json_decode($car->carousel, true);
 
             foreach($car->carousel as $atom) {
-                $full_carousel[] = url('/') . '/storage/' . $atom;
+                $full_carousel[] = url('/') . '/' . $atom;
             }
         }
 
