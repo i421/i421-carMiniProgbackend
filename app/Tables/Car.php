@@ -19,6 +19,11 @@ class Car extends Model
         'id', 'created_at',
     ];
 
+    /**
+     * 添加字段
+     */
+    protected $appends = ['full_avatar'];
+
 	/**
 	 * 标签
 	 */
@@ -31,5 +36,10 @@ class Car extends Model
     public function getAvatarAttribute($value)
     {
         return '/storage/'. $value;
+    }
+
+    public function getFullAvatarAttribute()
+    {
+        return url('/') . '/storage/' . $this->attributes['avatar'];
     }
 }

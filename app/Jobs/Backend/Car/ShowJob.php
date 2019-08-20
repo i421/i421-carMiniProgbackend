@@ -62,7 +62,13 @@ class ShowJob
             $car->carousel = [];
         } else {
             $car->carousel = json_decode($car->carousel, true);
+
+            foreach($car->carousel as $atom) {
+                $full_carousel[] = url('/') . '/storage/' . $atom;
+            }
         }
+
+        $car->full_carousel = $full_carousel;
 
         $response = [
             'code' => trans('pheicloud.response.success.code'),

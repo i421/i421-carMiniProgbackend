@@ -70,8 +70,8 @@ class SearchJob
             }
 
             foreach ($collections as $collection) {
-                if ($customer->id == $collection->car_id) {
-                    $customer->collection_count = $collection->collections;
+                if ($car->id == $collection->car_id) {
+                    $car->collection_count = $collection->collections;
                 }
             }
         }

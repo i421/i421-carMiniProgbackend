@@ -43,7 +43,8 @@ class CarouselListJob
             $carousels = json_decode($carousels[0]['value'], true);
 
             foreach ($carousels as &$carousel) {
-                $carousel['path'] = 'storage/' . $carousel['path']; 
+                $carousel['path'] = 'storage/' . $carousel['path'];
+                $carousel['full_path'] = url('/') . '/storage/' . $carousel['path'];
             }
 
             $response = [

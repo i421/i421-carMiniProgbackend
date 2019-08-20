@@ -40,6 +40,7 @@ class OrderJob
 
         foreach ($orders as &$order) {
             $order['avatar'] = 'storage/' . $order['avatar'];
+            $order['full_avatar'] = url('/') . '/storage/' . $order['avatar'];
         }
 
         $response = [

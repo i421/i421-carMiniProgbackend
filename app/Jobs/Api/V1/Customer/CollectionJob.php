@@ -35,6 +35,10 @@ class CollectionJob
             ->select('customers.*', 'cars.id as car_id', 'cars.avatar as car_avatar', 'cars.name as car_name')
             ->get();
 
+        foreach ($collections as &$collection) {
+            $collection['full_car_avatar'] = url('/') . '/storage/' . $collection->car_avatar;
+        }
+
         $response = [
             'code' => trans('pheicloud.response.success.code'),
             'msg' => trans('pheicloud.response.success.msg'),

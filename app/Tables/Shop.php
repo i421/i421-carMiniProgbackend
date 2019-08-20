@@ -19,6 +19,8 @@ class Shop extends Model
         'id', 'created_at',
     ];
 
+    protected $appends = ['full_img_url', 'full_license_url'];
+
 	/**
 	 * 获取该用户拥有的门店
 	 */
@@ -33,10 +35,20 @@ class Shop extends Model
         return '/storage/'. $value;
     }
 
+    public function getFullImgUrlAttribute($value)
+    {
+        return url('/') . '/storage/' . $this->attributes['img_url'];
+    }
+
     //修改营业执照地址
     public function getLicenseUrlAttribute($value)
     {
         return '/storage/'. $value;
+    }
+
+    public function getFullLicenseUrlAttribute()
+    {
+        return url('/') . '/storage/' . $this->attributes['license_url'];
     }
 
     //修改省份

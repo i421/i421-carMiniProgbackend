@@ -15,8 +15,18 @@ class Brand extends Model
         'id', 'created_at',
     ];
 
+    /**
+     * 添加字段
+     */
+    protected $appends = ['full_logo'];
+
     public function getLogoAttribute($value)
     {
         return '/storage/'. $value;
+    }
+
+    public function getFullLogoAttribute()
+    {
+        return url('/') . '/storage/' . $this->attributes['logo'];
     }
 }
