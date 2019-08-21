@@ -13,9 +13,9 @@ export default {
         context.commit(types.SET_LANGUAGE, payload)
     },
 
-    //设置AccessToken
-    setAccessToken(context, payload) {
-        context.commit(types.SET_ACCESS_TOKEN, payload)
+    //设置Token[access_token]
+    setToken(context, payload) {
+        context.commit(types.SET_TOKEN, payload)
     },
 
     //设置系统版本

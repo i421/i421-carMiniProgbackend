@@ -18,8 +18,8 @@ export default {
     },
 
     //设置AccessToken
-    [types.SET_ACCESS_TOKEN](state, payload) {
-        state.access_token = payload
+    [types.SET_TOKEN](state, payload) {
+        state.token = payload
     },
 
     //设置头像
@@ -45,6 +45,6 @@ export default {
     //登录并重置vuex信息
     [types.DO_LOGOUT] (state) {
         state.auth_user = null
-        state.access_token = null
+        state.token = {}
     }
 }

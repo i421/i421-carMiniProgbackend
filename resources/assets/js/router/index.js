@@ -173,7 +173,7 @@ function requireAuth(to, from, next) {
     let vuexData = JSON.parse(window.localStorage.getItem("vuex"))
 
     if (vuexData !== null) {
-        if (vuexData.auth_user !== null && vuexData.access_token) {
+        if (vuexData.auth_user !== null && vuexData.token.access_token) {
             next()
         } else {
             next('/login')

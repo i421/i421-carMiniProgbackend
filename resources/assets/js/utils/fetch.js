@@ -32,8 +32,8 @@ http.interceptors.request.use(config => {
 
 	NProgress.start()
     //在请求前添加认证头
-    if (store.state.access_token !== null) {
-        config.headers.authorization = "Bearer " + store.state.access_token;
+    if (store.state.token.access_token !== null) {
+        config.headers.authorization = "Bearer " + store.state.token.access_token;
     }
     return config
 
@@ -131,16 +131,24 @@ http.interceptors.response.use(function (response) {
 
         if (response.data.message == "Unauthenticated.") {
 
-            window.localStorage.removeItem('vuex')
+            const originalRequest = response.config
+            originalRequest._retry = true
 
-            Notification.error({
-                title: '错误',
-                message: '令牌错误,请重新登录'
+            return axios.post('oauth/token', {
+                grant_type: 'refresh_token',
+                refresh_token: store.state.token.refresh_token,
+                client_id: systemConfig.clientId,
+                client_secret: systemConfig.clientSecret,
+                scope: ''
+            }).then(function (response) {
+                store.dispatch('setToken', response.data)
+                originalRequest.headers.authorization = "Bearer " + response.data.access_token;
+                return axios(originalRequest)
+            })
+            .catch(function (error) {
+                console.log(error);
             });
 
-            window.location.href = "/#/login";
-
-            NProgress.done()
             return Promise.reject(response);
         }
     }

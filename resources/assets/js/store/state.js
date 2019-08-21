@@ -1,6 +1,6 @@
 export default {
     language: 'zh_cn',
-    access_token: null,
+    token: {},
     sys_version: null,
     auth_user: null,
 }

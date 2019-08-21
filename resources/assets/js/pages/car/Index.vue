@@ -226,7 +226,6 @@
                   url: Api.brands,
               }).then(response => {
                   this.brands = response.data.data
-                  console.log(this.brands)
               }).catch(err => {
                   console.log(err)
               })

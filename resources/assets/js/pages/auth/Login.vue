@@ -64,7 +64,7 @@
     },
 
     mounted () {
-        if (this.$store.state.access_token !== null && this.$store.state.auth_user !== null) {
+        if (this.$store.state.token.access_token !== null && this.$store.state.auth_user !== null) {
             this.$router.push('/dashboard')
         }
     },
@@ -101,7 +101,7 @@
                 authToken.access_token = response.data.access_token
                 authToken.refresh_token = response.data.refresh_token
                 */
-                this.$store.dispatch('setAccessToken', response.data.access_token)
+                this.$store.dispatch('setToken', response.data)
                 /*
                 let encryptToken = encryptData(authToken)
                 window.localStorage.setItem('token', encryptToken)
