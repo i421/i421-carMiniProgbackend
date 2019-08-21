@@ -24,7 +24,7 @@ class UpdateNameAndIdcardRequest extends FormRequest
     public function rules()
     {
         return [
-            'uuid' => 'required|string',
+            'openid' => 'required|string',
             'name' => 'required|string',
             'id_card' => 'required|string',
         ];

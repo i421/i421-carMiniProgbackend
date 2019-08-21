@@ -11,7 +11,7 @@ class UploadIdcardJob
 {
     use Dispatchable, Queueable;
 
-    private $uuid;
+    private $openid;
     private $id_card_front_path;
     private $id_card_back_path;
 
@@ -22,7 +22,7 @@ class UploadIdcardJob
      */
     public function __construct(array $params)
     {
-        $this->uuid = $params['uuid'];
+        $this->openid = $params['openid'];
         $this->id_card_front_path = $params['id_card_front_path'];
         $this->id_card_back_path = $params['id_card_back_path'];
     }
@@ -34,7 +34,7 @@ class UploadIdcardJob
      */
     public function handle()
     {
-        $customer = TableModels\Customer::where("uuid", $this->uuid)->first();
+        $customer = TableModels\Customer::where("openid", $this->openid)->first();
 
         if (!empty($customer)) {
 

@@ -10,16 +10,16 @@ class FightingGroupJob
 {
     use Dispatchable, Queueable;
 
-    private $uuid;
+    private $openid;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct(string $uuid)
+    public function __construct(string $openid)
     {
-        $this->uuid = $uuid;
+        $this->openid = $openid;
     }
 
     /**
@@ -33,7 +33,7 @@ class FightingGroupJob
             ->leftJoin('shops', 'orders.shop_id', '=', 'shops.id')
             ->leftJoin('cars', 'orders.car_id', '=', 'cars.id')
             ->where([
-                ['customers.uuid', '=', $this->uuid],
+                ['customers.openid', '=', $this->openid],
                 ['orders.type', '=', 2],
             ])->select(
                 'orders.*', 'cars.name as car_name', 'cars.final_price as final_price', 'cars.avatar as avatar', 'shops.name as shop_name',

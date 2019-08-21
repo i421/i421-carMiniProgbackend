@@ -12,7 +12,7 @@ class UploadBankcardJob
     use Dispatchable, Queueable;
 
     private $bank_card;
-    private $uuid;
+    private $openid;
 
     /**
      * Create a new job instance.
@@ -21,7 +21,7 @@ class UploadBankcardJob
      */
     public function __construct(array $params)
     {
-        $this->uuid = $params['uuid'];
+        $this->openid = $params['openid'];
         $this->bank_card = $params['bank_card'];
     }
 
@@ -32,7 +32,7 @@ class UploadBankcardJob
      */
     public function handle()
     {
-        $customer = TableModels\Customer::where("uuid", $this->uuid)->first();
+        $customer = TableModels\Customer::where("openid", $this->openid)->first();
 
         if (!empty($customer)) {
 

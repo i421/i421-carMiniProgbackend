@@ -85,30 +85,30 @@ class CustomerController extends Controller
     }
 
     //用户订单
-    public function order($uuid)
+    public function order($openid)
     {
-        $response = $this->dispatch(new CustomerJobs\OrderJob($uuid));
+        $response = $this->dispatch(new CustomerJobs\OrderJob($openid));
         return $response;
     }
 
     //用户拼团
-    public function fightingGroup($uuid)
+    public function fightingGroup($openid)
     {
-        $response = $this->dispatch(new CustomerJobs\FightingGroupJob($uuid));
+        $response = $this->dispatch(new CustomerJobs\FightingGroupJob($openid));
         return $response;
     }
 
     //用户收藏
-    public function collection($uuid)
+    public function collection($openid)
     {
-        $response = $this->dispatch(new CustomerJobs\CollectionJob($uuid));
+        $response = $this->dispatch(new CustomerJobs\CollectionJob($openid));
         return $response;
     }
 
     //用户积分
-    public function score($uuid)
+    public function score($openid)
     {
-        $response = $this->dispatch(new CustomerJobs\ScoreJob($uuid));
+        $response = $this->dispatch(new CustomerJobs\ScoreJob($openid));
         return $response;
     }
 }

@@ -21,7 +21,7 @@ class UpdateNameAndIdCardJob
      */
     public function __construct(array $params)
     {
-        $this->uuid = $params['uuid'];
+        $this->openid = $params['openid'];
         $this->name = $params['name'];
         $this->id_card = $params['id_card'];
     }
@@ -33,7 +33,7 @@ class UpdateNameAndIdCardJob
      */
     public function handle()
     {
-        $customer = TableModels\Customer::where("uuid", $this->uuid)->first();
+        $customer = TableModels\Customer::where("openid", $this->openid)->first();
 
         if (!empty($customer)) {
 

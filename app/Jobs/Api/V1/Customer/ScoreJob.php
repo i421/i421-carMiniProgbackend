@@ -10,16 +10,16 @@ class ScoreJob
 {
     use Dispatchable, Queueable;
 
-    private $uuid;
+    private $openid;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct(string $uuid)
+    public function __construct(string $openid)
     {
-        $this->uuid = $uuid;
+        $this->openid = $openid;
     }
 
     /**
@@ -30,7 +30,7 @@ class ScoreJob
     public function handle()
     {
         $scores = TableModels\Score::join('customers', 'scores.customer_id', '=', 'customers.id')
-            ->where('customers.uuid', $this->uuid)
+            ->where('customers.openid', $this->openid)
             ->select('scores.*')
             ->get();
 

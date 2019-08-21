@@ -24,7 +24,7 @@ class UploadBankcardRequest extends FormRequest
     public function rules()
     {
         return [
-            'uuid' => 'required|string',
+            'openid' => 'required|string',
             'bank_card' => 'required|string',
         ];
     }

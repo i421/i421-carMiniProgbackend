@@ -10,16 +10,16 @@ class OrderJob
 {
     use Dispatchable, Queueable;
 
-    private $uuid;
+    private $openid;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct(string $uuid)
+    public function __construct(string $openid)
     {
-        $this->uuid = $uuid;
+        $this->openid = $openid;
     }
 
     /**
@@ -32,7 +32,7 @@ class OrderJob
         $orders = TableModels\Order::leftJoin('customers', 'orders.customer_id', '=', 'customers.id')
             ->leftJoin('shops', 'orders.shop_id', '=', 'shops.id')
             ->leftJoin('cars', 'orders.car_id', '=', 'cars.id')
-            ->where('customers.uuid', '=', $this->uuid)
+            ->where('customers.openid', '=', $this->openid)
             ->select(
                 'orders.*', 'cars.name as car_name', 'cars.final_price as final_price', 'cars.avatar as avatar', 'shops.name as shop_name',
                 'customers.info->name as customer_name', 'customers.phone as phone'

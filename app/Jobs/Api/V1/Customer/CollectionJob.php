@@ -10,16 +10,16 @@ class CollectionJob
 {
     use Dispatchable, Queueable;
 
-    private $uuid;
+    private $openid;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct(string $uuid)
+    public function __construct(string $openid)
     {
-        $this->uuid = $uuid;
+        $this->openid = $openid;
     }
 
     /**
@@ -31,7 +31,7 @@ class CollectionJob
     {
         $collections = TableModels\Collection::join('customers', 'collections.customer_id', '=', 'customers.id')
             ->join('cars', 'collections.car_id', '=', 'cars.id')
-            ->where('customers.uuid', $this->uuid)
+            ->where('customers.openid', $this->openid)
             ->select('customers.*', 'cars.id as car_id', 'cars.avatar as car_avatar', 'cars.name as car_name')
             ->get();
 

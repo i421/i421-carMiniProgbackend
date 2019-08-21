@@ -24,7 +24,7 @@ class UploadDrivingLicenseRequest extends FormRequest
     public function rules()
     {
         return [
-            'uuid' => 'required|string',
+            'openid' => 'required|string',
             'driver_license' => 'required|string',
         ];
     }

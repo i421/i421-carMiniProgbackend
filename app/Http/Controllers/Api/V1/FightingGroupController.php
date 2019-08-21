@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\V1;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Backend\FightingGroup as FightingGroupRequests;
 use App\Jobs\Backend\FightingGroup as FightingGroupJobs;
 
 class FightingGroupController extends Controller
@@ -38,6 +39,13 @@ class FightingGroupController extends Controller
     public function show(int $id)
     {
         $response = $this->dispatch(new FightingGroupJobs\ShowJob($id));
+        return $response;
+    }
+
+    public function search(FightingGroupRequests\SearchRequest $request)
+    {
+        $params = $request->all();
+        $response = $this->dispatch(new FightingGroupJobs\SearchJob($params));
         return $response;
     }
 }

@@ -59,6 +59,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api\V1'], function () {
     //拼团管理
     Route::group(['prefix' => 'fighting/group'], function () {
         Route::get('/', 'FightingGroupController@index');
+        Route::get('search', 'FightingGroupController@search');
         Route::get('{id}', 'FightingGroupController@show');
     });
 

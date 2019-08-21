@@ -5,6 +5,7 @@ namespace App\Jobs\Api\V1\Customer;
 use Illuminate\Bus\Queueable;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Support\Facades\Cache;
+use App\Tables\Customer;
 
 class Code2SessionJob
 {
@@ -49,6 +50,15 @@ class Code2SessionJob
         \Log::info($res);
 
         Cache::put($res['openid'], $res['session_key'], 5);
+
+        $customer = Customer::where('openid', $res['openid'])->first();
+
+        if (is_null($customer)) {
+            Customer::create([
+                'uuid' => time() . str_random(30),
+                'openid' => $res['openid'],
+            ]);
+        }
 
         $response = [
             'code' => trans('pheicloud.response.success.code'),
