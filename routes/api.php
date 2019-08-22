@@ -16,7 +16,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api\V1'], function () {
     //客户管理
     Route::group(['prefix' => 'customer'], function () {
         Route::get('code2session', 'CustomerController@code2Session');
-        Route::get('store', 'CustomerController@store');
+        Route::post('store', 'CustomerController@store');
         Route::get('update/phone', 'CustomerController@updatePhone');
         Route::post('upload/idcard', 'CustomerController@uploadIdcard');
         Route::post('upload/bankcard', 'CustomerController@uploadBankcard');
@@ -36,6 +36,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api\V1'], function () {
     Route::group(['prefix' => 'brand'], function () {
         Route::get('/', 'BrandController@index');
         Route::get('search/{key}', 'BrandController@search');
+        Route::get('hot', 'BrandController@hot');
     });
 
     //轮播图管理

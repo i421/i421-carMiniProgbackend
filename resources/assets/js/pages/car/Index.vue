@@ -236,7 +236,7 @@
                 url: Api.searchCar,
                 params: {
                     'name': this.conditionName,
-                    'brand': this.conditionBrand,
+                    'brand_id': this.conditionBrand,
                     'min_price': this.conditionMinPrice,
                     'max_price': this.conditionMaxPrice,
                 }

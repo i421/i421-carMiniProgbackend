@@ -27,6 +27,8 @@ class StoreRequest extends FormRequest
             'name' => 'required|string',
             'head' => 'required|string',
             'logo' => 'required|image',
+            'is_hot' => 'required|boolean',
+            'rank' => 'required|integer',
         ];
     }
 }

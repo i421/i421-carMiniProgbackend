@@ -13,6 +13,8 @@ class StoreJob
     private $name;
     private $head;
     private $logo;
+    private $is_hot;
+    private $rank;
 
     /**
      * Create a new job instance.
@@ -24,6 +26,8 @@ class StoreJob
         $this->name = $params['name'];
         $this->logo = $params['logo'];
         $this->head = isset($params['head']) ? $params['head'] : '';
+        $this->is_hot = isset($params['is_hot']) ? $params['is_hot'] : 0;
+        $this->rank = isset($params['rank']) ? $params['rank'] : 1;
     }
 
     /**
@@ -42,6 +46,8 @@ class StoreJob
                 'name' => $this->name,
                 'head' => $this->head,
                 'logo' => $this->logo,
+                'is_hot' => $this->is_hot,
+                'rank' => $this->rank,
             ]);
 
             if ($brand) {

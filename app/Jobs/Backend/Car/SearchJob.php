@@ -12,7 +12,7 @@ class SearchJob
     use Dispatchable, Queueable;
 
     private $name;
-    private $brand;
+    private $brand_id;
     private $min_price;
     private $max_price;
 
@@ -24,7 +24,7 @@ class SearchJob
     public function __construct(array $params)
     {
         $this->name = isset($params['name']) ? $params['name'] : null;
-        $this->brand = isset($params['brand']) ? $params['brand'] : null;
+        $this->brand_id = isset($params['brand_id']) ? $params['brand_id'] : null;
         $this->min_price = isset($params['min_price']) ? $params['min_price'] : 0;
         $this->max_price = isset($params['max_price']) ? $params['max_price'] : 99999999999;
     }
@@ -43,8 +43,8 @@ class SearchJob
             $tempRes->where('cars.name', 'like', "%$this->name%");
         }
         
-        if (!is_null($this->brand)) {
-            $tempRes->where('cars.brand_id', $this->brand);
+        if (!is_null($this->brand_id)) {
+            $tempRes->where('cars.brand_id', $this->brand_id);
         }
 
         $tempRes->where([

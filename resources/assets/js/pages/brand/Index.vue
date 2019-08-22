@@ -46,10 +46,30 @@
                 </template>
             </el-table-column>
 
-            <el-table-column label="姓名" prop="name">
+            <el-table-column label="名称" prop="name">
             </el-table-column>
 
-            <el-table-column label="绑定汽车数" prop="car_count">
+            <el-table-column label="热搜" prop="is_hot" width="180">
+                <template slot-scope="scope">
+                    <el-tag v-if="scope.row.is_hot == 1" type="success">热搜</el-tag>
+                    <el-tag v-else type="primary">非热搜</el-tag>
+                </template>
+            </el-table-column>
+
+            <el-table-column label="热搜排序" prop="rank" width="300">
+                <template slot-scope="scope">
+                    <el-rate
+                        v-model="scope.row.rank"
+                        :max="10"
+                        disabled
+                        show-score
+                        text-color="#ff9900"
+                    >
+                    </el-rate>
+                </template>
+            </el-table-column>
+
+            <el-table-column label="绑定汽车数" prop="car_count" width="120">
             </el-table-column>
 
         </data-tables>

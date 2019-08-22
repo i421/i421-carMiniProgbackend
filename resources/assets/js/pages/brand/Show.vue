@@ -22,6 +22,29 @@
                         <el-input v-model="form.head"></el-input>
                     </el-form-item>
 
+                    <el-form-item label="是否热搜" prop="is_hot"
+                        :rules="[
+                            { required: true, message: '热搜不能为空', trigger: 'blur' },
+                        ]"
+                    >
+                        <el-radio v-model="form.is_hot" label="1">热搜</el-radio>
+                        <el-radio v-model="form.is_hot" label="0">非热搜</el-radio>
+                    </el-form-item>
+
+                    <el-form-item label="热搜排序" prop="rank"
+                        :rules="[
+                            { required: true, message: '热搜排序不能为空', trigger: 'blur' },
+                        ]"
+                    >
+                        <div style="margin-top:10px">
+                            <el-rate
+                                :max="10"
+                                v-model.number="form.rank"
+                                :colors="colors">
+                            </el-rate>
+                        </div>
+                    </el-form-item>
+
                     <el-form-item label="品牌图" label-width="100px" prop="logo"
                         :rules="[
                             { required: true, message: '品牌图不能为空', trigger: 'blur' },
@@ -86,8 +109,11 @@
                   name: '',
                   head: '',
                   logo: {},
+                  is_hot: '0',
+                  rank: 0,
               },
               previewLogo: '',
+              colors: ['#99A9BF', '#F7BA2A', '#FF9900']
           }
       },
 
@@ -102,6 +128,7 @@
               url: Api.showBrand + this.$route.params.id,
           }).then(response => {
               this.form = response.data.data
+              console.log(this.form)
               this.previewLogo = response.data.data.logo
           })
         },
@@ -111,6 +138,8 @@
 
             formData.append('name', this.form.name)
             formData.append('head', this.form.head)
+            formData.append('is_hot', this.form.is_hot)
+            formData.append('rank', this.form.rank)
 
             if (typeof(this.form.logo) == 'object') {
                 formData.append('logo', this.form.logo)

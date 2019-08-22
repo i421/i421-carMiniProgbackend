@@ -19,6 +19,8 @@ class UpdateJob
     private $name;
     private $head;
     private $logo;
+    private $is_hot;
+    private $rank;
 
     /**
      * Create a new job instance.
@@ -31,6 +33,8 @@ class UpdateJob
         $this->name = isset($params['name']) ? $params['name'] : null;
         $this->logo = isset($params['logo']) ? $params['logo'] : null;
         $this->head = isset($params['head']) ? $params['head'] : null;
+        $this->is_hot = isset($params['is_hot']) ? $params['is_hot'] : null;
+        $this->rank = isset($params['rank']) ? $params['rank'] : null;
     }
 
     /**
@@ -50,6 +54,14 @@ class UpdateJob
                 unlink($originPath);
             }
             $brand->logo = $this->logo;
+        }
+
+        if (!is_null($this->is_hot)) {
+            $brand->is_hot = $this->is_hot;
+        }
+
+        if (!is_null($this->rank)) {
+            $brand->rank = $this->rank;
         }
 
         $brand->name = $this->name;

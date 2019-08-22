@@ -22,6 +22,29 @@
                         <el-input v-model="form.head"></el-input>
                     </el-form-item>
 
+                    <el-form-item label="是否热搜" prop="is_hot"
+                        :rules="[
+                            { required: true, message: '热搜不能为空', trigger: 'blur' },
+                        ]"
+                    >
+                        <el-radio v-model="form.is_hot" label="1">热搜</el-radio>
+                        <el-radio v-model="form.is_hot" label="0">非热搜</el-radio>
+                    </el-form-item>
+
+                    <el-form-item label="热搜排序" prop="rank"
+                        :rules="[
+                            { required: true, message: '热搜排序不能为空', trigger: 'blur' },
+                        ]"
+                    >
+                        <div style="margin-top:10px">
+                            <el-rate
+                                v-model.number="form.rank"
+                                :max="10"
+                                :colors="colors">
+                            </el-rate>
+                        </div>
+                    </el-form-item>
+
                     <el-form-item label="品牌图" prop="logo"
                         :rules="[
                             { required: true, message: '品牌图不能为空', trigger: 'blur' },
@@ -72,7 +95,10 @@
                   name: '',
                   head: '',
                   logo: {},
-              }
+                  is_hot: '0',
+                  rank: 0,
+              },
+              colors: ['#99A9BF', '#F7BA2A', '#FF9900']
           }
       },
 
@@ -87,6 +113,8 @@
                     formData.append('name', this.form.name)
                     formData.append('head', this.form.head)
                     formData.append('logo', this.form.logo)
+                    formData.append('is_hot', this.form.is_hot)
+                    formData.append('rank', this.form.rank)
                     http({
                         url: Api.storeBrand,
                         method: 'post',
@@ -95,6 +123,8 @@
                         this.form.logo = {}
                         this.form.name = '' 
                         this.form.head = '' 
+                        this.form.is_hot = '0'
+                        this.form.rank = 0
                         this.$refs.upload.clearFiles()
                         this.$notify.success({
                             'title': "提示",
