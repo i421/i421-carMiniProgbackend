@@ -27,7 +27,7 @@ class StoreRequest extends FormRequest
             'iv' => 'required|string',
             'openid' => 'required|string',
             'encryptedData' => 'required|string',
-            'recommender' => 'nullable|string|size:40',
+            'recommender' => 'nullable|string',
         ];
     }
 }
