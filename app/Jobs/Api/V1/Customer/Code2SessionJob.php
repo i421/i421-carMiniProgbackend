@@ -49,7 +49,7 @@ class Code2SessionJob
 
         \Log::info($res);
 
-        Cache::put($res['openid'], $res['session_key'], 5);
+        Cache::forever($res['openid'], $res['session_key']);
 
         $customer = Customer::where('openid', $res['openid'])->first();
 
