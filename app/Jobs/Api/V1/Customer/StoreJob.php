@@ -26,7 +26,7 @@ class StoreJob
         $this->iv = $params['iv'];
         $this->openid = $params['openid'];
         $this->encryptedData = $params['encryptedData'];
-        $this->recommender = isset($params['recommender']) ? $params['recommender'] : null;
+        $this->recommender = isset($params['recommender']) ? $params['recommender'] : '';
     }
 
     /**
