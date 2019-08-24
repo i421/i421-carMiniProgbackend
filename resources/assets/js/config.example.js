@@ -32,6 +32,8 @@ const Api = {
     'updateCar': 'api/v1/backend/car/update/',
     'destroyCar': 'api/v1/backend/car/',
     'searchCar': 'api/v1/backend/car/search',
+    'setGroup': "api/v1/backend/car/set/group",
+    'cancelGroup': "api/v1/backend/car/cancel/group",
 
     'shops': 'api/v1/backend/shop',
     'storeShop': 'api/v1/backend/shop',
@@ -55,10 +57,8 @@ const Api = {
     'searchMessage': 'api/v1/backend/message/search',
 
     'fightingGroups': 'api/v1/backend/fighting/group',
-    'storeFightingGroup': 'api/v1/backend/fighting/group',
     'showFightingGroup': 'api/v1/backend/fighting/group/',
     'updateFightingGroup': 'api/v1/backend/fighting/group/',
-    'destroyFightingGroup': 'api/v1/backend/fighting/group/',
     'searchFightingGroup': 'api/v1/backend/fighting/group/search',
 
     'customers': 'api/v1/backend/customer',
