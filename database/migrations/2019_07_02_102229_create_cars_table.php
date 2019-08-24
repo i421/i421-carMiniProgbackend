@@ -17,13 +17,20 @@ class CreateCarsTable extends Migration
         Schema::create('cars', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('brand_id')->unsigned()->index()->comment("品牌名");
+            $table->integer('type')->default(1)->index()->comment("现车1/拼团2");
             $table->string('name')->index()->comment("汽车名称");
+            $table->string('avatar')->nullable()->comment("汽车缩略图");
             $table->integer('guide_price')->comment("汽车指导价");
             $table->integer('final_price')->comment("落地价、成交价");
             $table->integer('car_price')->comment("裸车价");
-            $table->string('avatar')->nullable()->comment("汽车缩略图");
             $table->string('remarks')->nullable()->comment("备注");
             $table->json('info')->nullable()->comment("详细信息");
+            $table->integer('group_type')->default(0)->index()->comment("时间拼团1/数量拼团2");
+            $table->integer('group_price')->default(0)->comment("拼团价");
+            $table->integer('total_num')->nullable()->index()->comment("拼团总人数");
+            $table->integer('current_num')->default(0)->index()->comment("拼团当前人数");
+            $table->datetime('start_time')->nullable()->index()->comment("拼团开始时间");
+            $table->datetime('end_time')->nullable()->index()->comment("拼团结束时间");
             $table->softDeletes()->comment("软删除");
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'));

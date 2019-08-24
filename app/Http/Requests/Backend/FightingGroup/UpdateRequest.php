@@ -24,11 +24,11 @@ class UpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'car_id' => 'required|integer',
+            'id' => 'required|integer',
+            'group_type' => 'required|integer',
             'group_price' => 'required|integer',
             'time_range' => 'required|array',
             'total_num' => 'nullable|integer',
-            'type' => 'required|integer',
         ];
     }
 }

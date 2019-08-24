@@ -11,7 +11,7 @@
 
                 <el-col :span="6" style="padding-right: 5px">
                     <div style="width: 100%">
-                        <el-select v-model="conditionBrand" placeholder="请选择">
+                        <el-select v-model="conditionBrand" placeholder="汽车品牌">
                             <el-option
                                 v-for="brand in brands"
                                 :key="brand.id"
@@ -22,6 +22,18 @@
                     </div>
                 </el-col>
 
+                <el-col :span="6" style="padding-right: 5px">
+                    <div style="width: 100%">
+                        <el-select v-model="conditionType" placeholder="请选择">
+                            <el-option label="全部" value="1"></el-option>
+                            <el-option label="时间拼团" value="2"></el-option>
+                            <el-option label="数量拼团" value="3"></el-option>
+                            <el-option label="现车" value="4"></el-option>
+                        </el-select>
+                    </div>
+                </el-col>
+            </el-row>
+            <el-row>
                 <el-col :span="6" style="padding-right: 5px">
                     <el-input class="table-search" v-model.number="conditionMinPrice" placeholder="最低价格"></el-input>
                 </el-col>
@@ -66,6 +78,14 @@
             </el-table-column>
 
             <el-table-column label="销量" prop="order_count">
+            </el-table-column>
+
+            <el-table-column label="类型" prop="group_type">
+                <template slot-scope="scope">
+                    <el-tag v-if="scope.row.group_type == 1" type="success">时间拼团</el-tag>
+                    <el-tag v-else-if="scope.row.group_type == 2" type="primary">数量拼团</el-tag>
+                    <el-tag v-else type="primary">现车</el-tag>
+                </template>
             </el-table-column>
         </data-tables>
 
@@ -164,13 +184,14 @@
             conditionName: '',
             conditionBrand: '',
             conditionGroup: [],
+            conditionType: "1",
             conditionMinPrice: '',
             conditionMaxPrice: '',
 			tableData: [],
             groupForm: {
                 car_id: '',
                 total_num: '',
-                type: '',
+                group_type: '',
                 time_range: '',
                 group_price: '',
             },
@@ -209,6 +230,16 @@
                         icon: 'el-icon-delete'
                     },
                     handler: row => {
+                        this.cancelGroup(row)
+                    },
+                    label: '取消拼团'
+                }, {
+                    props: {
+                        type: 'danger',
+                        size: "mini",
+                        icon: 'el-icon-delete'
+                    },
+                    handler: row => {
                         this.destroy(row)
                     },
                     label: '删除'
@@ -239,6 +270,7 @@
                     'brand_id': this.conditionBrand,
                     'min_price': this.conditionMinPrice,
                     'max_price': this.conditionMaxPrice,
+                    'type': this.conditionType,
                 }
             }).then(response => {
                 this.tableData = response.data.data
@@ -259,6 +291,7 @@
             this.conditionMinPrice = ''
             this.conditionMaxPrice = ''
             this.conditionBrand = ''
+            this.conditionType = ''
           },
 
           //查看详情
@@ -278,36 +311,58 @@
           },
 
           //提交组团信息
-          onSubmit(type) {
+          onSubmit(group_type) {
 
-              this.groupForm.type = type;
+              this.groupForm.group_type = group_type;
 
               http({
-                  url: Api.storeFightingGroup,
+                  url: Api.setGroup,
                   method: 'post',
                   data: this.groupForm
               }).then(response => {
-                  if (type == '1') {
-                    this.$refs['timeForm'].resetFields();
-                  } else {
-                      this.$refs['numForm'].resetFields();
-                  }
                   this.$notify.success({
                       'title': "提示",
                       'message': response.data.msg
                   })
-
                   this.dialogVisible = false
-                  this.$router.push({ name: 'fightingGroup' })
+                  this.fetchCars()
 
               }).catch(err => {
                   console.log(err)
               })
           },
 
+          //取消拼团
+          cancelGroup(row) {
+            this.$confirm('此操作取消拼团, 是否继续?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(() => {
+
+                http({
+                    method: 'post',
+                    url: Api.cancelGroup,
+                    data: { 'car_id': row.id}
+                }).then(response => {
+                    this.$notify.success({
+                        'title': "提示",
+                        'message': response.data.msg
+                    })
+                    this.fetchCars()
+                })
+
+            }).catch(() => {
+                this.$notify({
+                    type: 'info',
+                    message: '已取消删除'
+                });
+            })
+          },
+
           //删除
           destroy(row) {
-            this.$confirm('此操作将永久该汽车, 是否继续?', '提示', {
+            this.$confirm('此操作将永久删除汽车, 是否继续?', '提示', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
                 type: 'warning'

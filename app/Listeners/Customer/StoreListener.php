@@ -51,7 +51,7 @@ class StoreListener
 
             if (!empty($this->recommender)) {
 
-                $res = TableModels\Customer::where('uuid', $this->recommender)->increment('recommend_count', 1);  
+                $res = TableModels\Customer::where('openid', $this->recommender)->increment('recommend_count', 1);  
 
                 if (empty($res)) {
                     \Log::info("[error]: not found recommender with uuid: $this->recommender");

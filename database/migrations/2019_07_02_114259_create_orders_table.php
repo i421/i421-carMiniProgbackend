@@ -20,8 +20,6 @@ class CreateOrdersTable extends Migration
             $table->integer('customer_id')->unsigned()->comment("客户ID");
             $table->integer('shop_id')->unsigned()->comment("店铺ID");
             $table->integer('car_id')->unsigned()->comment("汽车");
-            $table->integer('type')->index()->nullable()->comment("类型:现车1，拼团2");
-            $table->integer('fighting_group_id')->unsigned()->nullable()->comment("拼团号： 拼团才有");
             $table->integer('status')->default(0)->comment("订单状态:客户未到店0、已到店1");
             $table->integer('pay_log_id')->unsigned()->comment("预支付订单id");
             $table->integer('payment_count')->nullable()->comment("支付金额");

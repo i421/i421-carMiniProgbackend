@@ -11,7 +11,7 @@ class UploadDrivingLicenseJob
 {
     use Dispatchable, Queueable;
 
-    private $uuid;
+    private $openid;
     private $driver_license;
 
     /**
@@ -21,7 +21,7 @@ class UploadDrivingLicenseJob
      */
     public function __construct(array $params)
     {
-        $this->uuid = $params['uuid'];
+        $this->openid = $params['openid'];
         $this->driver_license = $params['driver_license'];
     }
 
@@ -32,7 +32,7 @@ class UploadDrivingLicenseJob
      */
     public function handle()
     {
-        $customer = TableModels\Customer::where("uuid", $this->uuid)->first();
+        $customer = TableModels\Customer::where("openid", $this->openid)->first();
 
         if (!empty($customer)) {
 

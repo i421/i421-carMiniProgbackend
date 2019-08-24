@@ -31,13 +31,11 @@ class UpdateJob
     public function __construct(array $params)
     {
         $this->id = $params['id'];
-        $this->car_id = $params['car_id'];
-        $this->type = $params['type'];
+        $this->group_type = $params['group_type'];
         $this->group_price = $params['group_price'];
         $this->total_num = isset($params['total_num']) ? $params['total_num'] : null;
         $this->start_time = $params['time_range'][0];
         $this->end_time = $params['time_range'][1];
-        $this->status = isset($params['status']) ? $params['status'] : 1;
     }
 
     /**
@@ -47,16 +45,14 @@ class UpdateJob
      */
     public function handle()
     {
-        $fightingGroup = TableModels\FightingGroup::findOrFail($this->id);
+        $car = TableModels\Car::findOrFail($this->id);
 
-        $fightingGroup->car_id = $this->car_id;
-        $fightingGroup->type = $this->type;
-        $fightingGroup->group_price = $this->group_price;
-        $fightingGroup->total_num = is_null($this->total_num) ? 0 : $this->total_num;
-        $fightingGroup->start_time = $this->start_time;
-        $fightingGroup->end_time = $this->end_time;
-        $fightingGroup->status = $this->status;
-        $res = $fightingGroup->save();
+        $car->group_type = $this->group_type;
+        $car->group_price = $this->group_price;
+        $car->total_num = is_null($this->total_num) ? 0 : $this->total_num;
+        $car->start_time = $this->start_time;
+        $car->end_time = $this->end_time;
+        $res = $car->save();
 
         if ($res) {
 

@@ -13,7 +13,7 @@ class PaymentController extends Controller
      * 向微信请求统一下单接口, 创建预支付订单
      *
      * @param integer $payment_count
-     * @param array $info[customer_id, car_id, shop_id, type(1现车 2拼团), fighting_group_id(拼团才有)]
+     * @param array $info[customer_id, car_id, shop_id]
      */
     public function pre_order(PaymentRequests\PreOrderRequest $request)
     {

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Backend\FightingGroup;
+namespace App\Http\Requests\Backend\Setting;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreRequest extends FormRequest
+class UpdateScoreValueRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,11 +24,8 @@ class StoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'car_id' => 'required|integer',
-            'group_price' => 'required|integer',
-            'time_range' => 'required|array',
-            'total_num' => 'nullable|integer',
-            'type' => 'required|integer',
+            'key' => 'required|string',
+            'value' => 'required|array',
         ];
     }
 }

@@ -28,14 +28,12 @@ class IndexJob
      */
     public function handle()
     {
-        $fightingGroups = TableModels\FightingGroup::leftJoin('cars', 'fighting_groups.car_id', '=', 'cars.id')
-            ->select('cars.name as car_name', 'fighting_groups.*')
-            ->get();
+        $data = TableModels\Car::where('type', '2')->get();
 
         $response = [
             'code' => trans('pheicloud.response.success.code'),
             'msg' => trans('pheicloud.response.success.msg'),
-            'data' => $fightingGroups,
+            'data' => $data,
         ];
 
         return response()->json($response);

@@ -36,7 +36,9 @@ class OrderJob
             ->select(
                 'orders.*', 'cars.name as car_name', 'cars.final_price as final_price', 'cars.avatar as avatar', 'shops.name as shop_name',
                 'customers.info->name as customer_name', 'customers.phone as phone'
-            )->get()->toArray();
+            )->orderBy("created_at", 'desc')
+            ->get()
+            ->toArray();
 
         foreach ($orders as &$order) {
             $order['avatar'] = 'storage/' . $order['avatar'];

@@ -31,19 +31,6 @@ class FightingGroupController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(FightingGroupRequests\StoreRequest $request)
-    {
-        $params = $request->all();
-        $response = $this->dispatch(new FightingGroupJobs\StoreJob($params));
-        return $response;
-    }
-
-    /**
      * Display the specified resource.
      *
      * @param  int $id
@@ -52,32 +39,6 @@ class FightingGroupController extends Controller
     public function show(int $id)
     {
         $response = $this->dispatch(new FightingGroupJobs\ShowJob($id));
-        return $response;
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function update(FightingGroupRequests\UpdateRequest $request, int $id)
-    {
-        $params = $request->all();
-        $params['id'] = $id;
-        $response = $this->dispatch(new FightingGroupJobs\UpdateJob($params));
-        return $response;
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(int $id)
-    {
-        $response = $this->dispatch(new FightingGroupJobs\DestroyJob($id));
         return $response;
     }
 
@@ -91,6 +52,19 @@ class FightingGroupController extends Controller
     {
         $params = $request->all();
         $response = $this->dispatch(new FightingGroupJobs\SearchJob($params));
+        return $response;
+    }
+
+    /**
+     * Search a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function update(FightingGroupRequests\UpdateRequest $request)
+    {
+        $params = $request->all();
+        $response = $this->dispatch(new FightingGroupJobs\UpdateJob($params));
         return $response;
     }
 }

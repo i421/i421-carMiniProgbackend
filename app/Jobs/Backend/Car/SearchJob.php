@@ -15,6 +15,8 @@ class SearchJob
     private $brand_id;
     private $min_price;
     private $max_price;
+    private $type;
+    private $group_type;
 
     /**
      * Create a new job instance.
@@ -27,6 +29,7 @@ class SearchJob
         $this->brand_id = isset($params['brand_id']) ? $params['brand_id'] : null;
         $this->min_price = isset($params['min_price']) ? $params['min_price'] : 0;
         $this->max_price = isset($params['max_price']) ? $params['max_price'] : 99999999999;
+        $this->type = isset($params['type']) ? $params['type'] : 1;
     }
 
     /**
@@ -36,6 +39,18 @@ class SearchJob
      */
     public function handle()
     {
+        if ($this->type == 1) {
+            $this->type = null;
+        } else if ($this->type == 2) {
+            $this->type = 2;
+            $this->group_type = 1;
+        } else if ($this->type == 3) {
+            $this->type = 2;
+            $this->group_type = 2;
+        } else {
+            $this->type = 1;
+        }
+
         $tempRes = TableModels\Car::leftJoin('brands', 'cars.brand_id', '=', 'brands.id')
             ->select('cars.*', 'brands.name as brand_name');
 
@@ -45,6 +60,14 @@ class SearchJob
         
         if (!is_null($this->brand_id)) {
             $tempRes->where('cars.brand_id', $this->brand_id);
+        }
+
+        if (!is_null($this->type)) {
+            $tempRes->where('cars.type', $this->type);
+        }
+
+        if (!is_null($this->group_type)) {
+            $tempRes->where('cars.group_type', $this->group_type);
         }
 
         $tempRes->where([

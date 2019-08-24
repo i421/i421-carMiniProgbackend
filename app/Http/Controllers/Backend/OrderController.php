@@ -32,4 +32,10 @@ class OrderController extends Controller
         $response = $this->dispatch(new OrderJobs\SearchJob($params));
         return $response;
     }
+
+    public function arrive(int $id)
+    {
+        $response = $this->dispatch(new OrderJobs\ArriveJob($id));
+        return $response;
+    }
 }

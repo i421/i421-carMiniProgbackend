@@ -33,6 +33,7 @@ class CollectionJob
             ->join('cars', 'collections.car_id', '=', 'cars.id')
             ->where('customers.openid', $this->openid)
             ->select('customers.*', 'cars.id as car_id', 'cars.avatar as car_avatar', 'cars.name as car_name')
+            ->orderBy("collections.created_at", 'desc')
             ->get();
 
         foreach ($collections as &$collection) {

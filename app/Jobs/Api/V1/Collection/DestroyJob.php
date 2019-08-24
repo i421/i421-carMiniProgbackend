@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Jobs\Backend\FightingGroup;
+namespace App\Jobs\Api\V1\Collection;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Foundation\Bus\Dispatchable;
-use App\Tables\FightingGroup;
+use App\Tables\Collection;
 use stdClass;
 
 class DestroyJob
@@ -33,16 +33,16 @@ class DestroyJob
      */
     public function handle()
     {
-        $fightingGroup = FightingGroup::find($this->id);
+        $collection = Collection::find($this->id);
 
-        if (empty($fightingGroup)) {
+        if (empty($collection)) {
 
             $code = trans('pheicloud.response.notExist.code');
             $msg = trans('pheicloud.response.notExist.msg');
 
         } else {
 
-            $fightingGroup->delete();
+            $collection->delete();
 
             $code = trans('pheicloud.response.success.code');
             $msg = trans('pheicloud.response.success.msg');

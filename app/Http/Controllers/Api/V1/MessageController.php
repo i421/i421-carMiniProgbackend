@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api\V1;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Jobs\Backend\Message as MessageJobs;
+use App\Jobs\Api\V1\Message as MessageJobs;
 
 class MessageController extends Controller
 {

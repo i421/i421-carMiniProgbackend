@@ -24,12 +24,12 @@ class SearchJob
      */
     public function __construct(array $params)
     {
-        $this->order_no = isset($params['order_no']) ? $params['order_no'] : null;
+        $this->customer_name = isset($params['customer_name']) ? $params['customer_name'] : null;
         $this->phone = isset($params['phone']) ? $params['phone'] : null;
-        $this->status = isset($params['status']) ? $params['status'] : null;
+        $this->order_no = isset($params['order_no']) ? $params['order_no'] : null;
         $this->time = isset($params['time']) ? $params['time'] : null;
         $this->car_name = isset($params['car_name']) ? $params['car_name'] : null;
-        $this->customer_name = isset($params['customer_name']) ? $params['customer_name'] : null;
+        $this->status = isset($params['status']) ? $params['status'] : null;
     }
 
     /**
@@ -43,8 +43,8 @@ class SearchJob
             ->leftJoin('shops', 'orders.shop_id', '=', 'shops.id')
             ->leftJoin('cars', 'orders.car_id', '=', 'cars.id')
             ->select(
-                'orders.*', 'cars.name as car_name', 'cars.final_price as final_price', 'cars.avatar as avatar', 'shops.name as shop_name',
-                'customers.info->name as customer_name', 'customers.phone as phone'
+                'orders.*', 'cars.name as car_name', 'cars.final_price as final_price', 'cars.avatar as avatar', 'cars.type as type',
+                'shops.name as shop_name', 'customers.info->name as customer_name', 'customers.phone as phone'
             );
 
         if (!is_null($this->phone) && !empty($this->phone)) {

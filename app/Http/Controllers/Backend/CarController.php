@@ -142,4 +142,28 @@ class CarController extends Controller
         $response = $this->dispatch(new CarJobs\SearchJob($params));
         return $response;
     }
+
+    /**
+     * 设置拼团
+     *
+     * @return void
+     */
+    public function setGroup(CarRequests\SetGroupRequest $request)
+    {
+        $params = $request->all();
+        $response = $this->dispatch(new CarJobs\SetGroupJob($params));
+        return $response;
+    }
+
+    /**
+     * 取消拼团
+     *
+     * @return void
+     */
+    public function cancelGroup(CarRequests\CancelGroupRequest $request)
+    {
+        $params = $request->all();
+        $response = $this->dispatch(new CarJobs\CancelGroupJob($params));
+        return $response;
+    }
 }

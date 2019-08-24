@@ -19,6 +19,26 @@ class SettingController extends Controller
         //todo
     }
 
+    public function storeScoreValue(SettingRequests\StoreScoreValueRequest $request)
+    {
+        $params = $request->all();
+        $response = $this->dispatch(new SettingJobs\StoreScoreValueJob($params));
+        return $response;
+    }
+
+    public function updateScoreValue(SettingRequests\UpdateScoreValueRequest $request)
+    {
+        $params = $request->all();
+        $response = $this->dispatch(new SettingJobs\UpdateScoreValueJob($params));
+        return $response;
+    }
+
+    public function getScore()
+    {
+        $response = $this->dispatch(new SettingJobs\GetScoreJob());
+        return $response;
+    }
+
     public function carouselList()
     {
         $response = $this->dispatch(new SettingJobs\CarouselListJob());

@@ -31,8 +31,8 @@ class IndexJob
             ->leftJoin('shops', 'orders.shop_id', '=', 'shops.id')
             ->leftJoin('cars', 'orders.car_id', '=', 'cars.id')
             ->select(
-                'orders.*', 'cars.name as car_name', 'cars.final_price as final_price', 'cars.avatar as avatar', 'shops.name as shop_name',
-                'customers.info->name as customer_name', 'customers.phone as phone'
+                'orders.*', 'cars.name as car_name', 'cars.final_price as final_price', 'cars.avatar as avatar', 'cars.type as type',
+                'shops.name as shop_name', 'customers.info->name as customer_name', 'customers.phone as phone'
             )->get()->toArray();
 
         foreach ($orders as &$order) {

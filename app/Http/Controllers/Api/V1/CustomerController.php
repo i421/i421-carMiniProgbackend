@@ -45,6 +45,16 @@ class CustomerController extends Controller
     }
 
     /**
+     * 更新用户信息: 姓名手机号、身份证、银行卡
+     */
+    public function improveInfo(CustomerRequests\ImproveInfoRequest $request)
+    {
+        $params = $request->all();
+        $response = $this->dispatch(new CustomerJobs\ImproveInfoJob($params));
+        return $response;
+    }
+
+    /**
      * 完善姓名和idCard
      */
     public function updateNameAndIdcard(CustomerRequests\UpdateNameAndIdcardRequest $request)

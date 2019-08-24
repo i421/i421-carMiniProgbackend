@@ -32,6 +32,7 @@ class ScoreJob
         $scores = TableModels\Score::join('customers', 'scores.customer_id', '=', 'customers.id')
             ->where('customers.openid', $this->openid)
             ->select('scores.*')
+            ->orderBy("scores.created_at", 'desc')
             ->get();
 
         $response = [

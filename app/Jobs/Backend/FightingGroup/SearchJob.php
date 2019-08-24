@@ -11,9 +11,9 @@ class SearchJob
 {
     use Dispatchable, Queueable;
 
-    private $type;
+    private $group_type;
     private $time;
-    private $car_name;
+    private $name;
 
     /**
      * Create a new job instance.
@@ -22,9 +22,9 @@ class SearchJob
      */
     public function __construct(array $params)
     {
-        $this->type = isset($params['type']) ? $params['type'] : null;
+        $this->group_type = isset($params['group_type']) ? $params['group_type'] : null;
         $this->time = isset($params['time']) ? $params['time'] : null;
-        $this->car_name = isset($params['car_name']) ? $params['car_name'] : null;
+        $this->name = isset($params['name']) ? $params['name'] : null;
     }
 
     /**
@@ -34,30 +34,29 @@ class SearchJob
      */
     public function handle()
     {
-        $tempRes = TableModels\FightingGroup::leftJoin('cars', 'fighting_groups.car_id', '=', 'cars.id')
-            ->select('cars.name as car_name', 'fighting_groups.*');
+        $tempRes = TableModels\Car::where('type', 2);
 
-        if (!is_null($this->type) && !empty($this->type)) {
-            $tempRes->whereIn('fighting_groups.type', $this->type);
+        if (!is_null($this->group_type) && !empty($this->group_type)) {
+            $tempRes->whereIn('group_type', $this->group_type);
         }
 
-        if (!is_null($this->car_name)) {
-            $tempRes->where('cars.name', 'like', "%$this->car_name%");
+        if (!is_null($this->name)) {
+            $tempRes->where('name', 'like', "%$this->name%");
         }
 
         if (!is_null($this->time) && count($this->time) > 1) {
             $tempRes->where([
-                ['fighting_groups.created_at', '>=', $this->time[0] . ' 00:00:00'],
-                ['fighting_groups.created_at', '<=', $this->time[1] . ' 23:59:59']
+                ['created_at', '>=', $this->time[0] . ' 00:00:00'],
+                ['created_at', '<=', $this->time[1] . ' 23:59:59']
             ]);
         }
 
-        $fightingGroups = $tempRes->get();
+        $data = $tempRes->get();
 
         $response = [
             'code' => trans('pheicloud.response.success.code'),
             'msg' => trans('pheicloud.response.success.msg'),
-            'data' => $fightingGroups,
+            'data' => $data,
         ];
 
         return response()->json($response);

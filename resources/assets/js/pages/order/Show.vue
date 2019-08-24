@@ -8,6 +8,18 @@
             <el-col :span="12" style="padding-top: 10px">
                 <span>订单号: {{ form.order_num }}</span>
                 <el-divider></el-divider>
+                <span v-if="form.type == 2">
+                    <div v-if="form.group_type == 1">
+                        时间拼团: {{ form.start_time }} —— {{ form.end_time}}
+                    </div>
+                    <div v-else>
+                        数量拼团: 总数: {{ form.total_num }}
+                    </div>
+                </span>
+                <span v-else>
+                    现车
+                </span>
+                <el-divider></el-divider>
                 <span>经销商: {{ form.shop_name }}</span>
                 <el-divider></el-divider>
             </el-col>
@@ -18,6 +30,13 @@
                 </span>
                 <span v-else>订单状态: 
                     <el-tag type="primary">客户未到店</el-tag>
+                </span>
+                <el-divider></el-divider>
+                <span v-if="form.type == 1">
+                    现车
+                </span>
+                <span v-else>
+                    拼团
                 </span>
                 <el-divider></el-divider>
                 <span>支付额: {{ form.payment_count }}</span>

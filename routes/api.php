@@ -18,18 +18,26 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api\V1'], function () {
         Route::get('code2session', 'CustomerController@code2Session');
         Route::post('store', 'CustomerController@store');
         Route::get('update/phone', 'CustomerController@updatePhone');
-        Route::post('upload/idcard', 'CustomerController@uploadIdcard');
-        Route::post('upload/bankcard', 'CustomerController@uploadBankcard');
-        Route::post('upload/drivinglicense', 'CustomerController@uploadDrivingLicense');
+        Route::post('improve/info', 'CustomerController@improveInfo');
         Route::get('collection/{openid}', 'CustomerController@collection');
         Route::get('order/{openid}', 'CustomerController@order');
         Route::get('score/{openid}', 'CustomerController@score');
         Route::get('fighting/group/{openid}', 'CustomerController@fightingGroup');
+        Route::post('upload/idcard', 'CustomerController@uploadIdcard');
+        Route::post('upload/bankcard', 'CustomerController@uploadBankcard');
+        Route::post('upload/drivinglicense', 'CustomerController@uploadDrivingLicense');
+        Route::post('upload/nameandidcard', 'CustomerController@updateNameAndIdcard');
     });
 
     //标签管理
     Route::group(['prefix' => 'tag'], function () {
         Route::get('classify', 'TagController@classify');
+    });
+
+    //收藏管理
+    Route::group(['prefix' => 'collection'], function () {
+        Route::post('/', 'CollectionController@store');
+        Route::delete('{id}', 'CollectionController@destroy');
     });
 
     //品牌管理
@@ -79,6 +87,17 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api\V1'], function () {
         Route::get('paid', 'PaymentController@paid');
     });
 
+    //消息管理
+    Route::group(['prefix' => 'message'], function () {
+        Route::get('/', 'MessageController@index');
+        Route::get('{id}', 'MessageController@show');
+    });
+
+    //订单消息管理
+    Route::group(['prefix' => 'order/message'], function () {
+        Route::get('search', 'OrderMessageController@search');
+    });
+
     //地址管理(不用)
     Route::group(['prefix' => 'address'], function () {
         Route::get('provinces', 'AddressController@getProvinces');
@@ -86,13 +105,6 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api\V1'], function () {
         Route::get('towns/{id}', 'AddressController@getTowns');
         Route::get('fullpath/{id}', 'AddressController@getFullPath');
     });
-
-    //消息管理
-    Route::group(['prefix' => 'message'], function () {
-        Route::get('/', 'MessageController@index');
-        Route::get('{id}', 'MessageController@show');
-    });
-
 });
 
 Route::group(['prefix' => 'v1/backend', 'namespace' => 'Backend', 'middleware' => 'auth:api'], function () {
@@ -128,6 +140,8 @@ Route::group(['prefix' => 'v1/backend', 'namespace' => 'Backend', 'middleware' =
         Route::get('search', 'CarController@search');
         Route::get('/', 'CarController@index');
         Route::post('/', 'CarController@store');
+        Route::post('/set/group', 'CarController@setGroup');
+        Route::post('/cancel/group', 'CarController@cancelGroup');
         Route::get('{id}', 'CarController@show');
         Route::post('update/{id}', 'CarController@update');
         Route::delete('{id}', 'CarController@destroy');
@@ -204,6 +218,7 @@ Route::group(['prefix' => 'v1/backend', 'namespace' => 'Backend', 'middleware' =
     Route::group(['prefix' => 'order'], function () {
         Route::get('/', 'OrderController@index');
         Route::get('search', 'OrderController@search');
+        Route::post('arrive/{id}', 'OrderController@arrive');
         Route::get('{id}', 'OrderController@show');
     });
 

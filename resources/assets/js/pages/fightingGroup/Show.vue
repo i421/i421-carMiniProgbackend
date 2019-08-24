@@ -2,7 +2,7 @@
     <div>
         <el-row>
             <el-col>
-                <el-form v-if="groupForm.type == 1" ref="groupForm" :model="groupForm" label-width="100px">
+                <el-form v-if="groupForm.group_type == 1" ref="groupForm" :model="groupForm" label-width="100px">
                     <el-form-item label="起止时间" prop="time_range"
                         :rules="[
                             { required: true, message: '起止时间不能为空', trigger: 'blur' },
@@ -85,7 +85,7 @@
       data() {
           return {
             groupForm: {
-                car_id: '',
+                id: '',
                 total_num: '',
                 type: '',
                 time_range: '',

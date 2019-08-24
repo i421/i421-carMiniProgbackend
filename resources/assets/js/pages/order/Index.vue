@@ -220,7 +220,7 @@
                 label: '操作',
                 props: {
                     align: 'center',
-                    width: '200px',
+                    width: '300px',
                 },
 
                 buttons: [{
@@ -233,6 +233,16 @@
                         this.showOrder(row)
                     },
                     label: '详情'
+                }, {
+                    props: {
+                        type: 'warning',
+                        size: "mini",
+                        icon: 'el-icon-s-custom'
+                    },
+                    handler: row => {
+                        this.arrive(row)
+                    },
+                    label: '客户到店'
                 }]
             },
         }
@@ -313,6 +323,23 @@
           //处理切换
           handleClick(tab, event) {
             //console.log(tab, event);
+          },
+
+          //客户到店
+          arrive(row) {
+            this.$confirm('确认执行吗？','提示',{}).then(() => {
+                http({
+                    url: Api.orderStatus + row.id,
+                    method: 'post'
+                }).then(response => {
+                    this.$notify.success({
+                        'title': "提示",
+                        'message': response.data.msg
+                    })
+                    this.fetchOrders()
+                })
+            }).catch(() => {
+            });
           }
       }
   }

@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api\V1;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Jobs\Backend\Shop as ShopJobs;
+use App\Jobs\Api\V1\Shop as ShopJobs;
 
 class ShopController extends Controller
 {

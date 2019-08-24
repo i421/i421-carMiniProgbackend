@@ -54,11 +54,23 @@ class PreOrderJob
 
         if ($result['result_code'] == 'SUCCESS') {
             $response = [
-                'code' => 200,
-                'msg' => 'success',
-                'order_num' => $order_num,
-                'data' => $result,
+                'code' => trans('pheicloud.response.success.code'),
+                'msg' => trans('pheicloud.response.success.msg'),
+                'data' => [
+                    'result' => $result,
+                    'order_num' => $order_num,
+                ]
             ];
+
+            return response()->json($response);
+        } else {
+            $response = [
+                'code' => trans('pheicloud.response.requestPayError.code'),
+                'msg' => trans('pheicloud.response.requestPayError.msg'),
+                'data' => []
+            ];
+
+            return response()->json($response);
         }
     }
 }

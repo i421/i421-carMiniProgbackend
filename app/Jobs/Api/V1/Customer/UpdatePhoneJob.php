@@ -45,21 +45,19 @@ class UpdatePhoneJob
             $customer->phone = $decryptedData['phoneNumber'];
             $customer->save();
         } else {
-
             $response = [
                 'code' => trans('pheicloud.response.error.code'),
                 'msg' => trans('pheicloud.response.error.msg'),
-                'data' => [],
+                'data' => '',
             ];
 
             return response()->json($response);
-
         }
 
         $response = [
             'code' => trans('pheicloud.response.success.code'),
             'msg' => trans('pheicloud.response.success.msg'),
-            'data' => $decryptedData,
+            'data' => $decryptedData['phoneNumber'],
         ];
 
         return response()->json($response);

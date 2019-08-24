@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Api\V1;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Backend\FightingGroup as FightingGroupRequests;
-use App\Jobs\Backend\FightingGroup as FightingGroupJobs;
+use App\Http\Requests\Api\V1\FightingGroup as FightingGroupRequests;
+use App\Jobs\Api\V1\FightingGroup as FightingGroupJobs;
 
 class FightingGroupController extends Controller
 {

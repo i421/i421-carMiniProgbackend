@@ -34,6 +34,8 @@ class ShowJob
             ->leftJoin('cars', 'orders.car_id', '=', 'cars.id')
             ->select(
                 'orders.*', 'cars.name as car_name', 'cars.final_price as final_price', 'cars.avatar as avatar', 'cars.car_price as car_price',
+                'cars.type as type',  'cars.group_type as group_type', 'cars.group_price as group_price', 'cars.total_num as total_num',
+                'cars.current_num as current_num', 'cars.start_time as start_time', 'cars.end_time as end_time',
                 'shops.name as shop_name', 'customers.info->name as customer_name', 'customers.phone as phone', 'customers.gender as customer_gender'
             )->where('orders.id', $this->id)
             ->get()
@@ -41,13 +43,6 @@ class ShowJob
 
         $order[0]['avatar'] = 'storage/' . $order[0]['avatar'];
 
-
-        if(!is_null($order[0]['fighting_group_id'])) {
-            $res = TableModels\FightingGroup::where('id', $order[0]['fighting_group_id'])->get()->toArray();
-            $order[0]['group_price'] = $res[0]['group_price'];
-            $order[0]['group_type'] = $res[0]['type'];
-            $order[0]['group_total_num'] = $res[0]['total_num'];
-        }
 
         $response = [
             'code' => trans('pheicloud.response.success.code'),

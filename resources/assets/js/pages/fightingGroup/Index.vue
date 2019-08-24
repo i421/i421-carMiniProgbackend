@@ -45,12 +45,12 @@
             <el-table-column label="序号" prop="id" width="60">
             </el-table-column>
 
-            <el-table-column label="汽车名称" prop="car_name" width="180">
+            <el-table-column label="汽车名称" prop="name" width="180">
             </el-table-column>
 
             <el-table-column label="类型" prop="type" width="130">
                 <template slot-scope="scope">
-                    <el-tag v-if="scope.row.type == 1" type="success">时间拼团</el-tag>
+                    <el-tag v-if="scope.row.group_type == 1" type="success">时间拼团</el-tag>
                     <el-tag v-else type="primary">数量拼团</el-tag>
                 </template>
             </el-table-column>
@@ -69,14 +69,6 @@
 
             <el-table-column label="拼团当前数" prop="current_num" width="120">
             </el-table-column>
-
-            <el-table-column label="状态" prop="status" width="80">
-                <template slot-scope="scope">
-                    <el-tag v-if="scope.row.status == 1" type="success">正常</el-tag>
-                    <el-tag v-else type="primary">关闭</el-tag>
-                </template>
-            </el-table-column>
-
         </data-tables>
     </div>
 </template>
@@ -110,16 +102,6 @@
                         this.show(row)
                     },
                     label: '编辑'
-                }, {
-                    props: {
-                        type: 'danger',
-                        size: "mini",
-                        icon: 'el-icon-delete-solid'
-                    },
-                    handler: row => {
-                        this.destroy(row)
-                    },
-                    label: '删除'
                 }]
             },
         }
@@ -152,7 +134,7 @@
                 url: Api.searchFightingGroup,
                 params: {
                     'time': this.conditionTime,
-                    'type': this.conditionGroup,
+                    'group_type': this.conditionGroup,
                     'car_name': this.conditionCarName,
                 }
             }).then(response => {
@@ -164,34 +146,6 @@
           show(row) {
               this.$router.push({ name: 'showFightingGroup', params: {"id": row.id} })
           },
-
-          //删除
-          destroy(row) {
-
-			this.$confirm('此操作将永久该消息, 是否继续?', '提示', {
-				confirmButtonText: '确定',
-				cancelButtonText: '取消',
-				type: 'warning'
-			}).then(() => {
-
-				http({
-					method: 'delete',
-					url: Api.destroyFightingGroup + row.id,
-				}).then(response => {
-					this.$notify.success({
-						'title': "提示",
-						'message': response.data.msg
-					})
-            	    this.fetchFightingGroups()
-				})
-
-			}).catch(() => {
-				this.$notify({
-					type: 'info',
-					message: '已取消删除'
-				});
-			})
-          }
       }
   }
 </script>

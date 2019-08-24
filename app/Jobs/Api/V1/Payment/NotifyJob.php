@@ -51,22 +51,8 @@ class NotifyJob
             if ($message['return_code'] === 'SUCCESS') {
                 //用户是否支付成功
                 if ($message['result_code'] === 'SUCCESS') {
-                    //更新支付时间为当前时间
-                    $payLog->time_end = time();
 
-                    // 创建订单记录
-                    Order::create([
-                        'order_num' => $message['out_trade_no'],
-                        'customer_id' => $payLog->info['customer_id'],
-                        'car_id' => $payLog->info['car_id'],
-                        'shop_id' => $payLog->info['shop_id'],
-                        'type' => $payLog->info['type'],
-                        'fighting_group_id' => $payLog->info['fighting_group_id'],
-                        'payment_count' => $message['total_fee'],
-                        'pay_log_id' => $payLog->id,
-                        'payment_status' => 1,
-                    ]);
-
+                    //完善预下单信息, 更新支付时间为当前时间
                     TableModels\PayLog::where('out_trade_no', $message['out_trade_no'])->update([
                         'appid' => $message['appid'],
                         'bank_type' => $message['bank_type'],
@@ -80,10 +66,32 @@ class NotifyJob
                         'cash_fee' => $message['cash_fee'],
                         'fee_type' => $message['fee_type'],
                         'transaction_id' => $message['transaction_id'],
-                        'time_end' => $payLog->paid_at,
+                        'time_end' => time(),
                         'result_code' => $message['result_code'],
                         'return_code' => $message['return_code'],
                     ]);
+
+                    // 创建订单记录
+                    TableModels\Order::create([
+                        'order_num' => $message['out_trade_no'],
+                        'customer_id' => $payLog->info['customer_id'],
+                        'car_id' => $payLog->info['car_id'],
+                        'shop_id' => $payLog->info['shop_id'],
+                        'payment_count' => $message['total_fee'],
+                        'pay_log_id' => $payLog->id,
+                        'payment_status' => 1,
+                    ]);
+
+                    // 创建订单支付成功通知信息
+                    TableModels\OrderMessage::create([
+                        'customer_id' => $payLog->info['customer_id'],
+                        'content' => '您的订单支付成功',
+                        'order_num' => $message['out_trade_no'],
+                    ]);
+
+                    //订单支付成功当前+1
+                    TableModels\Car::where('id', '=', $payLog->info['car_id'])->increment('current_num');
+
                 } else {
 
                     // 如果支付失败, 也更新 PayLog, 跟上面一样, 就是多了 error 信息
@@ -100,11 +108,18 @@ class NotifyJob
                         'cash_fee' => $message['cash_fee'],
                         'fee_type' => $message['fee_type'],
                         'transaction_id' => $message['transaction_id'],
-                        'time_end' => $payLog->paid_at,
+                        'time_end' => time(),
                         'result_code' => $message['result_code'],
                         'return_code' => $message['return_code'],
                         'err_code' => $message['err_code'],
                         'err_code_des' => $message['err_code_des'],
+                    ]);
+
+                    // 创建订单支付失败通知信息
+                    TableModels\OrderMessage::create([
+                        'customer_id' => $payLog->info['customer_id'],
+                        'content' => $message['err_code_des'],
+                        'order_num' => $message['out_trade_no'],
                     ]);
 
                     return $fail('通信失败，请稍后再通知我');
