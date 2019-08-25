@@ -28,7 +28,7 @@ class CreateCustomersTable extends Migration
             $table->string('avatar')->nullable()->comment('头像');
             $table->string('qr_code')->unique()->nullable()->comment('二维码');
             $table->string('recommend_count')->default(0)->comment('推荐人数');
-            $table->string('recommender')->nullable()->comment('推荐人open_id');
+            $table->string('recommender')->nullable()->comment('推荐人用户id');
             $table->integer('auth')->default(0)->comment('状态: 待审核，已审核');
             $table->integer('is_seller')->default(0)->comment('是否是销售');
             $table->integer('status')->default(1)->comment('账户是否正常使用');

@@ -11,16 +11,16 @@ class AppcodeJob
 {
     use Dispatchable, Queueable;
 
-    private $openid;
+    private $id;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct(string $openid)
+    public function __construct(string $id)
     {
-        $this->openid = $openid;
+        $this->id = $id;
     }
 
     /**
@@ -32,7 +32,7 @@ class AppcodeJob
     {
         $miniProgram = \EasyWeChat::miniProgram();
 
-        $response = $miniProgram->app_code->getUnlimit("opend=$this->openid", [
+        $response = $miniProgram->app_code->getUnlimit("id=$this->id", [
             'page' => 'pages/index/index',
         ]);
 
@@ -42,7 +42,7 @@ class AppcodeJob
 
         \Log::info($filename);
 
-        Customer::where('openid', $this->openid)->update([
+        Customer::where('id', $this->id)->update([
             'qr_code' => $filename
         ]);
         $response = [

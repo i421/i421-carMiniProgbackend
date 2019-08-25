@@ -27,9 +27,9 @@ class CustomerController extends Controller
     /**
      * appcode
      */
-    public function appcode(string $openid)
+    public function appcode(integer $id)
     {
-        $response = $this->dispatch(new CustomerJobs\AppcodeJob($openid));
+        $response = $this->dispatch(new CustomerJobs\AppcodeJob($id));
         return $response;
     }
 
@@ -94,9 +94,9 @@ class CustomerController extends Controller
     /**
      * 推荐人列表
      */
-    public function recommenderList(string $openid)
+    public function recommenderList(string $id)
     {
-        $response = $this->dispatch(new CustomerJobs\RecommenderListJob($openid));
+        $response = $this->dispatch(new CustomerJobs\RecommenderListJob($id));
         return $response;
     }
 

@@ -16,7 +16,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api\V1'], function () {
     //客户管理
     Route::group(['prefix' => 'customer'], function () {
         Route::get('code2session', 'CustomerController@code2Session');
-        Route::get('appcode', 'CustomerController@appcode');
+        Route::get('appcode/{id}', 'CustomerController@appcode');
         Route::post('store', 'CustomerController@store');
         Route::get('update/phone', 'CustomerController@updatePhone');
         Route::get('update/basicinfo', 'CustomerController@updateBasicInfo');
@@ -30,7 +30,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api\V1'], function () {
         Route::post('upload/drivinglicense', 'CustomerController@uploadDrivingLicense');
         Route::post('upload/nameandidcard', 'CustomerController@updateNameAndIdcard');
         Route::get('message/{openid}', 'CustomerController@message');
-        Route::get('recommender/{openid}', 'CustomerController@recommenderList');
+        Route::get('recommender/{id}', 'CustomerController@recommenderList');
         Route::get('{openid}', 'CustomerController@getInfo');
     });
 
