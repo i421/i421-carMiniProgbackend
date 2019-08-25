@@ -16,6 +16,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api\V1'], function () {
     //客户管理
     Route::group(['prefix' => 'customer'], function () {
         Route::get('code2session', 'CustomerController@code2Session');
+        Route::get('appcode', 'CustomerController@appcode');
         Route::post('store', 'CustomerController@store');
         Route::get('update/phone', 'CustomerController@updatePhone');
         Route::get('update/basicinfo', 'CustomerController@updateBasicInfo');

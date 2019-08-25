@@ -25,6 +25,15 @@ class CustomerController extends Controller
     }
 
     /**
+     * appcode
+     */
+    public function appcode(string $openid)
+    {
+        $response = $this->dispatch(new CustomerJobs\AppcodeJob($openid));
+        return $response;
+    }
+
+    /**
      * 保存用户
      */
     public function store(CustomerRequests\StoreRequest $request)
