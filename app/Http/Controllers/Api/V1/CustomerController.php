@@ -143,7 +143,8 @@ class CustomerController extends Controller
     //用户订单
     public function order($openid)
     {
-        $response = $this->dispatch(new CustomerJobs\OrderJob($openid));
+        $type = request()->input('type');
+        $response = $this->dispatch(new CustomerJobs\OrderJob($openid, $type));
         return $response;
     }
 

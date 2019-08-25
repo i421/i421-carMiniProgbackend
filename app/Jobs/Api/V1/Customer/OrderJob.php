@@ -11,15 +11,17 @@ class OrderJob
     use Dispatchable, Queueable;
 
     private $openid;
+    private $type;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct(string $openid)
+    public function __construct(string $openid, $type)
     {
         $this->openid = $openid;
+        $this->type = $type;
     }
 
     /**
@@ -32,11 +34,12 @@ class OrderJob
         $orders = TableModels\Order::leftJoin('customers', 'orders.customer_id', '=', 'customers.id')
             ->leftJoin('shops', 'orders.shop_id', '=', 'shops.id')
             ->leftJoin('cars', 'orders.car_id', '=', 'cars.id')
-            ->where('customers.openid', '=', $this->openid)
-            ->select(
-                'orders.*', 'cars.name as car_name', 'cars.final_price as final_price', 'cars.avatar as avatar', 'shops.name as shop_name',
-                'customers.info->name as customer_name', 'customers.phone as phone'
-            )->orderBy("created_at", 'desc')
+            ->where([
+                ['customers.openid', '=', $this->openid],
+                ['customers.type', '=', $this->type],
+            ])->select(
+                'orders.*', 'cars.name as car_name', 'cars.final_price as final_price', 'cars.avatar as avatar', 'shops.name as shop_name', 'customers.phone as phone'
+            )->orderBy("orders.created_at", 'desc')
             ->get()
             ->toArray();
 

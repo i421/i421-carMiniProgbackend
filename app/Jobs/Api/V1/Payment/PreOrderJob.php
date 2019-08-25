@@ -38,6 +38,33 @@ class PreOrderJob
         //元换成分
         $payment_count = bcmul($this->payment_count, 100);
 
+        // test begin
+        $res = TableModels\Order::create([
+            'order_num' => $order_num,
+            'customer_id' => $this->info['customer_id'],
+            'car_id' => $this->info['car_id'],
+            'shop_id' => $this->info['shop_id'],
+            'payment_count' => $payment_count,
+            'pay_log_id' => 1,
+            'payment_status' => 1,
+        ]);
+
+        if ($res) {
+             $response = [
+                 'code' => trans('pheicloud.response.success.code'),
+                 'msg' => trans('pheicloud.response.success.msg'),
+             ];
+             return response()->json($response);
+        } else {
+             $response = [
+                 'code' => trans('pheicloud.response.error.code'),
+                 'msg' => trans('pheicloud.response.error.msg'),
+             ];
+             return response()->json($response);
+        }
+        // Test end
+
+        /*
         TableModels\PayLog::create([
             'appid' => config('wechat.payment.default.app_id'),
             'mch_id' => config('wechat.payment.default.mch_id'),
@@ -72,5 +99,6 @@ class PreOrderJob
 
             return response()->json($response);
         }
+         */
     }
 }
