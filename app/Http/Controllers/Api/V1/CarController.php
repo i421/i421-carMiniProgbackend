@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api\V1;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\V1\Car as CarRequests;
-use App\Jobs\Backend\Car as CarJobs;
+use App\Jobs\Api\V1\Car as CarJobs;
 
 class CarController extends Controller
 {

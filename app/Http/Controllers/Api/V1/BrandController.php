@@ -40,4 +40,15 @@ class BrandController extends Controller
         $response = $this->dispatch(new BrandJobs\HotJob());
         return $response;
     }
+
+    /**
+     * 热门品牌
+     *
+     * @return void
+     */
+    public function car(int $brand_id)
+    {
+        $response = $this->dispatch(new BrandJobs\CarJob($brand_id));
+        return $response;
+    }
 }

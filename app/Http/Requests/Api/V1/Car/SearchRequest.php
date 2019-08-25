@@ -24,10 +24,13 @@ class SearchRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'nullable|string',
-            'brand' => 'nullable|string',
+            'order_type' => 'nullable|string',
+            'order_column' => 'nullable|string',
             'min_price' => 'nullable|integer',
             'max_price' => 'nullable|integer',
+            'name' => 'nullable|string',
+            'tag_id' => 'nullable|array',
+            'brand_id' => 'nullable|integer',
         ];
     }
 }

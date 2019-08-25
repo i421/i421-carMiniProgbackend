@@ -18,6 +18,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api\V1'], function () {
         Route::get('code2session', 'CustomerController@code2Session');
         Route::post('store', 'CustomerController@store');
         Route::get('update/phone', 'CustomerController@updatePhone');
+        Route::get('update/basicinfo', 'CustomerController@updateBasicInfo');
         Route::post('improve/info', 'CustomerController@improveInfo');
         Route::get('collection/{openid}', 'CustomerController@collection');
         Route::get('order/{openid}', 'CustomerController@order');
@@ -27,6 +28,8 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api\V1'], function () {
         Route::post('upload/bankcard', 'CustomerController@uploadBankcard');
         Route::post('upload/drivinglicense', 'CustomerController@uploadDrivingLicense');
         Route::post('upload/nameandidcard', 'CustomerController@updateNameAndIdcard');
+        Route::get('message/{openid}', 'CustomerController@message');
+        Route::get('{openid}', 'CustomerController@getInfo');
     });
 
     //标签管理
@@ -45,6 +48,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api\V1'], function () {
         Route::get('/', 'BrandController@index');
         Route::get('search/{key}', 'BrandController@search');
         Route::get('hot', 'BrandController@hot');
+        Route::get('car/{brand_id}', 'BrandController@car');
     });
 
     //轮播图管理
@@ -69,6 +73,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api\V1'], function () {
     Route::group(['prefix' => 'fighting/group'], function () {
         Route::get('/', 'FightingGroupController@index');
         Route::get('search', 'FightingGroupController@search');
+        Route::get('off', 'FightingGroupController@off');
         Route::get('{id}', 'FightingGroupController@show');
     });
 

@@ -48,4 +48,11 @@ class FightingGroupController extends Controller
         $response = $this->dispatch(new FightingGroupJobs\SearchJob($params));
         return $response;
     }
+
+    //优惠拼团
+    public function off()
+    {
+        $response = $this->dispatch(new FightingGroupJobs\OffJob());
+        return $response;
+    }
 }

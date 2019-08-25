@@ -55,6 +55,34 @@ class CustomerController extends Controller
     }
 
     /**
+     * 获取用户信息: 姓名、身份证号、身份证、银行卡、驾驶证、审核状态
+     */
+    public function getInfo(string $openid)
+    {
+        $response = $this->dispatch(new CustomerJobs\GetInfoJob($openid));
+        return $response;
+    }
+    
+    /**
+     * 更新用户信息: 昵称，性别，地址，头像,openid
+     */
+    public function updateBasicInfo(CustomerRequests\UpdateBasicInfoRequest $request)
+    {
+        $params = $request->all();
+        $response = $this->dispatch(new CustomerJobs\UpdateBasicInfoJob($params));
+        return $response;
+    }
+
+    /**
+     * 获取消息(系统+个人)
+     */
+    public function message(string $openid)
+    {
+        $response = $this->dispatch(new CustomerJobs\GetMessageJob($openid));
+        return $response;
+    }
+
+    /**
      * 完善姓名和idCard
      */
     public function updateNameAndIdcard(CustomerRequests\UpdateNameAndIdcardRequest $request)
