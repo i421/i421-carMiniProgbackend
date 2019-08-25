@@ -29,6 +29,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api\V1'], function () {
         Route::post('upload/drivinglicense', 'CustomerController@uploadDrivingLicense');
         Route::post('upload/nameandidcard', 'CustomerController@updateNameAndIdcard');
         Route::get('message/{openid}', 'CustomerController@message');
+        Route::get('recommender/{openid}', 'CustomerController@recommenderList');
         Route::get('{openid}', 'CustomerController@getInfo');
     });
 

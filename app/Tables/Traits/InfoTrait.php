@@ -24,7 +24,7 @@ trait InfoTrait
 
         if (isset($temp['id_card_front_path'])) {
             $temp['id_card_front_path'] = '/storage/'. $temp['id_card_front_path'];
-            $temp['full_id_card_front_path'] = '/storage/'. $temp['id_card_front_path'];
+            $temp['full_id_card_front_path'] = url('/') . '/storage/'. $temp['id_card_front_path'];
         }
         if (isset($temp['id_card_back_path'])) {
             $temp['id_card_back_path'] = '/storage/'. $temp['id_card_back_path'];

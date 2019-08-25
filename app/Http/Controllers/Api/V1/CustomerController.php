@@ -83,6 +83,15 @@ class CustomerController extends Controller
     }
 
     /**
+     * 推荐人列表
+     */
+    public function recommenderList(string $openid)
+    {
+        $response = $this->dispatch(new CustomerJobs\RecommenderListJob($openid));
+        return $response;
+    }
+
+    /**
      * 完善姓名和idCard
      */
     public function updateNameAndIdcard(CustomerRequests\UpdateNameAndIdcardRequest $request)
@@ -126,13 +135,6 @@ class CustomerController extends Controller
     public function order($openid)
     {
         $response = $this->dispatch(new CustomerJobs\OrderJob($openid));
-        return $response;
-    }
-
-    //用户拼团
-    public function fightingGroup($openid)
-    {
-        $response = $this->dispatch(new CustomerJobs\FightingGroupJob($openid));
         return $response;
     }
 
