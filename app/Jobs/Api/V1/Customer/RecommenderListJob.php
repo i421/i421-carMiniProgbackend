@@ -11,7 +11,7 @@ class RecommenderListJob
 {
     use Dispatchable, Queueable;
 
-    private $openid;
+    private $id;
 
     /**
      * Create a new job instance.
@@ -20,7 +20,7 @@ class RecommenderListJob
      */
     public function __construct(string $openid)
     {
-        $this->openid = $openid;
+        $this->id = $id;
     }
 
     /**
@@ -31,7 +31,7 @@ class RecommenderListJob
     public function handle()
     {
         $orders = TableModels\Customer::leftJoin('orders', 'orders.customer_id', '=', 'customers.id')
-            ->where('customers.recommender', '=', $this->openid)
+            ->where('customers.recommender', '=', $this->id)
             ->select(
                 'customers.*', DB::raw('count(*) as order_count')
             )->orderBy("created_at", 'desc')

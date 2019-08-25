@@ -27,7 +27,7 @@ class CustomerController extends Controller
     /**
      * appcode
      */
-    public function appcode(integer $id)
+    public function appcode(int $id)
     {
         $response = $this->dispatch(new CustomerJobs\AppcodeJob($id));
         return $response;
