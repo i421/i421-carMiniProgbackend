@@ -89,16 +89,18 @@ class NotifyJob
                         'order_num' => $message['out_trade_no'],
                     ]);
 
-		    //支付成功: 销售量+1 || 拼团数量当前+1
-		    $car = TablesModel\Car::find($payLog->info['car_id']);
+                    //支付成功: 销售量+1 || 拼团数量当前+1
+                    $car = TablesModel\Car::find($payLog->info['car_id']);
 
-		    if (!is_null($car)) {
-			if ($car->type == 2) {
-			    $car->current_num += 1;
-			}
-			$car->sale_num += 1;
-			$car->save();
-		    }
+                    if (!is_null($car)) {
+
+                        if ($car->type == 2) {
+                            $car->current_num += 1;
+                        }
+
+                        $car->sale_num += 1;
+                        $car->save();
+                    }
 
                 } else {
 

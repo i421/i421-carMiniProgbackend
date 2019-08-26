@@ -5,6 +5,7 @@ namespace App\Jobs\Api\V1\Car;
 use Illuminate\Bus\Queueable;
 use Illuminate\Foundation\Bus\Dispatchable;
 use App\Tables\Car;
+use App\Tables\Collection;
 use DB;
 
 class ShowJob
@@ -15,15 +16,17 @@ class ShowJob
      * @var integer $id
      */
     private $car_id;
+    private $customer_id;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($id)
+    public function __construct($id, $customer_id)
     {
         $this->car_id = $id;
+        $this->customer_id = $customer_id;
     }
 
     /**
@@ -34,9 +37,11 @@ class ShowJob
     public function handle()
     {
         $car = Car::select(
-            'id', 'name', 'brand_id', 'guide_price', 'final_price', 'car_price', 'avatar', 'type', 'group_type', 'group_price', 'total_num', 'current_num',
-            'info->attr as attr', 'info->carousel as carousel', 'info->customize as customize', DB::raw('DATE_FORMAT(start_time, "%Y-%m-%d") as start_date'),
-	    DB::raw('DATE_FORMAT(end_time, "%Y-%m-%d") as end_date')
+            'id', 'name', 'brand_id', 'guide_price', 'final_price', 'car_price', 'avatar',
+            'type', 'group_type', 'group_price', 'total_num', 'current_num',
+            'info->attr as attr', 'info->carousel as carousel', 'info->customize as customize',
+            DB::raw('DATE_FORMAT(start_time, "%Y-%m-%d") as start_date'),
+            DB::raw('DATE_FORMAT(end_time, "%Y-%m-%d") as end_date')
         )->find($this->car_id);
 
         if (is_null($car)) {
@@ -47,23 +52,40 @@ class ShowJob
             ];
 
             return response()->json($response);
-
         }
 
        	$car->customize = json_decode($car->customize, true);
-       	$car->attr = json_decode($car->attr, true);
+        $temp = (array)json_decode(json_decode($car->attr, true));
+
+        $tempArr = [];
+        foreach ($temp as $key => $value) {
+            $tempArr[] = [$key => $value];
+        }
+        $car->attr = $tempArr;
     	$car->carousel = json_decode($car->carousel, true);
 
     	foreach($car->carousel as $atom) {
-	    $full_carousel[] = url('/') . '/' . $atom;
+	       $full_carousel[] = url('/') . '/' . $atom;
     	}
 
         $car->full_carousel = $full_carousel;
 
+        if (is_null($this->customer_id)) {
+            $flag = 0;
+        } else {
+            $collection = Collection::where([
+                ['customer_id', '=', $this->customer_id],
+                ['car_id', '=', $this->car_id],
+            ])->get()->toArray();
+
+            $flag = count($collection) < 1 ? 0 : 1;
+        }
+
         $response = [
             'code' => trans('pheicloud.response.success.code'),
             'msg' => trans('pheicloud.response.success.msg'),
-            'data' => $car
+            'data' => $car,
+            'collection' => $flag,
         ];
 
         return response()->json($response);

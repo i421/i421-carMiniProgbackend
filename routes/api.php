@@ -43,6 +43,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api\V1'], function () {
     Route::group(['prefix' => 'collection'], function () {
         Route::post('/', 'CollectionController@store');
         Route::delete('{id}', 'CollectionController@destroy');
+        Route::get('cancel', 'CollectionController@cancelCollection');
     });
 
     //品牌管理
@@ -249,4 +250,3 @@ Route::group(['prefix' => 'v1/backend', 'namespace' => 'Backend'], function () {
     });
 
 });
-

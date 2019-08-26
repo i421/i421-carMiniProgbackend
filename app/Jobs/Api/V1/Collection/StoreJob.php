@@ -44,22 +44,16 @@ class StoreJob
             ]);
 
             if ($collection) {
-
                 $code = trans('pheicloud.response.success.code');
                 $msg = trans('pheicloud.response.success.msg');
-
             } else {
-
                 $code = trans('pheicloud.response.error.code');
                 $msg = trans('pheicloud.response.error.msg');
-
             }
 
         } else {
-
             $code = trans('pheicloud.response.exist.code');
             $msg = trans('pheicloud.response.exist.msg');
-
         }
 
         $response = [

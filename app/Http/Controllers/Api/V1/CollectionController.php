@@ -21,4 +21,11 @@ class CollectionController extends Controller
         $response = $this->dispatch(new CollectionJobs\DestroyJob($id));
         return $response;
     }
+
+    public function cancelCollection(CollectionRequests\CancelCollectionRequest $request)
+    {
+        $params = $request->all();
+        $response = $this->dispatch(new CollectionJobs\CancelCollectionJob($params));
+        return $response;
+    }
 }

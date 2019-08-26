@@ -27,7 +27,7 @@ class ClassifyJob
      */
     public function handle()
     {
-        $tags = TableModels\Tag::select('id', 'tag_group', 'name')->groupBy('tag_group', 'id')->get()->toArray();
+        $tags = TableModels\Tag::select('id', 'tag_group', 'name')->groupBy('tag_group', 'id', 'name')->get()->toArray();
 
         $data = [];
 
@@ -40,10 +40,15 @@ class ClassifyJob
             }
         }
 
+        $temp = [];
+        foreach ($data as $key => $val) {
+            $temp[] = [$key => $val];
+        }
+
         $response = [
             'code' => trans('pheicloud.response.success.code'),
             'msg' => trans('pheicloud.response.success.msg'),
-            'data' => $data,
+            'data' => $temp,
         ];
 
         return response()->json($response);

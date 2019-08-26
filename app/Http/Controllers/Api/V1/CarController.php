@@ -46,7 +46,8 @@ class CarController extends Controller
      */
     public function show(int $id)
     {
-        $response = $this->dispatch(new CarJobs\ShowJob($id));
+        $customer_id = request()->input('customer_id', null);
+        $response = $this->dispatch(new CarJobs\ShowJob($id, $customer_id));
         return $response;
     }
 

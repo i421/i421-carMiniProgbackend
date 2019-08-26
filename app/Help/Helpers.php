@@ -121,10 +121,12 @@ function getFullByAddressId($id, $address = '')
 function getScoreThreshold()
 {
     $score = TableModels\Setting::where('key', 'score')->first();
+
     if (is_null($score)) {
-	$data = ['store' => 100, 'recommend' => 100];
+        $data = ['store' => 100, 'recommend' => 100];
     } else {
-	$data = json_decode($score->value, true);
+        $data = json_decode($score->value, true);
     }
+
     return $data;
 }

@@ -26,9 +26,9 @@ class PreOrderJob
     {
         $this->app = Factory::payment(config('wechat.payment.default'));
         $this->payment_count = $params['payment_count'];
-	$this->customer_id = $params['customer_id'];
-	$this->car_id = $params['car_id'];
-	$this->shop_id = $params['shop_id'];
+        $this->customer_id = $params['customer_id'];
+        $this->car_id = $params['car_id'];
+        $this->shop_id = $params['shop_id'];
     }
 
     /**
@@ -38,6 +38,28 @@ class PreOrderJob
      */
     public function handle()
     {
+        $customer = TableModels\Customer::find($this->id);
+
+        if (is_null($customer)) {
+
+            $response = [
+                'code' => trans('pheicloud.response.notExist.code'),
+                'msg' => trans('pheicloud.response.notExist.msg'),
+            ];
+
+            return response()->json($response);
+        }
+
+        if ($customer->auth == 0) {
+
+            $response = [
+                'code' => trans('pheicloud.response.notAuth.code'),
+                'msg' => trans('pheicloud.response.notAuth.msg'),
+            ];
+
+            return response()->json($response);
+        }
+
         $order_num = date("ymd") . substr(time(), -5) . substr(microtime(), 2, 5);
         //元换成分
         $payment_count = bcmul($this->payment_count, 100);
@@ -45,9 +67,9 @@ class PreOrderJob
         // test begin
         $res = TableModels\Order::create([
             'order_num' => $order_num,
-            'customer_id' => $this->info['customer_id'],
-            'car_id' => $this->info['car_id'],
-            'shop_id' => $this->info['shop_id'],
+            'car_id' => $this->car_id,
+            'customer_id' => $this->customer_id,
+            'shop_id' => $this->shop_id,
             'payment_count' => $payment_count,
             'pay_log_id' => 1,
             'payment_status' => 1,
@@ -73,11 +95,11 @@ class PreOrderJob
             'appid' => config('wechat.payment.default.app_id'),
             'mch_id' => config('wechat.payment.default.mch_id'),
             'out_trade_no' => $order_num,
-	    'info' => [
-		'car_id' => $this->car_id,
-	    	'customer_id' => $this->customer_id,
-	    	'shop_id' => $this->shop_id,
-	    ],
+            'info' => [
+                'car_id' => $this->car_id,
+                'customer_id' => $this->customer_id,
+                'shop_id' => $this->shop_id,
+            ],
         ]);
 
         $result = $this->app->order->unify([
