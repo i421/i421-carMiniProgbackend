@@ -1,7 +1,9 @@
 <template>
     <div>
+	<el-tag size="medium" style="display: inline-block; margin-bottom: 20px;">轮播图设置</el-tag>
+
         <div id="tableTools">
-            <el-button type="primary" class="table-button" icon="el-icon-plus" @click="addCarousel">新增</el-button>
+            <el-button type="primary" size="small" class="table-button" icon="el-icon-plus" @click="addCarousel">新增轮播图</el-button>
         </div>
 		<!-- table数据 -->
         <data-tables border :data="tableData" :action-col="actionCol" :pagination-props="{ pageSizes: [10, 15, 20] }">
@@ -23,6 +25,19 @@
             </el-table-column>
 
         </data-tables>
+
+	<div class="scorecontainer">
+	    <el-tag size="medium" style="display: inline-block; margin-bottom: 20px;">积分设置</el-tag>
+	    <div style="width: 400px;">
+	    	<el-input placeholder="" v-model.number="storeScore" style="margin-bottom: 10px">
+		    <template slot="prepend">新用户积分</template>
+	    	</el-input>	
+	    	<el-input placeholder="" v-model.number="recommendScore" style="margin-bottom: 10px">
+		    <template slot="prepend">推荐用户积分</template>
+	    	</el-input>	
+		<el-button @click="updateScore" type="primary" size="small">更新设置</el-button>
+	    </div>
+	</div>
     </div>
 </template>
 
@@ -33,7 +48,9 @@
   export default {
       data() {
           return {
-			tableData: [],
+	    tableData: [],
+	    storeScore: 0,
+	    recommendScore: 0,
             actionCol: {
                 label: '操作',
                 props: {
@@ -68,6 +85,7 @@
 
       created () {
           this.fetchCarousel()
+          this.fetchScore()
       },
 
       methods: {
@@ -77,6 +95,34 @@
                 method: 'get',
             }).then(response => {
                 this.tableData = response.data.data
+            }).catch(err => {
+                console.log(err)
+            })
+        },
+
+        fetchScore() {
+            http({
+                url: Api.settingShowScore,
+                method: 'get',
+            }).then(response => {
+                this.storeScore = response.data.data.store
+                this.recommendScore = response.data.data.recommend
+            }).catch(err => {
+                console.log(err)
+            })
+        },
+
+        updateScore() {
+            http({
+                url: Api.settingUpdateScore,
+                method: 'get',
+		params: {value: [this.storeScore, this.recommendScore]}
+            }).then(response => {
+		this.$notify.success({
+		    'title': "提示",
+		    'message': response.data.msg
+		})
+          	this.fetchScore()
             }).catch(err => {
                 console.log(err)
             })
@@ -125,9 +171,15 @@
 
 <style>
 #tableTools {
-    display: inline-block;
+    display: block;
 }
 #tableTools .table-button {
     margin: 0 0 30px 0px;
+}
+.scorecontainer {
+    margin: 50px 0 30px 0px;
+}
+.scoreTag {
+    margin-bottom: 30px;
 }
 </style>

@@ -35,6 +35,7 @@ class StoreRequest extends FormRequest
             'carousel' => 'required',
             'attr' => 'required|string',
             'customize' => 'nullable|string',
+            'height' => 'nullable|integer',
         ];
     }
 }

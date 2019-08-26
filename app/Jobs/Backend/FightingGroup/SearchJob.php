@@ -24,7 +24,7 @@ class SearchJob
     {
         $this->group_type = isset($params['group_type']) ? $params['group_type'] : null;
         $this->time = isset($params['time']) ? $params['time'] : null;
-        $this->name = isset($params['name']) ? $params['name'] : null;
+        $this->name = isset($params['car_name']) ? $params['car_name'] : null;
     }
 
     /**

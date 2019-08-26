@@ -219,6 +219,9 @@ Route::group(['prefix' => 'v1/backend', 'namespace' => 'Backend', 'middleware' =
         Route::post('/carousel/update/{uuid}', 'SettingController@updateCarousel');
         Route::get('/', 'BrandController@index');
         Route::delete('/carousel/{uuid}', 'SettingController@destroyCarousel');
+        Route::get('/score', 'SettingController@getScore');
+        Route::get('/score/store', 'SettingController@storeScoreValue');
+        Route::get('/score/update', 'SettingController@updateScoreValue');
     });
 
     //订单管理

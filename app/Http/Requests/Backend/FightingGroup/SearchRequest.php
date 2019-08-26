@@ -24,7 +24,7 @@ class SearchRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'nullable|string',
+            'car_name' => 'nullable|string',
             'group_type' => 'nullable|array',
             'time' => 'nullable|array',
         ];

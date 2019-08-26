@@ -6,11 +6,10 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Foundation\Bus\Dispatchable;
 use App\Tables as TableModels;
 
-class UpdateStoreValueJob
+class UpdateScoreValueJob
 {
     use Dispatchable, Queueable;
 
-    private $key;
     private $value;
 
     /**
@@ -20,7 +19,6 @@ class UpdateStoreValueJob
      */
     public function __construct(array $params)
     {
-        $this->key = $params['key'];
         $this->value = $params['value'];
     }
 
@@ -32,7 +30,10 @@ class UpdateStoreValueJob
     public function handle()
     {
         $res = TableModels\Setting::where('key', 'score')->update([
-            'value' => json_encode($this->value)
+	    'value' => json_encode([
+		'store' => $this->value[0],
+		'recommend' => $this->value[1]
+	    ])
         ]);
 
         if ($res) {

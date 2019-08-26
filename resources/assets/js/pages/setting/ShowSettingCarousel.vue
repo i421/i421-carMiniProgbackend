@@ -1,7 +1,7 @@
 <template>
     <div>
         <el-row>
-            <el-form ref="form" :model="form" label-width="100px" style="width:500px">
+            <el-form ref="form" :model="form" label-width="120px" style="width:500px">
                 <el-form-item label="跳转类型" prop="type"
                     :rules="[
                         { required: true, message: '跳转类型不能为空', trigger: 'blur' },
@@ -13,7 +13,7 @@
                     </el-select>
                 </el-form-item>
 
-                <el-form-item label="链接" prop="link"
+                <el-form-item label="链接/汽车ID" prop="link"
                     :rules="[
                         { required: true, message: '链接不能为空', trigger: 'blur' },
                     ]"

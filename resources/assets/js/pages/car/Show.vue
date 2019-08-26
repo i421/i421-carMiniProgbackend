@@ -69,6 +69,15 @@
                         <el-input v-model.number="form.final_price"></el-input>
                     </el-form-item>
 
+                    <el-form-item label="综合排序" prop="height"
+                        :rules="[
+                            { required: true, message: '不能为空', trigger: 'blur' },
+                            { type: 'number', message: '必须为数字', trigger: ['blur', 'change'] },
+                        ]"
+                    >
+                        <el-input v-model.number="form.height"></el-input>
+                    </el-form-item>
+
                     <el-form-item label="轮播图" prop="carousel">
                         <el-carousel>
                             <el-carousel-item v-for="item in carousels" :key="item">
@@ -199,6 +208,7 @@
               form: {
                   name: '',
                   avatar: '',
+                  height: '',
                   guide_price: '',
                   final_price: '',
                   car_price: '',
@@ -226,10 +236,11 @@
                 this.form.car_price = parseInt(response.data.data.car_price)
                 this.form.final_price = parseInt(response.data.data.final_price)
                 this.form.guide_price = parseInt(response.data.data.guide_price)
+                this.form.height = parseInt(response.data.data.height)
                 this.previewCarAvatarLogo = response.data.data.avatar
                 this.carousels = response.data.data.carousel
                 this.selected = JSON.parse(response.data.data.attr)
-                this.form.customize = JSON.parse(JSON.parse(response.data.data.customize))
+                this.form.customize = JSON.parse(response.data.data.customize)
                 this.form.carousel = []
             }).catch(err => {
                 console.log(err)
@@ -277,12 +288,13 @@
                     formData.append('guide_price', this.form.guide_price)
                     formData.append('car_price', this.form.car_price)
                     formData.append('final_price', this.form.final_price)
-					formData.append('customize', JSON.stringify(this.form.customize))
+                    formData.append('height', this.form.height)
+		    formData.append('customize', JSON.stringify(this.form.customize))
 
                     if (typeof(this.form.attr) != 'string') {
-					    formData.append('attr', JSON.stringify(this.form.attr))
+			formData.append('attr', JSON.stringify(this.form.attr))
                     } else {
-					    formData.append('attr', this.form.attr)
+			formData.append('attr', this.form.attr)
                     }
 
                     if (typeof(this.form.avatar) == 'object') {

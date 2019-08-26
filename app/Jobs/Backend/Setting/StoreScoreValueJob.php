@@ -10,7 +10,6 @@ class StoreScoreValueJob
 {
     use Dispatchable, Queueable;
 
-    private $key;
     private $value;
 
     /**
@@ -20,7 +19,6 @@ class StoreScoreValueJob
      */
     public function __construct(array $params)
     {
-        $this->key = $params['key'];
         $this->value = $params['value'];
     }
 
@@ -36,8 +34,11 @@ class StoreScoreValueJob
         if (is_null($score)) {
 
             $res = TableModels\Setting::create([
-                'key' => 'carousel',
-                'value' => json_encode($val),
+                'key' => 'score',
+                'value' => json_encode([
+		    'store' => $this->value[0],
+		    'recommend' => $this->value[1],
+		]),
             ]);
 
             if ($res) {

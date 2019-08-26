@@ -31,21 +31,26 @@ class OrderJob
      */
     public function handle()
     {
+	$where = [['customers.openid', '=', $this->openid]];
+	
+	if (!is_null($this->type)) {
+	    $where[] = ['cars.type', '=', $this->type];
+	}
+
         $orders = TableModels\Order::leftJoin('customers', 'orders.customer_id', '=', 'customers.id')
             ->leftJoin('shops', 'orders.shop_id', '=', 'shops.id')
             ->leftJoin('cars', 'orders.car_id', '=', 'cars.id')
-            ->where([
-                ['customers.openid', '=', $this->openid],
-                ['customers.type', '=', $this->type],
-            ])->select(
-                'orders.*', 'cars.name as car_name', 'cars.final_price as final_price', 'cars.avatar as avatar', 'shops.name as shop_name', 'customers.phone as phone'
+            ->where($where)
+	    ->select(
+                'orders.*', 'cars.type', 'cars.group_type', 'cars.name as car_name', 'cars.final_price as final_price',
+		'cars.avatar as avatar', 'shops.name as shop_name', 'customers.phone as phone', 'cars.guide_price', 'cars.group_price'
             )->orderBy("orders.created_at", 'desc')
             ->get()
             ->toArray();
 
         foreach ($orders as &$order) {
             $order['avatar'] = 'storage/' . $order['avatar'];
-            $order['full_avatar'] = url('/') . '/storage/' . $order['avatar'];
+            $order['full_avatar'] = url('/') . '/' . $order['avatar'];
         }
 
         $response = [

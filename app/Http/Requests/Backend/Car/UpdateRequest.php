@@ -34,6 +34,7 @@ class UpdateRequest extends FormRequest
             'customize' => 'nullable|string',
             'carousel' => 'nullable',
             'avatar' => 'nullable|image',
+            'height' => 'nullable|integer',
         ];
     }
 }

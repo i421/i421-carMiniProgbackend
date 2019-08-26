@@ -69,6 +69,8 @@ const Api = {
     'customerAuthStatus': 'api/v1/backend/customer/authStatus',
     'customerToggleIsSeller': 'api/v1/backend/customer/isSeller',
 
+    'settingShowScore': 'api/v1/backend/setting/score',
+    'settingUpdateScore': 'api/v1/backend/setting/score/update',
     'settingSetCarousel': 'api/v1/backend/setting/carousel',
     'settingShowCarousel': 'api/v1/backend/setting/carousel/',
     'settingUpdateCarousel': 'api/v1/backend/setting/carousel/update/',

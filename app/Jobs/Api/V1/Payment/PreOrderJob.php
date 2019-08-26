@@ -13,7 +13,9 @@ class PreOrderJob
 
     private $app;
     private $payment_count;
-    private $info;
+    private $customer_id;
+    private $shop_id;
+    private $car_id;
 
     /**
      * Create a new job instance.
@@ -24,7 +26,9 @@ class PreOrderJob
     {
         $this->app = Factory::payment(config('wechat.payment.default'));
         $this->payment_count = $params['payment_count'];
-        $this->info = $params['info'];
+	$this->customer_id = $params['customer_id'];
+	$this->car_id = $params['car_id'];
+	$this->shop_id = $params['shop_id'];
     }
 
     /**
@@ -69,7 +73,11 @@ class PreOrderJob
             'appid' => config('wechat.payment.default.app_id'),
             'mch_id' => config('wechat.payment.default.mch_id'),
             'out_trade_no' => $order_num,
-            'info' => $info,
+	    'info' => [
+		'car_id' => $this->car_id,
+	    	'customer_id' => $this->customer_id,
+	    	'shop_id' => $this->shop_id,
+	    ],
         ]);
 
         $result = $this->app->order->unify([

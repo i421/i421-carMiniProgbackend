@@ -33,7 +33,7 @@ class ShowJob
     public function handle()
     {
         $car = Car::select(
-            'id', 'name', 'brand_id', 'guide_price', 'final_price', 'car_price', 'avatar', 'info->attr as attr',
+            'id', 'name', 'brand_id', 'guide_price', 'final_price', 'car_price', 'avatar', 'info->attr as attr', 'height',
             'info->carousel as carousel', 'info->customize as customize'
         )->find($this->car_id);
 
@@ -48,25 +48,13 @@ class ShowJob
 
         }
 
-        if (is_null($car->customize)) {
-            $car->customize = [];
-        }
+	$car->customize = json_decode($car->customize, true);
+	$car->attr = json_decode($car->attr, true);
+	$car->carousel = json_decode($car->carousel, true);
 
-        if (is_null($car->attr)) {
-            $car->attr = [];
-        } else {
-            $car->attr = json_decode($car->attr, true);
-        }
-
-        if (is_null($car->carousel)) {
-            $car->carousel = [];
-        } else {
-            $car->carousel = json_decode($car->carousel, true);
-
-            foreach($car->carousel as $atom) {
-                $full_carousel[] = url('/') . '/' . $atom;
-            }
-        }
+	foreach($car->carousel as $atom) {
+	    $full_carousel[] = url('/') . '/' . $atom;
+	}
 
         $car->full_carousel = $full_carousel;
 

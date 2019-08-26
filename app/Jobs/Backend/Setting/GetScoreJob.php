@@ -10,18 +10,14 @@ class GetScoreJob
 {
     use Dispatchable, Queueable;
 
-    private $key;
-    private $value;
-
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct(array $params)
+    public function __construct()
     {
-        $this->key = $params['key'];
-        $this->value = $params['value'];
+	//
     }
 
     /**
@@ -31,27 +27,10 @@ class GetScoreJob
      */
     public function handle()
     {
-        $score = TableModels\Setting::where('key', 'score')->first();
-
-        if (is_null($score)) {
-
-            $code = trans('pheicloud.response.success.code');
-            $msg = trans('pheicloud.response.success.msg');
-            $temp = ['store' => 100, 'recommder' => 100];
-            $data = json_encode($temp);
-
-        } else {
-
-            $code = trans('pheicloud.response.success.code');
-            $msg = trans('pheicloud.response.success.msg');
-            $temp = ['store' => 100, 'recommder' => 100];
-            $data = is_null(json_decode($score->value, true)) ? $temp : json_decode($score->value, true);
-        }
-
         $response = [
-            'code' => $code,
-            'msg' => $msg,
-            'data' => $data,
+            'code' => trans('pheicloud.response.success.code'),
+            'msg' => trans('pheicloud.response.success.msg'),
+            'data' => getScoreThreshold(),
         ];
 
         return response()->json($response);

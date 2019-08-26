@@ -23,7 +23,9 @@ class CreateCarsTable extends Migration
             $table->integer('guide_price')->comment("汽车指导价");
             $table->integer('final_price')->comment("落地价、成交价");
             $table->integer('car_price')->comment("裸车价");
-            $table->string('remarks')->nullable()->comment("备注");
+            $table->integer('height')->default(50)->comment("权重");
+            $table->integer('sale_num')->default(0)->comment("销售量");
+            $table->string('remarks')->nullable()->comment("备注 销售量");
             $table->json('info')->nullable()->comment("详细信息");
             $table->integer('group_type')->default(0)->index()->comment("时间拼团1/数量拼团2");
             $table->integer('group_price')->default(0)->comment("拼团价");

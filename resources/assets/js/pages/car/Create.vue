@@ -74,6 +74,15 @@
                         <el-input v-model.number="form.final_price"></el-input>
                     </el-form-item>
 
+                    <el-form-item label="综合排序" prop="height"
+                        :rules="[
+                            { required: true, message: '不能为空', trigger: 'blur' },
+                            { type: 'number', message: '必须为数字', trigger: ['blur', 'change'] },
+                        ]"
+                    >
+                        <el-input v-model.number="form.height"></el-input>
+                    </el-form-item>
+
                     <el-form-item label="轮播图" prop="carousel"
                         :rules="[
                             { required: true, message: '轮播图不能为空', trigger: 'blur' },
@@ -166,6 +175,7 @@
                   guide_price: '',
                   final_price: '',
                   car_price: '',
+                  height: '',
                   selected: [],
                   brand_id: '',
                   customize: [],
@@ -222,8 +232,9 @@
                     formData.append('avatar', this.form.avatar)
                     formData.append('guide_price', this.form.guide_price)
                     formData.append('car_price', this.form.car_price)
+                    formData.append('height', this.form.height)
                     formData.append('final_price', this.form.final_price)
-					formData.append('customize', JSON.stringify(this.form.customize))
+		    formData.append('customize', JSON.stringify(this.form.customize))
                     formData.append('attr', JSON.stringify(this.form.selected))
 
                     for (let i = 0; i < this.form.carousel.length; i++) {
