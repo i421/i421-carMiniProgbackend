@@ -27,7 +27,7 @@ class ClassifyJob
      */
     public function handle()
     {
-        $tags = TableModels\Tag::select('id', 'tag_group', 'name')->groupBy('tag_group', 'id')->get()->toArray();
+        $tags = TableModels\Tag::select('id', 'tag_group', 'name')->groupBy('tag_group', 'id', 'name')->get()->toArray();
 
         $data = [];
 

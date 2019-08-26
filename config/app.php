@@ -167,6 +167,7 @@ return [
         /*
          * Package Service Providers...
          */
+    	I421\MariaDB\MariaDBServiceProvider::class,
 
         /*
          * Application Service Providers...
