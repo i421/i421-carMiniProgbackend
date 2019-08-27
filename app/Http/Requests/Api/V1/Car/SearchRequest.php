@@ -31,6 +31,7 @@ class SearchRequest extends FormRequest
             'name' => 'nullable|string',
             'tag_id' => 'nullable|array',
             'brand_id' => 'nullable|integer',
+            'pagesize' => 'nullable|integer',
         ];
     }
 }

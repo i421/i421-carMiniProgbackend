@@ -28,13 +28,14 @@ class CarController extends Controller
     }
 
     /**
-     * 用户角色列表
+     * 汽车列表
      *
      * @return void
      */
     public function index()
     {
-        $response = $this->dispatch(new CarJobs\IndexJob());
+        $pagesize = request()->input('pagesize', 10);
+        $response = $this->dispatch(new CarJobs\IndexJob($pagesize));
         return $response;
     }
 

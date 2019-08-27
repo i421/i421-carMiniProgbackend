@@ -17,6 +17,7 @@ class SearchJob
     private $max_price;
     private $order_type;
     private $tag_id;
+    private $pagesize;
 
     /**
      * Create a new job instance.
@@ -32,6 +33,7 @@ class SearchJob
         $this->max_price = isset($params['max_price']) ? $params['max_price'] : 99999999999;
         $this->order_column = isset($params['order_column']) ? $params['order_column'] : 'car_price';
         $this->order_type = isset($params['order_type']) ? $params['order_type'] : 'desc';
+        $this->pagesize = isset($params['pagesize']) ? $params['pagesize'] : 10;
     }
 
     /**
@@ -57,7 +59,7 @@ class SearchJob
             ['cars.car_price', '<=', $this->max_price],
         ]);
 
-        $cars = $tempRes->orderBy($this->order_column, $this->order_type)->get()->toArray();
+        $cars = $tempRes->orderBy($this->order_column, $this->order_type)->paginate($this->pagesize);
 
         $temp = [];
 

@@ -11,14 +11,16 @@ class IndexJob
 {
     use Dispatchable, Queueable;
 
+    private $pagesize;
+
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(int $pagesize)
     {
-        //
+        $this->pagesize = $pagesize;
     }
 
     /**
@@ -31,7 +33,7 @@ class IndexJob
         $cars = TableModels\Car::leftJoin('brands', 'cars.brand_id', '=', 'brands.id')
             ->select('cars.*', 'brands.name as brand_name')
             ->orderBy("created_at", 'desc')
-            ->get();
+            ->paginate($this->pagesize);
 
         $orders = TableModels\Order::select('car_id', DB::raw("count(*) as orders"))->where('payment_status', 1)->groupBy('car_id')->get();
         $collections = TableModels\Collection::select('car_id', DB::raw("count(*) as collections"))->groupBy('car_id')->get();
