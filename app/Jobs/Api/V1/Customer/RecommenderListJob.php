@@ -31,8 +31,8 @@ class RecommenderListJob
     public function handle()
     {
         $customers = TableModels\Customer::select(
-	   	'info->name as name', 'id', 'openid', DB::raw('DATE_FORMAT(created_at, "%Y-%m-%d") as date')
-	    )->where('recommender', '=', $this->id)->groupBy('openid', 'info', 'created_at', 'id')->get();
+	   	'info->name as name', 'id', 'openid', 'nickname', 'avatar', DB::raw('DATE_FORMAT(created_at, "%Y-%m-%d") as date')
+	    )->where('recommender', '=', $this->id)->groupBy('openid', 'info', 'created_at', 'id', 'nickname', 'avatar')->get();
 
         $orders = TableModels\Order::select('customer_id', DB::raw("count(*) as orders"))->where('payment_status', 1)->groupBy('customer_id')->get();
 
