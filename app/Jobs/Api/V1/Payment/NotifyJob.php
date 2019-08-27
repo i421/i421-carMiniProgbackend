@@ -66,13 +66,13 @@ class NotifyJob
                         'cash_fee' => $message['cash_fee'],
                         'fee_type' => $message['fee_type'],
                         'transaction_id' => $message['transaction_id'],
-                        'time_end' => time(),
+                        'time_end' => date("Y-m-d H:i:s"),
                         'result_code' => $message['result_code'],
                         'return_code' => $message['return_code'],
                     ]);
 
                     // 创建订单记录
-                    TableModels\Order::create([
+                    TableModels\Order::insert([
                         'order_num' => $message['out_trade_no'],
                         'customer_id' => $payLog->info['customer_id'],
                         'car_id' => $payLog->info['car_id'],
@@ -83,14 +83,14 @@ class NotifyJob
                     ]);
 
                     // 创建订单支付成功通知信息
-                    TableModels\OrderMessage::create([
+                    TableModels\OrderMessage::insert([
                         'customer_id' => $payLog->info['customer_id'],
                         'content' => '您的订单支付成功',
                         'order_num' => $message['out_trade_no'],
                     ]);
 
                     //支付成功: 销售量+1 || 拼团数量当前+1
-                    $car = TablesModel\Car::find($payLog->info['car_id']);
+                    $car = TableModels\Car::find($payLog->info['car_id']);
 
                     if (!is_null($car)) {
 
@@ -118,7 +118,7 @@ class NotifyJob
                         'cash_fee' => $message['cash_fee'],
                         'fee_type' => $message['fee_type'],
                         'transaction_id' => $message['transaction_id'],
-                        'time_end' => time(),
+                        'time_end' => date("Y-m-d H:i:s"),
                         'result_code' => $message['result_code'],
                         'return_code' => $message['return_code'],
                         'err_code' => $message['err_code'],
@@ -126,7 +126,7 @@ class NotifyJob
                     ]);
 
                     // 创建订单支付失败通知信息
-                    TableModels\OrderMessage::create([
+                    TableModels\OrderMessage::insert([
                         'customer_id' => $payLog->info['customer_id'],
                         'content' => $message['err_code_des'],
                         'order_num' => $message['out_trade_no'],

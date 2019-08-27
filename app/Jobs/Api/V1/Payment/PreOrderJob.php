@@ -6,6 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Foundation\Bus\Dispatchable;
 use App\Tables as TableModels;
 use EasyWeChat\Factory;
+use function EasyWeChat\Kernel\Support\generate_sign;
 
 class PreOrderJob
 {
@@ -38,7 +39,7 @@ class PreOrderJob
      */
     public function handle()
     {
-        $customer = TableModels\Customer::find($this->id);
+        $customer = TableModels\Customer::find($this->customer_id);
 
         if (is_null($customer)) {
 
@@ -64,42 +65,17 @@ class PreOrderJob
         //元换成分
         $payment_count = bcmul($this->payment_count, 100);
 
-        // test begin
-        $res = TableModels\Order::create([
-            'order_num' => $order_num,
+        $info = [
             'car_id' => $this->car_id,
             'customer_id' => $this->customer_id,
             'shop_id' => $this->shop_id,
-            'payment_count' => $payment_count,
-            'pay_log_id' => 1,
-            'payment_status' => 1,
-        ]);
+        ];
 
-        if ($res) {
-             $response = [
-                 'code' => trans('pheicloud.response.success.code'),
-                 'msg' => trans('pheicloud.response.success.msg'),
-             ];
-             return response()->json($response);
-        } else {
-             $response = [
-                 'code' => trans('pheicloud.response.error.code'),
-                 'msg' => trans('pheicloud.response.error.msg'),
-             ];
-             return response()->json($response);
-        }
-        // Test end
-
-        /*
-        TableModels\PayLog::create([
+        TableModels\PayLog::insert([
             'appid' => config('wechat.payment.default.app_id'),
             'mch_id' => config('wechat.payment.default.mch_id'),
             'out_trade_no' => $order_num,
-            'info' => [
-                'car_id' => $this->car_id,
-                'customer_id' => $this->customer_id,
-                'shop_id' => $this->shop_id,
-            ],
+            'info' => json_encode($info);
         ]);
 
         $result = $this->app->order->unify([
@@ -107,14 +83,26 @@ class PreOrderJob
             'body' => '车辆定金',
             'out_trade_no' => $order_num,
             'total_fee' => $payment_count,
+            'openid' => $customer->openid,
         ]);
 
         if ($result['result_code'] == 'SUCCESS') {
+
+            $params = [
+                'appId' => config('wechat.mini_program.default.app_id'),
+                'timeStamp' => time(),
+                'nonceStr'  => $result['nonce_str'],
+                'package'   => 'prepay_id=' . $result['prepay_id'],
+                'signType'  => 'MD5',
+            ];
+
+            $params['paySign'] = generate_sign($params, config('wechat.payment.default.key'));
+
             $response = [
                 'code' => trans('pheicloud.response.success.code'),
                 'msg' => trans('pheicloud.response.success.msg'),
                 'data' => [
-                    'result' => $result,
+                    'result' => $params,
                     'order_num' => $order_num,
                 ]
             ];
@@ -129,6 +117,5 @@ class PreOrderJob
 
             return response()->json($response);
         }
-         */
     }
 }
