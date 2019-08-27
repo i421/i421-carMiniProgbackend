@@ -24,7 +24,6 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api\V1'], function () {
         Route::get('collection/{openid}', 'CustomerController@collection');
         Route::get('order/{openid}', 'CustomerController@order');
         Route::get('score/{openid}', 'CustomerController@score');
-        Route::get('fighting/group/{openid}', 'CustomerController@fightingGroup');
         Route::post('upload/idcard', 'CustomerController@uploadIdcard');
         Route::post('upload/bankcard', 'CustomerController@uploadBankcard');
         Route::post('upload/drivinglicense', 'CustomerController@uploadDrivingLicense');

@@ -38,11 +38,31 @@ class GetMessageJob
             $msg = trans('pheicloud.response.empty.msg');
             $data = $messages;
 
+            foreach ($data as &$atom) {
+                $flag = isset($atom['title']) ? 1 : 0;
+
+                if ($flag) {
+                    $atom['type'] = 1;
+                } else {
+                    $atom['type'] = 2;
+                }
+            }
+
         } else {
 
             $orderMessages = TableModels\OrderMessage::where('customer_id', $customer->id)->orderBy('created_at')->get()->toArray();
 
             $data = array_merge($messages, $orderMessages);
+
+            foreach ($data as &$atom) {
+                $flag = isset($atom['title']) ? 1 : 0;
+
+                if ($flag) {
+                    $atom['type'] = 1;
+                } else {
+                    $atom['type'] = 2;
+                }
+            }
 
             $code = trans('pheicloud.response.success.code');
             $msg = trans('pheicloud.response.success.msg');
