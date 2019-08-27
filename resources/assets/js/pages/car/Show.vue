@@ -173,6 +173,7 @@
                     drag
                     action=""
                     :onChange="addCarCarouselFile"
+                    :on-remove="removeCarCarouselFile"
                     multiple
                     :auto-upload="false"
                 >
@@ -289,12 +290,12 @@
                     formData.append('car_price', this.form.car_price)
                     formData.append('final_price', this.form.final_price)
                     formData.append('height', this.form.height)
-		    formData.append('customize', JSON.stringify(this.form.customize))
+                    formData.append('customize', JSON.stringify(this.form.customize))
 
                     if (typeof(this.form.attr) != 'string') {
-			formData.append('attr', JSON.stringify(this.form.attr))
+                        formData.append('attr', JSON.stringify(this.form.attr))
                     } else {
-			formData.append('attr', this.form.attr)
+                        formData.append('attr', this.form.attr)
                     }
 
                     if (typeof(this.form.avatar) == 'object') {
@@ -334,6 +335,14 @@
 
         addCarCarouselFile(file, fileList) {
             this.form.carousel.push(file.raw)
+        },
+
+        removeCarCarouselFile (file, fileList) {
+            for(let i = 0; i < this.form.carousel.length; i++) {
+                if (this.form.carousel[i].uid == file.uid) {
+                    this.form.carousel.splice(i, 1)
+                }
+            }
         },
 
         back() {

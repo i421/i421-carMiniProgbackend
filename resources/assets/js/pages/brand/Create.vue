@@ -55,6 +55,7 @@
                             ref="upload"
                             drag
                             :onChange="addFile"
+                            :on-remove="removeFile"
                             action=""
                             :limit="1"
                             :auto-upload="false">
@@ -149,6 +150,10 @@
 
         addFile(file, fileList) {
             this.form.logo = file.raw;
+        },
+
+        removeFile(file, fileList) {
+            this.form.logo = {};
         },
 
         back() {
