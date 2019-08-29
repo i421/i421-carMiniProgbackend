@@ -6,6 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Foundation\Bus\Dispatchable;
 use App\Tables\Car;
 use App\Tables\Collection;
+use App\Tables\Tag;
 use DB;
 
 class ShowJob
@@ -57,9 +58,12 @@ class ShowJob
        	$car->customize = json_decode($car->customize, true);
         $temp = (array)json_decode(json_decode($car->attr, true));
 
+        $tagMapping = Tag::pluck('name', 'id');
+
         $tempArr = [];
         foreach ($temp as $key => $value) {
-            $tempArr[] = [$key => $value];
+            $tagName = isset($tagMapping[$value]) ? $tagMapping[$value] : '';
+            $tempArr[] = [$key => $tagName];
         }
         $car->attr = $tempArr;
     	$car->carousel = json_decode($car->carousel, true);

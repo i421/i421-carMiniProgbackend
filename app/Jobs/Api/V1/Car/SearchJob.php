@@ -4,6 +4,9 @@ namespace App\Jobs\Api\V1\Car;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Pagination\Paginator;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
 use App\Tables as TableModels;
 use DB;
 
@@ -78,6 +81,8 @@ class SearchJob
                 }
             }
 
+            $temp = $this->paginate($temp, $this->pagesize);
+
         } else {
             $temp = $cars;
         }
@@ -90,4 +95,22 @@ class SearchJob
 
         return response()->json($response);
     }
+
+    public function paginate($items, $perPage = 15, $page = null, $baseUrl = null, $options = [])
+    {
+        $baseUrl = url()->current();
+
+        $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
+
+        $items = $items instanceof Collection ?  $items : Collection::make($items);
+
+        $lap = new LengthAwarePaginator($items->forPage($page, $perPage), $items->count(), $perPage, $page, $options);
+
+        if ($baseUrl) {
+            $lap->setPath($baseUrl);
+        }
+
+        return $lap;
+    }
+
 }
