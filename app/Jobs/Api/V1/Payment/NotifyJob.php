@@ -77,7 +77,7 @@ class NotifyJob
                         'customer_id' => $payLog->info['customer_id'],
                         'car_id' => $payLog->info['car_id'],
                         'shop_id' => $payLog->info['shop_id'],
-                        'payment_count' => $message['total_fee'],
+                        'payment_count' => $message['total_fee'] / 100,
                         'pay_log_id' => $payLog->id,
                         'payment_status' => 1,
                     ]);

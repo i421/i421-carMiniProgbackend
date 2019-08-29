@@ -28,7 +28,7 @@ class SearchJob
     {
         $this->name = isset($params['name']) ? $params['name'] : null;
         $this->brand_id = isset($params['brand_id']) ? $params['brand_id'] : null;
-        $this->tag_id = isset($params['tag_id']) ? $params['tag_id'] : [];
+        $this->tag_id = isset($params['tag_id']) ? $params['tag_id'] : '';
         $this->min_price = isset($params['min_price']) ? $params['min_price'] : 0;
         $this->max_price = isset($params['max_price']) ? $params['max_price'] : 99999999999;
         $this->order_column = isset($params['order_column']) ? $params['order_column'] : 'car_price';
@@ -43,6 +43,8 @@ class SearchJob
      */
     public function handle()
     {
+        $this->tag_id = array_filter(explode(",", $this->tag_id));
+
         $tempRes = TableModels\Car::leftJoin('brands', 'cars.brand_id', '=', 'brands.id')
             ->select('cars.*', 'brands.name as brand_name');
 

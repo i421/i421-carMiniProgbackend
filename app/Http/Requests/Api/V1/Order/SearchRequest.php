@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Api\V1\Car;
+namespace App\Http\Requests\Api\V1\Order;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -24,14 +24,8 @@ class SearchRequest extends FormRequest
     public function rules()
     {
         return [
-            'order_type' => 'nullable|string',
-            'order_column' => 'nullable|string',
-            'min_price' => 'nullable|integer',
-            'max_price' => 'nullable|integer',
-            'name' => 'nullable|string',
-            'tag_id' => 'nullable|string',
-            'brand_id' => 'nullable|integer',
-            'pagesize' => 'nullable|integer',
+            'phone' => 'nullable|string',
+            'order_no' => 'nullable|string',
         ];
     }
 }

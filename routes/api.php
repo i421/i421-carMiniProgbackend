@@ -100,6 +100,11 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api\V1'], function () {
         Route::get('{id}', 'MessageController@show');
     });
 
+    //订单查询
+    Route::group(['prefix' => 'order'], function () {
+        Route::get('search', 'OrderController@search');
+    });
+
     //订单消息管理
     Route::group(['prefix' => 'order/message'], function () {
         Route::get('search', 'OrderMessageController@search');
