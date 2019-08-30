@@ -17,4 +17,10 @@ class Order extends Model
     protected $guarded = [
         'id', 'created_at',
     ];
+
+    //单位转换
+    public function getPaymentCountAttribute($value)
+    {
+        return bcdiv($value, 100, 2);
+    }
 }
