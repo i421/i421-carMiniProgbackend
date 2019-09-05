@@ -27,7 +27,7 @@ class IndexJob
      */
     public function handle()
     {
-        $data = TablesModels\Message::all();
+        $data = TablesModels\Message::where('start_time', '<=', date("Y-m-d H:i:s"))->get();
 
         $response = [
             'code' => trans('pheicloud.response.success.code'),

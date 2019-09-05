@@ -30,7 +30,7 @@ class GetMessageJob
     public function handle()
     {
         $customer = TableModels\Customer::where('openid', $this->openid)->first();
-        $messages = TableModels\Message::orderBy('created_at', 'desc')->get()->toArray();
+        $messages = TableModels\Message::where('start_time', '<=', date("Y-m-d H:i:s"))->orderBy('start_time', 'desc')->get()->toArray();
 
         if (is_null($customer)) {
 
