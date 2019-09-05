@@ -34,11 +34,19 @@ class GetMessageJob
 
         if (is_null($customer)) {
 
-            $code = trans('pheicloud.response.empty.code');
-            $msg = trans('pheicloud.response.empty.msg');
-            $data = $messages;
+            $response = [
+                'code' => trans('pheicloud.response.empty.code'),
+                'msg' => trans('pheicloud.response.empty.msg'),
+                'data' => [],
+            ];
 
-            foreach ($data as &$atom) {
+            return response()->json($response);
+        }
+
+        if (count($messages) > 1) {
+
+
+            foreach ($messages as &$atom) {
                 $flag = isset($atom['title']) ? 1 : 0;
 
                 if ($flag) {
