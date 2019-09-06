@@ -43,7 +43,7 @@ class CarouselListJob
             $carousels = json_decode($carousels[0]['value'], true);
 
             foreach ($carousels as &$carousel) {
-                if ($carousel['type'] == 1) {
+                if ($carousel['type'] == 1 || $carousel['type'] == 3) {
 		            $carousel['full_link'] = url('/') . '/api/v1/car/' . $carousel['link'];
                 } else {
 		            $carousel['full_link'] = $carousel['link'];

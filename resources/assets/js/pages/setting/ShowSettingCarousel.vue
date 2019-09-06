@@ -10,6 +10,7 @@
                     <el-select v-model="form.type" placeholder="跳转类型" class="table-search">
                         <el-option label="车辆详情" value="1"></el-option>
                         <el-option label="三方网址" value="2"></el-option>
+                        <el-option label="拼团广告位" value="3"></el-option>
                     </el-select>
                 </el-form-item>
 

@@ -17,7 +17,8 @@
             <el-table-column label="类型" prop="type" width="120">
                 <template slot-scope="scope">
                     <el-tag v-if="scope.row.type == 1" type="success">车辆详情</el-tag>
-                    <el-tag v-else type="primary">三方网址</el-tag>
+                    <el-tag v-else-if="scope.row.type == 2" type="primary">三方网址</el-tag>
+                    <el-tag v-else type="primary">拼团广告位</el-tag>
                 </template>
             </el-table-column>
 
