@@ -22,11 +22,7 @@
                     <el-input v-model="form.link"></el-input>
                 </el-form-item>
 
-                <el-form-item label="系统轮播图" prop="carousel"
-                    :rules="[
-                        { required: true, message: '轮播图不能为空', trigger: 'blur' },
-                    ]"
-                >
+                <el-form-item label="系统轮播图" prop="carousel">
                     <el-image
                         style="width: 200px; height: 200px"
                         :src="previewLogo"
@@ -115,8 +111,11 @@
 			this.$refs['form'].validate((valid) => {
                 if (valid) {
                     let formData = new FormData()
+
                     if (typeof(this.form.carousel) == 'object') {
                         formData.append('carousel', this.form.carousel)
+                    } else {
+                        formData.append('carousel', this.previewLogo)
                     }
                     formData.append('type', this.form.type)
                     formData.append('link', this.form.link)
@@ -126,7 +125,6 @@
                         data: formData
                     }).then(response => {
                         this.$refs['form'].resetFields();
-                        this.$refs.uploadCarousel.clearFiles()
                         this.$notify.success({
                             'title': "提示",
                             'message': response.data.msg

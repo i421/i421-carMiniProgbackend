@@ -24,7 +24,7 @@ class UpdateCarouselRequest extends FormRequest
     public function rules()
     {
         return [
-            'carousel' => 'required|image',
+            'carousel' => 'required',
             'type' => 'required|integer',
             'link' => 'required|string',
         ];

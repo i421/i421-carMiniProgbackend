@@ -23,7 +23,7 @@ class UpdateCarouselJob
     public function __construct(array $params)
     {
         $this->uuid = $params['uuid'];
-        $this->carousel = $params['carousel'];
+        $this->carousel = isset($params['carousel']) ? $params['carousel'] : null;
         $this->type = $params['type'];
         $this->link = $params['link'];
     }

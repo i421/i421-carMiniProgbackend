@@ -56,6 +56,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api\V1'], function () {
     //轮播图管理
     Route::group(['prefix' => 'setting'], function () {
         Route::get('/carousel', 'SettingController@carouselList');
+        Route::get('/ad', 'SettingController@ad');
     });
 
     //经销商管理(店铺管理)

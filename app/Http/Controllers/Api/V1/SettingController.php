@@ -23,4 +23,10 @@ class SettingController extends Controller
         $response = $this->dispatch(new SettingJobs\CarouselListJob());
         return $response;
     }
+
+    public function ad()
+    {
+        $response = $this->dispatch(new SettingJobs\AdJob());
+        return $response;
+    }
 }

@@ -60,11 +60,15 @@ class SettingController extends Controller
     public function updateCarousel(SettingRequests\UpdateCarouselRequest $request, $uuid)
     {
         $params = $request->all();
-        $carousel = $request->file('carousel');
-        $imgType = $carousel->extension();
-        $imgName = date("YmdHis") . str_random(40) . ".$imgType";
-        $imgUrl = $carousel->storeAs('system/Carousel', $imgName, 'public');
-        $params['carousel'] = $imgUrl;
+        if ($request->hasFile('carousel')) {
+            $carousel = $request->file('carousel');
+            $imgType = $carousel->extension();
+            $imgName = date("YmdHis") . str_random(40) . ".$imgType";
+            $imgUrl = $carousel->storeAs('system/Carousel', $imgName, 'public');
+            $params['carousel'] = $imgUrl;
+        } else {
+            $params['carousel'] = substr($request->input('carousel'), 8);
+        }
         $params['uuid'] = $uuid;
         $response = $this->dispatch(new SettingJobs\UpdateCarouselJob($params));
         return $response;
