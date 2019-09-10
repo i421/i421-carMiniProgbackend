@@ -44,6 +44,15 @@ class BrandController extends Controller
         $params['id'] = $id;
         if ($request->hasFile('logo')) {
             $logo = $request->file('logo');
+
+            $fileSize = (int)($logo->getClientSize() / 1024);
+
+            $res = checkFileSize($fileSize, 512);
+
+            if (!$res['flag']) {
+                return $res['data'];
+            }
+
             $imgType = $logo->extension();
             $fileName = date("YmdHis") . str_random(40) . ".$imgType";
             $path = $logo->storeAs('brandLogo', $fileName, 'public');
@@ -75,6 +84,15 @@ class BrandController extends Controller
     {
         $params = $request->all();
         $logo = $request->file('logo');
+
+        $fileSize = (int)($logo->getClientSize() / 1024);
+
+        $res = checkFileSize($fileSize, 512);
+
+        if (!$res['flag']) {
+            return $res['data'];
+        }
+
         $imgType = $logo->extension();
         $fileName = date("YmdHis") . str_random(40) . ".$imgType";
         $path = $logo->storeAs('brandLogo', $fileName, 'public');

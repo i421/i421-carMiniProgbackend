@@ -130,3 +130,22 @@ function getScoreThreshold()
 
     return $data;
 }
+
+function checkFileSize($size, $limit)
+{
+    if ($size > $limit) {
+        $response = [
+            'code' => trans('pheicloud.response.fileTooLarge.code'),
+            'msg' => trans('pheicloud.response.fileTooLarge.msg') . $limit,
+        ];
+        return [
+            'flag' => false,
+            'data' => $response,
+        ];
+    } else {
+        return [
+            'flag' => true,
+            'data' => '',
+        ];
+    }
+}

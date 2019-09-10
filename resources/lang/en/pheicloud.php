@@ -82,8 +82,12 @@ return [
             'code' => '20003',
             'msg' => '文件不合法',
         ],
-        'requestPayError' => [
+        'fileTooLarage' => [
             'code' => '20004',
+            'msg' => '文件太大, 最大限制kb:',
+        ],
+        'requestPayError' => [
+            'code' => '20005',
             'msg' => '请求支付失败',
         ],
     ],
