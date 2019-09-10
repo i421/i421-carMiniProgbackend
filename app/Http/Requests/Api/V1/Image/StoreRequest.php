@@ -24,7 +24,7 @@ class StoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'file' => 'required|image',
+            'file' => 'required|image|size:1024',  //max file size 1024kb
         ];
     }
 }
