@@ -74,6 +74,7 @@
                         <el-image
                             style="width: 100px; height: 100px"
                             :src="previewShopLogo"
+                            lazy
                             :preview-src-list="[previewShopLogo]"
                             fit="fit">
                         </el-image>
@@ -87,6 +88,7 @@
 					>
                         <el-image
                             style="width: 100px; height: 100px"
+                            lazy
                             :src="previewLicenseLogo"
                             :preview-src-list="[previewLicenseLogo]"
                             fit="fit">

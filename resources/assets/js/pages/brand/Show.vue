@@ -54,6 +54,7 @@
                             style="width: 100px; height: 100px"
                             :src="previewLogo"
                             :preview-src-list="[previewLogo]"
+                            lazy
                             fit="fit">
                         </el-image>
                         <el-button size="small" style="margin-left: 10px" @click="updateBrandLogo" icon="el-icon-upload">上传</el-button>

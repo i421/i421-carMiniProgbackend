@@ -46,6 +46,8 @@ class AdJob
             foreach ($carousels as &$carousel) {
                 if ($carousel['type'] == 3) {
 		            $carousel['full_link'] = url('/') . '/api/v1/car/' . $carousel['link'];
+                    $carousel['path'] = 'storage/' . $carousel['path'];
+                    $carousel['full_path'] = url('/') . '/' . $carousel['path'];
                     array_push($temp, $carousel);
                 }
             }

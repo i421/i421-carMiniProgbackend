@@ -27,6 +27,7 @@
                         style="width: 200px; height: 200px"
                         :src="previewLogo"
                         :preview-src-list="[previewLogo]"
+                        lazy
                         fit="fit">
                     </el-image>
                     <el-button size="small" @click="updateCarouselLogo" icon="el-icon-upload">上传</el-button>

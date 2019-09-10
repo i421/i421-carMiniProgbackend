@@ -10,6 +10,7 @@
 					>
                         <el-image
                             style="width: 100px; height: 100px"
+                            lazy
                             :src="previewCarAvatarLogo"
                             :preview-src-list="[previewCarAvatarLogo]"
                             fit="fit">

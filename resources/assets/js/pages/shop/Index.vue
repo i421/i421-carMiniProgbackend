@@ -48,7 +48,7 @@
 
             <el-table-column label="门店" prop="img_url" width="180">
                 <template slot-scope="scope">
-                    <el-image style="width: 60px; height: 60px" :src="scope.row.img_url"></el-image>
+                    <el-image style="width: 60px; height: 60px" lazy :src="scope.row.img_url"></el-image>
                 </template>
             </el-table-column>
 

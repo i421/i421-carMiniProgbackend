@@ -55,7 +55,7 @@
         <data-tables border :data="tableData" :action-col="actionCol" :pagination-props="{ pageSizes: [10, 15, 20] }">
             <el-table-column label="商品图" prop="img_url" width="180">
                 <template slot-scope="scope">
-                    <el-image style="width: 60px; height: 60px" :src="scope.row.avatar"></el-image>
+                    <el-image style="width: 60px; height: 60px" lazy :src="scope.row.avatar"></el-image>
                 </template>
             </el-table-column>
 
