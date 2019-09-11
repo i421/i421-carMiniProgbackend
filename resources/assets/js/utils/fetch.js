@@ -90,6 +90,17 @@ http.interceptors.response.use(function (response) {
         return Promise.reject(response);
     }
 
+    //20004文件太大
+    if (response.data.code == "20004") {
+        Notification({
+            title: '提示',
+            message: response.data.msg,
+            type: 'warning'
+        });
+	    NProgress.done()
+        return Promise.reject(response);
+    }
+
     //10008密码不一致
     if (response.data.code == "10008") {
         Notification({

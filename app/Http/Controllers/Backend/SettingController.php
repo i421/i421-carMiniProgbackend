@@ -49,6 +49,15 @@ class SettingController extends Controller
     {
         $params = $request->all();
         $carousel = $request->file('carousel');
+
+        $fileSize = (int)($carousel->getClientSize() / 1024);
+
+        $res = checkFileSize($fileSize, 512);
+
+        if (!$res['flag']) {
+            return $res['data'];
+        }
+
         $imgType = $carousel->extension();
         $imgName = date("YmdHis") . str_random(40) . ".$imgType";
         $imgUrl = $carousel->storeAs('system/Carousel', $imgName, 'public');
@@ -62,6 +71,15 @@ class SettingController extends Controller
         $params = $request->all();
         if ($request->hasFile('carousel')) {
             $carousel = $request->file('carousel');
+
+            $fileSize = (int)($carousel->getClientSize() / 1024);
+
+            $res = checkFileSize($fileSize, 512);
+
+            if (!$res['flag']) {
+                return $res['data'];
+            }
+
             $imgType = $carousel->extension();
             $imgName = date("YmdHis") . str_random(40) . ".$imgType";
             $imgUrl = $carousel->storeAs('system/Carousel', $imgName, 'public');

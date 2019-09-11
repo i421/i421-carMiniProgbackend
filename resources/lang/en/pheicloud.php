@@ -82,9 +82,9 @@ return [
             'code' => '20003',
             'msg' => '文件不合法',
         ],
-        'fileTooLarage' => [
+        'fileTooLarge' => [
             'code' => '20004',
-            'msg' => '文件太大, 最大限制kb:',
+            'msg' => '上传文件(图片)太大, 最大限制kb:',
         ],
         'requestPayError' => [
             'code' => '20005',
