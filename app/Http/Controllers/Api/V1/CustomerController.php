@@ -29,7 +29,8 @@ class CustomerController extends Controller
      */
     public function appcode(int $id)
     {
-        $response = $this->dispatch(new CustomerJobs\AppcodeJob($id));
+        $params = $request->all();
+        $response = $this->dispatch(new CustomerJobs\AppcodeJob($id, $params));
         return $response;
     }
 
@@ -88,6 +89,16 @@ class CustomerController extends Controller
     public function message(string $openid)
     {
         $response = $this->dispatch(new CustomerJobs\GetMessageJob($openid));
+        return $response;
+    }
+
+    /**
+     * 绑定推荐人
+     */
+    public function bindRecommender(CustomerRequests\BindRecommenderRequest $request)
+    {
+        $params = $request->all();
+        $response = $this->dispatch(new CustomerJobs\BindRecommenderJob($params));
         return $response;
     }
 

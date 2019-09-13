@@ -12,15 +12,19 @@ class AppcodeJob
     use Dispatchable, Queueable;
 
     private $id;
+    private $nickname;
+    private $phone;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct(string $id)
+    public function __construct(string $id, array $params)
     {
         $this->id = $id;
+        $this->nickname = isset($params['nickname']) ? $params['nickname'] : '';
+        $this->phone = isset($params['phone']) ? $params['phone'] : '';
     }
 
     /**
@@ -32,8 +36,8 @@ class AppcodeJob
     {
         $miniProgram = \EasyWeChat::miniProgram();
 
-        $response = $miniProgram->app_code->getUnlimit("id=$this->id", [
-            'page' => 'pages/index/index',
+        $response = $miniProgram->app_code->getUnlimit("id=$this->id&nickname=$this->nickname&phone=$this->phone", [
+            'page' => 'pages/my_recommend/my_commend',
         ]);
 
         if ($response instanceof \EasyWeChat\Kernel\Http\StreamResponse) {
