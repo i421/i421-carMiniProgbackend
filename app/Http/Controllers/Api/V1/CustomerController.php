@@ -172,4 +172,11 @@ class CustomerController extends Controller
         $response = $this->dispatch(new CustomerJobs\ScoreJob($openid));
         return $response;
     }
+
+    // 查询推荐人信息
+    public function searchRecommender($id)
+    {
+        $response = $this->dispatch(new CustomerJobs\SearchRecommenderJob($id));
+        return $response;
+    }
 }

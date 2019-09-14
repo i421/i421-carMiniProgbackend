@@ -34,27 +34,27 @@ class AppcodeJob
      */
     public function handle()
     {
-        $miniProgram = \EasyWeChat::miniProgram();
+		$miniProgram = \EasyWeChat::miniProgram();
 
-        $response = $miniProgram->app_code->getUnlimit("id=$this->id&nickname=$this->nickname&phone=$this->phone", [
-            'page' => 'pages/my_recommend/my_commend',
-        ]);
+		$response = $miniProgram->app_code->getUnlimit("$this->id&$this->phone", [
+			'page' => 'pages/my_recommend/my_commend',
+		]);
 
-        if ($response instanceof \EasyWeChat\Kernel\Http\StreamResponse) {
-            $filename = $response->saveAs('app_code', 'appcode' . date("YmdHis") . '.png');
-        }
+		\Log::info($response);
 
-        \Log::info($filename);
+		if ($response instanceof \EasyWeChat\Kernel\Http\StreamResponse) {
+			$filename = $response->saveAs(storage_path('app/public') . '/app_code', 'appcode' . date("YmdHis") . '.png');
+		}
 
-        Customer::where('id', $this->id)->update([
-            'qr_code' => $filename
-        ]);
-        $response = [
-            'code' => trans('pheicloud.response.success.code'),
-            'msg' => trans('pheicloud.response.success.msg'),
-            'data' => $response,
-        ];
+		Customer::where('id', $this->id)->update([
+			'qr_code' => 'app_code/' . $filename
+		]);
+		$response = [
+			'code' => trans('pheicloud.response.success.code'),
+			'msg' => trans('pheicloud.response.success.msg'),
+			'data' => url('/') . '/storage/app_code/' . $filename,
+		];
 
-        return response()->json($response);
+		return response()->json($response);
     }
 }

@@ -19,6 +19,12 @@ class Customer extends Model
         'id', 'created_at',
     ];
 
+    // 小程序码
+    public function getQrCodeAttribute($value)
+    {
+        return '/storage/'. $value;
+    }
+
     /*
      * 拼团要求
      */

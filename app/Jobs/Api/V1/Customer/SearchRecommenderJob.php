@@ -7,7 +7,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use App\Tables as TableModels;
 use DB;
 
-class BindRecommenderJob
+class SearchRecommenderJob 
 {
     use Dispatchable, Queueable;
 
@@ -19,10 +19,9 @@ class BindRecommenderJob
      *
      * @return void
      */
-    public function __construct(array $params)
+    public function __construct($id)
     {
-        $this->id = $params['id'];
-        $this->openid = $params['openid'];
+        $this->id = $id;
     }
 
     /**
@@ -32,27 +31,28 @@ class BindRecommenderJob
      */
     public function handle()
     {
-        $res = TableModels\Customer::where([
-            ['id', '=', $this->id],
-            ['openid', '=', $this->openid],
-        ])->first();
+        $res = TableModels\Customer::where('id', '=', $this->id)->first();
 
-        if (! is_null($res)) {
+        if (is_null($res)) {
 
             $response = [
-                'code' => trans('pheicloud.response.normalException.code'),
-                'msg' => trans('pheicloud.response.normalException.msg'),
+                'code' => trans('pheicloud.response.success.code'),
+                'msg' => trans('pheicloud.response.success.msg'),
+                'data' => null,
             ];
 
             return response()->json($response);
+        
         }
 
-        TableModels\Customer::where('id', '=', $this->id)->increment('recommend_count');
-        TableModels\Customer::where('openid', '=', $this->openid)->update(['recommender' => $this->id]);
+        $customer_id = $res->recommender;
+
+        $data = TableModels\Customer::select('id', 'nickname', 'phone', 'avatar')->find($customer_id);
 
         $response = [
             'code' => trans('pheicloud.response.success.code'),
             'msg' => trans('pheicloud.response.success.msg'),
+            'data' => $data,
         ];
 
         return response()->json($response);
