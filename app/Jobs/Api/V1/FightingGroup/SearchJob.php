@@ -30,7 +30,10 @@ class SearchJob
      */
     public function handle()
     {
-        $tempRes = TableModels\Car::where('type', 2);
+        $tempRes = TableModels\Car::where([
+            ['type', '=', '2'],
+            ['end_time', '>=', date("Y-m-d H:i:s")],
+        ]);
 
         if (!is_null($this->group_type) && !empty($this->group_type)) {
             $tempRes->where('group_type', $this->group_type);

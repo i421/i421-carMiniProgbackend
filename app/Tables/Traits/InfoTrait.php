@@ -41,7 +41,11 @@ trait InfoTrait
 
         if (isset($temp['carousel'])) {
             foreach ($temp['carousel'] as &$atom) {
-                $temp['full_carousel'][] = url('/') . '/'. $atom;
+                if(!is_array($atom)) {
+                    $temp['full_carousel'][] = url('/') . '/'. $atom;
+                } else {
+                    $temp['full_carousel'][] = '';
+                }
             }
         }
 
