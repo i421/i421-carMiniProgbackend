@@ -27,13 +27,26 @@ class IndexJob
      */
     public function handle()
     {
+        $user = request()->user();
+        $roles = $user->roles;
+
+        $shops = [];
+
+        foreach($roles as $role) {
+            foreach ($role->info as $atom) {
+                array_push($shops, $atom);
+            }
+        }
+
         $orders = TableModels\Order::leftJoin('customers', 'orders.customer_id', '=', 'customers.id')
             ->leftJoin('shops', 'orders.shop_id', '=', 'shops.id')
             ->leftJoin('cars', 'orders.car_id', '=', 'cars.id')
             ->select(
                 'orders.*', 'cars.name as car_name', 'cars.final_price as final_price', 'cars.avatar as avatar', 'cars.type as type',
                 'shops.name as shop_name', 'customers.info->name as customer_name', 'customers.phone as phone'
-            )->get()->toArray();
+            )
+            ->whereIn('shop_id', $shops)
+            ->get()->toArray();
 
         foreach ($orders as &$order) {
             $order['avatar'] = 'storage/' . $order['avatar'];

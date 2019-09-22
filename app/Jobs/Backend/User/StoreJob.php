@@ -69,7 +69,7 @@ class StoreJob
 
         if (is_null($user)) {
 
-            $user = TableModels\User::create([
+            $user_id = TableModels\User::insertGetId([
                 'name' => $this->name,
                 'nickname' => $this->nickname,
                 'phone' => $this->phone,
@@ -77,6 +77,7 @@ class StoreJob
                 'password' => bcrypt($this->password),
             ]);
 
+            $user = TableModels\User::find($user_id);
             $user->roles()->attach($this->role_id);
 
             if ($user) {

@@ -29,6 +29,7 @@ class StoreRequest extends FormRequest
             'display_zh_name' => 'required|string',
             'description' => 'string|nullable',
             'status' => 'required|integer',
+            'info' => 'required|array',
         ];
     }
 }

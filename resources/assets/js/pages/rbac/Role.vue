@@ -42,6 +42,22 @@
 			  <el-input v-model="form.description" autocomplete="off"></el-input>
 			</el-form-item>
 
+			<el-form-item label="可看经销商" :label-width="formLabelWidth" prop="info"
+				:rules="[
+					{required: true, message: '经销商不能为空', trigger: 'change'},
+					{type: 'array', message: '至少一个经销商'},
+				]"
+            >
+                <el-select v-model="form.info" multiple placeholder="请选择">
+                    <el-option
+                        v-for="shop in shops"
+                        :key="shop.id"
+                        :label="shop.name"
+                        :value="shop.id">
+                    </el-option>
+                </el-select>
+			</el-form-item>
+
 		  </el-form>
 		  <div slot="footer" class="dialog-footer">
 			<el-button @click="cancleAddRole">取 消</el-button>
@@ -51,7 +67,7 @@
 
 		<!--更新角色表单-->
 		<el-dialog title="更新角色" :visible.sync="dialogUpdateFormVisible">
-		  <el-form :model="updateForm" ref="updateForm" :inline="true">
+		  <el-form :model="updateForm" ref="updateForm">
 			<el-form-item label="名称" :label-width="formLabelWidth" prop="name"
 				:rules="[
 					{ required: true, message: '名称不能为空', trigger: 'blur' }
@@ -80,7 +96,24 @@
 			  <el-input v-model.number="updateForm.description" autocomplete="off"></el-input>
 			</el-form-item>
 
+			<el-form-item label="可看经销商" :label-width="formLabelWidth" prop="info"
+				:rules="[
+					{required: true, message: '经销商不能为空', trigger: 'change'},
+					{type: 'array', message: '至少一个经销商'},
+				]"
+            >
+                <el-select v-model="updateForm.info" multiple placeholder="请选择">
+                    <el-option
+                        v-for="shop in shops"
+                        :key="shop.id"
+                        :label="shop.name"
+                        :value="shop.id">
+                    </el-option>
+                </el-select>
+			</el-form-item>
+
 		  </el-form>
+
 		  <div slot="footer" id="edit-form-footer">
 			<el-button type="primary" @click="updateRole('updateForm')">确 定</el-button>
 			<el-button @click="cancleUpdateRole">取 消</el-button>
@@ -97,6 +130,7 @@
 		return {
 			// module show
 			tableData: [],
+            shops: [],
 			originTableData: [],
             search: '',
             titles: [{
@@ -168,6 +202,7 @@
 				display_en_name: '',
 				description: '',
 				status: 1,
+				info: '',
 			},
             dialogUpdateFormVisible: false,
 			updateForm: {
@@ -177,6 +212,7 @@
 				display_en_name: '',
 				description: '',
 				status: 1,
+				info: '',
 			},
 	    }
 	  },
@@ -186,9 +222,19 @@
 
       created () {
         this.fetchRoles()
+        this.fetchShops()
       },
 
       methods: {
+
+        //获取经销商列表
+        fetchShops () {
+            http({
+                url: Api.shops,
+            }).then(response => {
+                this.shops = response.data.data
+            })
+        },
 
         //获取角色列表
         fetchRoles () {

@@ -45,6 +45,13 @@ class StoreJob
      */
     private $status;
 
+    /**
+     * 其他信息 经销商
+     *
+     * @var string $status
+     */
+    private $info;
+
 
     /**
      * Create a new job instance.
@@ -58,6 +65,7 @@ class StoreJob
         $this->display_en_name = $params['display_en_name'];
         $this->description = isset($params['description']) ? $params['description'] : '';
         $this->status = isset($params['status']) ? $params['status'] : 1;
+        $this->info = isset($params['info']) ? $params['info'] : [];
     }
 
     /**
@@ -79,6 +87,7 @@ class StoreJob
                 'display_zh_name' => $this->display_zh_name,
                 'description' => $this->description,
                 'status' => 1,
+                'info' => $this->info,
             ]);
 
             if ($role) {

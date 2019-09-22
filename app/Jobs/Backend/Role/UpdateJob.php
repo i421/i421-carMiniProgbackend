@@ -53,6 +53,13 @@ class UpdateJob
     private $status;
 
     /**
+     * 其他信息 经销商
+     *
+     * @var array $info
+     */
+    private $info;
+
+    /**
      * Create a new job instance.
      *
      * @return void
@@ -65,6 +72,7 @@ class UpdateJob
         $this->display_zh_name = $params['display_en_name'];
         $this->description = $params['description'];
         $this->status = isset($params['status']) ? $params['status'] : 1;
+        $this->info = isset($params['info']) ? $params['info'] : [];
     }
 
     /**
@@ -80,6 +88,7 @@ class UpdateJob
         $role->display_zh_name = $this->display_zh_name;
         $role->description = $this->description;
         $role->status = $this->status;
+        $role->info = $this->info;
         $role->save();
 
         if ($role) {

@@ -74,7 +74,7 @@
 
 		<!--更新用户表单-->
 		<el-dialog title="更新用户" :visible.sync="dialogUpdateFormVisible">
-		  <el-form :model="updateForm" ref="updateForm" :inline="true">
+		  <el-form :model="updateForm" ref="updateForm">
 			<el-form-item label="姓名" :label-width="formLabelWidth" prop="name">
 			  <el-input v-model="updateForm.name" autocomplete="off"></el-input>
 			</el-form-item>
