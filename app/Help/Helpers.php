@@ -149,3 +149,23 @@ function checkFileSize($size, $limit)
         ];
     }
 }
+
+function getDistance($lat1, $lng1, $lat2, $lng2)
+{
+    $EARTH_RADIUS = 6378.137;
+
+    $distanceRadLat1 = distanceRad($lat1);
+    $distanceRadLat2 = distanceRad($lat2);
+    $a = $distanceRadLat1 - $distanceRadLat2;
+    $b = distanceRad($lng1) - distanceRad($lng2);
+    $s = 2 * asin(sqrt(pow(sin($a / 2), 2) + cos($distanceRadLat1) * cos($distanceRadLat2) * pow(sin($b / 2), 2)));
+    $s = $s * $EARTH_RADIUS;
+    $s = round($s * 10000) / 10000;
+
+    return $s;
+}
+
+function distanceRad($d)
+{
+    return $d * M_PI / 180.0;
+}

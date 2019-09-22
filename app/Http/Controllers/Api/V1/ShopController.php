@@ -33,7 +33,8 @@ class ShopController extends Controller
      */
     public function index()
     {
-        $response = $this->dispatch(new ShopJobs\IndexJob());
+        $params = request()->all();
+        $response = $this->dispatch(new ShopJobs\IndexJob($params));
         return $response;
     }
 

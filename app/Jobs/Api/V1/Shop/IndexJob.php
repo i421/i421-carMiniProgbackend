@@ -11,14 +11,18 @@ class IndexJob
 {
     use Dispatchable, Queueable;
 
+    private $lat;
+    private $lng;
+
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(array $params)
     {
-        //
+        $this->lat = isset($params['lat']) ? $params['lat'] : 1;
+        $this->lng = isset($params['lng']) ? $params['lng'] : 1;
     }
 
     /**
@@ -35,6 +39,7 @@ class IndexJob
         foreach ($shops as & $shop) {
 
             $shop['order_count'] = 0;
+            $shop['distance'] = getDistance($this->lat, $this->lng, $shop->lat, $shop->lng);
 
             foreach ($orders as $order) {
                 if ($shop->id == $order->shop_id) {
@@ -45,6 +50,8 @@ class IndexJob
 
             $shop['address'] = optional($shop->province)['value'] . optional($shop->city)['value'] . optional($shop->area)['value'];
         }
+
+        $shops = sortMultidimArray($shops->toArray(), 'distance', 'asc');
 
         $response = [
             'code' => trans('pheicloud.response.success.code'),
