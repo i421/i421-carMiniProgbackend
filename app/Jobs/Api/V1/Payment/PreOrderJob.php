@@ -65,6 +65,7 @@ class PreOrderJob
         //元换成分
         $payment_count = bcmul($this->payment_count, 100);
 
+        // 移除微信支付后的调整
         $res = TableModels\Order::create([
             'order_num' => $order_num,
             'car_id' => $this->car_id,
@@ -74,6 +75,38 @@ class PreOrderJob
             'pay_log_id' => 0,
             'payment_status' => 1,
         ]);
+
+		// 订单消息
+        TableModels\OrderMessage::insert([
+            'customer_id' => $this->customer_id,
+            'content' => '您的订单支付成功',
+            'order_num' => $order_num,
+        ]);
+
+        //支付成功: 销售量+1 || 拼团数量当前+1
+        $car = TableModels\Car::find($this->car_id);
+
+        if (!is_null($car)) {
+
+            $current_num = $car->current_num + 1;
+
+            if ($current_num <= $car->total_num) {
+
+                if ($car->type == 2) {
+                    $car->current_num += 1;
+                }
+
+                $car->sale_num += 1;
+                $car->save();
+
+            } else {
+                $response = [
+                    'code' => trans('pheicloud.response.error.code'),
+                    'msg' => trans('pheicloud.response.error.msg'),
+                ];
+                return response()->json($response);
+            }
+        }
 
         if ($res) {
              $response = [

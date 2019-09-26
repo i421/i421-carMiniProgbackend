@@ -4,6 +4,12 @@
             <span class="infoGroup">订单信息</span>
         </el-row>
 
+        <el-row style="margin-bottom: -10px; margin-top: 20px">
+            <span class="infoGroup">下单时间:
+                <el-tag type="info"> {{ form.created_at }}</el-tag>
+            </span>
+        </el-row>
+
         <el-row id="orderDetail">
             <el-col :span="12" style="padding-top: 10px">
                 <span>订单号: {{ form.order_num }}</span>
@@ -126,7 +132,7 @@
     margin-bottom: 10px;
 }
 #orderDetail {
-    margin-top: 30px;
+    margin-top: 20px;
 }
 #userInfo {
     margin-top: 50px;
