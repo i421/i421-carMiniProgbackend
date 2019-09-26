@@ -65,6 +65,32 @@ class PreOrderJob
         //元换成分
         $payment_count = bcmul($this->payment_count, 100);
 
+        $res = TableModels\Order::create([
+            'order_num' => $order_num,
+            'car_id' => $this->car_id,
+            'customer_id' => $this->customer_id,
+            'shop_id' => $this->shop_id,
+            'payment_count' => $payment_count,
+            'pay_log_id' => 0,
+            'payment_status' => 1,
+        ]);
+
+        if ($res) {
+             $response = [
+                 'code' => trans('pheicloud.response.success.code'),
+                 'msg' => trans('pheicloud.response.success.msg'),
+             ];
+             return response()->json($response);
+        } else {
+             $response = [
+                 'code' => trans('pheicloud.response.error.code'),
+                 'msg' => trans('pheicloud.response.error.msg'),
+             ];
+             return response()->json($response);
+        }
+
+		// 以下为微信支付，因审核不通过暂时移除该功能
+		/*
         $info = [
             'car_id' => $this->car_id,
             'customer_id' => $this->customer_id,
@@ -117,5 +143,6 @@ class PreOrderJob
 
             return response()->json($response);
         }
+		 */
     }
 }
