@@ -33,6 +33,11 @@ class IndexJob
         $shops = [];
 
         foreach($roles as $role) {
+
+            if (count($role->info) < 1) {
+                break;
+            }
+
             foreach ($role->info as $atom) {
                 array_push($shops, $atom);
             }

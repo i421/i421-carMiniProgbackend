@@ -38,4 +38,16 @@ class OrderController extends Controller
         $response = $this->dispatch(new OrderJobs\ArriveJob($id));
         return $response;
     }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(int $id)
+    {
+        $response = $this->dispatch(new OrderJobs\DestroyJob($id));
+        return $response;
+    }
 }

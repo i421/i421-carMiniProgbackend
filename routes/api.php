@@ -238,6 +238,7 @@ Route::group(['prefix' => 'v1/backend', 'namespace' => 'Backend', 'middleware' =
         Route::get('search', 'OrderController@search');
         Route::post('arrive/{id}', 'OrderController@arrive');
         Route::get('{id}', 'OrderController@show');
+        Route::delete('{id}', 'OrderController@destroy');
     });
 
     //首页
