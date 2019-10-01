@@ -50,6 +50,13 @@ class BindRecommenderJob
         TableModels\Customer::where('id', '=', $this->id)->increment('recommend_count');
         TableModels\Customer::where('openid', '=', $this->openid)->update(['recommender' => $this->id]);
 
+        //积分计算
+        TableModels\Score::create([
+            'customer_id' => $this->id,
+            'count' => getScoreThreshold()['recommend'],
+            'desc' => '推荐积分奖励',
+        ]);
+
         $response = [
             'code' => trans('pheicloud.response.success.code'),
             'msg' => trans('pheicloud.response.success.msg'),

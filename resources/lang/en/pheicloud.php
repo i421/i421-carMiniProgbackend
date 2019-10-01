@@ -90,5 +90,13 @@ return [
             'code' => '20005',
             'msg' => '请求支付失败',
         ],
+        'groupOutOfRange' => [
+            'code' => '70001',
+            'msg' => '超出拼团数量',
+        ],
+        'orderOutOfRange' => [
+            'code' => '70002',
+            'msg' => '每日订单超过限制',
+        ],
     ],
 ];

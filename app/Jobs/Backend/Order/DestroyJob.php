@@ -5,6 +5,7 @@ namespace App\Jobs\Backend\Order;
 use Illuminate\Bus\Queueable;
 use Illuminate\Foundation\Bus\Dispatchable;
 use App\Tables\Order;
+use App\Tables\Car;
 use stdClass;
 
 class DestroyJob
@@ -42,6 +43,9 @@ class DestroyJob
 
         } else {
 
+            $car_id = $order->car_id;
+            Car::where('id', $car_id)->decrement('sale_num');
+            Car::where('id', $car_id)->decrement('current_num');
             $order->delete();
 
             $code = trans('pheicloud.response.success.code');

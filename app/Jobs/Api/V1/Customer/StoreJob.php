@@ -39,7 +39,7 @@ class StoreJob
         $miniProgram = \EasyWeChat::miniProgram();
         $decryptedData = $miniProgram->encryptor->decryptData(Cache::get($this->openid), $this->iv, $this->encryptedData);
 
-        \Log::info($decryptedData);
+        //\Log::info($decryptedData);
 
         event(new StoreEvent($decryptedData, $this->recommender));
 

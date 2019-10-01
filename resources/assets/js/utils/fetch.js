@@ -14,13 +14,15 @@ import store from '../store'
 import systemConfig from './../env.js'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
-import { Notification } from 'element-ui'
+import { Loading, Notification } from 'element-ui'
 import { decryptData } from './../utils/encrypt'
 
 export const http = axios.create({
     baseURL: systemConfig.baseURL,
     timeout: 5000
 })
+
+let loading
 
 http.defaults.headers.common = {
     'X-CSRF-ToKen': document.querySelector('meta[name=csrf-token]').getAttribute('content'),
@@ -31,6 +33,7 @@ http.defaults.headers.common = {
 http.interceptors.request.use(config => {
 
 	NProgress.start()
+    loading = Loading.service({ fullscreen: true });
     //在请求前添加认证头
     if (store.state.token.access_token !== null) {
         config.headers.authorization = "Bearer " + store.state.token.access_token;
@@ -39,6 +42,7 @@ http.interceptors.request.use(config => {
 
 }, error => {
     // Do something with request error
+    loading.close();
 	NProgress.done()
     Promise.reject(error)
 })
@@ -54,6 +58,7 @@ http.interceptors.response.use(function (response) {
             type: 'error'
         });
 	    NProgress.done()
+        loading.close();
         return Promise.reject(response);
     }
 
@@ -65,6 +70,7 @@ http.interceptors.response.use(function (response) {
             type: 'error'
         });
 	    NProgress.done()
+        loading.close();
         return Promise.reject(response);
     }
 
@@ -76,6 +82,7 @@ http.interceptors.response.use(function (response) {
             type: 'warning'
         });
 	    NProgress.done()
+        loading.close();
         return Promise.reject(response);
     }
 
@@ -86,6 +93,7 @@ http.interceptors.response.use(function (response) {
             message: response.data.msg,
             type: 'warning'
         });
+        loading.close();
 	    NProgress.done()
         return Promise.reject(response);
     }
@@ -98,6 +106,7 @@ http.interceptors.response.use(function (response) {
             type: 'warning'
         });
 	    NProgress.done()
+        loading.close();
         return Promise.reject(response);
     }
 
@@ -109,8 +118,11 @@ http.interceptors.response.use(function (response) {
             type: 'warning'
         });
 	    NProgress.done()
+        loading.close();
         return Promise.reject(response);
     }
+
+    loading.close();
 
     //正常返回
 	NProgress.done()
@@ -128,6 +140,7 @@ http.interceptors.response.use(function (response) {
                 message: '用户名或者密码错误,请重试'
             });
 	        NProgress.done()
+            loading.close();
             return Promise.reject(response);
         }
 
@@ -137,6 +150,7 @@ http.interceptors.response.use(function (response) {
                 message: '认证信息出错'
             });
 	        NProgress.done()
+            loading.close();
             return Promise.reject(response);
         }
 
@@ -172,6 +186,7 @@ http.interceptors.response.use(function (response) {
             type: 'error'
         });
         NProgress.done()
+        loading.close();
         return Promise.reject(error);
     }
 
@@ -187,6 +202,7 @@ http.interceptors.response.use(function (response) {
                     });
             }
         }
+        loading.close();
         NProgress.done()
         return Promise.reject(error);
     }
@@ -199,6 +215,7 @@ http.interceptors.response.use(function (response) {
             type: 'error'
         });
         NProgress.done()
+        loading.close();
         return Promise.reject(response);
     }
 
