@@ -29,7 +29,7 @@ class CustomerController extends Controller
      */
     public function appcode(int $id)
     {
-        $params = $request->all();
+        $params = request()->all();
         $response = $this->dispatch(new CustomerJobs\AppcodeJob($id, $params));
         return $response;
     }
