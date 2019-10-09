@@ -98,5 +98,9 @@ return [
             'code' => '70002',
             'msg' => '每日订单超过限制',
         ],
+        'alreadyBind' => [
+            'code' => '71000',
+            'msg' => 'already bind',
+        ],
     ],
 ];
