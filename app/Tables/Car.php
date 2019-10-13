@@ -42,4 +42,25 @@ class Car extends Model
     {
         return url('/') . '/storage/' . $this->attributes['avatar'];
     }
+
+    /**
+     * Json2Array
+     *
+     * @param string $value
+     * @return mixed
+     */
+    public function getModelAttribute($value)
+    {
+        if ($value == 'null') {
+            return [];
+        } else {
+            $temp = json_decode($value, true);
+            return $temp;    
+        }
+    }
+
+    public function setModelAttribute(array $value)
+    {
+        $this->attributes['model'] = json_encode($value);
+    }
 }

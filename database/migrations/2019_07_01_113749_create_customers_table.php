@@ -25,6 +25,7 @@ class CreateCustomersTable extends Migration
             $table->string('city')->index()->nullable()->comment('城市');
             $table->string('area')->nullable()->comment('区');
             $table->string('detail_address')->nullable()->comment('详细地址');
+            $table->string('customize_address')->nullable()->comment('自定义地址');
             $table->string('avatar')->nullable()->comment('头像');
             $table->string('qr_code')->unique()->nullable()->comment('二维码');
             $table->string('recommend_count')->default(0)->comment('推荐人数');

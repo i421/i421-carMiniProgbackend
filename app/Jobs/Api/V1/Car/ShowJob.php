@@ -41,6 +41,7 @@ class ShowJob
             'id', 'name', 'brand_id', 'guide_price', 'final_price', 'car_price', 'avatar',
             'type', 'group_type', 'group_price', 'total_num', 'current_num',
             'info->attr as attr', 'info->carousel as carousel', 'info->customize as customize',
+            'down_payment', 'staging24', 'staging36', 'staging48', 'model',
             DB::raw('DATE_FORMAT(start_time, "%Y-%m-%d") as start_date'),
             DB::raw('DATE_FORMAT(end_time, "%Y-%m-%d") as end_date')
         )->find($this->car_id);

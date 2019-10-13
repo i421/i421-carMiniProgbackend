@@ -7,7 +7,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use App\Tables as TableModels;
 use DB;
 
-class IndexJob
+class KeywordRankJob
 {
     use Dispatchable, Queueable;
 
@@ -28,19 +28,10 @@ class IndexJob
      */
     public function handle()
     {
-        $totalCustomer = TableModels\Customer::count();
-        $authCustomer = TableModels\Customer::where('auth', '1')->count();
-
-        $nowCar = TableModels\Order::leftJoin('cars', 'orders.car_id', '=', 'cars.id')->where('cars.type', 1)->count();
-        $groupCar = TableModels\Order::leftJoin('cars', 'orders.car_id', '=', 'cars.id')->where('cars.type', 2)->count();
-
-        $data = [
-            'total_customer' => $totalCustomer,
-            'auth_customer' => $authCustomer,
-            'wait_auth_customer' => $totalCustomer - $authCustomer,
-            'now_car' => $nowCar,
-            'group_car' => $groupCar,
-        ];
+        $data = TableModels\KeywordSearch::select('word as name', 'count as value')
+            ->orderBy('value', 'desc')
+            ->limit(15)
+            ->get()->toArray();
 
         $response = [
             'code' => trans('pheicloud.response.success.code'),

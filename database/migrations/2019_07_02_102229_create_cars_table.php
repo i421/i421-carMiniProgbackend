@@ -25,11 +25,17 @@ class CreateCarsTable extends Migration
             $table->integer('car_price')->comment("裸车价");
             $table->integer('height')->default(50)->comment("权重");
             $table->integer('sale_num')->default(0)->comment("销售量");
+            $table->integer('down_payment')->default(0)->comment("首付");
+            $table->float('staging24', 8, 2)->default(0)->comment("分期24价格");
+            $table->float('staging36', 8, 2)->default(0)->comment("分期36价格");
+            $table->float('staging48', 8, 2)->default(0)->comment("分期48价格");
             $table->string('remarks')->nullable()->comment("备注 销售量");
+            $table->json('model')->nullable()->comment("车型");
             $table->json('info')->nullable()->comment("详细信息");
+            $table->integer('off')->default(0)->index()->comment("优惠");
             $table->integer('group_type')->default(0)->index()->comment("时间拼团1/数量拼团2");
             $table->integer('group_price')->default(0)->comment("拼团价");
-            $table->integer('total_num')->nullable()->index()->comment("拼团总人数");
+            $table->integer('total_num')->default(0)->index()->comment("拼团总人数");
             $table->integer('current_num')->default(0)->index()->comment("拼团当前人数");
             $table->datetime('start_time')->nullable()->index()->comment("拼团开始时间");
             $table->datetime('end_time')->nullable()->index()->comment("拼团结束时间");

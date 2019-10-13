@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Backend\FightingGroup;
+namespace App\Http\Requests\Backend\ShopRepair;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -24,12 +24,13 @@ class UpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'id' => 'required|integer',
-            'group_type' => 'required|integer',
-            'group_price' => 'required|integer',
-            'time_range' => 'required|array',
-            'off' => 'required|integer',
-            'total_num' => 'nullable|integer',
+            'name' => 'required|string',
+            'phone' => 'required|integer',
+            'address' => 'required|string',
+            'img' => 'required|image',
+            'shop_id' => 'nullable|integer',
+            'lat' => 'required|string',
+            'lng' => 'required|string',
         ];
     }
 }

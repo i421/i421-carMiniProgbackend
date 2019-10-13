@@ -34,7 +34,7 @@ class ShowJob
     {
         $car = Car::select(
             'id', 'name', 'brand_id', 'guide_price', 'final_price', 'car_price', 'avatar', 'info->attr as attr', 'height',
-            'info->carousel as carousel', 'info->customize as customize'
+            'info->carousel as carousel', 'info->customize as customize', 'staging24', 'staging36', 'staging48', 'model', 'down_payment'
         )->find($this->car_id);
 
         if (is_null($car)) {
@@ -48,13 +48,13 @@ class ShowJob
 
         }
 
-	$car->customize = json_decode($car->customize, true);
-	$car->attr = json_decode($car->attr, true);
-	$car->carousel = json_decode($car->carousel, true);
+        $car->customize = json_decode($car->customize, true);
+        $car->attr = json_decode($car->attr, true);
+        $car->carousel = json_decode($car->carousel, true);
 
-	foreach($car->carousel as $atom) {
-	    $full_carousel[] = url('/') . '/' . $atom;
-	}
+        foreach($car->carousel as $atom) {
+            $full_carousel[] = url('/') . '/' . $atom;
+        }
 
         $car->full_carousel = $full_carousel;
 

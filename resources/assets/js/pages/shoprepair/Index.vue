@@ -5,15 +5,22 @@
             <el-row>
                 <el-col :span="6" style="margin-right: 5px;">
                     <div style="width: 100%;">
-                        <el-input class="table-search" v-model="conditionCarName" placeholder="汽车名称"></el-input>
+                        <el-input class="table-search" v-model="conditionName" placeholder="维修网点"></el-input>
                     </div>
                 </el-col>
 
-                <el-col :span="8" style="margin-right: 5px;">
-                    <el-select v-model="conditionGroup" placeholder="拼团类型" multiple="multiple" class="table-search">
-                        <el-option label="时间拼团" value="1"></el-option>
-                        <el-option label="数量拼团" value="2"></el-option>
-                    </el-select>
+                <!--
+                <el-col :span="6" style="margin-right: 5px;">
+                    <div style="width: 100%;">
+                        <el-input class="table-search" v-model="conditionShopName" placeholder="经销商"></el-input>
+                    </div>
+                </el-col>
+                -->
+
+                <el-col :span="6" style="margin-right: 5px;">
+                    <div style="width: 100%">
+                        <el-input class="table-search" v-model="conditionPhone" placeholder="手机号"></el-input>
+                    </div>
                 </el-col>
 
                 <el-col :span="6">
@@ -33,45 +40,38 @@
                 </el-col>
             </el-row>
 
+
             <div>
                 <el-button type="primary" class="table-button" icon="el-icon-search" @click="search">查询</el-button>
                 <el-button type="primary" class="table-button" icon="el-icon-refresh" @click="clearSearch">清除</el-button>
+                <el-button type="primary" class="table-button" icon="el-icon-plus" @click="addShopRepair">新增</el-button>
             </div>
         </div>
 
 		<!-- table数据 -->
         <data-tables border :data="tableData" :action-col="actionCol" :pagination-props="{ pageSizes: [10, 15, 20] }">
 
-            <el-table-column label="序号" prop="id" width="60">
+            <el-table-column label="序号" prop="id" width="180">
             </el-table-column>
 
-            <el-table-column label="汽车名称" prop="name" width="180">
-            </el-table-column>
-
-            <el-table-column label="类型" prop="type" width="130">
+            <el-table-column label="门店" prop="img" width="180">
                 <template slot-scope="scope">
-                    <el-tag v-if="scope.row.group_type == 1" type="success">时间拼团</el-tag>
-                    <el-tag v-else type="primary">数量拼团</el-tag>
+                    <el-image style="width: 60px; height: 60px" lazy :src="scope.row.img"></el-image>
                 </template>
             </el-table-column>
 
-            <el-table-column label="拼团价格" prop="group_price" width="150">
+            <el-table-column label="维修网点" prop="name">
             </el-table-column>
 
-            <el-table-column label="优惠(仅数量拼团)" prop="off" width="120">
+            <el-table-column label="手机号" prop="phone">
             </el-table-column>
 
-            <el-table-column label="开始时间" prop="start_time" width="180">
+            <el-table-column label="地址" prop="address">
             </el-table-column>
 
-            <el-table-column label="结束时间" prop="end_time" width="180">
+            <el-table-column label="新增时间" prop="created_at">
             </el-table-column>
 
-            <el-table-column label="拼团总数" prop="total_num" width="110">
-            </el-table-column>
-
-            <el-table-column label="拼团当前数" prop="current_num" width="110">
-            </el-table-column>
         </data-tables>
     </div>
 </template>
@@ -83,9 +83,10 @@
   export default {
 	  data() {
 		return {
+            conditionName: '',
+            conditionShopName: '',
+            conditionPhone: '',
             conditionTime: [],
-            conditionCarName: '',
-            conditionGroup: [],
 			tableData: [],
 
             actionCol: {
@@ -96,29 +97,41 @@
                 },
 
                 buttons: [{
+                    /*
                     props: {
                         type: 'warning',
                         size: "mini",
                         icon: 'el-icon-edit'
                     },
                     handler: row => {
-                        this.show(row)
+                        this.showShopRepair(row)
                     },
-                    label: '编辑'
+                    label: '详情'
+                }, {
+                */
+                    props: {
+                        type: 'danger',
+                        size: "mini",
+                        icon: 'el-icon-delete-solid'
+                    },
+                    handler: row => {
+                        this.destroy(row)
+                    },
+                    label: '删除'
                 }]
             },
         }
       },
 
       created () {
-          this.fetchFightingGroups()
+          this.fetchShopRepairs()
       },
 
       methods: {
 
-          fetchFightingGroups() {
+          fetchShopRepairs() {
             http({
-                url: Api.fightingGroups,
+                url: Api.shoprepairs,
             }).then(response => {
                 this.tableData = response.data.data
             })
@@ -126,29 +139,62 @@
 
           //清楚查询条件
           clearSearch() {
+            this.conditionName = ''
+            this.conditionPhone = ''
             this.conditionTime = ''
-            this.conditionCarName = ''
-            this.conditionGroup = []
           },
 
           //查询
           search() {
             http({
-                url: Api.searchFightingGroup,
+                url: Api.searchShopRepair,
                 params: {
+                    'name': this.conditionName,
+                    'phone': this.conditionPhone,
                     'time': this.conditionTime,
-                    'group_type': this.conditionGroup,
-                    'car_name': this.conditionCarName,
                 }
             }).then(response => {
                 this.tableData = response.data.data
             })
           },
 
-          //查看详情
-          show(row) {
-              this.$router.push({ name: 'showFightingGroup', params: {"id": row.id} })
+          //添加
+          addShopRepair() {
+              this.$router.push({ name: 'createShopRepair'})
           },
+        
+          //查看详情
+          showShopRepair(row) {
+              this.$router.push({ name: 'showShopRepair', params: {"id": row.id} })
+          },
+
+          //删除
+          destroy(row) {
+
+			this.$confirm('此操作将永久该品牌, 是否继续?', '提示', {
+				confirmButtonText: '确定',
+				cancelButtonText: '取消',
+				type: 'warning'
+			}).then(() => {
+
+				http({
+					method: 'delete',
+					url: Api.destroyShopRepair + row.id,
+				}).then(response => {
+					this.$notify.success({
+						'title': "提示",
+						'message': response.data.msg
+					})
+            	    this.fetchShopRepairs()
+				})
+
+			}).catch(() => {
+				this.$notify({
+					type: 'info',
+					message: '已取消删除'
+				});
+			})
+          }
       }
   }
 </script>

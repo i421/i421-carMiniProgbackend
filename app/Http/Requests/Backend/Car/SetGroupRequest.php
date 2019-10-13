@@ -29,6 +29,7 @@ class SetGroupRequest extends FormRequest
             'time_range' => 'required|array',
             'total_num' => 'nullable|integer',
             'group_type' => 'required|string',
+            'off' => 'required|integer',
         ];
     }
 }

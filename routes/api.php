@@ -67,6 +67,12 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api\V1'], function () {
         Route::get('{id}', 'ShopController@show');
     });
 
+    //维修点
+    Route::group(['prefix' => 'shoprepair'], function () {
+        Route::get('search', 'ShopRepairController@search');
+        Route::get('/', 'ShopRepairController@index');
+    });
+
     //汽车管理
     Route::group(['prefix' => 'car'], function () {
         Route::get('search', 'CarController@search');
@@ -172,6 +178,14 @@ Route::group(['prefix' => 'v1/backend', 'namespace' => 'Backend', 'middleware' =
         Route::delete('{id}', 'ShopController@destroy');
     });
 
+    //维修点
+    Route::group(['prefix' => 'shoprepair'], function () {
+        Route::get('search', 'ShopRepairController@search');
+        Route::get('/', 'ShopRepairController@index');
+        Route::post('/', 'ShopRepairController@store');
+        Route::delete('{id}', 'ShopRepairController@destroy');
+    });
+
     //标签管理
     Route::group(['prefix' => 'tag'], function () {
         Route::get('classify', 'TagController@classify');
@@ -243,6 +257,9 @@ Route::group(['prefix' => 'v1/backend', 'namespace' => 'Backend', 'middleware' =
 
     //首页
     Route::group(['prefix' => 'dashboard'], function () {
+        Route::get('/collection/rank', 'DashboardController@collectionRank');
+        Route::get('/view/rank', 'DashboardController@viewRank');
+        Route::get('/keyword/rank', 'DashboardController@keywordRank');
         Route::get('/', 'DashboardController@index');
     });
 

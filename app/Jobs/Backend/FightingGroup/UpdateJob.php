@@ -22,6 +22,7 @@ class UpdateJob
     private $total_num;
     private $start_time;
     private $end_time;
+    private $off;
 
     /**
      * Create a new job instance.
@@ -36,6 +37,7 @@ class UpdateJob
         $this->total_num = isset($params['total_num']) ? $params['total_num'] : null;
         $this->start_time = $params['time_range'][0];
         $this->end_time = $params['time_range'][1];
+        $this->off = $params['off'];
     }
 
     /**
@@ -52,6 +54,7 @@ class UpdateJob
         $car->total_num = is_null($this->total_num) ? 0 : $this->total_num;
         $car->start_time = $this->start_time;
         $car->end_time = $this->end_time;
+        $car->off = $this->off;
         $res = $car->save();
 
         if ($res) {

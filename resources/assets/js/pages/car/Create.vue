@@ -75,6 +75,42 @@
                         <el-input v-model.number="form.final_price"></el-input>
                     </el-form-item>
 
+                    <el-form-item label="首付" prop="down_payment"
+                        :rules="[
+                            { required: true, message: '首付不能为空', trigger: 'blur' },
+                            { type: 'number', message: '必须为数字', trigger: ['blur', 'change'] },
+                        ]"
+                    >
+                        <el-input v-model.number="form.down_payment"></el-input>
+                    </el-form-item>
+
+                    <el-form-item label="24分期" prop="staging24"
+                        :rules="[
+                            { required: true, message: '分期价不能为空', trigger: 'blur' },
+                            { type: 'number', message: '必须为数字', trigger: ['blur', 'change'] },
+                        ]"
+                    >
+                        <el-input v-model.number="form.staging24"></el-input>
+                    </el-form-item>
+
+                    <el-form-item label="36分期" prop="staging24"
+                        :rules="[
+                            { required: true, message: '分期价不能为空', trigger: 'blur' },
+                            { type: 'number', message: '必须为数字', trigger: ['blur', 'change'] },
+                        ]"
+                    >
+                        <el-input v-model.number="form.staging36"></el-input>
+                    </el-form-item>
+
+                    <el-form-item label="24分期" prop="staging48"
+                        :rules="[
+                            { required: true, message: '分期价不能为空', trigger: 'blur' },
+                            { type: 'number', message: '必须为数字', trigger: ['blur', 'change'] },
+                        ]"
+                    >
+                        <el-input v-model.number="form.staging48"></el-input>
+                    </el-form-item>
+
                     <el-form-item label="综合排序" prop="height"
                         :rules="[
                             { required: true, message: '不能为空', trigger: 'blur' },
@@ -121,7 +157,28 @@
                         </el-radio-group>
                     </el-form-item>
 
-                    <el-button type="primary" @click="addRow" size="small">添加配置项</el-button>
+                    <el-button type="primary" @click="addModelRow" size="small">车型列表</el-button>
+
+					<table class="table">
+						<thead>
+							<tr>
+                                <td><strong>车型</strong></td>
+								<td><strong>价格</strong></td>
+								<td></td>
+							</tr>
+						</thead>
+						<tbody>
+							<tr v-for="(row, index) in form.model">
+								<td><input type="text" v-model="row.key"></td>
+								<td><input type="text" v-model="row.value"></td>
+								<td>
+                                    <a v-on:click="removeModelElement(index);" style="cursor: pointer">移除车型</a>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+
+                    <el-button type="primary" @click="addRow" size="small">添加配置</el-button>
 
 					<table class="table">
 						<thead>
@@ -181,7 +238,12 @@
                   selected: [],
                   brand_id: '',
                   customize: [],
+                  model: [],
                   carousel: [],
+                  down_payment: 0,
+                  staging24: 0,
+                  staging36: 0,
+                  staging48: 0,
               }
           }
       },
@@ -225,6 +287,18 @@
 			this.form.customize.splice(index, 1);
 		},
 
+		addModelRow: function() {
+			var elem = document.createElement('tr');
+			this.form.model.push({
+				key: "",
+				value: "",
+			});
+		},
+
+		removeModelElement: function(index) {
+			this.form.model.splice(index, 1);
+		},
+
         submitUpload() {
 			this.$refs['form'].validate((valid) => {
                 if (valid) {
@@ -232,16 +306,22 @@
                     formData.append('name', this.form.name)
                     formData.append('brand_id', this.form.brand_id)
                     formData.append('avatar', this.form.avatar)
+                    formData.append('down_payment', this.form.down_payment)
                     formData.append('guide_price', this.form.guide_price)
                     formData.append('car_price', this.form.car_price)
                     formData.append('height', this.form.height)
                     formData.append('final_price', this.form.final_price)
                     formData.append('customize', JSON.stringify(this.form.customize))
+                    formData.append('model', JSON.stringify(this.form.model))
                     formData.append('attr', JSON.stringify(this.form.selected))
+                    formData.append('staging48', this.staging48)
+                    formData.append('staging24', this.staging24)
+                    formData.append('staging36', this.staging36)
 
                     for (let i = 0; i < this.form.carousel.length; i++) {
                         formData.append('carousel[]', this.form.carousel[i])
                     }
+                    console.log(formData)
 
                     http({
                         url: Api.storeCar,

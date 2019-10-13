@@ -31,6 +31,7 @@ class StoreRequest extends FormRequest
             'car_price' => 'required|string',
             'remarks' => 'nullable|string',
             'info' => 'nullable|array',
+            'model' => 'nullable|string',
             'avatar' => 'required|image',
             'carousel' => 'required',
             'attr' => 'required|string',

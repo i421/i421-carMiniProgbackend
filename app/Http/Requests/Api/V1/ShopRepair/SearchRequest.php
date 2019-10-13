@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Backend\FightingGroup;
+namespace App\Http\Requests\Api\V1\ShopRepair;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateRequest extends FormRequest
+class SearchRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,12 +24,10 @@ class UpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'id' => 'required|integer',
-            'group_type' => 'required|integer',
-            'group_price' => 'required|integer',
-            'time_range' => 'required|array',
-            'off' => 'required|integer',
-            'total_num' => 'nullable|integer',
+            'name' => 'nullable|string',
+            'shop_id' => 'nullable|integer',
+            'phone' => 'nullable|string',
+            'time' => 'nullable|array',
         ];
     }
 }

@@ -146,6 +146,15 @@
                             <el-input v-model.number="groupForm.group_price" width="60px"></el-input>
                         </el-form-item>
 
+                        <el-form-item label="优惠设置" prop="off"
+                            :rules="[
+                                { required: true, message: '优惠设置不能为空', trigger: 'blur' },
+                                { type: 'number', message: '必须为数字', trigger: ['blur', 'change'] },
+                            ]"
+                        >
+                            <el-input v-model.number="groupForm.off" width="60px"></el-input>
+                        </el-form-item>
+
                         <el-form-item label="截止时间" prop="time_range"
                             :rules="[
                                 { required: true, message: '时间不能为空', trigger: 'blur' },
@@ -193,6 +202,7 @@
                 total_num: '',
                 group_type: '',
                 time_range: '',
+                off: '',
                 group_price: '',
             },
             actionCol: {

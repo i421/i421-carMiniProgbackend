@@ -42,6 +42,13 @@ const Api = {
     'destroyShop': 'api/v1/backend/shop/',
     'searchShop': 'api/v1/backend/shop/search',
 
+    'shoprepairs': 'api/v1/backend/shoprepair',
+    'storeShopRepair': 'api/v1/backend/shoprepair',
+    'showShopRepair': 'api/v1/backend/shoprepair/',
+    'updateShopRepair': 'api/v1/backend/shoprepair/update/',
+    'destroyShopRepair': 'api/v1/backend/shoprepair/',
+    'searchShopRepair': 'api/v1/backend/shoprepair/search',
+
     'brands': 'api/v1/backend/brand',
     'storeBrand': 'api/v1/backend/brand',
     'showBrand': 'api/v1/backend/brand/',
@@ -77,6 +84,9 @@ const Api = {
     'destroySettingCarousel': 'api/v1/backend/setting/carousel/',
 
     'dashboard': 'api/v1/backend/dashboard',
+    'dashboardCollectionRank': 'api/v1/backend/dashboard/collection/rank',
+    'dashboardViewRank': 'api/v1/backend/dashboard/view/rank',
+    'dashboardKeywordRank': 'api/v1/backend/dashboard/keyword/rank',
 
     'classifyTag': 'api/v1/backend/tag/classify',
 

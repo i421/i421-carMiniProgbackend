@@ -71,6 +71,18 @@ export default new Router({
                     name: 'showShop',
                     component: resolve => require(['../pages/shop/Show.vue'], resolve)
                 }, {
+                    path: '/shoprepair',
+                    name: 'shoprepair',
+                    component: resolve => require(['../pages/shoprepair/Index.vue'], resolve)
+                }, {
+                    path: '/shoprepair/create',
+                    name: 'createShopRepair',
+                    component: resolve => require(['../pages/shoprepair/Create.vue'], resolve)
+                }, {
+                    path: '/shoprepair/:id',
+                    name: 'showShopRepair',
+                    component: resolve => require(['../pages/shoprepair/Show.vue'], resolve)
+                }, {
                     path: '/order',
                     name: 'order',
                     component: resolve => require(['../pages/order/Index.vue'], resolve)

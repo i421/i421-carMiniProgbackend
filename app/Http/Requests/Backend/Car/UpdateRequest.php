@@ -32,6 +32,7 @@ class UpdateRequest extends FormRequest
             'remarks' => 'nullable|string',
             'attr' => 'required|string',
             'customize' => 'nullable|string',
+            'model' => 'nullable|string',
             'carousel' => 'nullable',
             'avatar' => 'nullable|image',
             'height' => 'nullable|integer',

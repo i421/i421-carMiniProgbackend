@@ -21,6 +21,7 @@ class UpdateJob
     private $carousel;
     private $customize;
     private $height;
+    private $model;
 
     /**
      * Create a new job instance.
@@ -40,6 +41,7 @@ class UpdateJob
         $this->customize = $params['customize'];
         $this->avatar = isset($params['avatar']) ? $params['avatar'] : null;
         $this->carousel = isset($params['carousel']) ? $params['carousel'] : null;
+        $this->model = isset($params['model']) ? json_decode($params['model'], true) : null;
     }
 
     /**
@@ -100,6 +102,7 @@ class UpdateJob
         $car->car_price = $this->car_price;
         $car->height = $this->height;
         $car->final_price = $this->final_price;
+        $car->model = $this->model;
         $car->info = $info;
         $res = $car->save();
 

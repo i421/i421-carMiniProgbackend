@@ -19,4 +19,40 @@ class DashboardController extends Controller
         $response = $this->dispatch(new DashboardJobs\IndexJob());
         return $response;
     }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  void
+     * @return \Illuminate\Http\Response
+     */
+    public function collectionRank()
+    {
+        $response = $this->dispatch(new DashboardJobs\CollectionRankJob());
+        return $response;
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  void
+     * @return \Illuminate\Http\Response
+     */
+    public function viewRank()
+    {
+        $response = $this->dispatch(new DashboardJobs\ViewRankJob());
+        return $response;
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  void
+     * @return \Illuminate\Http\Response
+     */
+    public function keywordRank()
+    {
+        $response = $this->dispatch(new DashboardJobs\KeywordRankJob());
+        return $response;
+    }
 }
