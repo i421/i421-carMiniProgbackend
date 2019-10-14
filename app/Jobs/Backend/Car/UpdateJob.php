@@ -22,6 +22,10 @@ class UpdateJob
     private $customize;
     private $height;
     private $model;
+    private $staging24;
+    private $staging36;
+    private $staging48;
+    private $down_payment;
 
     /**
      * Create a new job instance.
@@ -38,6 +42,10 @@ class UpdateJob
         $this->car_price = $params['car_price'];
         $this->height = $params['height'];
         $this->attr = $params['attr'];
+        $this->down_payment = $params['down_payment'];
+        $this->staging24 = $params['staging24'];
+        $this->staging36 = $params['staging36'];
+        $this->staging48 = $params['staging48'];
         $this->customize = $params['customize'];
         $this->avatar = isset($params['avatar']) ? $params['avatar'] : null;
         $this->carousel = isset($params['carousel']) ? $params['carousel'] : null;
@@ -102,7 +110,13 @@ class UpdateJob
         $car->car_price = $this->car_price;
         $car->height = $this->height;
         $car->final_price = $this->final_price;
-        $car->model = $this->model;
+        if (!is_null($this->model)) {
+            $car->model = $this->model;
+        }
+        $car->down_payment = $this->down_payment;
+        $car->staging24 = $this->staging24;
+        $car->staging36 = $this->staging36;
+        $car->staging48 = $this->staging48;
         $car->info = $info;
         $res = $car->save();
 

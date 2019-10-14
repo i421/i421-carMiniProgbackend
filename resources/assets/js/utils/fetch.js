@@ -156,6 +156,7 @@ http.interceptors.response.use(function (response) {
 
         if (response.data.message == "Unauthenticated.") {
 
+            loading.close();
             const originalRequest = response.config
             originalRequest._retry = true
 

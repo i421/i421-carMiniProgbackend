@@ -88,7 +88,7 @@
                         <el-input v-model.number="form.staging24"></el-input>
                     </el-form-item>
 
-                    <el-form-item label="36分期" prop="staging24"
+                    <el-form-item label="36分期" prop="staging36"
                         :rules="[
                             { required: true, message: '分期价不能为空', trigger: 'blur' },
                             { type: 'number', message: '必须为数字', trigger: ['blur', 'change'] },
@@ -97,7 +97,7 @@
                         <el-input v-model.number="form.staging36"></el-input>
                     </el-form-item>
 
-                    <el-form-item label="24分期" prop="staging48"
+                    <el-form-item label="48分期" prop="staging48"
                         :rules="[
                             { required: true, message: '分期价不能为空', trigger: 'blur' },
                             { type: 'number', message: '必须为数字', trigger: ['blur', 'change'] },
@@ -369,6 +369,10 @@
                     formData.append('guide_price', this.form.guide_price)
                     formData.append('car_price', this.form.car_price)
                     formData.append('final_price', this.form.final_price)
+                    formData.append('staging36', this.form.staging36)
+                    formData.append('staging24', this.form.staging24)
+                    formData.append('staging48', this.form.staging48)
+                    formData.append('down_payment', this.form.down_payment)
                     formData.append('height', this.form.height)
                     formData.append('customize', JSON.stringify(this.form.customize))
                     formData.append('model', JSON.stringify(this.form.model))

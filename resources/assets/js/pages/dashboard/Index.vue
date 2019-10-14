@@ -77,7 +77,7 @@
                     data:[]
                 }]
 			},
-			keywordChartOptions: {
+			viewRankChartOptions: {
 				chart: {
 					type: 'pie',
 				},
@@ -98,7 +98,7 @@
                     data:[]
                 }]
 			},
-			viewRankChartOptions: {
+			keywordChartOptions: {
 				chart: {
 					type: 'pie',
 				},

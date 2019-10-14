@@ -29,7 +29,7 @@ class CollectionRankJob
     public function handle()
     {
         $data = TableModels\Collection::leftJoin('cars', 'collections.car_id', '=', 'cars.id')
-            ->select(DB::raw('count(*) as value'), 'cars.name as name')->groupBy('car_id')
+            ->select(DB::raw('count(*) as value'), 'cars.name as name')->groupBy('name')
             ->orderBy('value', 'desc')
             ->limit(15)
             ->get();
