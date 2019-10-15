@@ -97,7 +97,6 @@
                 },
 
                 buttons: [{
-                    /*
                     props: {
                         type: 'warning',
                         size: "mini",
@@ -108,7 +107,6 @@
                     },
                     label: '详情'
                 }, {
-                */
                     props: {
                         type: 'danger',
                         size: "mini",

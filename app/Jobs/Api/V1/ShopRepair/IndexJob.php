@@ -18,7 +18,8 @@ class IndexJob
      */
     public function __construct()
     {
-        //
+        $this->lat = isset($params['lat']) ? $params['lat'] : 0;
+        $this->lng = isset($params['lng']) ? $params['lng'] : 0;
     }
 
     /**
@@ -28,14 +29,20 @@ class IndexJob
      */
     public function handle()
     {
-        $data = TableModels\ShopRepair::leftJoin('shops', 'shop_repairs.shop_id', '=', 'shops.id')
+        $repairs = TableModels\ShopRepair::leftJoin('shops', 'shop_repairs.shop_id', '=', 'shops.id')
             ->select('shop_repairs.*', 'shops.name as shop_name')
             ->get();
+
+        foreach ($repairs as & $repair) {
+            $repair['distance'] = getDistance($this->lat, $this->lng, $repair->lat, $repair->lng);
+        }
+
+        $repairs = sortMultidimArray($repairs->toArray(), 'distance', 'asc');
 
         $response = [
             'code' => trans('pheicloud.response.success.code'),
             'msg' => trans('pheicloud.response.success.msg'),
-            'data' => $data,
+            'data' => $repairs,
         ];
 
         return response()->json($response);

@@ -182,6 +182,8 @@ Route::group(['prefix' => 'v1/backend', 'namespace' => 'Backend', 'middleware' =
     Route::group(['prefix' => 'shoprepair'], function () {
         Route::get('search', 'ShopRepairController@search');
         Route::get('/', 'ShopRepairController@index');
+        Route::get('{id}', 'ShopRepairController@show');
+        Route::post('/update/{id}', 'ShopRepairController@update');
         Route::post('/', 'ShopRepairController@store');
         Route::delete('{id}', 'ShopRepairController@destroy');
     });

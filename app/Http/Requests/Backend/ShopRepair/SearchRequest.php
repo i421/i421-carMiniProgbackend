@@ -28,6 +28,8 @@ class SearchRequest extends FormRequest
             'shop_id' => 'nullable|integer',
             'phone' => 'nullable|string',
             'time' => 'nullable|array',
+            'lat' => 'nullable|string',
+            'lng' => 'nullable|string',
         ];
     }
 }

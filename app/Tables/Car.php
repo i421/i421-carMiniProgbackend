@@ -53,6 +53,8 @@ class Car extends Model
     {
         if ($value == 'null') {
             return [];
+        } else if ($value == null) {
+            return [];
         } else {
             $temp = json_decode($value, true);
             return $temp;    

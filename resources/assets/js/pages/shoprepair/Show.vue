@@ -2,9 +2,9 @@
     <div>
         <el-row>
             <el-col>
-                <el-form ref="form" :model="form" label-width="100px" style="width:460px">
+                <el-form ref="form" :model="form" label-width="120px" style="width:480px">
 
-                    <el-form-item label="经销商名" prop="name"
+                    <el-form-item label="维修点名称" prop="name"
                         :rules="[
                             { required: true, message: '名称不能为空', trigger: 'blur' },
                             { type: 'string', message: '必须为字符串', trigger: ['blur', 'change'] },
@@ -13,7 +13,31 @@
                         <el-input v-model="form.name"></el-input>
                     </el-form-item>
 
-                    <el-form-item label="手机号" label-width="100px" prop="phone"
+                    <el-form-item label="所属经销商" prop="shop_id"
+                        :rules="[
+                            {required: true, message: '经销商不能空', trigger: 'change'},
+                        ]"
+                    >
+                        <el-select v-model="form.shop_id" placeholder="请选择">
+                            <el-option
+                                v-for="shop in shops"
+                                :key="shop.id"
+                                :label="shop.name"
+                                :value="shop.id">
+                            </el-option>
+                        </el-select>
+                    </el-form-item>
+
+                    <el-form-item label="详细地址" prop="address"
+                        :rules="[
+                            { required: true, message: '地址不能为空', trigger: 'blur' },
+                            { type: 'string', message: '必须为字符串', trigger: ['blur', 'change'] },
+                        ]"
+                    >
+                        <el-input v-model="form.address"></el-input>
+                    </el-form-item>
+
+                    <el-form-item label="手机号" prop="phone"
                         :rules="[
                             { required: true, message: '手机号不能为空', trigger: 'blur' },
                         ]"
@@ -21,79 +45,35 @@
                         <el-input v-model="form.phone"></el-input>
                     </el-form-item>
 
-                    <el-form-item label="地址" prop="province"
-                        :rules="[
-                            { required: true, message: '地址不能为空', trigger: 'blur' },
-                        ]"
-					>
-                        <v-distpicker
-                            @province="selectProvince"
-                            @city="selectCity"
-                            @area="selectArea"
-                            :province="currentProvince"
-                            :city="currentCity"
-                            :area="currentArea"
-                        >
-                        </v-distpicker>
-                    </el-form-item>
-
-                    <el-form-item label="详细地址" label-width="100px" prop="detail_address"
-                        :rules="[
-                            { required: true, message: '详细地址不能为空', trigger: 'blur' },
-					        {type: 'string', message: '字符串'},
-                        ]"
-                    >
-                        <el-input v-model="form.detail_address"></el-input>
-                    </el-form-item>
-
-                    <el-form-item label="经度" label-width="100px" prop="lat"
+                    <el-form-item label="经度" prop="lng"
                         :rules="[
                             { required: true, message: '经度不能为空', trigger: 'blur' },
-                        ]"
-                    >
-                        <el-input v-model="form.lat"></el-input>
-                    </el-form-item>
-
-                    <el-form-item label="纬度" label-width="100px" prop="lng"
-                        :rules="[
-                            { required: true, message: '纬度不能为空', trigger: 'blur' },
                         ]"
                     >
                         <el-input v-model="form.lng"></el-input>
                     </el-form-item>
 
-                    <el-form-item label="订单数" label-width="100px" prop="order_count">
-                        <el-input v-model="form.order_count" disabled></el-input>
+                    <el-form-item label="维度" prop="lat"
+                        :rules="[
+                            { required: true, message: '维度不能为空', trigger: 'blur' },
+                        ]"
+                    >
+                        <el-input v-model="form.lat"></el-input>
                     </el-form-item>
 
-                    <el-form-item label="门店图" prop="img_url"
+                    <el-form-item label="维修点" prop="img"
                         :rules="[
-                            { required: true, message: '门店图不能为空', trigger: 'blur' },
+                            { required: true, message: '图片不能为空', trigger: 'blur' },
                         ]"
 					>
                         <el-image
                             style="width: 100px; height: 100px"
-                            :src="previewShopLogo"
+                            :src="previewShopRepairLogo"
                             lazy
-                            :preview-src-list="[previewShopLogo]"
+                            :preview-src-list="[previewShopRepairLogo]"
                             fit="fit">
                         </el-image>
-                        <el-button size="small" style="margin-left: 10px" @click="updateShopLogo" icon="el-icon-upload">上传</el-button>
-                    </el-form-item>
-
-                    <el-form-item label="营业执照" prop="license_url"
-                        :rules="[
-                            { required: true, message: '营业执照不能为空', trigger: 'blur' },
-                        ]"
-					>
-                        <el-image
-                            style="width: 100px; height: 100px"
-                            lazy
-                            :src="previewLicenseLogo"
-                            :preview-src-list="[previewLicenseLogo]"
-                            fit="fit">
-                        </el-image>
-                        <el-button size="small" @click="updateLicenseLogo" icon="el-icon-upload">上传</el-button>
+                        <el-button size="small" style="margin-left: 10px" @click="updateShopRepairLogo" icon="el-icon-upload">上传</el-button>
                     </el-form-item>
 
                 </el-form>
@@ -105,14 +85,14 @@
                         size="small"
                         type="primary"
                         @click="submitUpload">
-                        立即更新
+                        立即创建
                     </el-button>
+                    <el-button @click="resetUpload">重置</el-button>
                     <el-button @click="back">返回列表</el-button>
                 </div>
             </el-col>
 
         </el-row>
-
         <div>
           <el-dialog title="更新门店图" :visible.sync="imgDialogVisible">
               <div style="text-align: center; margin: 0 auto">
@@ -120,28 +100,13 @@
                         class="upload-demo"
                         ref="uploadShop"
                         drag
-                        :onChange="addShopFile"
+                        :onChange="addShopRepairFile"
                         action=""
                         :limit="1"
                         :auto-upload="false">
                         <i class="el-icon-upload"></i>
-                        <div slot="tip" class="el-upload__tip">只能上传一张jpg/png文件，且不超过500kb</div>
+                        <div slot="tip" class="el-upload__tip">只能上传1张jpg/png文件，且不超过500kb</div>
                     </el-upload>
-              </div>
-          </el-dialog>
-          <el-dialog title="更新营业执照" :visible.sync="licenseDialogVisible">
-              <div style="text-align: center; margin: 0 auto">
-                <el-upload
-                    class="upload-demo"
-                    ref="uploadLicense"
-                    drag
-                    :onChange="addLicenseFile"
-                    action=""
-                    :limit="1"
-                    :auto-upload="false">
-                    <i class="el-icon-upload"></i>
-                    <div slot="tip" class="el-upload__tip">只能上传一张jpg/png文件，且不超过500kb</div>
-                </el-upload>
               </div>
           </el-dialog>
         </div>
@@ -156,116 +121,106 @@
       data() {
           return {
               imgDialogVisible: false,
-              licenseDialogVisible: false,
-              currentProvince: '',
-              currentCity: '',
-              currentArea: '',
               fileList: [],
+              shops: [],
               form: {
                   name: '',
                   phone: '',
-                  address: '',
-                  address_id: '',
-                  detail_address: '',
+                  shop_id: '',
                   lat: '',
                   lng: '',
-                  license_url: {},
-                  img_url: {},
+                  address: '',
+                  img: [],
               },
-              previewShopLogo: '',
-              previewLicenseLogo: '',
+              previewShopRepairLogo: ''
           }
       },
 
       created () {
-          this.fetchShop();
+          this.fetchShop()
+          this.fetchShopRepair()
       },
 
       methods: {
 
-        fetchShop() {
-          http({
-              url: Api.showShop + this.$route.params.id,
-          }).then(response => {
-              this.form = response.data.data
-              this.currentProvince = this.form.province.value
-              this.currentCity = this.form.city.value
-              this.currentArea = this.form.area.value
-              this.previewShopLogo = response.data.data.img_url
-              this.previewLicenseLogo = response.data.data.license_url
-          })
-        },
-
-        submitUpload() {
-            let formData = new FormData()
-            formData.append('name', this.form.name)
-            formData.append('phone', this.form.phone)
-            formData.append('province', JSON.stringify(this.form.province))
-            formData.append('city', JSON.stringify(this.form.city))
-            formData.append('area', JSON.stringify(this.form.area))
-            formData.append('lat', this.form.lat)
-            formData.append('lng', this.form.lng)
-            formData.append('detail_address', this.form.detail_address)
-
-            if (typeof(this.form.img_url) == 'object') {
-                formData.append('img_url', this.form.img_url)
-            }
-
-            if (typeof(this.form.license_url) == 'object') {
-                formData.append('license_url', this.form.license_url)
-            }
-
+        fetchShopRepair() {
             http({
-                url: Api.updateShop + this.$route.params.id,
-                method: 'post',
-                data: formData
+                url: Api.showShopRepair + this.$route.params.id,
             }).then(response => {
-                this.fetchShop()
-                this.$notify.success({
-                    'title': "提示",
-                    'message': response.data.msg
-                })
-                this.$router.push({ name: 'shop' })
+              this.form = response.data.data
+              this.previewShopRepairLogo = response.data.data.img
             }).catch(err => {
                 console.log(err)
             })
         },
 
-        addShopFile(file, fileList) {
-            this.form.img_url = file.raw;
-            this.previewShopLogo = URL.createObjectURL(file.raw);
+        fetchShop() {
+            http({
+                url: Api.shops,
+            }).then(response => {
+                this.shops = response.data.data
+            }).catch(err => {
+                console.log(err)
+            })
+        },
+
+        submitUpload() {
+			this.$refs['form'].validate((valid) => {
+				if (valid) {
+					let formData = new FormData()
+					formData.append('name', this.form.name)
+					formData.append('phone', this.form.phone)
+					formData.append('address', this.form.address)
+					formData.append('shop_id', this.form.shop_id)
+					formData.append('lat', this.form.lat)
+					formData.append('lng', this.form.lng)
+
+                    if (typeof(this.form.img) == 'object') {
+                        formData.append('img', this.form.img)
+                    }
+
+					http({
+                        url: Api.updateShopRepair + this.$route.params.id,
+						method: 'post',
+						data: formData
+					}).then(response => {
+						this.$refs['form'].resetFields();
+						//this.$refs.uploadShop.clearFiles()
+						this.$notify.success({
+							'title': "提示",
+							'message': response.data.msg
+						})
+
+						this.$router.push({ name: 'shoprepair' })
+
+
+					}).catch(err => {
+						console.log(err)
+					})
+				} else {
+                    console.log('err')
+				}
+			});
+        },
+
+        resetUpload() {
+            this.$refs['form'].resetFields();
+            this.$refs.uploadShop.clearFiles()
+        },
+
+        addShopRepairFile(file, fileList) {
+            this.form.img = file.raw;
+            this.previewShopRepairLogo = URL.createObjectURL(file.raw);
             this.imgDialogVisible = false
         },
 
-        addLicenseFile(file, fileList) {
-            this.form.license_url = file.raw;
-            this.previewLicenseLogo = URL.createObjectURL(file.raw);
-            this.licenseDialogVisible = false
-        },
-
         back() {
-            this.$router.push({ name: 'shop'})
+            this.$router.push({ name: 'shoprepair'})
         },
 
-        //更新门店图
-        updateShopLogo() {
+        updateShopRepairLogo() {
             this.imgDialogVisible = true
         },
-
-        //更新营业执照
-        updateLicenseLogo() {
-            this.licenseDialogVisible = true
-        },
-
-        selectProvince(value) {
-            this.form.province = value
-        },
-        selectCity(value) {
-            this.form.city = value
-        },
-        selectArea(value) {
-            this.form.area = value
-        }
       }
   }
 </script>
@@ -275,7 +230,7 @@
 	margin-top: -30px;
 }
 .upload-demo {
-    margin-bottom: 10px;
+    margin-bottom: 20px;
     max-height: 320px;
 }
 .submitButton {

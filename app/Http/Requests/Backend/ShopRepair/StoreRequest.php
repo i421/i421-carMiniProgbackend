@@ -29,6 +29,8 @@ class StoreRequest extends FormRequest
             'address' => 'required|string',
             'img' => 'required|image',
             'shop_id' => 'nullable|integer',
+            'lat' => 'nullable|string',
+            'lng' => 'nullable|string',
         ];
     }
 }

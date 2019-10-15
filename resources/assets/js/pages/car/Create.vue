@@ -157,7 +157,7 @@
                         </el-radio-group>
                     </el-form-item>
 
-                    <el-button type="primary" @click="addModelRow" size="small">车型列表</el-button>
+                    <el-button type="primary" @click="addModelRow" size="small">添加车型</el-button>
 
 					<table class="table">
 						<thead>

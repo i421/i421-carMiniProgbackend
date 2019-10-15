@@ -69,10 +69,34 @@ class ShopRepairController extends Controller
         return $response;
     }
 
+    public function show(int $id)
+    {
+        $response = $this->dispatch(new ShopRepairJobs\ShowJob($id));
+        return $response;
+    }
+
     public function search(ShopRepairRequests\SearchRequest $request)
     {
         $params = $request->all();
         $response = $this->dispatch(new ShopRepairJobs\SearchJob($params));
         return $response;
     }
+
+    public function update(ShopRepairRequests\UpdateRequest $request, int $id)
+    {
+        $params = $request->all();
+        $params['id'] = $id;
+
+        if ($request->hasFile('img')) {
+            $imgUrl = $request->file('img');
+            $imgType = $imgUrl->extension();
+            $imgUrlFileName = date("YmdHis") . str_random(40) . ".$imgType";
+            $imgUrlPath = $imgUrl->storeAs('shopRepairImg', $imgUrlFileName, 'public');
+            $params['img'] = $imgUrlPath;
+        }
+
+        $response = $this->dispatch(new ShopRepairJobs\UpdateJob($params));
+        return $response;
+    }
+
 }

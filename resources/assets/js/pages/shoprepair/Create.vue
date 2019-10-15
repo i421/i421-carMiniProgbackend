@@ -4,7 +4,7 @@
             <el-col>
                 <el-form ref="form" :model="form" label-width="120px" style="width:480px">
 
-                    <el-form-item label="经销商名" prop="name"
+                    <el-form-item label="维修点名称" prop="name"
                         :rules="[
                             { required: true, message: '名称不能为空', trigger: 'blur' },
                             { type: 'string', message: '必须为字符串', trigger: ['blur', 'change'] },
@@ -43,6 +43,22 @@
                         ]"
                     >
                         <el-input v-model="form.phone"></el-input>
+                    </el-form-item>
+
+                    <el-form-item label="经度" prop="lng"
+                        :rules="[
+                            { required: true, message: '经度不能为空', trigger: 'blur' },
+                        ]"
+                    >
+                        <el-input v-model="form.lng"></el-input>
+                    </el-form-item>
+
+                    <el-form-item label="维度" prop="lat"
+                        :rules="[
+                            { required: true, message: '维度不能为空', trigger: 'blur' },
+                        ]"
+                    >
+                        <el-input v-model="form.lat"></el-input>
                     </el-form-item>
 
                     <el-form-item label="门店图" prop="img"
@@ -96,6 +112,8 @@
                   name: '',
                   phone: '',
                   shop_id: '',
+                  lat: '',
+                  lng: '',
                   address: '',
                   img: [],
               }
@@ -126,6 +144,8 @@
 					formData.append('phone', this.form.phone)
 					formData.append('address', this.form.address)
 					formData.append('shop_id', this.form.shop_id)
+					formData.append('lat', this.form.lat)
+					formData.append('lng', this.form.lng)
 					formData.append('img', this.form.img)
 
 					http({

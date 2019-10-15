@@ -27,7 +27,7 @@ class UpdateRequest extends FormRequest
             'name' => 'required|string',
             'phone' => 'required|integer',
             'address' => 'required|string',
-            'img' => 'required|image',
+            'img' => 'nullable|image',
             'shop_id' => 'nullable|integer',
             'lat' => 'required|string',
             'lng' => 'required|string',

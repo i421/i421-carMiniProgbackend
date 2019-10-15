@@ -13,6 +13,9 @@ class SearchJob
 
     private $shop_id;
     private $name;
+    private $phone;
+    private $lat;
+    private $lng;
 
     /**
      * Create a new job instance.
@@ -23,6 +26,9 @@ class SearchJob
     {
         $this->name = isset($params['name']) ? $params['name'] : null;
         $this->shop_id = isset($params['shop_id']) ? $params['shop_id'] : null;
+        $this->phone = isset($params['phone']) ? $params['phone'] : null;
+        $this->lat = isset($params['lat']) ? $params['lat'] : 0;
+        $this->lng = isset($params['lng']) ? $params['lng'] : 0;
     }
 
     /**
@@ -42,16 +48,26 @@ class SearchJob
             $tempRes->where('shop_repairs.name', $this->name);
         }
 
+        if (!is_null($this->phone) && !empty($this->phone)) {
+            $tempRes->where('shop_repairs.phone', $this->phone);
+        }
+
         if (!is_null($this->shop_id) && !empty($this->shop_id)) {
             $tempRes->where('shop_repairs.shop_id', $this->shop_id);
         }
 
-        $shopRepairs = $tempRes->get();
+        $repairs = $tempRes->get();
+
+        foreach ($repairs as & $repair) {
+            $repair['distance'] = getDistance($this->lat, $this->lng, $repair->lat, $repair->lng);
+        }
+
+        $repairs = sortMultidimArray($repairs->toArray(), 'distance', 'asc');
 
         $response = [
             'code' => trans('pheicloud.response.success.code'),
             'msg' => trans('pheicloud.response.success.msg'),
-            'data' => $shopRepairs,
+            'data' => $repairs,
         ];
 
         return response()->json($response);
