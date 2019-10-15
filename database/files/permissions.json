@@ -81,42 +81,52 @@
   },
   {
     "id": "9",
-    "name": "/setting",
-    "display_en_name": "Setting",
-    "display_zh_name": "配置管理",
-    "icon": "el-icon-setting",
+    "name": "/shoprepair",
+    "display_en_name": "ShopRepair Management",
+    "display_zh_name": "维修点管理",
+    "icon": "el-icon-s-operation",
     "is_menu": 1,
     "pid": "0",
     "order": "9"
   },
   {
     "id": "10",
-    "name": "#",
-    "display_en_name": "config",
-    "display_zh_name": "系统设置",
-    "icon": "el-icon-s-tools",
+    "name": "/setting",
+    "display_en_name": "Setting",
+    "display_zh_name": "配置管理",
+    "icon": "el-icon-setting",
     "is_menu": 1,
     "pid": "0",
     "order": "10"
   },
   {
     "id": "11",
+    "name": "#",
+    "display_en_name": "config",
+    "display_zh_name": "系统设置",
+    "icon": "el-icon-s-tools",
+    "is_menu": 1,
+    "pid": "0",
+    "order": "11"
+  },
+  {
+    "id": "12",
     "name": "/user",
     "display_en_name": "User Management",
     "display_zh_name": "用户管理",
     "icon": "el-icon-user",
     "is_menu": 1,
-    "pid": "10",
-    "order": "11"
+    "pid": "11",
+    "order": "12"
   },
   {
-    "id": "12",
+    "id": "13",
     "name": "/role",
     "display_en_name": "Role Management",
     "display_zh_name": "角色管理",
     "icon": "el-icon-user",
     "is_menu": 1,
-    "pid": "10",
-    "order": "12"
+    "pid": "11",
+    "order": "13"
   }
 ]
