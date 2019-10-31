@@ -97,7 +97,7 @@
                         <el-input v-model.number="form.staging36"></el-input>
                     </el-form-item>
 
-                    <el-form-item label="48分期" prop="staging48"
+                    <el-form-item label="60分期" prop="staging48"
                         :rules="[
                             { required: true, message: '分期价不能为空', trigger: 'blur' },
                             { type: 'number', message: '必须为数字', trigger: ['blur', 'change'] },
