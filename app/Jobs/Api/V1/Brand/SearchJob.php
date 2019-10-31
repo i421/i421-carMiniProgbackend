@@ -29,7 +29,7 @@ class SearchJob
      */
     public function handle()
     {
-        $data = TablesModels\Brand::where('name', 'like', "%$this->key%")->get()->toArray();
+        $data = TablesModels\Brand::where('name', 'like', "%$this->key%")->orderBy('head', 'asc')->get()->toArray();
 
         $response = [
             'code' => trans('pheicloud.response.success.code'),

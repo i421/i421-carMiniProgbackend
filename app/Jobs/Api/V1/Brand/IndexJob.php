@@ -27,7 +27,7 @@ class IndexJob
      */
     public function handle()
     {
-        $data = TablesModels\Brand::all();
+        $data = TablesModels\Brand::orderBy('head', 'asc')->get();
 
         $response = [
             'code' => trans('pheicloud.response.success.code'),
