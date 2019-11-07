@@ -80,6 +80,35 @@ class PreOrderJob
         //元换成分
         $payment_count = bcmul($this->payment_count, 100);
 
+        //支付成功: 销售量+1 || 拼团数量当前+1
+        $car = TableModels\Car::find($this->car_id);
+
+        if (!is_null($car)) {
+            if ($car->type == 1) {
+                $car->sale_num += 1;
+                $car->save();
+            } else {
+                $current_num = $car->current_num;
+                if ($car->group_type == 2) {
+                    if ($current_num < $car->total_num) {
+                        $car->current_num += 1;
+                        $car->sale_num += 1;
+                        $car->save();
+                    } else {
+                        $response = [
+                            'code' => trans('pheicloud.response.groupOutOfRange.code'),
+                            'msg' => trans('pheicloud.response.groupOutOfRange.msg'),
+                        ];
+                        return response()->json($response);
+                    }
+                } else {
+                    $car->current_num += 1;
+                    $car->sale_num += 1;
+                    $car->save();
+                }
+            }
+        }
+
         $res = TableModels\Order::create([
             'order_num' => $order_num,
             'car_id' => $this->car_id,
@@ -90,48 +119,12 @@ class PreOrderJob
             'payment_status' => 1,
         ]);
 
-	// 创建订单支付成功通知信息
-	TableModels\OrderMessage::insert([
-	    'customer_id' => $this->customer_id,
-	    'content' => '您的订单支付成功',
-	    'order_num' => $order_num,
-	]);
-
-	//支付成功: 销售量+1 || 拼团数量当前+1
-	$car = TableModels\Car::find($this->car_id);
-
-	if (!is_null($car)) {
-
-	    if ($car->type == 1) {
-		$car->sale_num += 1;
-		$car->save();
-	    } else {
-
-	    	$current_num = $car->current_num + 1;
-
-		if ($car->group_type == 2) {
-
-			if ($current_num < $car->total_num) {
-			    $car->current_num += 1;
-			    $car->sale_num += 1;
-			    $car->save();
-			} else {
-
-			    $response = [
-                    'code' => trans('pheicloud.response.groupOutOfRange.code'),
-                    'msg' => trans('pheicloud.response.groupOutOfRange.msg'),
-			    ];
-
-			    return response()->json($response);
-			}
-
-		} else {
-			$car->current_num += 1;
-			$car->sale_num += 1;
-			$car->save();
-		}
-	    }
-	}
+        // 创建订单支付成功通知信息
+        TableModels\OrderMessage::insert([
+            'customer_id' => $this->customer_id,
+            'content' => '您的订单支付成功',
+            'order_num' => $order_num,
+        ]);
 
         if ($res) {
              $response = [
