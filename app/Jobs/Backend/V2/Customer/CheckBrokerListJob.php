@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Jobs\Backend\Customer;
+namespace App\Jobs\Backend\V2\Customer;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Foundation\Bus\Dispatchable;
 use App\Tables as TableModels;
 
-class CheckListJob
+class CheckBrokerListJob
 {
     use Dispatchable, Queueable;
 
@@ -29,7 +29,7 @@ class CheckListJob
      */
     public function handle()
     {
-        $tempRes = TableModels\Customer::select('id', 'openid', 'phone', 'nickname', 'auth');
+        $tempRes = TableModels\Customer::select('id', 'openid', 'phone', 'nickname', 'type_auth as auth');
 
         if (!is_null($this->params['nickname']) && !empty($this->params['nickname'])) {
             $tempRes->where('nickname', $this->params['nickname']);
@@ -46,7 +46,7 @@ class CheckListJob
             ]);
         }
 
-        $res = $tempRes->isNormal()->get()->toArray();
+        $res = $tempRes->isBroker()->get()->toArray();
 
         $response = [
             'code' => trans('pheicloud.response.success.code'),

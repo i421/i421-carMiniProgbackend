@@ -76,6 +76,13 @@ const Api = {
     'customerAuthStatus': 'api/v1/backend/customer/authStatus',
     'customerToggleIsSeller': 'api/v1/backend/customer/isSeller',
 
+    'brokers': 'api/v2/backend/customer/broker-list',
+    'showBroker': 'api/v2/backend/customer/',
+    'searchBroker': 'api/v2/backend/customer/search-broker',
+    'brokerCheckList': 'api/v2/backend/customer/check-broker-list',
+    'brokerCheckDetail': 'api/v2/backend/customer/check-broker-detail/',
+    'brokerTypeAuthStatus': 'api/v2/backend/customer/type-auth-status',
+
     'settingShowScore': 'api/v1/backend/setting/score',
     'settingUpdateScore': 'api/v1/backend/setting/score/update',
     'settingSetCarousel': 'api/v1/backend/setting/carousel',

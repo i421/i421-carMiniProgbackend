@@ -18,6 +18,7 @@ class CreateCarsTable extends Migration
             $table->increments('id');
             $table->integer('brand_id')->unsigned()->index()->comment("品牌名");
             $table->integer('type')->default(1)->index()->comment("现车1/拼团2");
+            $table->integer('group_recommend')->default(0)->index()->comment("是否拼团推荐:0否/1是");
             $table->string('name')->index()->comment("汽车名称");
             $table->string('avatar')->nullable()->comment("汽车缩略图");
             $table->integer('guide_price')->comment("汽车指导价");

@@ -31,11 +31,11 @@ class OrderJob
      */
     public function handle()
     {
-	$where = [['customers.openid', '=', $this->openid]];
-	
-	if (!is_null($this->type)) {
-	    $where[] = ['cars.type', '=', $this->type];
-	}
+        $where = [['customers.openid', '=', $this->openid]];
+
+        if (!is_null($this->type)) {
+            $where[] = ['cars.type', '=', $this->type];
+        }
 
         $orders = TableModels\Order::leftJoin('customers', 'orders.customer_id', '=', 'customers.id')
             ->leftJoin('shops', 'orders.shop_id', '=', 'shops.id')

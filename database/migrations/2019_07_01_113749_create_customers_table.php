@@ -31,9 +31,12 @@ class CreateCustomersTable extends Migration
             $table->string('recommend_count')->default(0)->comment('推荐人数');
             $table->string('recommender')->nullable()->comment('推荐人用户id');
             $table->integer('auth')->default(0)->comment('状态: 待审核，已审核');
+            $table->integer('type')->default(1)->comment('普通用户1/经纪人2');
+            $table->integer('score')->default(0)->comment('经纪人才有积分');
             $table->integer('is_seller')->default(0)->comment('是否是销售');
             $table->integer('status')->default(1)->comment('账户是否正常使用');
             $table->json('info')->nullable()->comment('其他信息[身份证正反,银行卡,驾驶证正反,姓名,身份证号]');
+            $table->json('broker_info')->nullable()->comment('经纪人[身份证正反,银行卡,驾驶证正反,姓名,身份证号]');
             $table->softDeletes();
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'));

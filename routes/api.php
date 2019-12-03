@@ -277,3 +277,25 @@ Route::group(['prefix' => 'v1/backend', 'namespace' => 'Backend'], function () {
     });
 
 });
+
+Route::group(['prefix' => 'v2', 'namespace' => 'Api\V2'], function () {
+
+    //经纪人更新信息
+    Route::group(['prefix' => 'customer'], function () {
+        Route::post('improve-broker-info', 'CustomerController@improveBrokerInfo');
+    });
+
+});
+
+Route::group(['prefix' => 'v2/backend', 'namespace' => 'Backend\V2'], function () {
+
+    Route::group(['prefix' => 'customer'], function () {
+        Route::get('broker-list', 'CustomerController@brokerList');
+        Route::post('check-broker-list', 'CustomerController@checkBrokerList');
+        Route::post('search-broker', 'CustomerController@searchBroker');
+        Route::get('type-auth-status', 'CustomerController@typeAuthStatus');
+        Route::get('check-broker-detail/{id}', 'CustomerController@checkBrokerDetail');
+        Route::get('{id}', 'CustomerController@show');
+    });
+
+});

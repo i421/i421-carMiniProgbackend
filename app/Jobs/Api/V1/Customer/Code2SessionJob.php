@@ -47,7 +47,7 @@ class Code2SessionJob
 
         }
 
-        \Log::info($res);
+        //\Log::info($res);
 
         Cache::forever($res['openid'], $res['session_key']);
 

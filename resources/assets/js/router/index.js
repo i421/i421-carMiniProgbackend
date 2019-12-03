@@ -35,6 +35,21 @@ export default new Router({
                     name: 'showCustomerCheck',
                     component: resolve => require(['../pages/customer/CheckDetail.vue'], resolve)
                 }, {
+                    path: '/broker',
+                    component: resolve => require(['../pages/broker/Index.vue'], resolve)
+                }, {
+                    path: '/broker/check',
+                    name: 'brokerCheckList',
+                    component: resolve => require(['../pages/broker/Check.vue'], resolve)
+                }, {
+                    path: '/broker/:id',
+                    name: 'showBroker',
+                    component: resolve => require(['../pages/broker/Show.vue'], resolve)
+                }, {
+                    path: '/check/broker/:id',
+                    name: 'showBrokerCheck',
+                    component: resolve => require(['../pages/broker/CheckDetail.vue'], resolve)
+                }, {
                     path: '/brand',
                     name: 'brand',
                     component: resolve => require(['../pages/brand/Index.vue'], resolve)

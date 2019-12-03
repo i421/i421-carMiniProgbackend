@@ -128,5 +128,15 @@
     "is_menu": 1,
     "pid": "11",
     "order": "13"
+  },
+  {
+    "id": "14",
+    "name": "/broker",
+    "display_en_name": "Broker Management",
+    "display_zh_name": "经纪人管理",
+    "icon": "el-icon-user-solid",
+    "is_menu": 1,
+    "pid": "0",
+    "order": "14"
   }
 ]
