@@ -50,6 +50,14 @@ export default new Router({
                     name: 'showBrokerCheck',
                     component: resolve => require(['../pages/broker/CheckDetail.vue'], resolve)
                 }, {
+                    path: '/broker/recharge/score/list',
+                    name: 'brokerRechargeScoreList',
+                    component: resolve => require(['../pages/broker/RechargeList.vue'], resolve)
+                }, {
+                    path: '/broker/recycling/score/list',
+                    name: 'brokerRecyclingScoreList',
+                    component: resolve => require(['../pages/broker/RecyclingList.vue'], resolve)
+                }, {
                     path: '/brand',
                     name: 'brand',
                     component: resolve => require(['../pages/brand/Index.vue'], resolve)

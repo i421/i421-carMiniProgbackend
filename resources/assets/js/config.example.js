@@ -83,6 +83,11 @@ const Api = {
     'brokerCheckDetail': 'api/v2/backend/customer/check-broker-detail/',
     'brokerTypeAuthStatus': 'api/v2/backend/customer/type-auth-status',
 
+    'brokerAddScore': 'api/v2/backend/customer/broker-add-score',
+    'brokerRechargeScoreList': 'api/v2/backend/customer/broker-recharge-score-list',
+    'brokerRecyclingScoreList': 'api/v2/backend/customer/broker-recycling-score-list',
+    'toggleBrokerRecyclingStatus': 'api/v2/backend/customer/toggle-recycling-score-status/',
+
     'settingShowScore': 'api/v1/backend/setting/score',
     'settingUpdateScore': 'api/v1/backend/setting/score/update',
     'settingSetCarousel': 'api/v1/backend/setting/carousel',
@@ -101,6 +106,7 @@ const Api = {
     'showOrder': 'api/v1/backend/order/',
     'searchOrder': 'api/v1/backend/order/search',
     'orderStatus': 'api/v1/backend/order/arrive/',
+    'destroyOrder': 'api/v1/backend/order/',
 }
 
 export default Api

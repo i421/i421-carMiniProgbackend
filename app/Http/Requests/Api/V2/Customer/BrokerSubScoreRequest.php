@@ -1,10 +1,9 @@
 <?php
 
-namespace App\Http\Requests\Backend\V2\Customer;
-
+namespace App\Http\Requests\Api\V2\Customer;
 use Illuminate\Foundation\Http\FormRequest;
 
-class SearchBrokerRequest extends FormRequest
+class BrokerSubScoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,10 +23,8 @@ class SearchBrokerRequest extends FormRequest
     public function rules()
     {
         return [
-            'nickname' => 'nullable|string',
-            'phone' => 'nullable|string',
-            'time' => 'nullable|array',
-            'auth' => 'nullable|array',
+            'openid' => 'required|string',
+            'score' => 'required|integer',
         ];
     }
 }

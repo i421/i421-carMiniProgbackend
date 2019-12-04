@@ -102,5 +102,9 @@ return [
             'code' => '71000',
             'msg' => 'already bind',
         ],
+        'outOfRange' => [
+            'code' => '71001',
+            'msg' => '超过上限',
+        ],
     ],
 ];

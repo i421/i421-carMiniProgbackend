@@ -283,6 +283,9 @@ Route::group(['prefix' => 'v2', 'namespace' => 'Api\V2'], function () {
     //经纪人更新信息
     Route::group(['prefix' => 'customer'], function () {
         Route::post('improve-broker-info', 'CustomerController@improveBrokerInfo');
+        Route::post('broker-sub-score', 'CustomerController@brokerSubScore');
+        Route::get('broker-recycling-score-list/{openid}', 'CustomerController@brokerRecyclingScoreList');
+        Route::get('broker-recharge-score-list/{openid}', 'CustomerController@brokerRechargeScoreList');
     });
 
 });
@@ -295,6 +298,10 @@ Route::group(['prefix' => 'v2/backend', 'namespace' => 'Backend\V2'], function (
         Route::post('search-broker', 'CustomerController@searchBroker');
         Route::get('type-auth-status', 'CustomerController@typeAuthStatus');
         Route::get('check-broker-detail/{id}', 'CustomerController@checkBrokerDetail');
+        Route::post('broker-add-score', 'CustomerController@brokerAddScore');
+        Route::post('broker-recharge-score-list', 'CustomerController@brokerRechargeScoreList');
+        Route::post('broker-recycling-score-list', 'CustomerController@brokerRecyclingScoreList');
+        Route::post('toggle-recycling-score-status/{id}', 'CustomerController@toggleRecyclingScoreStatus');
         Route::get('{id}', 'CustomerController@show');
     });
 

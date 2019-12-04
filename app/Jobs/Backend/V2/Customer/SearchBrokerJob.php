@@ -34,22 +34,22 @@ class SearchBrokerJob
             'id', 'phone', 'nickname', 'openid', 'gender', 'recommend_count', 'status', 'type_auth as auth', 'created_at'
         );
 
-        if (!is_null($this->params['phone']) && !empty($this->params['phone'])) {
-            $tempRes->where('phone', $this->params['phone']);
+        if (isset($this->params['phone']) && !empty($this->params['phone'])) {
+            $tempRes->where('phone', 'like', '%' . $this->params['phone'] . '%');
         }
 
-        if (!is_null($this->params['nickname']) && !empty($this->params['nickname'])) {
-            $tempRes->where('nickname', $this->params['nickname']);
+        if (isset($this->params['nickname']) && !empty($this->params['nickname'])) {
+            $tempRes->where('nickname', 'like', '%' . $this->params['nickname'] . '%');
         }
 
-        if (!is_null($this->params['time']) && count($this->params['time']) >= 1) {
+        if (isset($this->params['time']) && count($this->params['time']) >= 1) {
             $tempRes->where([
                 ['created_at', '>=', $this->params['time'][0] . ' 00:00:00'],
                 ['created_at', '<=', $this->params['time'][1] . ' 23:59:59']
             ]);
         }
 
-        if (count($this->params['auth']) >= 1) {
+        if (isset($this->params['auth']) && count($this->params['auth']) >= 1) {
             $tempRes->whereIn('type_auth', $this->params['auth']);
         }
 

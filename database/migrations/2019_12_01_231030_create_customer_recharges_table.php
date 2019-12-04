@@ -20,7 +20,7 @@ class CreateCustomerRechargesTable extends Migration
             $table->integer('score')->comment('积分');
             $table->string('content')->nullable()->comment('加分缘由');
             $table->string('append')->nullable()->comment('其他');
-            $table->integer('status')->default(0)->comment('未打款');
+            $table->integer('status')->nullable()->comment('审核状态');
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'));
 

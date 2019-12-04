@@ -77,4 +77,53 @@ class CustomerController extends Controller
         $response = $this->dispatch(new CustomerJobs\SearchBrokerJob($params));
         return $response;
     }
+
+    /**
+     * 加积分
+     *
+     * @return void
+     */
+    public function brokerAddScore(CustomerRequests\BrokerAddScoreRequest $request)
+    {
+        $params = $request->all();
+        $response = $this->dispatch(new CustomerJobs\BrokerAddScoreJob($params));
+        return $response;
+    }
+
+    /**
+     * 积分充值列表
+     *
+     * @return void
+     */
+    public function brokerRechargeScoreList(CustomerRequests\BrokerRechargeScoreListRequest $request)
+    {
+        $params = $request->all();
+        $response = $this->dispatch(new CustomerJobs\BrokerRechargeScoreListJob($params));
+        return $response;
+    }
+
+    /**
+     * 积分回收列表
+     *
+     * @return void
+     */
+    public function brokerRecyclingScoreList(CustomerRequests\BrokerRecyclingScoreListRequest $request)
+    {
+        $params = $request->all();
+        $response = $this->dispatch(new CustomerJobs\BrokerRecyclingScoreListJob($params));
+        return $response;
+    }
+
+    /**
+     * 积分回收打款确认
+     *
+     * @return void
+     */
+    public function toggleRecyclingScoreStatus(int $id, CustomerRequests\ToggleRecyclingScoreStatusRequest $request)
+    {
+        $params = $request->all();
+        $params['id'] = $id;
+        $response = $this->dispatch(new CustomerJobs\ToggleRecyclingScoreStatusJob($params));
+        return $response;
+    }
 }

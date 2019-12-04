@@ -32,7 +32,7 @@
                     type="primary"
                     class="table-button"
                     icon="el-icon-search"
-                    @click="fetchCutomerCheckList">
+                    @click="fetchBrokerCheckList">
                     查询
                 </el-button>
                 <el-button type="primary" class="table-button" icon="el-icon-refresh" @click="clearSearch">清除</el-button>

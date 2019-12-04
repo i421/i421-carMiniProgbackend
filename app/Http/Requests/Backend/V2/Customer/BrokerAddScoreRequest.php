@@ -4,12 +4,11 @@ namespace App\Http\Requests\Backend\V2\Customer;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class SearchBrokerRequest extends FormRequest
+class BrokerAddScoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
-     *
-     * @return bool
+     * * @return bool
      */
     public function authorize()
     {
@@ -24,10 +23,9 @@ class SearchBrokerRequest extends FormRequest
     public function rules()
     {
         return [
-            'nickname' => 'nullable|string',
-            'phone' => 'nullable|string',
-            'time' => 'nullable|array',
-            'auth' => 'nullable|array',
+            'customer_id' => 'required|integer',
+            'score' => 'required|integer',
+            'content' => 'required|string',
         ];
     }
 }

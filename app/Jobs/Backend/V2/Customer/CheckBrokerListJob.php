@@ -32,11 +32,11 @@ class CheckBrokerListJob
         $tempRes = TableModels\Customer::select('id', 'openid', 'phone', 'nickname', 'type_auth as auth');
 
         if (!is_null($this->params['nickname']) && !empty($this->params['nickname'])) {
-            $tempRes->where('nickname', $this->params['nickname']);
+            $tempRes->where('nickname', 'like', '%' . $this->params['nickname'] . '%');
         }
 
         if (!is_null($this->params['phone']) && !empty($this->params['phone'])) {
-            $tempRes->where('phone', $this->params['phone']);
+            $tempRes->where('phone', 'like', '%' . $this->params['phone'] . '%');
         }
 
         if (!is_null($this->params['time']) && count($this->params['time']) >= 1) {

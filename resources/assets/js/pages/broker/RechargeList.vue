@@ -12,15 +12,6 @@
 
                 <el-col :span="6" :offset="1">
                     <div>
-                        <el-select v-model="conditionAuth" placeholder="是否认证" multiple="multiple" class="table-search">
-                            <el-option label="认证" value="1"></el-option>
-                            <el-option label="未认证" value="0"></el-option>
-                        </el-select>
-                    </div>
-                </el-col>
-
-                <el-col :span="6" :offset="1">
-                    <div>
                         <el-date-picker
                             v-model="conditionTime"
                             type="daterange"
@@ -38,11 +29,9 @@
 
 
             <div>
+				<el-button type="primary" class="table-button" icon="el-icon-plus" @click="addScore">添加</el-button>
                 <el-button type="primary" class="table-button" icon="el-icon-search" @click="search">查询</el-button>
                 <el-button type="primary" class="table-button" icon="el-icon-refresh" @click="clearSearch">清除</el-button>
-                <el-button type="primary" class="table-button" icon="el-icon-s-check" @click="checkBroker">审核</el-button>
-                <el-button type="primary" class="table-button" icon="el-icon-s-check" @click="scoreAdd">积分增加管理</el-button>
-                <el-button type="primary" class="table-button" icon="el-icon-s-check" @click="scoreSub">积分回收管理</el-button>
             </div>
         </div>
 
@@ -51,6 +40,48 @@
             <el-table-column v-for="title in titles" :prop="title.prop" :label="title.label" :key="title.label">
             </el-table-column>
         </data-tables>
+
+		<!--添加加分表单-->
+		<el-dialog title="添加加分" :visible.sync="dialogFormVisible">
+		  <el-form :model="form" ref="form">
+			<el-form-item label="经纪人" :label-width="formLabelWidth"  prop="customer_id"
+				:rules="[
+					{required: true, message: '经纪人不能为空'}
+				]"
+            >
+				<!--
+				<el-autocomplete
+					v-model="form.customer_id"
+					:fetch-suggestions="querySearchAsync"
+					placeholder="请输入内容"
+					@select="handleSelect">
+				</el-autocomplete>
+				-->
+			  <el-input v-model="form.customer_id"></el-input>
+			</el-form-item>
+
+			<el-form-item label="加分数" :label-width="formLabelWidth"
+				:rules="[
+					{required: true, message: '加分数不能为空'}
+				]"
+            >
+			  <el-input v-model.number="form.score" autocomplete="off"></el-input>
+			</el-form-item>
+
+			<el-form-item label="加分说明" prop="content" :label-width="formLabelWidth"
+				:rules="[
+					{required: true, message: '加分说明不能为空'}
+				]"
+            >
+			  <el-input v-model="form.content" autocomplete="off"></el-input>
+			</el-form-item>
+
+		  </el-form>
+		  <div slot="footer" class="dialog-footer">
+			<el-button @click="cancleAddScore">取 消</el-button>
+			<el-button type="primary" @click="submitAddScore('form')">确 定</el-button>
+		  </div>
+		</el-dialog>
     </div>
 </template>
 
@@ -61,9 +92,10 @@
   export default {
 	  data() {
 		return {
+			dialogFormVisible: false,
+			formLabelWidth: '120px',
             conditionNickname: '',
             conditionPhone: '',
-            conditionAuth: [],
             conditionTime: '',
 			tableData: [],
             titles: [{
@@ -79,15 +111,20 @@
                 label: "昵称",
                 prop: "nickname",
             }, {
-                label: "积分数",
-                prop: "score_count",
+                label: "积分增加数",
+                prop: "score",
             }, {
-                label: "回收积分数",
-                prop: "recycling_score_count",
+                label: "增加说明",
+                prop: "content",
             }, {
-                label: "是否认证",
-                prop: "auth",
+                label: "时间",
+                prop: "created_at",
             }],
+			form: {
+				customer_id: '',
+				score: '',
+				content: '',
+			},
 
             actionCol: {
                 label: '操作',
@@ -98,54 +135,30 @@
 
                 buttons: [{
                     props: {
-                        type: 'warning',
-                        size: "mini",
-                        icon: 'el-icon-edit'
-                    },
-                    handler: row => {
-                        this.show(row)
-                    },
-                    label: '详情'
-                }, {
-                    props: {
-                        type: 'danger',
-                        size: "mini",
-                        icon: 'el-icon-refresh'
-                    },
-                    handler: row => {
-                        this.togglePass(row)
-                    },
-                    label: '切换是否销售'
-                }, {
-                    props: {
                         type: 'danger',
                         size: "mini",
                         icon: 'el-icon-delete-solid'
                     },
                     handler: row => {
-                        this.ban(row)
+                        this.destroy(row)
                     },
-                    label: '禁用'
+                    label: '删除'
                 }]
             },
         }
       },
 
       created () {
-          this.fetchCustomers()
+          this.fetchBrokerRechargeScoreList()
       },
 
       methods: {
 
-          fetchCustomers() {
+          fetchBrokerRechargeScoreList() {
             http({
-                url: Api.brokers,
+                method: 'post',
+                url: Api.brokerRechargeScoreList,
             }).then(response => {
-
-                for (let i = 0; i < response.data.data.length; i++) {
-                    response.data.data[i]['auth'] =  response.data.data[i]['auth'] == "1" ? "认证" : "未认证";
-                }
-
                 this.tableData = response.data.data
             })
           },
@@ -155,72 +168,79 @@
             this.conditionNickname = ''
             this.conditionPhone = ''
             this.conditionTime = ''
-            this.conditionAuth = []
           },
 
           //查询
           search() {
             http({
-                url: Api.searchBroker,
+                url: Api.brokerRechargeScoreList,
                 method: "post",
                 data: {
                     'phone': this.conditionPhone,
                     'nickname': this.conditionNickname,
-                    'auth': this.conditionAuth,
                     'time': this.conditionTime,
                 }
             }).then(response => {
-
-                console.log((response.data.data))
-                for (let i = 0; i < response.data.data.length; i++) {
-                    response.data.data[i]['auth'] =  response.data.data[i]['auth'] == "1" ? "认证" : "未认证";
-                }
-
                 this.tableData = response.data.data
             })
           },
-        
-          //查看详情
-          show(row) {
-              this.$router.push({ name: 'showBroker', params: {"id": row.id} })
-          },
 
-          togglePass(row) {
-
-              if (row.is_seller == '非销售') {
-                var is_seller = 1;
-              } else {
-                var is_seller = 0;
-              }
-
-              http({
-                  url: Api.customerToggleIsSeller, 
-                  params: {
-                      id: row.id,
-                      is_seller: is_seller
-                  }
-              }).then(response => {
-                this.fetchCustomers()
-              })
-          },
-
-          //禁止
-          ban(row) {
+          //删除
+          destroy(row) {
             //todo
           },
-
-          checkBroker() {
-              this.$router.push({ name: 'brokerCheckList' })
+		  
+          addScore() {
+		  	this.dialogFormVisible = true
           },
 
-          scoreAdd() {
-              this.$router.push({ name: 'brokerRechargeScoreList' })
-          },
+		  handleSelect(item) {
+		  	console.log(item);
+		  },
 
-          scoreSub() {
-              this.$router.push({ name: 'brokerRecyclingScoreList' })
-          },
-      }
+		  querySearchAsync(queryString, cb) {
+
+            http({
+                url: Api.searchBroker,
+                method: "post",
+                data: {
+                    'phone': queryString,
+                }
+            }).then(response => {
+				console.log(response)
+            })
+
+		  },
+
+		cancleAddScore() {
+			this.dialogFormVisible = false;
+		},
+
+        submitAddScore (form) {
+            this.$refs[form].validate((valid) => {
+              if (valid) {
+                http({
+                    method: 'post',
+                    url: Api.brokerAddScore,
+                    data: this.form
+                }).then(response => {
+					this.$notify.success({
+						'title': "提示",
+						'message': response.data.msg
+					})
+            	    this.search()
+                    this.$refs[form].resetFields();
+                }).catch(err => {
+                    console.log(err)
+                })
+
+			    this.dialogFormVisible = false;
+              } else {
+                return false;
+              }
+            })
+        },
+      },
   }
 </script>
 

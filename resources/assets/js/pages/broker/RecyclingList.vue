@@ -12,15 +12,6 @@
 
                 <el-col :span="6" :offset="1">
                     <div>
-                        <el-select v-model="conditionAuth" placeholder="是否认证" multiple="multiple" class="table-search">
-                            <el-option label="认证" value="1"></el-option>
-                            <el-option label="未认证" value="0"></el-option>
-                        </el-select>
-                    </div>
-                </el-col>
-
-                <el-col :span="6" :offset="1">
-                    <div>
                         <el-date-picker
                             v-model="conditionTime"
                             type="daterange"
@@ -40,16 +31,34 @@
             <div>
                 <el-button type="primary" class="table-button" icon="el-icon-search" @click="search">查询</el-button>
                 <el-button type="primary" class="table-button" icon="el-icon-refresh" @click="clearSearch">清除</el-button>
-                <el-button type="primary" class="table-button" icon="el-icon-s-check" @click="checkBroker">审核</el-button>
-                <el-button type="primary" class="table-button" icon="el-icon-s-check" @click="scoreAdd">积分增加管理</el-button>
-                <el-button type="primary" class="table-button" icon="el-icon-s-check" @click="scoreSub">积分回收管理</el-button>
             </div>
         </div>
 
 		<!-- table数据 -->
         <data-tables border :data="tableData" :action-col="actionCol" :pagination-props="{ pageSizes: [10, 15, 20] }">
-            <el-table-column v-for="title in titles" :prop="title.prop" :label="title.label" :key="title.label">
+
+            <el-table-column label="序号" prop="id">
             </el-table-column>
+
+            <el-table-column label="OpenId" prop="openid">
+            </el-table-column>
+
+            <el-table-column label="手机号" prop="phone">
+            </el-table-column>
+            
+            <el-table-column label="昵称" prop="nickname">
+            </el-table-column>
+
+            <el-table-column label="分数" prop="score">
+            </el-table-column>
+
+			<el-table-column label="状态" prop="status" width="130">
+				<template slot-scope="scope">
+					<el-tag v-if="scope.row.status == 1" type="success">已打款</el-tag>
+					<el-tag v-else type="error">未打款</el-tag>
+				</template>
+			</el-table-column>
+
         </data-tables>
     </div>
 </template>
@@ -63,7 +72,6 @@
 		return {
             conditionNickname: '',
             conditionPhone: '',
-            conditionAuth: [],
             conditionTime: '',
 			tableData: [],
             titles: [{
@@ -79,14 +87,14 @@
                 label: "昵称",
                 prop: "nickname",
             }, {
-                label: "积分数",
-                prop: "score_count",
+                label: "提取积分数",
+                prop: "score",
             }, {
-                label: "回收积分数",
-                prop: "recycling_score_count",
+                label: "状态",
+                prop: "status",
             }, {
-                label: "是否认证",
-                prop: "auth",
+                label: "操作时间",
+                prop: "created_at",
             }],
 
             actionCol: {
@@ -103,19 +111,9 @@
                         icon: 'el-icon-edit'
                     },
                     handler: row => {
-                        this.show(row)
+                        this.toggleStatus(row)
                     },
-                    label: '详情'
-                }, {
-                    props: {
-                        type: 'danger',
-                        size: "mini",
-                        icon: 'el-icon-refresh'
-                    },
-                    handler: row => {
-                        this.togglePass(row)
-                    },
-                    label: '切换是否销售'
+                    label: '切换打款状态'
                 }, {
                     props: {
                         type: 'danger',
@@ -123,29 +121,25 @@
                         icon: 'el-icon-delete-solid'
                     },
                     handler: row => {
-                        this.ban(row)
+                        this.destroy(row)
                     },
-                    label: '禁用'
+                    label: '删除'
                 }]
             },
         }
       },
 
       created () {
-          this.fetchCustomers()
+          this.fetchBrokerRecyclingScoreList()
       },
 
       methods: {
 
-          fetchCustomers() {
+          fetchBrokerRecyclingScoreList() {
             http({
-                url: Api.brokers,
+                method: 'post',
+                url: Api.brokerRecyclingScoreList,
             }).then(response => {
-
-                for (let i = 0; i < response.data.data.length; i++) {
-                    response.data.data[i]['auth'] =  response.data.data[i]['auth'] == "1" ? "认证" : "未认证";
-                }
-
                 this.tableData = response.data.data
             })
           },
@@ -155,71 +149,47 @@
             this.conditionNickname = ''
             this.conditionPhone = ''
             this.conditionTime = ''
-            this.conditionAuth = []
           },
 
           //查询
           search() {
             http({
-                url: Api.searchBroker,
+                url: Api.brokerRecyclingScoreList,
                 method: "post",
                 data: {
                     'phone': this.conditionPhone,
                     'nickname': this.conditionNickname,
-                    'auth': this.conditionAuth,
                     'time': this.conditionTime,
                 }
             }).then(response => {
-
-                console.log((response.data.data))
-                for (let i = 0; i < response.data.data.length; i++) {
-                    response.data.data[i]['auth'] =  response.data.data[i]['auth'] == "1" ? "认证" : "未认证";
-                }
-
                 this.tableData = response.data.data
             })
           },
-        
-          //查看详情
-          show(row) {
-              this.$router.push({ name: 'showBroker', params: {"id": row.id} })
-          },
 
-          togglePass(row) {
-
-              if (row.is_seller == '非销售') {
-                var is_seller = 1;
-              } else {
-                var is_seller = 0;
-              }
-
-              http({
-                  url: Api.customerToggleIsSeller, 
-                  params: {
-                      id: row.id,
-                      is_seller: is_seller
-                  }
-              }).then(response => {
-                this.fetchCustomers()
-              })
-          },
-
-          //禁止
-          ban(row) {
+          //删除
+          destroy(row) {
             //todo
           },
+          
+          //查看
+          toggleStatus(row) {
+			var brokerStatus = 0
+			if (row.status == 1) {
+				brokerStatus = 0;		
+			} else {
+				brokerStatus = 1;		
+			}
 
-          checkBroker() {
-              this.$router.push({ name: 'brokerCheckList' })
-          },
-
-          scoreAdd() {
-              this.$router.push({ name: 'brokerRechargeScoreList' })
-          },
-
-          scoreSub() {
-              this.$router.push({ name: 'brokerRecyclingScoreList' })
-          },
+            http({
+                url: Api.toggleBrokerRecyclingStatus + row.id,
+                method: "post",
+                data: {
+                    'status': brokerStatus,
+                }
+            }).then(response => {
+				this.search()
+            })
+          }
       }
   }
 </script>
