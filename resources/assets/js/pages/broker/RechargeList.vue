@@ -27,7 +27,6 @@
                 </el-col>
             </el-row>
 
-
             <div>
 				<el-button type="primary" class="table-button" icon="el-icon-plus" @click="addScore">添加</el-button>
                 <el-button type="primary" class="table-button" icon="el-icon-search" @click="search">查询</el-button>
@@ -42,22 +41,30 @@
         </data-tables>
 
 		<!--添加加分表单-->
-		<el-dialog title="添加加分" :visible.sync="dialogFormVisible">
+		<el-dialog id="addScoreForm" title="添加加分" :visible.sync="dialogFormVisible">
 		  <el-form :model="form" ref="form">
-			<el-form-item label="经纪人" :label-width="formLabelWidth"  prop="customer_id"
+			<el-form-item label="经纪人(手机号)" :label-width="formLabelWidth"  prop="customer_id"
 				:rules="[
 					{required: true, message: '经纪人不能为空'}
 				]"
             >
-				<!--
-				<el-autocomplete
-					v-model="form.customer_id"
-					:fetch-suggestions="querySearchAsync"
-					placeholder="请输入内容"
-					@select="handleSelect">
-				</el-autocomplete>
-				-->
-			  <el-input v-model="form.customer_id"></el-input>
+			<el-autocomplete
+			  popper-class="my-autocomplete"
+			  v-model="state"
+			  :fetch-suggestions="querySearch"
+			  placeholder="请输入内容(根据手机号过滤)"
+			  @select="handleSelect">
+			  <i
+				class="el-icon-edit el-input__icon"
+				slot="suffix"
+				@click="handleIconClick">
+			  </i>
+			  <template slot-scope="{ item }">
+				<div class="nickname">昵称: {{ item.nickname }}</div>
+				<span class="phone">手机号: {{ item.phone }}</span>
+`				<el-divider></el-divider>
+			  </template>
+			</el-autocomplete>
 			</el-form-item>
 
 			<el-form-item label="加分数" :label-width="formLabelWidth"
@@ -92,8 +99,10 @@
   export default {
 	  data() {
 		return {
+			brokers: [],
+			state: '',
 			dialogFormVisible: false,
-			formLabelWidth: '120px',
+			formLabelWidth: '180px',
             conditionNickname: '',
             conditionPhone: '',
             conditionTime: '',
@@ -195,10 +204,15 @@
           },
 
 		  handleSelect(item) {
-		  	console.log(item);
+			this.state = item.phone
+			this.form.customer_id = item.id
 		  },
 
-		  querySearchAsync(queryString, cb) {
+		  handleIconClick(ev) {
+			console.log("icon click");
+		  },
+
+		  querySearch(queryString, cb) {
 
             http({
                 url: Api.searchBroker,
@@ -207,10 +221,18 @@
                     'phone': queryString,
                 }
             }).then(response => {
-				console.log(response)
+				var brokers = response.data.data
+				var results = queryString ? brokers.filter(this.createFilter(queryString)) : brokers;
+				cb(results)
             })
 
 		  },
+
+		createFilter(queryString) {
+			return (broker) => {
+				return (broker.phone.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
+			};
+		},
 
 		cancleAddScore() {
 			this.dialogFormVisible = false;
@@ -253,5 +275,28 @@
 }
 #tableTools .table-search {
     margin: 0 10px 15px 0px;
+}
+.my-autocomplete {
+  li {
+    line-height: normal;
+    padding: 7px;
+
+    .nickname {
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+    .phone {
+      font-size: 8px;
+      color: #b4b4b4;
+    }
+
+    .highlighted .phone {
+      color: #ddd;
+    }
+  }
+}
+#addScoreForm > div > div.el-dialog__body > form > div.el-form-item.is-error.is-required > div > div.el-autocomplete > div > input {
+	width: 100%;
+	min-width: 300px;
 }
 </style>
