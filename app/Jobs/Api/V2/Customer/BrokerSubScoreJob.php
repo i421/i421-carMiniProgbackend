@@ -29,7 +29,7 @@ class BrokerSubScoreJob
      */
     public function handle()
     {
-        $customer = TableModels\Customer::where('openid', $this->params['openid'])->find();
+        $customer = TableModels\Customer::where('openid', $this->params['openid'])->first();
 
         if (is_null($customer)) {
             $response = [

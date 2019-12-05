@@ -43,13 +43,13 @@ class ImproveBrokerInfoJob
 
         if (!empty($customer)) {
 
-            $typeInfoArr = json_decode($customer->getOriginal('type_info'), true);
-            $typeInfoArr['name'] = $this->name;
-            $typeInfoArr['id_card'] = $this->id_card;
-            $typeInfoArr['id_card_front_path'] = $this->id_card_front_path;
-            $typeInfoArr['id_card_back_path'] = $this->id_card_back_path;
-            $typeInfoArr['bank_card'] = $this->bank_card;
-            $customer->type_info = $typeInfoArr;
+            $brokerInfoArr = json_decode($customer->getOriginal('broker_info'), true);
+            $brokerInfoArr['name'] = $this->name;
+            $brokerInfoArr['id_card'] = $this->id_card;
+            $brokerInfoArr['id_card_front_path'] = $this->id_card_front_path;
+            $brokerInfoArr['id_card_back_path'] = $this->id_card_back_path;
+            $brokerInfoArr['bank_card'] = $this->bank_card;
+            $customer->broker_info = $brokerInfoArr;
             $customer->save();
 
         } else {

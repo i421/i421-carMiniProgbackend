@@ -58,7 +58,7 @@ class Customer extends Model
      * @param string $value
      * @return mixed
      */
-    public function getTypeInfoAttribute($value)
+    public function getBrokerInfoAttribute($value)
     {
         $temp = json_decode($value, true);
 
@@ -82,8 +82,8 @@ class Customer extends Model
      *
      * @param array $value
      */
-    public function setTypeInfoAttribute(array $value)
+    public function setBrokerInfoAttribute(array $value)
     {
-        $this->attributes['type_info'] = json_encode($value);
+        $this->attributes['broker_info'] = json_encode($value);
     }
 }

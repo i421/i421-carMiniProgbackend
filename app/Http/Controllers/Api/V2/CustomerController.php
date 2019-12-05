@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\V2;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\V2\Customer as CustomerRequests;
 use App\Jobs\Api\V2\Customer as CustomerJobs;
 
 class CustomerController extends Controller
@@ -54,6 +55,17 @@ class CustomerController extends Controller
     public function brokerRechargeScoreList(string $openid)
     {
         $response = $this->dispatch(new CustomerJobs\BrokerRechargeScoreListJob($openid));
+        return $response;
+    }
+
+    /**
+     * 申请Broker
+     *
+     * @return void
+     */
+    public function applyBroker(string $openid)
+    {
+        $response = $this->dispatch(new CustomerJobs\ApplyBrokerJob($openid));
         return $response;
     }
 }

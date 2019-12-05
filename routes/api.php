@@ -282,6 +282,7 @@ Route::group(['prefix' => 'v2', 'namespace' => 'Api\V2'], function () {
 
     //经纪人更新信息
     Route::group(['prefix' => 'customer'], function () {
+        Route::post('apply-broker/{openid}', 'CustomerController@applyBroker');
         Route::post('improve-broker-info', 'CustomerController@improveBrokerInfo');
         Route::post('broker-sub-score', 'CustomerController@brokerSubScore');
         Route::get('broker-recycling-score-list/{openid}', 'CustomerController@brokerRecyclingScoreList');
