@@ -280,7 +280,7 @@ Route::group(['prefix' => 'v1/backend', 'namespace' => 'Backend'], function () {
 
 Route::group(['prefix' => 'v2', 'namespace' => 'Api\V2'], function () {
 
-    //经纪人更新信息
+    // 经纪人更新信息
     Route::group(['prefix' => 'customer'], function () {
         Route::post('apply-broker/{openid}', 'CustomerController@applyBroker');
         Route::post('improve-broker-info', 'CustomerController@improveBrokerInfo');
@@ -289,6 +289,10 @@ Route::group(['prefix' => 'v2', 'namespace' => 'Api\V2'], function () {
         Route::get('broker-recharge-score-list/{openid}', 'CustomerController@brokerRechargeScoreList');
     });
 
+    // 经销商二手车
+    Route::group(['prefix' => 'shop'], function () {
+        Route::get('second-hand-car' 'ShopController@secondHandCar');
+    });
 });
 
 Route::group(['prefix' => 'v2/backend', 'namespace' => 'Backend\V2'], function () {
@@ -304,6 +308,15 @@ Route::group(['prefix' => 'v2/backend', 'namespace' => 'Backend\V2'], function (
         Route::post('broker-recycling-score-list', 'CustomerController@brokerRecyclingScoreList');
         Route::post('toggle-recycling-score-status/{id}', 'CustomerController@toggleRecyclingScoreStatus');
         Route::get('{id}', 'CustomerController@show');
+    });
+
+    // 经销商二手车
+    Route::group(['prefix' => 'shop'], function () {
+        Route::get('second-hand-car-list', 'ShopController@secondHandCarList');
+        Route::get('second-hand-car/{id}', 'ShopController@showSecondHandCar');
+        Route::post('store-second-hand-car', 'ShopController@storeSecondHandCar');
+        Route::delete('destroy-second-hand-car/{id}', 'ShopController@destroySecondHandCar');
+        Route::post('update-second-hand-car/{id}', 'ShopController@updateSecondHandCar');
     });
 
 });

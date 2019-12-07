@@ -58,6 +58,18 @@ export default new Router({
                     name: 'brokerRecyclingScoreList',
                     component: resolve => require(['../pages/broker/RecyclingList.vue'], resolve)
                 }, {
+                    path: '/second/hand/car/list',
+                    name: 'secondHandCarList',
+                    component: resolve => require(['../pages/secondHandCar/Index.vue'], resolve)
+                }, {
+                    path: '/second/hand/car/create',
+                    name: 'createSecondHandCar',
+                    component: resolve => require(['../pages/secondHandCar/Create.vue'], resolve)
+                }, {
+                    path: '/second/hand/car/:id',
+                    name: 'showSecondHandCar',
+                    component: resolve => require(['../pages/secondHandCar/Show.vue'], resolve)
+                }, {
                     path: '/brand',
                     name: 'brand',
                     component: resolve => require(['../pages/brand/Index.vue'], resolve)

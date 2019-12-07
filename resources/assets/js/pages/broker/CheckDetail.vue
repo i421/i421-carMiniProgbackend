@@ -28,12 +28,12 @@
         <el-row :gutter="20">
             <el-col :span="12">
                 <div class="auth-grid-content" v-if="brokerInfo.info">
-                    <span>姓名: {{ brokerInfo.type_info.name }}</span>
+                    <span>姓名: {{ brokerInfo.broker_info.name }}</span>
                 </div>
             </el-col>
             <el-col :span="12">
                 <div class="auth-grid-content" v-if="brokerInfo.info">
-                    <span>身份证号: {{ brokerInfo.type_info.id_card }}</span>
+                    <span>身份证号: {{ brokerInfo.broker_info.id_card }}</span>
                 </div>
             </el-col>
         </el-row>
@@ -43,13 +43,13 @@
         </el-row>
         <el-row :gutter="20">
             <el-col :span="12">
-                <div class="grid-content" v-if="brokerInfo.type_info">
-                    <el-image fit="contain" :src="brokerInfo.type_info.id_card_front_path" :preview-src-list="[brokerInfo.type_info.id_card_front_path]"></el-image>
+                <div class="grid-content" v-if="brokerInfo.broker_info">
+                    <el-image fit="contain" :src="brokerInfo.broker_info.id_card_front_path" :preview-src-list="[brokerInfo.broker_info.id_card_front_path]"></el-image>
                 </div>
             </el-col>
             <el-col :span="12">
-                <div class="grid-content" v-if="brokerInfo.type_info">
-                    <el-image fit="contain" :src="brokerInfo.type_info.id_card_back_path" :preview-src-list="[brokerInfo.type_info.id_card_back_path]"></el-image>
+                <div class="grid-content" v-if="brokerInfo.broker_info">
+                    <el-image fit="contain" :src="brokerInfo.broker_info.id_card_back_path" :preview-src-list="[brokerInfo.broker_info.id_card_back_path]"></el-image>
                 </div>
             </el-col>
         </el-row>
@@ -59,8 +59,8 @@
         </el-row>
         <el-row :gutter="20">
             <el-col :span="12">
-                <div class="grid-content" v-if="brokerInfo.type_info">
-                    <el-image fit="contain" :src="brokerInfo.type_info.bank_card" :preview-src-list="[brokerInfo.type_info.bank_card]"></el-image>
+                <div class="grid-content" v-if="brokerInfo.broker_info">
+                    <el-image fit="contain" :src="brokerInfo.broker_info.bank_card" :preview-src-list="[brokerInfo.broker_info.bank_card]"></el-image>
                 </div>
             </el-col>
         </el-row>

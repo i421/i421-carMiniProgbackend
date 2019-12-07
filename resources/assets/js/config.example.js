@@ -88,6 +88,12 @@ const Api = {
     'brokerRecyclingScoreList': 'api/v2/backend/customer/broker-recycling-score-list',
     'toggleBrokerRecyclingStatus': 'api/v2/backend/customer/toggle-recycling-score-status/',
 
+    'secondHandCarList': 'api/v2/backend/shop/second-hand-car-list',
+    'storeSecondHandCar': 'api/v2/backend/shop/store-second-hand-car',
+    'destroySecondHandCar': 'api/v2/backend/shop/destroy-second-hand-car/',
+    'showSecondHandCar': 'api/v2/backend/shop/second-hand-car/',
+    'updateSecondHandCar': 'api/v2/backend/shop/update-second-hand-car/',
+
     'settingShowScore': 'api/v1/backend/setting/score',
     'settingUpdateScore': 'api/v1/backend/setting/score/update',
     'settingSetCarousel': 'api/v1/backend/setting/carousel',
