@@ -55,6 +55,13 @@
                 </template>
             </el-table-column>
 
+            <el-table-column label="首页推荐" prop="group_recommend" width="130">
+                <template slot-scope="scope">
+                    <el-tag v-if="scope.row.group_recommend == 1" type="warning">首页推荐</el-tag>
+                    <el-tag v-else type="default">非首页推荐</el-tag>
+                </template>
+            </el-table-column>
+
             <el-table-column label="拼团价格" prop="group_price" width="150">
             </el-table-column>
 
@@ -67,10 +74,10 @@
             <el-table-column label="结束时间" prop="end_time" width="180">
             </el-table-column>
 
-            <el-table-column label="拼团总数" prop="total_num" width="110">
+            <el-table-column label="拼团总数" prop="total_num" width="80">
             </el-table-column>
 
-            <el-table-column label="拼团当前数" prop="current_num" width="110">
+            <el-table-column label="拼团当前数" prop="current_num" width="80">
             </el-table-column>
         </data-tables>
     </div>
@@ -92,7 +99,7 @@
                 label: '操作',
                 props: {
                     align: 'center',
-                    width: '400px',
+                    width: '130px',
                 },
 
                 buttons: [{

@@ -27,6 +27,15 @@
                         <el-input v-model.number="groupForm.group_price" width="60px"></el-input>
                     </el-form-item>
 
+                    <el-form-item label="首页推荐" prop="group_recommend"
+                        :rules="[
+                            { required: true, message: '首页推荐不能为空', trigger: 'blur' },
+                        ]"
+                    >
+                        <el-radio v-model="groupForm.group_recommend" label="1">首页推荐</el-radio>
+                        <el-radio v-model="groupForm.group_recommend" label="0">非首页推荐</el-radio>
+                    </el-form-item>
+
                     <el-form-item>
                         <el-button type="primary" @click="onSubmit">更新</el-button>
                         <el-button @click="back">返回列表</el-button>
@@ -76,6 +85,16 @@
                             end-placeholder="结束日期">
                         </el-date-picker>
                     </el-form-item>
+
+                    <el-form-item label="首页推荐" prop="group_recommend"
+                        :rules="[
+                            { required: true, message: '首页推荐不能为空', trigger: 'blur' },
+                        ]"
+                    >
+                        <el-radio v-model="groupForm.group_recommend" label="1">首页推荐</el-radio>
+                        <el-radio v-model="groupForm.group_recommend" label="0">非首页推荐</el-radio>
+                    </el-form-item>
+
                     <el-form-item>
                         <el-button type="primary" @click="onSubmit">更新</el-button>
                         <el-button @click="back">返回列表</el-button>
@@ -99,6 +118,7 @@
                 type: '',
                 time_range: '',
                 group_price: '',
+                group_recommend: '',
                 off: '',
             },
           }
@@ -115,6 +135,7 @@
               url: Api.showFightingGroup + this.$route.params.id,
           }).then(response => {
               this.groupForm = response.data.data
+              this.groupForm.group_recommend = "" + response.data.data.group_recommend
               this.groupForm.time_range = [response.data.data.start_time, response.data.data.end_time]
           })
         },

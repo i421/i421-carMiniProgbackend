@@ -35,6 +35,7 @@ class CreateCarsTable extends Migration
             $table->json('info')->nullable()->comment("详细信息");
             $table->integer('off')->default(0)->index()->comment("优惠");
             $table->integer('group_type')->default(0)->index()->comment("时间拼团1/数量拼团2");
+            $table->integer('group_num')->default(1)->index()->comment("拼团数量");
             $table->integer('group_price')->default(0)->comment("拼团价");
             $table->integer('total_num')->default(0)->index()->comment("拼团总人数");
             $table->integer('current_num')->default(0)->index()->comment("拼团当前人数");

@@ -29,6 +29,7 @@ class UpdateRequest extends FormRequest
             'group_price' => 'required|integer',
             'time_range' => 'required|array',
             'off' => 'required|integer',
+            'group_recommend' => 'required|integer',
             'total_num' => 'nullable|integer',
         ];
     }

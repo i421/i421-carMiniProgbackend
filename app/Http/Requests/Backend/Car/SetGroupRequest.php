@@ -30,6 +30,7 @@ class SetGroupRequest extends FormRequest
             'total_num' => 'nullable|integer',
             'group_type' => 'required|string',
             'off' => 'required|integer',
+            'group_recommend' => 'required|integer',
         ];
     }
 }

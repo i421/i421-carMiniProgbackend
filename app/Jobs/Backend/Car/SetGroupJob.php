@@ -19,6 +19,7 @@ class SetGroupJob
     private $total_num;
     private $start_time;
     private $end_time;
+    private $group_recommend;
     private $off;
 
     /**
@@ -35,6 +36,7 @@ class SetGroupJob
         $this->start_time = $params['time_range'][0];
         $this->end_time = $params['time_range'][1];
         $this->off = $params['off'];
+        $this->group_recommend = $params['group_recommend'];
     }
 
     /**
@@ -52,6 +54,7 @@ class SetGroupJob
         $car->end_time = $this->end_time;
         $car->group_type = $this->group_type;
         $car->off = $this->off;
+        $car->group_recommend = $this->group_recommend;
         $car->type = 2;
         $res = $car->save();
 

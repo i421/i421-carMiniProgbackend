@@ -291,7 +291,7 @@ Route::group(['prefix' => 'v2', 'namespace' => 'Api\V2'], function () {
 
     // 经销商二手车
     Route::group(['prefix' => 'shop'], function () {
-        Route::get('second-hand-car' 'ShopController@secondHandCar');
+        Route::get('second-hand-car', 'ShopController@secondHandCar');
     });
 });
 
