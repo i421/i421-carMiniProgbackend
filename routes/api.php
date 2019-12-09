@@ -293,6 +293,12 @@ Route::group(['prefix' => 'v2', 'namespace' => 'Api\V2'], function () {
     Route::group(['prefix' => 'shop'], function () {
         Route::get('second-hand-car', 'ShopController@secondHandCar');
     });
+
+    //拼团管理
+    Route::group(['prefix' => 'fighting/group'], function () {
+        Route::get('off', 'FightingGroupController@off');
+    });
+
 });
 
 Route::group(['prefix' => 'v2/backend', 'namespace' => 'Backend\V2'], function () {

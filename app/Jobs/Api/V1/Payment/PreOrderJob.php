@@ -90,6 +90,32 @@ class PreOrderJob
             } else {
                 $current_num = $car->current_num;
                 if ($car->group_type == 2) {
+                    if (($current_num + 1) > $car->total_num) {
+                        $car->current_num += 1;
+                        $car->sale_num += 1;
+                        $car->group_type += 1;
+                        $car->save();
+                    } else {
+                        $car->current_num += 1;
+                        $car->sale_num += 1;
+                        $car->save();
+                    }
+                } else {
+                    $car->current_num += 1;
+                    $car->sale_num += 1;
+                    $car->save();
+                }
+            }
+        }
+
+        /*
+        if (!is_null($car)) {
+            if ($car->type == 1) {
+                $car->sale_num += 1;
+                $car->save();
+            } else {
+                $current_num = $car->current_num;
+                if ($car->group_type == 2) {
                     if ($current_num < $car->total_num) {
                         $car->current_num += 1;
                         $car->sale_num += 1;
@@ -108,6 +134,7 @@ class PreOrderJob
                 }
             }
         }
+         */
 
         $res = TableModels\Order::create([
             'order_num' => $order_num,

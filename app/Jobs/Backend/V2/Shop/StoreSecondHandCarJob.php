@@ -19,6 +19,7 @@ class StoreSecondHandCarJob
     private $lng;
     private $address;
     private $img;
+    private $end_time;
 
     /**
      * Create a new job instance.
@@ -36,6 +37,7 @@ class StoreSecondHandCarJob
         $this->lat = $params['lat'];
         $this->lng = $params['lng'];
         $this->address = $params['address'];
+        $this->end_time = $params['end_time'];
     }
 
     /**
@@ -59,6 +61,7 @@ class StoreSecondHandCarJob
                 'lat' => $this->lat,
                 'lng' => $this->lng,
                 'address' => $this->address,
+                'end_time' => $this->end_time,
             ]);
 
             if ($res) {

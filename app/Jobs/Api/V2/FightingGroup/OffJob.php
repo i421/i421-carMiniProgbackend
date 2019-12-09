@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Jobs\Api\V2\Shop;
+namespace App\Jobs\Api\V2\FightingGroup;
 
-use App\Tables as TableModels;
 use Illuminate\Bus\Queueable;
 use Illuminate\Foundation\Bus\Dispatchable;
+use App\Tables as TableModels;
 
-class SecondHandCarJob
+class OffJob
 {
     use Dispatchable, Queueable;
 
@@ -27,23 +27,19 @@ class SecondHandCarJob
      */
     public function handle()
     {
-        $shops = TableModels\Shop::all()->toArray();
-        $secondHandCars = TableModels\ShopSecondHandCar::where('end_time', '<=', date("Y-m-d H:i:s"))->toArray();
-
-        foreach ($shops as & $shop) {
-
-            foreach ($secondHandCars as $secondHandCar) {
-
-                if ($shop['id'] == $secondHandCar['shop_id']) {
-                    $shop['cars'][] = $secondHandCar;
-                }
-            }
-        }
+        $data = TableModels\Car::where([
+            ['type', '=', 2],
+            ['group_recommend', '=', 1],
+            ['end_time', '>=', date("Y-m-d H:i:s")],
+        ])->orderBy('created_at', 'desc')
+        ->take(6)
+        ->get()
+        ->toArray();
 
         $response = [
             'code' => trans('pheicloud.response.success.code'),
             'msg' => trans('pheicloud.response.success.msg'),
-            'data' => $shops,
+            'data' => $data,
         ];
 
         return response()->json($response);

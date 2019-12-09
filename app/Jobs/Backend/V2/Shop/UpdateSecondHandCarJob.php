@@ -20,6 +20,7 @@ class UpdateSecondHandCarJob
     private $lng;
     private $address;
     private $img;
+    private $end_time;
 
     /**
      * Create a new job instance.
@@ -32,12 +33,13 @@ class UpdateSecondHandCarJob
         $this->name = $params['name'];
         $this->shop_id = $params['shop_id'];
         $this->type = $params['type'];
-        $this->img = $params['img'];
+        $this->img = isset($params['img']) ? $params['img'] : null;
         $this->desc = $params['desc'];
         $this->phone = $params['phone'];
         $this->lat = $params['lat'];
         $this->lng = $params['lng'];
         $this->address = $params['address'];
+        $this->end_time = $params['end_time'];
     }
 
     /**
@@ -70,6 +72,7 @@ class UpdateSecondHandCarJob
         $shopSecondHandCar->lat = $this->lat;
         $shopSecondHandCar->lng = $this->lng;
         $shopSecondHandCar->address = $this->address;
+        $shopSecondHandCar->end_time = $this->end_time;
         if (!is_null($this->img)) {
             $shopSecondHandCar->img = $this->img;
         }

@@ -30,8 +30,9 @@ class StoreRequest extends FormRequest
             'phone' => 'required|string',
             'lat' => 'required|string',
             'lng' => 'required|string',
-            'img' => 'required|array',
+            'img' => 'nullable|array',
             'address' => 'required|string',
+            'end_time' => 'required|string',
         ];
     }
 }

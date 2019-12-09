@@ -89,6 +89,21 @@
 
                         <el-button size="small" style="margin-left: 10px" @click="updateImgFiles" icon="el-icon-upload">上传</el-button>
                     </el-form-item>
+
+                    <el-form-item label="下架时间" prop="end_time"
+                        :rules="[
+                            { required: true, message: '下架时间不能为空', trigger: 'blur' },
+						]"
+					>
+						<el-date-picker
+						  v-model="form.end_time"
+						  type="datetime"
+						  placeholder="选择日期"
+						  format="yyyy-MM-dd HH:mm:ss"
+						  value-format="yyyy-MM-dd HH:mm:ss">
+						</el-date-picker>
+                    </el-form-item>
+
                 </el-col>
             </el-form>
 
@@ -153,6 +168,7 @@
                   lat: '',
                   lng: "",
                   address: '',
+                  end_time: '',
                   img: [],
               }
           }
@@ -198,6 +214,7 @@
                     formData.append('phone', this.form.phone)
                     formData.append('lat', this.form.lat)
                     formData.append('lng', this.form.lng)
+                    formData.append('end_time', this.form.end_time)
                     formData.append('address', this.form.address)
 
                     for (let i = 0; i < this.form.img.length; i++) {

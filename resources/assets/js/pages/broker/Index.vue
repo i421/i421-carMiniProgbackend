@@ -36,14 +36,15 @@
                 </el-col>
             </el-row>
 
-
-            <div>
-                <el-button type="primary" class="table-button" icon="el-icon-search" @click="search">查询</el-button>
-                <el-button type="primary" class="table-button" icon="el-icon-refresh" @click="clearSearch">清除</el-button>
-                <el-button type="primary" class="table-button" icon="el-icon-s-check" @click="checkBroker">审核</el-button>
-                <el-button type="primary" class="table-button" icon="el-icon-s-check" @click="scoreAdd">积分增加管理</el-button>
-                <el-button type="primary" class="table-button" icon="el-icon-s-check" @click="scoreSub">积分回收管理</el-button>
-            </div>
+            <el-row>
+                <div>
+                    <el-button type="primary" class="table-button" icon="el-icon-search" @click="search">查询</el-button>
+                    <el-button type="primary" class="table-button" icon="el-icon-refresh" @click="clearSearch">清除</el-button>
+                    <el-button type="primary" class="table-button" icon="el-icon-s-check" @click="checkBroker">审核</el-button>
+                    <el-button type="primary" class="table-button" icon="el-icon-s-check" @click="scoreAdd">积分增加管理</el-button>
+                    <el-button type="primary" class="table-button" icon="el-icon-s-check" @click="scoreSub">积分回收管理</el-button>
+                </div>
+            </el-row>
         </div>
 
 		<!-- table数据 -->
@@ -106,6 +107,7 @@
                         this.show(row)
                     },
                     label: '详情'
+                    /*
                 }, {
                     props: {
                         type: 'danger',
@@ -116,6 +118,7 @@
                         this.togglePass(row)
                     },
                     label: '切换是否销售'
+                    */
                 }, {
                     props: {
                         type: 'danger',

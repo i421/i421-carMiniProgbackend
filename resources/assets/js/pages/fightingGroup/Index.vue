@@ -45,24 +45,24 @@
             <el-table-column label="序号" prop="id" width="60">
             </el-table-column>
 
-            <el-table-column label="汽车名称" prop="name" width="180">
+            <el-table-column label="汽车名称" prop="name" width="150">
             </el-table-column>
 
-            <el-table-column label="类型" prop="type" width="130">
+            <el-table-column label="类型" prop="type" width="100">
                 <template slot-scope="scope">
                     <el-tag v-if="scope.row.group_type == 1" type="success">时间拼团</el-tag>
                     <el-tag v-else type="primary">数量拼团</el-tag>
                 </template>
             </el-table-column>
 
-            <el-table-column label="首页推荐" prop="group_recommend" width="130">
+            <el-table-column label="首页推荐" prop="group_recommend" width="110">
                 <template slot-scope="scope">
                     <el-tag v-if="scope.row.group_recommend == 1" type="warning">首页推荐</el-tag>
                     <el-tag v-else type="default">非首页推荐</el-tag>
                 </template>
             </el-table-column>
 
-            <el-table-column label="拼团价格" prop="group_price" width="150">
+            <el-table-column label="拼团价格" prop="group_price" width="120">
             </el-table-column>
 
             <el-table-column label="优惠(仅数量拼团)" prop="off" width="120">
@@ -74,7 +74,7 @@
             <el-table-column label="结束时间" prop="end_time" width="180">
             </el-table-column>
 
-            <el-table-column label="拼团总数" prop="total_num" width="80">
+            <el-table-column label="拼团总数" prop="total_num" width="150">
             </el-table-column>
 
             <el-table-column label="拼团当前数" prop="current_num" width="80">

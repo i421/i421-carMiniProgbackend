@@ -38,14 +38,38 @@ class IndexJob
             ['type', '=', '2'],
             ['group_type', '=', '2'],
             ['end_time', '>=', date("Y-m-d H:i:s")]
-        ])->orderBy('id', 'desc')->get();
+        ])->orderBy('id', 'desc')->get()->toArray();
+
+        $tempGroup = [];
+
+        foreach ($countGroup as &$group) {
+
+
+            for ($i = 1; $i <= $group['group_num']; $i++) {
+
+                $tempCountNum = $group['current_num'];
+
+                for ($i = 1; $i <= $group['group_num']; $i++) {
+
+                    if ($i !== $group['group_num']) {
+                        $group['current_num'] = $group['total_num'];
+                        $tempGroup[] = $group;
+                        $group['current_num'] = $tempCountNum;
+                    } else {
+                        $group['current_num'] = $group['current_num'] % $group['total_num'];
+                        $tempGroup[] = $group;
+                        $group['current_num'] = $tempCountNum;
+                    }
+                }
+            }
+        }
 
         $response = [
             'code' => trans('pheicloud.response.success.code'),
             'msg' => trans('pheicloud.response.success.msg'),
             'data' => [
                 'timegroup' => $timeGroup,
-                'countGroup' => $countGroup,
+                'countGroup' => $tempGroup,
             ],
         ];
 

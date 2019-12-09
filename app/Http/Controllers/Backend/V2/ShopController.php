@@ -56,15 +56,17 @@ class ShopController extends Controller
         $params['id'] = $id;
 
         //轮播图
-        $imgs = $request->file('img');
-        $imgsPaths = [];
-        foreach ($imgs as $img) {
-            $imgType = $img->extension();
-            $imgName = date("YmdHis") . str_random(40) . ".$imgType";
-            $imgUrl = $img->storeAs('secondHandCar', $imgName, 'public');
-            array_push($imgsPaths, 'storage/' . $imgUrl);
+        if ($request->hasFile('img')) {
+            $imgs = $request->file('img');
+            $imgsPaths = [];
+            foreach ($imgs as $img) {
+                $imgType = $img->extension();
+                $imgName = date("YmdHis") . str_random(40) . ".$imgType";
+                $imgUrl = $img->storeAs('secondHandCar', $imgName, 'public');
+                array_push($imgsPaths, 'storage/' . $imgUrl);
+            }
+            $params['img'] = $imgsPaths;
         }
-        $params['img'] = $imgsPaths;
 
         $response = $this->dispatch(new ShopJobs\UpdateSecondHandCarJob($params));
         return $response;
