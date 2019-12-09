@@ -32,6 +32,7 @@ class CreateCustomersTable extends Migration
             $table->string('recommender')->nullable()->comment('推荐人用户id');
             $table->integer('auth')->default(0)->comment('状态: 待审核，已审核');
             $table->integer('type')->default(1)->comment('普通用户1/经纪人2');
+            $table->integer('type_auth')->default(0)->comment('经纪人审核');
             $table->integer('score')->default(0)->comment('经纪人才有积分');
             $table->integer('is_seller')->default(0)->comment('是否是销售');
             $table->integer('status')->default(1)->comment('账户是否正常使用');

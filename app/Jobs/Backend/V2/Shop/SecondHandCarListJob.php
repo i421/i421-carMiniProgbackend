@@ -10,14 +10,16 @@ class SecondHandCarListJob
 {
     use Dispatchable, Queueable;
 
+    private $user;
+
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(TableModels\User $user)
     {
-        //
+        $this->user = $user;
     }
 
     /**
@@ -27,7 +29,10 @@ class SecondHandCarListJob
      */
     public function handle()
     {
+        $shopIds = $this->user->shops->pluck('id');
+
         $shopSecondHandCars = TableModels\ShopSecondHandCar::leftJoin('shops', 'shop_second_hand_cars.shop_id', '=', 'shops.id')
+            ->whereIn('shop_second_hand_cars.shop_id', $shopIds)
             ->select("shop_second_hand_cars.*", 'shops.name as shop_name', 'shops.phone as shop_phone', 'shops.detail_address as shop_address')
             ->get();
 

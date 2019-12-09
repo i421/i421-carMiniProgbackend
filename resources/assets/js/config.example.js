@@ -14,6 +14,7 @@ const Api = {
     'updateUser': 'api/v1/backend/user/',
     'destroyUser': 'api/v1/backend/user/',
     'userInfo': 'api/v1/backend/user/info',
+    'userShop': 'api/v1/backend/user/shop',
     'userPermission': 'api/v1/backend/user/permission',
     'updatePassword': 'api/v1/backend/user/update/password',
     'updateAvatar': 'api/v1/backend/user/update/avatar',

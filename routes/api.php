@@ -301,7 +301,7 @@ Route::group(['prefix' => 'v2', 'namespace' => 'Api\V2'], function () {
 
 });
 
-Route::group(['prefix' => 'v2/backend', 'namespace' => 'Backend\V2'], function () {
+Route::group(['prefix' => 'v2/backend', 'namespace' => 'Backend\V2', 'middleware' => 'auth:api'], function () {
 
     Route::group(['prefix' => 'customer'], function () {
         Route::get('broker-list', 'CustomerController@brokerList');

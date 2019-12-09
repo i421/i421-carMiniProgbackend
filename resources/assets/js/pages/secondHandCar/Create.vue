@@ -162,7 +162,7 @@
 
         fetchShop() {
             http({
-                url: Api.shops,
+                url: Api.userShop,
             }).then(response => {
                 this.shops = response.data.data
             }).catch(err => {

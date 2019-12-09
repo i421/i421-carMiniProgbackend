@@ -32,8 +32,18 @@ class ShopJob
      */
     public function handle()
     {
-        $shops = $this->user->shops;
+        $roles = $this->user->roles;
+        $shops = [];
+
+        foreach ($roles as $role) {
+            $temp = $role->info;
+            array_push($shops, $temp);
+        }
 	
+        $shopIds = array_unique(array_collapse($shops));
+
+        $shops = TableModels\Shop::whereIn('id', $shopIds)->get()->toArray();
+
         if (is_null($shops)) {
 
             $response = [

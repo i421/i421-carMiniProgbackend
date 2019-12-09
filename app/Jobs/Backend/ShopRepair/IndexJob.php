@@ -11,14 +11,16 @@ class IndexJob
 {
     use Dispatchable, Queueable;
 
+    private $user;
+
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(TableModels\User $user)
     {
-        //
+        $this->user = $user;
     }
 
     /**
@@ -26,9 +28,12 @@ class IndexJob
      *
      * @return void
      */
-    public function handle()
+    public function handle(TableModels\User $user)
     {
+        $shopIds = $this->user->shops->pluck('id');
+
         $data = TableModels\ShopRepair::leftJoin('shops', 'shop_repairs.shop_id', '=', 'shops.id')
+            ->whereIn('shop_repairs.shop_id', $shopIds)
             ->select('shop_repairs.*', 'shops.name as shop_name')
             ->get();
 

@@ -16,7 +16,8 @@ class ShopController extends Controller
 
     public function secondHandCarList()
     {
-        $response = $this->dispatch(new ShopJobs\SecondHandCarListJob());
+        $user = request()->user();
+        $response = $this->dispatch(new ShopJobs\SecondHandCarListJob($user));
         return $response;
     }
 

@@ -32,9 +32,10 @@ class ShopRepairController extends Controller
      *
      * @return void
      */
-    public function index()
+    public function index(Request $request)
     {
-        $response = $this->dispatch(new ShopRepairJobs\IndexJob());
+        $user = request()->user();
+        $response = $this->dispatch(new ShopRepairJobs\IndexJob($user));
         return $response;
     }
 
