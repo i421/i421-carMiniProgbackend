@@ -28,9 +28,11 @@ class SecondHandCarJob
     public function handle()
     {
         $shops = TableModels\Shop::all()->toArray();
-        $secondHandCars = TableModels\ShopSecondHandCar::where('end_time', '<=', date("Y-m-d H:i:s"))->toArray();
+        $secondHandCars = TableModels\ShopSecondHandCar::where('end_time', '>=', date("Y-m-d H:i:s"))->get()->toArray();
 
         foreach ($shops as & $shop) {
+
+            $shop['cars'] = [];
 
             foreach ($secondHandCars as $secondHandCar) {
 
