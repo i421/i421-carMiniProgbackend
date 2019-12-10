@@ -87,7 +87,7 @@
                 prop: "recycling_score_count",
             }, {
                 label: "是否认证",
-                prop: "auth",
+                prop: "type_auth",
             }],
 
             actionCol: {
@@ -146,7 +146,7 @@
             }).then(response => {
 
                 for (let i = 0; i < response.data.data.length; i++) {
-                    response.data.data[i]['auth'] =  response.data.data[i]['auth'] == "1" ? "认证" : "未认证";
+                    response.data.data[i]['type_auth'] =  response.data.data[i]['type_auth'] == "1" ? "认证" : "未认证";
                 }
 
                 this.tableData = response.data.data
@@ -176,7 +176,7 @@
 
                 console.log((response.data.data))
                 for (let i = 0; i < response.data.data.length; i++) {
-                    response.data.data[i]['auth'] =  response.data.data[i]['auth'] == "1" ? "认证" : "未认证";
+                    response.data.data[i]['type_auth'] =  response.data.data[i]['type_auth'] == "1" ? "认证" : "未认证";
                 }
 
                 this.tableData = response.data.data
