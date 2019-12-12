@@ -93,7 +93,7 @@ class PreOrderJob
                     if (($current_num + 1) > $car->total_num) {
                         $car->current_num += 1;
                         $car->sale_num += 1;
-                        $car->group_type += 1;
+                        $car->group_num += 1;
                         $car->save();
                     } else {
                         $car->current_num += 1;

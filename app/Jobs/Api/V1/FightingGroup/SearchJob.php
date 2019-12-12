@@ -39,12 +39,39 @@ class SearchJob
             $tempRes->where('group_type', $this->group_type);
         }
 
-        $data = $tempRes->get();
+        $data = $tempRes->get()->toArray();
+
+        $tempRes = [];
+
+        foreach ($data as &$group) {
+
+            if ($group['group_type'] == 2) {
+                for ($i = 1; $i <= $group['group_num']; $i++) {
+
+                    $tempCountNum = $group['current_num'];
+
+                    for ($i = 1; $i <= $group['group_num']; $i++) {
+
+                        if ($i !== $group['group_num']) {
+                            $group['current_num'] = $group['total_num'];
+                            $tempRes[] = $group;
+                            $group['current_num'] = $tempCountNum;
+                        } else {
+                            $group['current_num'] = $group['current_num'] % $group['total_num'];
+                            $tempRes[] = $group;
+                            $group['current_num'] = $tempCountNum;
+                        }
+                    }
+                }
+            } else {
+                $tempRes[] = $group;
+            }
+        }
 
         $response = [
             'code' => trans('pheicloud.response.success.code'),
             'msg' => trans('pheicloud.response.success.msg'),
-            'data' => $data,
+            'data' => $tempRes,
         ];
 
         return response()->json($response);
