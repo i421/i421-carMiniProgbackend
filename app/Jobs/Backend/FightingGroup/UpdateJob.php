@@ -23,7 +23,7 @@ class UpdateJob
     private $start_time;
     private $end_time;
     private $off;
-    private $group_recommend;
+    //private $group_recommend;
 
     /**
      * Create a new job instance.
@@ -39,7 +39,7 @@ class UpdateJob
         $this->start_time = $params['time_range'][0];
         $this->end_time = $params['time_range'][1];
         $this->off = $params['off'];
-        $this->group_recommend = $params['group_recommend'];
+        //$this->group_recommend = $params['group_recommend'];
     }
 
     /**
@@ -57,7 +57,7 @@ class UpdateJob
         $car->start_time = $this->start_time;
         $car->end_time = $this->end_time;
         $car->off = $this->off;
-        $car->group_recommend = $this->group_recommend;
+        //$car->group_recommend = $this->group_recommend;
         $res = $car->save();
 
         if ($res) {

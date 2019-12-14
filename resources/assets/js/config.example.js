@@ -28,6 +28,7 @@ const Api = {
     'updateRolePermission': 'api/v1/backend/role/permission/',
 
     'cars': 'api/v1/backend/car',
+    'recommendCar': 'api/v1/backend/car/recommend/',
     'storeCar': 'api/v1/backend/car',
     'showCar': 'api/v1/backend/car/',
     'updateCar': 'api/v1/backend/car/update/',

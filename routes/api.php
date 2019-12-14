@@ -159,6 +159,7 @@ Route::group(['prefix' => 'v1/backend', 'namespace' => 'Backend', 'middleware' =
     //汽车管理
     Route::group(['prefix' => 'car'], function () {
         Route::get('search', 'CarController@search');
+        Route::post('recommend/{id}', 'CarController@recommendCar');
         Route::get('/', 'CarController@index');
         Route::post('/', 'CarController@store');
         Route::post('/set/group', 'CarController@setGroup');

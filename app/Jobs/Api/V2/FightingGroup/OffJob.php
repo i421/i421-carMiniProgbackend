@@ -28,9 +28,8 @@ class OffJob
     public function handle()
     {
         $data = TableModels\Car::where([
-            ['type', '=', 2],
+            ['type', '=', 1],
             ['group_recommend', '=', 1],
-            ['end_time', '>=', date("Y-m-d H:i:s")],
         ])->orderBy('created_at', 'desc')
         ->take(6)
         ->get()

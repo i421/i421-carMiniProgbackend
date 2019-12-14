@@ -71,20 +71,27 @@
             <el-table-column label="落地价" prop="final_price">
             </el-table-column>
 
-            <el-table-column label="所属品牌" prop="brand_name">
+            <el-table-column label="所属品牌" prop="brand_name" width="90px">
             </el-table-column>
 
-            <el-table-column label="收藏数" prop="collection_count">
+            <el-table-column label="收藏数" prop="collection_count" width="80px;">
             </el-table-column>
 
-            <el-table-column label="销量" prop="order_count">
+            <el-table-column label="销量" prop="order_count" width="80px">
             </el-table-column>
 
-            <el-table-column label="类型" prop="group_type">
+            <el-table-column label="特价车" prop="group_recommend" width="80px">
+                <template slot-scope="scope">
+                    <el-tag v-if="scope.row.group_recommend == 1 && scope.row.type == 1" type="danger">特价车</el-tag>
+                    <el-tag v-else type="warning">非特价车</el-tag>
+                </template>
+            </el-table-column>
+
+            <el-table-column label="类型" prop="group_type" width="80px">
                 <template slot-scope="scope">
                     <el-tag v-if="scope.row.group_type == 1" type="success">时间拼团</el-tag>
                     <el-tag v-else-if="scope.row.group_type == 2" type="primary">数量拼团</el-tag>
-                    <el-tag v-else type="primary">现车</el-tag>
+                    <el-tag v-else type="warning">现车</el-tag>
                 </template>
             </el-table-column>
         </data-tables>
@@ -237,7 +244,6 @@
                     props: {
                         type: 'warning',
                         size: "mini",
-                        icon: 'el-icon-edit'
                     },
                     handler: row => {
                         this.show(row)
@@ -247,7 +253,6 @@
                     props: {
                         type: 'primary',
                         size: "mini",
-                        icon: 'el-icon-time'
                     },
                     handler: row => {
                         this.dialogVisible = true
@@ -258,7 +263,6 @@
                     props: {
                         type: 'danger',
                         size: "mini",
-                        icon: 'el-icon-delete'
                     },
                     handler: row => {
                         this.cancelGroup(row)
@@ -266,9 +270,17 @@
                     label: '取消拼团'
                 }, {
                     props: {
+                        type: 'success',
+                        size: "mini",
+                    },
+                    handler: row => {
+                        this.recommendCar(row)
+                    },
+                    label: '特价车'
+                }, {
+                    props: {
                         type: 'danger',
                         size: "mini",
-                        icon: 'el-icon-delete'
                     },
                     handler: row => {
                         this.destroy(row)
@@ -357,7 +369,7 @@
                       'message': response.data.msg
                   })
                   this.dialogVisible = false
-                  this.fetchCars()
+                  this.search()
 
               }).catch(err => {
                   console.log(err)
@@ -381,8 +393,42 @@
                         'title': "提示",
                         'message': response.data.msg
                     })
-                    this.fetchCars()
+                    this.search()
                 })
+
+            }).catch(() => {
+                this.$notify({
+                    type: 'info',
+                    message: '已取消删除'
+                });
+            })
+          },
+
+          //推荐
+          recommendCar(row) {
+            this.$confirm('此操作将切换特价车设置, 是否继续?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(() => {
+
+                if (row.type != 1) {
+                    this.$notify.warning({
+                        'title': "提示",
+                        'message': "仅支持现车操作，请重试"
+                    })
+                } else {
+                    http({
+                        method: 'post',
+                        url: Api.recommendCar + row.id,
+                    }).then(response => {
+                        this.$notify.success({
+                            'title': "提示",
+                            'message': response.data.msg
+                        })
+                        this.search()
+                    })
+                }
 
             }).catch(() => {
                 this.$notify({

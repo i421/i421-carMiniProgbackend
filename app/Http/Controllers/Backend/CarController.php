@@ -166,4 +166,15 @@ class CarController extends Controller
         $response = $this->dispatch(new CarJobs\CancelGroupJob($params));
         return $response;
     }
+
+    /**
+     * 设置推荐
+     *
+     * @return void
+     */
+    public function recommendCar(int $id)
+    {
+        $response = $this->dispatch(new CarJobs\RecommendCarJob($id));
+        return $response;
+    }
 }
