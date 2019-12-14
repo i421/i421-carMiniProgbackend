@@ -86,8 +86,10 @@ const Api = {
     'brokerTypeAuthStatus': 'api/v2/backend/customer/type-auth-status',
 
     'brokerAddScore': 'api/v2/backend/customer/broker-add-score',
+    'brokerDeleteScore': 'api/v2/backend/customer/broker-delete-score/',
     'brokerRechargeScoreList': 'api/v2/backend/customer/broker-recharge-score-list',
     'brokerRecyclingScoreList': 'api/v2/backend/customer/broker-recycling-score-list',
+    'brokerDeleteRecyclingScore': 'api/v2/backend/customer/broker-delete-recycling-score/',
     'toggleBrokerRecyclingStatus': 'api/v2/backend/customer/toggle-recycling-score-status/',
 
     'secondHandCarList': 'api/v2/backend/shop/second-hand-car-list',

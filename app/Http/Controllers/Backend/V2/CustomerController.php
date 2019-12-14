@@ -91,6 +91,28 @@ class CustomerController extends Controller
     }
 
     /**
+     * 删除积分
+     *
+     * @return void
+     */
+    public function brokerDeleteScore(int $id)
+    {
+        $response = $this->dispatch(new CustomerJobs\BrokerDeleteScoreJob($id));
+        return $response;
+    }
+
+    /**
+     * 删除回收积分
+     *
+     * @return void
+     */
+    public function brokerDeleteRecyclingScore(int $id)
+    {
+        $response = $this->dispatch(new CustomerJobs\BrokerDeleteRecyclingScoreJob($id));
+        return $response;
+    }
+
+    /**
      * 积分充值列表
      *
      * @return void

@@ -35,8 +35,9 @@
                     </div>
                 </el-col>
             </el-row>
-
-            <el-row>
+        </div>
+        <div>
+            <el-row style="display: inline-block; margin: 0 0 15px 0;">
                 <div>
                     <el-button type="primary" class="table-button" icon="el-icon-search" @click="search">查询</el-button>
                     <el-button type="primary" class="table-button" icon="el-icon-refresh" @click="clearSearch">清除</el-button>
@@ -118,7 +119,6 @@
                         this.togglePass(row)
                     },
                     label: '切换是否销售'
-                    */
                 }, {
                     props: {
                         type: 'danger',
@@ -129,6 +129,7 @@
                         this.ban(row)
                     },
                     label: '禁用'
+                    */
                 }]
             },
         }

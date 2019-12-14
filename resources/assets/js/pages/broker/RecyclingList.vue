@@ -168,7 +168,23 @@
 
           //删除
           destroy(row) {
-            //todo
+			this.$confirm('此操作将删除记录, 是否继续?', '提示', {
+				confirmButtonText: '确定',
+				cancelButtonText: '取消',
+				type: 'warning'
+			}).then(() => {
+                http({
+                    url: Api.brokerDeleteRecyclingScore + row.id,
+                    method: "delete",
+                }).then(response => {
+                    this.search()
+                })
+            }).catch(() => {
+                this.$notify({
+                    type: 'info',
+                    message: '已取消删除'
+                });
+            })
           },
           
           //查看

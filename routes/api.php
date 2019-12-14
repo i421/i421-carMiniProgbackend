@@ -311,8 +311,10 @@ Route::group(['prefix' => 'v2/backend', 'namespace' => 'Backend\V2', 'middleware
         Route::get('type-auth-status', 'CustomerController@typeAuthStatus');
         Route::get('check-broker-detail/{id}', 'CustomerController@checkBrokerDetail');
         Route::post('broker-add-score', 'CustomerController@brokerAddScore');
+        Route::delete('broker-delete-score/{id}', 'CustomerController@brokerDeleteScore');
         Route::post('broker-recharge-score-list', 'CustomerController@brokerRechargeScoreList');
         Route::post('broker-recycling-score-list', 'CustomerController@brokerRecyclingScoreList');
+        Route::delete('broker-delete-recycling-score/{id}', 'CustomerController@brokerDeleteRecyclingScore');
         Route::post('toggle-recycling-score-status/{id}', 'CustomerController@toggleRecyclingScoreStatus');
         Route::get('{id}', 'CustomerController@show');
     });
