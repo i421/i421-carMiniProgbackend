@@ -44,6 +44,15 @@
                         <el-input v-model="form.desc"></el-input>
                     </el-form-item>
 
+                    <el-form-item label="汽车价格" prop="price"
+                        :rules="[
+                            { required: true, message: '汽车价不能为空', trigger: 'blur' },
+                            { type: 'number', message: '必须为数字', trigger: ['blur', 'change'] },
+                        ]"
+                    >
+                        <el-input v-model.number="form.price"></el-input>
+                    </el-form-item>
+
                     <el-form-item label="手机号" prop="phone"
                         :rules="[
                             { required: true, message: '手机号不能为空', trigger: 'blur' },
@@ -145,6 +154,7 @@
                   shop_id: '',
                   desc: '',
                   phone: '',
+                  price: '',
                   lat: '',
                   lng: "",
                   address: '',
@@ -178,6 +188,7 @@
                     formData.append('shop_id', this.form.shop_id)
                     formData.append('type', this.form.type)
                     formData.append('desc', this.form.desc)
+                    formData.append('price', this.form.price)
                     formData.append('phone', this.form.phone)
                     formData.append('lat', this.form.lat)
                     formData.append('lng', this.form.lng)

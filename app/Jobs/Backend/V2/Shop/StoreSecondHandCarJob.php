@@ -15,6 +15,7 @@ class StoreSecondHandCarJob
     private $type;
     private $desc;
     private $phone;
+    private $price;
     private $lat;
     private $lng;
     private $address;
@@ -33,6 +34,7 @@ class StoreSecondHandCarJob
         $this->type = $params['type'];
         $this->img = $params['img'];
         $this->desc = $params['desc'];
+        $this->price = $params['price'];
         $this->phone = $params['phone'];
         $this->lat = $params['lat'];
         $this->lng = $params['lng'];
@@ -56,6 +58,7 @@ class StoreSecondHandCarJob
                 'name' => $this->name,
                 'img' => $this->img,
                 'type' => $this->type,
+                'price' => $this->price,
                 'phone' => $this->phone,
                 'desc' => $this->desc,
                 'lat' => $this->lat,

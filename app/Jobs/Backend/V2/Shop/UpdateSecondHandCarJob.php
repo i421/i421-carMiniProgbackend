@@ -14,6 +14,7 @@ class UpdateSecondHandCarJob
     private $shop_id;
     private $name;
     private $type;
+    private $price;
     private $desc;
     private $phone;
     private $lat;
@@ -33,6 +34,7 @@ class UpdateSecondHandCarJob
         $this->name = $params['name'];
         $this->shop_id = $params['shop_id'];
         $this->type = $params['type'];
+        $this->price = $params['price'];
         $this->img = isset($params['img']) ? $params['img'] : null;
         $this->desc = $params['desc'];
         $this->phone = $params['phone'];
@@ -69,6 +71,7 @@ class UpdateSecondHandCarJob
         $shopSecondHandCar->type = $this->type;
         $shopSecondHandCar->phone = $this->phone;
         $shopSecondHandCar->desc = $this->desc;
+        $shopSecondHandCar->price = $this->price;
         $shopSecondHandCar->lat = $this->lat;
         $shopSecondHandCar->lng = $this->lng;
         $shopSecondHandCar->address = $this->address;
