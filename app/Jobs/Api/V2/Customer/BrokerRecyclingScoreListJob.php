@@ -10,7 +10,7 @@ class BrokerRecyclingScoreListJob
 {
     use Dispatchable, Queueable;
 
-    private $openid
+    private $openid;
 
     /**
      * Create a new job instance.

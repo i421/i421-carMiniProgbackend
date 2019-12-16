@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Jobs\Backend\V2\Customer;
+namespace App\Jobs\Api\V2\Customer;
 
 use App\Tables as TableModels;
 use Illuminate\Bus\Queueable;

@@ -52,6 +52,9 @@
             <el-table-column label="类型" prop="type">
             </el-table-column>
 
+            <el-table-column label="价格" prop="price">
+            </el-table-column>
+
             <el-table-column label="描述" prop="desc">
             </el-table-column>
 
