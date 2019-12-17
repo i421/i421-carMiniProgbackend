@@ -73,7 +73,6 @@ class BrokerSubScoreJob
         $response = [
             'code' => trans('pheicloud.response.success.code'),
             'msg' => trans('pheicloud.response.success.msg'),
-            'data' => $customers,
         ];
 
         return response()->json($response);

@@ -103,8 +103,8 @@ return [
             'msg' => 'already bind',
         ],
         'outOfRange' => [
-            'code' => '71001',
-            'msg' => '超过上限',
+            'code' => '71003',
+            'msg' => '积分不足',
         ],
     ],
 ];

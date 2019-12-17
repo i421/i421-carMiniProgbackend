@@ -46,7 +46,8 @@ class CheckListJob
             ]);
         }
 
-        $res = $tempRes->isNormal()->get()->toArray();
+        //$res = $tempRes->isNormal()->get()->toArray();
+        $res = $tempRes->get()->toArray();
 
         $response = [
             'code' => trans('pheicloud.response.success.code'),

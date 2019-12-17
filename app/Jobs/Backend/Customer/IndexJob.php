@@ -28,7 +28,8 @@ class IndexJob
      */
     public function handle()
     {
-        $customers = TableModels\Customer::isNormal()->get();
+        //$customers = TableModels\Customer::isNormal()->get();
+        $customers = TableModels\Customer::all();
         $scores = TableModels\Score::select('customer_id', DB::raw("sum(count) as scores"))->groupBy('customer_id')->get();
         $orders = TableModels\Order::select('customer_id', DB::raw("count(*) as orders"))->where('payment_status', 1)->groupBy('customer_id')->get();
         $collections = TableModels\Collection::select('customer_id', DB::raw("count(*) as collections"))->groupBy('customer_id')->get();

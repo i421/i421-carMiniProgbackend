@@ -57,7 +57,8 @@ class SearchJob
             $tempRes->whereIn('is_seller', $this->params['is_seller']);
         }
 
-        $customers = $tempRes->isNormal()->get();
+        //$customers = $tempRes->isNormal()->get();
+        $customers = $tempRes->get();
 
         $scores = TableModels\Score::select('customer_id', DB::raw("sum(count) as scores"))->groupBy('customer_id')->get();
         $orders = TableModels\Order::select('customer_id', DB::raw("count(*) as orders"))->where('payment_status', 1)->groupBy('customer_id')->get();
