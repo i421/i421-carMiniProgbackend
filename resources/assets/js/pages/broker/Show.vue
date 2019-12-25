@@ -53,11 +53,11 @@
             <el-row class="userAuth">
                 <el-col :span="6">
                     <div v-if="brokerInfo.info">
-                        <span>姓名: {{ brokerInfo.info.name }}</span>
+                        <span>姓名: {{ brokerInfo.broker_info.name }}</span>
                     </div>
                     <el-divider></el-divider>
                     <div v-if="brokerInfo.info">
-                        <span>身份证号: {{ brokerInfo.info.id_card }}</span>
+                        <span>身份证号: {{ brokerInfo.broker_info.id_card }}</span>
                     </div>
                     <el-divider></el-divider>
                 </el-col>

@@ -117,6 +117,12 @@ const Api = {
     'searchOrder': 'api/v1/backend/order/search',
     'orderStatus': 'api/v1/backend/order/arrive/',
     'destroyOrder': 'api/v1/backend/order/',
+
+    'packages': 'api/v3/backend/package',
+    'storePackage': 'api/v3/backend/package',
+    'destroyPackage': 'api/v3/backend/package/',
+    'showPackage': 'api/v3/backend/package/',
+    'updatePackage': 'api/v3/backend/package/update/',
 }
 
 export default Api

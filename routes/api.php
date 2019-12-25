@@ -302,6 +302,21 @@ Route::group(['prefix' => 'v2', 'namespace' => 'Api\V2'], function () {
 
 });
 
+Route::group(['prefix' => 'v3', 'namespace' => 'Api\V3'], function () {
+
+    // 购买套餐
+    Route::group(['prefix' => 'customer'], function () {
+        Route::post('buy-package', 'CustomerController@buyPackage');
+    });
+
+    // 套餐列表
+    Route::group(['prefix' => 'package'], function () {
+        Route::get('/', 'PackageController@index');
+        Route::get('/customer/{id}', 'PackageController@customer');
+    });
+
+});
+
 Route::group(['prefix' => 'v2/backend', 'namespace' => 'Backend\V2', 'middleware' => 'auth:api'], function () {
 
     Route::group(['prefix' => 'customer'], function () {
@@ -326,6 +341,23 @@ Route::group(['prefix' => 'v2/backend', 'namespace' => 'Backend\V2', 'middleware
         Route::post('store-second-hand-car', 'ShopController@storeSecondHandCar');
         Route::delete('destroy-second-hand-car/{id}', 'ShopController@destroySecondHandCar');
         Route::post('update-second-hand-car/{id}', 'ShopController@updateSecondHandCar');
+    });
+
+});
+
+Route::group(['prefix' => 'v3/backend', 'namespace' => 'Backend\V3', 'middleware' => 'auth:api'], function () {
+
+    Route::group(['prefix' => 'package'], function () {
+        Route::get('/', 'PackageController@index');
+        Route::get('{id}', 'PackageController@show');
+        Route::post('/', 'PackageController@store');
+        Route::post('update/{id}', 'PackageController@update');
+        Route::delete('{id}', 'PackageController@destroy');
+    });
+
+    Route::group(['prefix' => 'customer'], function () {
+        Route::get('/', 'CustomerController@packages');
+        Route::get('{id}', 'CustomerController@package');
     });
 
 });

@@ -179,6 +179,14 @@ export default new Router({
                 }, {
                     path: '/test',
                     component: resolve => require(['../pages/Test.vue'], resolve)
+                }, {
+                    path: '/package',
+                    name: 'package',
+                    component: resolve => require(['../pages/package/Index.vue'], resolve)
+                }, {
+                    path: '/package/:id',
+                    name: 'showPackage',
+                    component: resolve => require(['../pages/package/Show.vue'], resolve)
                 },
             ]
         },

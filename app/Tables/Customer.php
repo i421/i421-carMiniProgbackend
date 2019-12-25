@@ -86,4 +86,12 @@ class Customer extends Model
     {
         $this->attributes['broker_info'] = json_encode($value);
     }
+
+    /**
+     * 多对多关联 (相对关联)
+     */
+    public function packages()
+    {
+        return $this->belongsToMany(Package::class)->withPivot('left_count', 'qr_code');
+    }
 }
