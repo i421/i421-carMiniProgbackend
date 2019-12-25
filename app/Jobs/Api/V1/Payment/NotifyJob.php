@@ -32,8 +32,6 @@ class NotifyJob
     {
         $response = $this->app->handlePaidNotify(function($message, $fail) {
 
-            \Log::info(json_encode($message));
-
             $order = TableModels\Order::where('order_num', $message['out_trade_no'])->first();
             if ($order) {
                 // 已经生成订单表示已经处理完成，告诉微信不用再通知了
@@ -72,15 +70,25 @@ class NotifyJob
                     ]);
 
                     // 创建订单记录
-                    TableModels\Order::insert([
-                        'order_num' => $message['out_trade_no'],
-                        'customer_id' => $payLog->info['customer_id'],
-                        'car_id' => $payLog->info['car_id'],
-                        'shop_id' => $payLog->info['shop_id'],
-                        'payment_count' => $message['total_fee'] / 100,
-                        'pay_log_id' => $payLog->id,
-                        'payment_status' => 1,
-                    ]);
+                    if ($payLog->info['type'] == 1) {
+                        TableModels\PackageOrder::insert([
+                            'order_num' => $message['out_trade_no'],
+                            'customer_id' => $payLog->info['customer_id'],
+                            'package_id' => $payLog->info['package_id'],
+                            'payment_count' => $message['total_fee'] / 100,
+                            'pay_log_id' => $payLog->id,
+                            'payment_status' => 1,
+                        ]);
+
+                        $customer_id = $payLog->info['customer_id'];
+                        $package_id = $payLog->info['package_id'];
+                        $customer = TableModels\Customer::find($customer_id);
+                        // 添加套餐
+                        $customer->packages()->attach($package_id, [
+                            'left_count' => $payLog->info['maintenance_count'],
+                            'qr_code' => "customer_id=$customer_id&package_id=$package_id",
+                        ]);
+                    }
 
                     // 创建订单支付成功通知信息
                     TableModels\OrderMessage::insert([
@@ -88,19 +96,6 @@ class NotifyJob
                         'content' => '您的订单支付成功',
                         'order_num' => $message['out_trade_no'],
                     ]);
-
-                    //支付成功: 销售量+1 || 拼团数量当前+1
-                    $car = TableModels\Car::find($payLog->info['car_id']);
-
-                    if (!is_null($car)) {
-
-                        if ($car->type == 2) {
-                            $car->current_num += 1;
-                        }
-
-                        $car->sale_num += 1;
-                        $car->save();
-                    }
 
                 } else {
 

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Api\V3\Customer;
+namespace App\Http\Requests\Api\V3\Package;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class WriteOffRequest extends FormRequest
+class QrcodeRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\V3;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Jobs\Api\V3\Package as PackageJobs;
+use App\Http\Requests\Api\V3\Package as PackageRequests;
 
 class PackageController extends Controller
 {
@@ -18,6 +19,13 @@ class PackageController extends Controller
     public function customer(int $id)
     {
         $response = $this->dispatch(new PackageJobs\CustomerJob($id));
+        return $response;
+    }
+
+    public function qrcode(PackageRequests\QrcodeRequest $request)
+    {
+        $params = $request->all();
+        $response = $this->dispatch(new PackageJobs\QrcodeJob($params));
         return $response;
     }
 }

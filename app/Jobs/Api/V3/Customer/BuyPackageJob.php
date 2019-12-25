@@ -6,11 +6,14 @@ use App\Tables as TableModels;
 use Illuminate\Bus\Queueable;
 use Illuminate\Foundation\Bus\Dispatchable;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use EasyWeChat\Factory;
+use function EasyWeChat\Kernel\Support\generate_sign;
 
 class BuyPackageJob
 {
     use Dispatchable, Queueable;
 
+    private $app;
     private $customer_id;
     private $package_id;
 
@@ -21,6 +24,7 @@ class BuyPackageJob
      */
     public function __construct(array $params)
     {
+        $this->app = Factory::payment(config('wechat.payment.default'));
         $this->customer_id = $params['customer_id'];
         $this->package_id = $params['package_id'];
     }
@@ -35,24 +39,64 @@ class BuyPackageJob
         $customer = TableModels\Customer::find($this->customer_id);
         $package = TableModels\Package::find($this->package_id);
 
-        $qr_code_name = storage_path('app/public/qrcodes/' . time() . '_' . $this->customer_id . '_' . $this->package_id) . '.png';
+        // 订单号
+        $order_num = date("ymd") . substr(time(), -5) . substr(microtime(), 2, 5);
+        // 套餐价格 元换成分
+        $payment_count = bcmul($package->price, 100);
 
-        $qr_code = QrCode::format('png')->size(200)->generate('https://www.baidu.com', $qr_code_name);
-
-        // 购买套餐 付款
-        $price = $package->price;
-
-        // 保存套餐
-        $customer->packages()->attach($this->package_id, [
-            'left_count' => $package->maintenance_count,
-            'qr_code' => $qr_code_name,
-        ]);
-
-        $response = [
-            'code' => trans('pheicloud.response.success.code'),
-            'msg' => trans('pheicloud.response.success.msg'),
+        $info = [
+            'customer_id' => $this->customer_id,
+            'package_id' => $this->package_id,
+            'maintenance_count' => $package->maintenance_count,
+            // 购买套餐 用于回调区分
+            'type' => '1',
         ];
 
-        return response()->json($response);
+        TableModels\PayLog::insert([
+            'appid' => config('wechat.payment.default.app_id'),
+            'mch_id' => config('wechat.payment.default.mch_id'),
+            'out_trade_no' => $order_num,
+            'info' => json_encode($info);
+        ]);
+
+        $result = $this->app->order->unify([
+            'trade_type' => 'JSAPI',
+            'body' => $package->name ?? "套餐价格",
+            'out_trade_no' => $order_num,
+            'total_fee' => $payment_count,
+            'openid' => $customer->openid,
+        ]);
+
+        if ($result['result_code'] == 'SUCCESS') {
+
+            $params = [
+                'appId' => config('wechat.mini_program.default.app_id'),
+                'timeStamp' => time(),
+                'nonceStr'  => $result['nonce_str'],
+                'package'   => 'prepay_id=' . $result['prepay_id'],
+                'signType'  => 'MD5',
+            ];
+
+            $params['paySign'] = generate_sign($params, config('wechat.payment.default.key'));
+
+            $response = [
+                'code' => trans('pheicloud.response.success.code'),
+                'msg' => trans('pheicloud.response.success.msg'),
+                'data' => [
+                    'result' => $params,
+                    'order_num' => $order_num,
+                ]
+            ];
+
+            return response()->json($response);
+        } else {
+            $response = [
+                'code' => trans('pheicloud.response.requestPayError.code'),
+                'msg' => trans('pheicloud.response.requestPayError.msg'),
+                'data' => []
+            ];
+
+            return response()->json($response);
+        }
     }
 }

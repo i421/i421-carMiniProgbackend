@@ -17,9 +17,9 @@
                             <el-option label="未认证" value="0"></el-option>
                         </el-select>
 
-                        <el-select v-model="conditionSeller" placeholder="是否销售" multiple="multiple" class="table-search">
-                            <el-option label="销售" value="1"></el-option>
-                            <el-option label="非销售" value="0"></el-option>
+                        <el-select v-model="conditionSeller" placeholder="能否核销" multiple="multiple" class="table-search">
+                            <el-option label="核销" value="1"></el-option>
+                            <el-option label="无核销权限" value="0"></el-option>
                         </el-select>
                     </div>
                 </el-col>
@@ -98,7 +98,7 @@
                 label: "是否认证",
                 prop: "auth",
             }, {
-                label: "是否销售",
+                label: "能否核销",
                 prop: "is_seller",
             }],
 
@@ -128,7 +128,7 @@
                     handler: row => {
                         this.togglePass(row)
                     },
-                    label: '切换是否销售'
+                    label: '切换能否核销'
                 }, {
                     props: {
                         type: 'danger',
@@ -157,7 +157,7 @@
 
                 for (let i = 0; i < response.data.data.length; i++) {
                     response.data.data[i]['auth'] =  response.data.data[i]['auth'] == "1" ? "认证" : "未认证";
-                    response.data.data[i]['is_seller'] =  response.data.data[i]['is_seller'] == "1" ? "销售" : "非销售";
+                    response.data.data[i]['is_seller'] =  response.data.data[i]['is_seller'] == "1" ? "核销" : "无核销权限";
                 }
 
                 this.tableData = response.data.data
@@ -190,7 +190,7 @@
                 console.log((response.data.data))
                 for (let i = 0; i < response.data.data.length; i++) {
                     response.data.data[i]['auth'] =  response.data.data[i]['auth'] == "1" ? "认证" : "未认证";
-                    response.data.data[i]['is_seller'] =  response.data.data[i]['is_seller'] == "1" ? "销售" : "非销售";
+                    response.data.data[i]['is_seller'] =  response.data.data[i]['is_seller'] == "1" ? "核销" : "无核销权限";
                 }
 
                 this.tableData = response.data.data
@@ -204,7 +204,7 @@
 
           togglePass(row) {
 
-              if (row.is_seller == '非销售') {
+              if (row.is_seller == '无核销权限') {
                 var is_seller = 1;
               } else {
                 var is_seller = 0;

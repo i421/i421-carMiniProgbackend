@@ -106,5 +106,21 @@ return [
             'code' => '71003',
             'msg' => '积分不足',
         ],
+        'outOfLeftCount' => [
+            'code' => '71004',
+            'msg' => '保养次数不足',
+        ],
+        'noPriviledges' => [
+            'code' => '71005',
+            'msg' => '无权限',
+        ],
+        'outOfTime' => [
+            'code' => '71006',
+            'msg' => '二维码失效',
+        ],
+        'tooClose' => [
+            'code' => '71007',
+            'msg' => '两次核销时间间隔过短',
+        ],
     ],
 ];

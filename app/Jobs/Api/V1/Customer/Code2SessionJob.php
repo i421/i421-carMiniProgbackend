@@ -41,7 +41,7 @@ class Code2SessionJob
                 'data' => '',
             ];
 
-            \Log::info("[code2session]: " . json_encode($res));
+            //\Log::info("[code2session]: " . json_encode($res));
 
             return response()->json($response);
 

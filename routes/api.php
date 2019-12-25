@@ -307,12 +307,14 @@ Route::group(['prefix' => 'v3', 'namespace' => 'Api\V3'], function () {
     // 购买套餐
     Route::group(['prefix' => 'customer'], function () {
         Route::post('buy-package', 'CustomerController@buyPackage');
+        Route::get('write-off', 'CustomerController@writeOff');
     });
 
     // 套餐列表
     Route::group(['prefix' => 'package'], function () {
         Route::get('/', 'PackageController@index');
         Route::get('/customer/{id}', 'PackageController@customer');
+        Route::get('/qrcode', 'PackageController@qrcode');
     });
 
 });
