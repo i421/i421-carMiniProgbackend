@@ -40,9 +40,9 @@ class StoreJob
         $this->car_price = $params['car_price'];
         $this->attr = $params['attr'];
         $this->height = $params['height'];
-        $this->staging24 = $params['staging24'];
-        $this->staging36 = $params['staging36'];
-        $this->staging48 = $params['staging48'];
+        $this->staging24 = isset($params['staging24']) ? $params['staging24']: 0;
+        $this->staging36 = isset($params['staging36']) ? $params['staging36']: 0;
+        $this->staging48 = isset($params['staging48']) ? $params['staging48']: 0;
         $this->down_payment = $params['down_payment'];
         $this->carousel = isset($params['carousel']) ? $params['carousel'] : null;
         $this->customize = isset($params['customize']) ? $params['customize'] : null;

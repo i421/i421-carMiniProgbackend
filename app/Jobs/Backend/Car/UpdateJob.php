@@ -43,9 +43,9 @@ class UpdateJob
         $this->height = $params['height'];
         $this->attr = $params['attr'];
         $this->down_payment = $params['down_payment'];
-        $this->staging24 = $params['staging24'];
-        $this->staging36 = $params['staging36'];
-        $this->staging48 = $params['staging48'];
+        $this->staging24 = isset($params['staging24']) ? $params['staging24']: 0;
+        $this->staging36 = isset($params['staging36']) ? $params['staging36']: 0;
+        $this->staging48 = isset($params['staging48']) ? $params['staging48']: 0;
         $this->customize = $params['customize'];
         $this->avatar = isset($params['avatar']) ? $params['avatar'] : null;
         $this->carousel = isset($params['carousel']) ? $params['carousel'] : null;

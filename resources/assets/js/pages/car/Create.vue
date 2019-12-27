@@ -314,14 +314,13 @@
                     formData.append('customize', JSON.stringify(this.form.customize))
                     formData.append('model', JSON.stringify(this.form.model))
                     formData.append('attr', JSON.stringify(this.form.selected))
-                    formData.append('staging48', this.staging48)
-                    formData.append('staging24', this.staging24)
-                    formData.append('staging36', this.staging36)
+                    formData.append('staging48', this.form.staging48)
+                    formData.append('staging24', this.form.staging24)
+                    formData.append('staging36', this.form.staging36)
 
                     for (let i = 0; i < this.form.carousel.length; i++) {
                         formData.append('carousel[]', this.form.carousel[i])
                     }
-                    console.log(formData)
 
                     http({
                         url: Api.storeCar,
