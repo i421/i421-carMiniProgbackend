@@ -75,7 +75,7 @@ class NotifyJob
                             'order_num' => $message['out_trade_no'],
                             'customer_id' => $payLog->info['customer_id'],
                             'package_id' => $payLog->info['package_id'],
-                            'payment_count' => $message['total_fee'] / 100,
+                            'payment_count' => $message['total_fee'],
                             'pay_log_id' => $payLog->id,
                             'payment_status' => 1,
                         ]);
