@@ -169,3 +169,29 @@ function distanceRad($d)
 {
     return $d * M_PI / 180.0;
 }
+
+/*
+ * 获取某个会员的无限下级方法
+ * $members是所有会员数据表,$mid是用户的id
+*/
+function getTeamMember($members, $mid) {
+    $Teams = array();
+    $mids = array($mid);
+    do {
+        $othermids = array();
+        $state = false;
+        foreach ($mids as $valueone) {
+            foreach ($members as $key => $valuetwo) {
+                if($valuetwo['recommender'] == $valueone){
+                    $Teams[] = $valuetwo['id'];
+                    $othermids[] = $valuetwo['id'];
+                    //array_splice($members, $key, 1);//从所有会员中删除他
+                    $state = true;
+                }
+            }
+        }
+        $mids = $othermids;
+    } while ($state == true);
+
+    return $Teams;
+}

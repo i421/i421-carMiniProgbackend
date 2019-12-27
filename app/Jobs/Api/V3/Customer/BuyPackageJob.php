@@ -56,7 +56,7 @@ class BuyPackageJob
             'appid' => config('wechat.payment.default.app_id'),
             'mch_id' => config('wechat.payment.default.mch_id'),
             'out_trade_no' => $order_num,
-            'info' => json_encode($info);
+            'info' => json_encode($info),
         ]);
 
         $result = $this->app->order->unify([
@@ -66,6 +66,15 @@ class BuyPackageJob
             'total_fee' => $payment_count,
             'openid' => $customer->openid,
         ]);
+
+        if (isset($result['return_code']) && $result['return_code'] == 'FAIL') {
+            $response = [
+                'code' => trans('pheicloud.response.requestPayError.code'),
+                'msg' => trans('pheicloud.response.requestPayError.msg'),
+            ];
+
+            return response()->json($response);
+        }
 
         if ($result['result_code'] == 'SUCCESS') {
 

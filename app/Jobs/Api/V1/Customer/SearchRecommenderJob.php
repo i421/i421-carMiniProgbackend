@@ -49,10 +49,15 @@ class SearchRecommenderJob
 
         $data = TableModels\Customer::select('id', 'nickname', 'phone', 'avatar')->find($customer_id);
 
+        $customers = TableModels\Customer::whereNotNull('recommender')->get()->toArray();
+
+        $total = getTeamMember($customers, $customer_id);
+
         $response = [
             'code' => trans('pheicloud.response.success.code'),
             'msg' => trans('pheicloud.response.success.msg'),
             'data' => $data,
+            'append_total' => count($total),
         ];
 
         return response()->json($response);

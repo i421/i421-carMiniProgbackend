@@ -217,7 +217,7 @@
                       is_seller: is_seller
                   }
               }).then(response => {
-                this.fetchCustomers()
+                this.search()
               })
           },
 

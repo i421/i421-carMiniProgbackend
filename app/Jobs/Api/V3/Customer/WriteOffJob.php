@@ -36,15 +36,6 @@ class WriteOffJob
      */
     public function handle()
     {
-        if (time() - $this->time > 70) {
-            $response = [
-                'code' => trans('pheicloud.response.outOfTime.code'),
-                'msg' => trans('pheicloud.response.outOfTime.msg'),
-            ];
-
-            return response()->json($response);
-        }
-
         $merchant = TableModels\Customer::find($this->merchant_id);
         if ($merchant->is_seller != 1) {
             $response = [
@@ -68,6 +59,16 @@ class WriteOffJob
             ];
             return response()->json($response);
         }
+
+        if (time() - $this->time > 300) {
+            $response = [
+                'code' => trans('pheicloud.response.outOfTime.code'),
+                'msg' => trans('pheicloud.response.outOfTime.msg'),
+            ];
+
+            return response()->json($response);
+        }
+
 
         $diff = time() - strtotime($customer_package->updated_at);
 
