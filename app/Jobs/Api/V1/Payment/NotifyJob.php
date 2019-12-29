@@ -88,6 +88,20 @@ class NotifyJob
                             'left_count' => $payLog->info['maintenance_count'],
                             'qr_code' => "customer_id=$customer_id&package_id=$package_id",
                         ]);
+
+			if (!is_null($customer->recommender)) {
+			    $broker = TableModels\Customer::find($customer->recommender);
+
+			    if ((!is_null($broker)) && ($broker->is_seller == 1)) {
+				TableModels\CustomerRecharge::create([
+				    'customer_id' => $broker->id,
+				    'score' => floor($message['total_fee'] * 5/10000),
+				    'content' => '推荐人消费积分奖励',
+				]);
+			    }
+			    $broker->score = floor($message['total_fee'] * 5/10000);
+			    $broker->save();
+			}
                     }
 
                     // 创建订单支付成功通知信息

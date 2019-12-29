@@ -51,7 +51,7 @@ class SearchRecommenderJob
 
         $customers = TableModels\Customer::whereNotNull('recommender')->get()->toArray();
 
-        $total = getTeamMember($customers, $customer_id);
+        $total = getTeamMember($customers, $this->id);
 
         $response = [
             'code' => trans('pheicloud.response.success.code'),
