@@ -19,8 +19,8 @@ class CreateShopRepairsTable extends Migration
             $table->integer('shop_id')->unsigned()->index()->comment("shop ID");
             $table->string('phone')->nullable()->index()->comment("手机号");
             $table->string('img')->index()->comment("封面");
-            $table->double('lat',8,2)->nullable()->comment("经度");
-            $table->double('lng',8,2)->nullable()->comment("纬度");
+            $table->string('lat')->nullable()->comment("经度");
+            $table->string('lng')->nullable()->comment("纬度");
             $table->string('address')->nullable()->comment("address");
             $table->json('info')->nullable()->comment("其他信息");
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
