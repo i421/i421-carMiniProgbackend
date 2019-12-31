@@ -48,6 +48,8 @@ class IndexJob
                 }
             }
 
+            $shop->lat = floatval($shop->lat);
+            $shop->lng = floatval($shop->lng);
             $shop['address'] = optional($shop->province)['value'] . optional($shop->city)['value'] . optional($shop->area)['value'];
         }
 

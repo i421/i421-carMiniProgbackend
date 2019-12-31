@@ -60,6 +60,8 @@ class SearchJob
 
         foreach ($repairs as & $repair) {
             $repair['distance'] = getDistance($this->lat, $this->lng, $repair->lat, $repair->lng);
+            $repair->lat = floatval($repair->lat);
+            $repair->lng = floatval($repair->lng);
         }
 
         $repairs = sortMultidimArray($repairs->toArray(), 'distance', 'asc');
