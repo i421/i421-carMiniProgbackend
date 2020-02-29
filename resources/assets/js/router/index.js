@@ -150,6 +150,14 @@ export default new Router({
                     name: 'showFightingGroup',
                     component: resolve => require(['../pages/fightingGroup/Show.vue'], resolve)
                 }, {
+                    path: '/forum',
+                    name: 'forum',
+                    component: resolve => require(['../pages/forum/Index.vue'], resolve)
+                }, {
+                    path: '/forum/:id',
+                    name: 'showForum',
+                    component: resolve => require(['../pages/forum/Show.vue'], resolve)
+                }, {
                     path: '/setting',
                     name: 'setting',
                     component: resolve => require(['../pages/setting/Index.vue'], resolve)

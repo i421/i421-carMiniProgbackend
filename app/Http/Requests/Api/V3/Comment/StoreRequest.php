@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Backend\V3\Package;
+namespace App\Http\Requests\Api\V3\Comment;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateRequest extends FormRequest
+class StoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,13 +24,10 @@ class UpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string',
-            'maintenance_count' => 'required|integer',
-            'price' => 'required|integer',
-            'min_price' => 'required|string',
-            'max_price' => 'required|string',
-            'img' => 'required',
-            'desc' => 'string',
+            'forum_id' => 'required|integer',
+            'content' => 'required|string',
+            'customer_id' => 'required|integer',
+            'pid' => 'required|integer',
         ];
     }
 }

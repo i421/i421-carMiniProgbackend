@@ -123,6 +123,14 @@ const Api = {
     'destroyPackage': 'api/v3/backend/package/',
     'showPackage': 'api/v3/backend/package/',
     'updatePackage': 'api/v3/backend/package/update/',
+
+    'forums': 'api/v3/backend/forum',
+    'showForum': 'api/v3/backend/forum/',
+    'searchForum': 'api/v3/backend/forum/search',
+    'checkForum': 'api/v3/backend/forum/check/',
+    'topForum': 'api/v3/backend/forum/top/',
+
+    'banComment': 'api/v3/backend/comment/ban/',
 }
 
 export default Api

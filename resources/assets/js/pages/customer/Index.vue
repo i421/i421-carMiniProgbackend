@@ -38,6 +38,11 @@
                             end-placeholder="结束日期" >
                         </el-date-picker>
                     </div>
+
+                    <el-select v-model="conditionBuyer" placeholder="是否购买套餐" multiple="multiple" class="table-search">
+                        <el-option label="购买" value="1"></el-option>
+                        <el-option label="未购买" value="0"></el-option>
+                    </el-select>
                 </el-col>
             </el-row>
 
@@ -66,6 +71,7 @@
 		return {
             conditionNickname: '',
             conditionPhone: '',
+            conditionBuyer: [],
             conditionAuth: [],
             conditionTime: '',
             conditionSeller: '',
@@ -184,6 +190,7 @@
                     'auth': this.conditionAuth,
                     'time': this.conditionTime,
                     'is_seller': this.conditionSeller,
+                    'is_buyer': this.conditionBuyer,
                 }
             }).then(response => {
 

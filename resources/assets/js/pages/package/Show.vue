@@ -49,6 +49,21 @@
                         <el-input v-model="form.desc" width="60px"></el-input>
                     </el-form-item>
 
+                    <el-form-item label="图片" label-width="100px" prop="img"
+                        :rules="[
+                            { required: true, message: '品牌图不能为空', trigger: 'blur' },
+                        ]"
+                    >
+                        <el-image
+                            style="width: 100px; height: 100px"
+                            :src="previewImg"
+                            :preview-src-list="[previewImg]"
+                            lazy
+                            fit="fit">
+                        </el-image>
+                        <el-button size="small" style="margin-left: 10px" @click="updateImgLogo" icon="el-icon-upload">上传</el-button>
+                    </el-form-item>
+
                     <el-form-item>
                         <el-button type="primary" @click="onSubmit">更新</el-button>
                         <el-button @click="back">返回列表</el-button>
@@ -56,6 +71,24 @@
                 </el-form>
             </el-col>
         </el-row>
+
+        <div>
+          <el-dialog title="更新图" :visible.sync="brandDialogVisible">
+              <div style="text-align: center; margin: 0 auto">
+                <el-upload
+                    class="upload-demo"
+                    ref="upload"
+                    drag
+                    :onChange="addFile"
+                    action=""
+                    :limit="1"
+                    :auto-upload="false">
+                    <i class="el-icon-upload"></i>
+                    <div slot="tip" class="el-upload__tip">只能上传一张jpg/png文件，且不超过500kb</div>
+                </el-upload>
+              </div>
+          </el-dialog>
+        </div>
     </div>
 </template>
 
@@ -66,6 +99,8 @@
   export default {
       data() {
           return {
+            brandDialogVisible: false,
+            fileList: [],
             form: {
                 id: '',
                 name: '',
@@ -74,7 +109,9 @@
                 min_price: '',
                 max_price: '',
                 desc: '',
+                img: '',
             },
+              previewImg: '',
           }
       },
 
@@ -89,14 +126,28 @@
               url: Api.showPackage + this.$route.params.id,
           }).then(response => {
               this.form = response.data.data
+              this.previewImg = this.form.full_img
           })
         },
 
         onSubmit() {
+            let formData = new FormData()
+
+            formData.append('name', this.form.name)
+            formData.append('price', this.form.price)
+            formData.append('min_price', this.form.min_price)
+            formData.append('max_price', this.form.max_price)
+            formData.append('desc', this.form.desc)
+            formData.append('maintenance_count', this.form.maintenance_count)
+
+            if (typeof(this.form.img) == 'object') {
+                formData.append('img', this.form.img)
+            }
+
             http({
                 url: Api.updatePackage + this.$route.params.id,
                 method: 'post',
-                data: this.form
+                data: formData
             }).then(response => {
                 this.$notify.success({
                     'title': "提示",
@@ -110,6 +161,16 @@
 
         back() {
             this.$router.push({ name: 'package'})
+        },
+
+        updateImgLogo() {
+            this.brandDialogVisible = true
+        },
+
+        addFile(file, fileList) {
+            this.previewImg = URL.createObjectURL(file.raw);;
+            this.form.img = file.raw;
+            this.brandDialogVisible = false
         },
       }
   }

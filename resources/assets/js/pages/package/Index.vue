@@ -28,6 +28,12 @@
             <el-table-column label="汽车档位(上限)" prop="max_price">
             </el-table-column>
 
+            <el-table-column label="图片" prop="full_img" width="180">
+                <template slot-scope="scope">
+                    <el-image style="width: 60px; height: 60px" lazy :src="scope.row.full_img"></el-image>
+                </template>
+            </el-table-column>
+
             <el-table-column label="创建时间" prop="created_at">
             </el-table-column>
 
@@ -80,6 +86,25 @@
 			  <el-input v-model="form.desc" autocomplete="off"></el-input>
 			</el-form-item>
 
+            <el-form-item label="图片" prop="img"
+                :rules="[
+                    { required: true, message: '图片', trigger: 'blur' },
+                ]"
+            >
+                <el-upload
+                    class="upload-demo"
+                    ref="upload"
+                    drag
+                    :onChange="addFile"
+                    :on-remove="removeFile"
+                    action=""
+                    :limit="1"
+                    :auto-upload="false">
+                    <i class="el-icon-upload"></i>
+                    <div slot="tip" class="el-upload__tip">只能上传一张jpg/png文件，且不超过500kb</div>
+                </el-upload>
+            </el-form-item>
+
 		  </el-form>
 		  <div slot="footer" class="dialog-footer">
 			<el-button @click="canclePackage">取 消</el-button>
@@ -106,6 +131,7 @@
 				min_price: '',
 				max_price: '',
 				desc: '',
+                img: '',
 			},
 
             actionCol: {
@@ -172,10 +198,20 @@
           addPackage (form) {
               this.$refs[form].validate((valid) => {
                 if (valid) {
+
+                  let formData = new FormData()
+                  formData.append('name', this.form.name)
+                  formData.append('maintenance_count', this.form.maintenance_count)
+                  formData.append('price', this.form.price)
+                  formData.append('min_price', this.form.min_price)
+                  formData.append('max_price', this.form.max_price)
+                  formData.append('desc', this.form.desc)
+                  formData.append('img', this.form.img)
+
                   http({
                       method: 'post',
                       url: Api.storePackage,
-                      data: this.form
+                      data: formData
                   }).then(response => {
                       this.$notify.success({
                           'title': "提示",
@@ -183,6 +219,7 @@
                       })
                       this.fetchPackages()
                       this.$refs[form].resetFields();
+                      this.$refs.upload.clearFiles()
                   }).catch(err => {
                       console.log(err)
                   })
@@ -193,6 +230,14 @@
                 }
               })
           },
+
+        addFile(file, fileList) {
+            this.form.img = file.raw;
+        },
+
+        removeFile(file, fileList) {
+            this.form.img = {};
+        },
 
 		//取消添加
 		canclePackage () {
@@ -211,5 +256,15 @@
 }
 #tableTools .table-search {
     margin: 0 10px 15px 0px;
+}
+.upload-demo .el-upload__input {
+	margin-top: -30px;
+}
+.upload-demo {
+    margin-bottom: 50px;
+    max-height: 350px;
+}
+.el-upload-list {
+    height: 100px;
 }
 </style>

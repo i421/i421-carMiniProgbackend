@@ -317,6 +317,22 @@ Route::group(['prefix' => 'v3', 'namespace' => 'Api\V3'], function () {
         Route::get('/qrcode', 'PackageController@qrcode');
     });
 
+    // 论坛列表
+    Route::group(['prefix' => 'forum'], function () {
+        Route::get('/', 'ForumController@index');
+        Route::get('{id}', 'ForumController@show');
+        Route::post('/', 'ForumController@store');
+        Route::post('/delete/{id}', 'ForumController@delete');
+        Route::post('/like/{id}', 'ForumController@like');
+        Route::post('/unlike/{id}', 'ForumController@unlike');
+    });
+
+    // 论坛评论列表
+    Route::group(['prefix' => 'comment'], function () {
+        Route::post('/', 'CommentController@store');
+        Route::post('/delete/{id}', 'CommentController@delete');
+    });
+
 });
 
 Route::group(['prefix' => 'v2/backend', 'namespace' => 'Backend\V2', 'middleware' => 'auth:api'], function () {
@@ -360,6 +376,21 @@ Route::group(['prefix' => 'v3/backend', 'namespace' => 'Backend\V3', 'middleware
     Route::group(['prefix' => 'customer'], function () {
         Route::get('/', 'CustomerController@packages');
         Route::get('{id}', 'CustomerController@package');
+    });
+
+    // 论坛列表
+    Route::group(['prefix' => 'forum'], function () {
+        Route::get('/', 'ForumController@index');
+        Route::get('{id}', 'ForumController@show');
+        Route::post('/search', 'ForumController@search');
+        Route::post('/delete/{id}', 'ForumController@delete');
+        Route::post('/check/{id}', 'ForumController@check');
+        Route::post('/top/{id}', 'ForumController@top');
+    });
+
+    // 评论论坛列表
+    Route::group(['prefix' => 'comment'], function () {
+        Route::post('/ban/{id}', 'CommentController@ban');
     });
 
 });

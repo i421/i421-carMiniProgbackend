@@ -9,6 +9,13 @@ class Package extends Model
 {
     use SoftDeletes;
 
+    protected $appends = ['full_img'];
+
+    public function getFullImgAttribute()
+    {
+        return url('/') . '/storage/' . $this->attributes['img'];
+    }
+
     /**
      * 多对多关联 (相对关联)
      */

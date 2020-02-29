@@ -21,6 +21,7 @@ class CreatePackagesTable extends Migration
             $table->string('min_price')->comment("最低价格");
             $table->string('max_price')->comment("最高价格");
             $table->string('desc')->nullable()->comment("描述");
+            $table->string('img')->nullable()->comment("图片");
             $table->json('info')->nullable()->comment("其他信息");
             $table->softDeletes()->comment('软删除');
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
