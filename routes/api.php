@@ -322,7 +322,7 @@ Route::group(['prefix' => 'v3', 'namespace' => 'Api\V3'], function () {
         Route::get('/', 'ForumController@index');
         Route::get('{id}', 'ForumController@show');
         Route::post('/', 'ForumController@store');
-        Route::post('/delete/{id}', 'ForumController@delete');
+        Route::post('/delete/{id}', 'ForumController@destroy');
         Route::post('/like/{id}', 'ForumController@like');
         Route::post('/unlike/{id}', 'ForumController@unlike');
     });

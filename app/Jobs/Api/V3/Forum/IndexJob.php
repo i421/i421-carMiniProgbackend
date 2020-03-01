@@ -14,16 +14,20 @@ class IndexJob
 
     private $pagesize;
     private $page;
+    private $customer_id;
+    private $key_word;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($pagesize, $page)
+    public function __construct($pagesize, $page, $customer_id, $key_word)
     {
         $this->pagesize = $pagesize;
         $this->page = $page;
+        $this->customer_id = $customer_id;
+        $this->key_word = $key_word;
     }
 
     /**
@@ -33,12 +37,23 @@ class IndexJob
      */
     public function handle()
     {
-        $forums = Forum::where('status', 1)
-            ->orderBy("top", 'desc')
-            ->orderBy('updated_at', 'desc')
-            ->offset(($this->page -1) * $this->pagesize)
-            ->take($this->pagesize)
-            ->get();
+        $total = Forum::count();
+        if (is_null($this->key_word)) {
+            $forums = Forum::where('status', 1)
+                ->orderBy("top", 'desc')
+                ->orderBy('updated_at', 'desc')
+                ->offset(($this->page -1) * $this->pagesize)
+                ->take($this->pagesize)
+                ->get();
+        } else {
+            $forums = Forum::where('status', 1)
+                ->where('title', 'like', "%$this->key_word%")
+                ->orderBy("top", 'desc')
+                ->orderBy('updated_at', 'desc')
+                ->offset(($this->page -1) * $this->pagesize)
+                ->take($this->pagesize)
+                ->get();
+        }
 
         $forumsId = []; 
         $customerIds = []; 
@@ -62,15 +77,28 @@ class IndexJob
 
         foreach ($forums as &$forum) {
             $forum['comment'] = 0;
+            $forum['nickname'] = '';
+            $forum['phone'] = '';
+            $forum['avatar'] = '';
+
+            $flag = 0;
+            if (count($forum['like_detail']) > 0) {
+                foreach ($forum['like_detail'] as $atom) {
+                    if ($atom['id'] == $this->customer_id) {
+                        $flag = 1;
+                    }
+                }
+            }
+
+            $forum['like_this'] = $flag;
+
             foreach($comments as $comment) {
                 if ($forum['id'] == $comment['forum_id']) {
                     $forum['comment'] = $comment['count'];
                 }
             }
+
             foreach($customers as $customer) {
-                $forum['nickname'] = '';
-                $forum['phone'] = '';
-                $forum['avatar'] = '';
                 if ($customer['id'] == $forum['customer_id']) {
                     $forum['nickname'] = $customer['nickname'];
                     $forum['phone'] = $customer['phone'];
@@ -78,8 +106,6 @@ class IndexJob
                 }
             }
         }
-
-        $total = Forum::count();
 
         $response = [
             'code' => trans('pheicloud.response.success.code'),

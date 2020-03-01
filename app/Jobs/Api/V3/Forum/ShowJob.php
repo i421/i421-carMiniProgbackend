@@ -52,10 +52,10 @@ class ShowJob
             ->toArray(); 
 
         foreach ($comments as &$comment) {
+            $comment['nickname'] = '';
+            $comment['avatar'] = '';
+            $comment['phone'] = '';
             foreach($customers as $customer) {
-                $forum['nickname'] = '';
-                $forum['avatar'] = '';
-                $forum['phone'] = '';
                 if ($customer['id'] == $comment['customer_id']) {
                     $comment['nickname'] = $customer['nickname'];
                     $comment['avatar'] = $customer['avatar'];

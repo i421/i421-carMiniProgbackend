@@ -36,4 +36,26 @@ class Forum extends Model
     {
         $this->attributes['imgs'] = json_encode($value);
     }
+
+    /**
+     * Json2Array
+     *
+     * @param string $value
+     * @return mixed
+     */
+    public function getLikeDetailAttribute($value)
+    {
+        $temp = json_decode($value, true);
+        return $temp;
+    }
+
+    /**
+     * Array2json
+     *
+     * @param array $value
+     */
+    public function setLikeDetailAttribute(array $value)
+    {
+        $this->attributes['like_detail'] = json_encode($value);
+    }
 }

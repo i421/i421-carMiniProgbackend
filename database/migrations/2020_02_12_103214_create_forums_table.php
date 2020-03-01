@@ -23,6 +23,7 @@ class CreateForumsTable extends Migration
             $table->integer('like')->default(0)->comment("点赞数");
             $table->integer('status')->default(1)->comment("审核: 1通过 0 待审核 2 禁止");
             $table->integer('top')->default(0)->comment("是否置顶");
+            $table->json('like_detail')->comment("点赞明细");
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'));
 

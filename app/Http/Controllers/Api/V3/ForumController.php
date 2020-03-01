@@ -18,7 +18,15 @@ class ForumController extends Controller
     {
         $pagesize = request()->input('pagesize', 10);
         $page = request()->input('page', 1);
-        $response = $this->dispatch(new ForumJobs\IndexJob($pagesize, $page));
+        $customer_id = request()->input('customer_id', null);
+        $key_word = request()->input('key_word', null);
+        if (is_null($customer_id)) {
+            return response()->json([
+                'code' => '80001',
+                'msg' => '参数非法',
+            ]);
+        }
+        $response = $this->dispatch(new ForumJobs\IndexJob($pagesize, $page, $customer_id, $key_word));
         return $response;
     }
 
@@ -34,10 +42,15 @@ class ForumController extends Controller
     /**
      * 发布帖子
      */
-    public function store(ForumRequests\StoreRequest $request)
+    //public function store(ForumRequests\StoreRequest $request)
+    public function store()
     {
-        $params = $request->all();
-        $params['imgs'] = explode(',', $params['imgs']);
+        $params = request()->all();
+        if (empty($params['imgs'])) {
+            $params['imgs'] = [];
+        } else {
+            $params['imgs'] = explode(',', $params['imgs']);
+        }
         $response = $this->dispatch(new ForumJobs\StoreJob($params));
         return $response;
     }
@@ -56,7 +69,16 @@ class ForumController extends Controller
      */
     public function like($id)
     {
-        $response = $this->dispatch(new ForumJobs\LikeJob($id));
+        $customer_id = request()->input('customer_id', null);
+
+        if (is_null($customer_id)) {
+            return response()->json([
+                'code' => '80001',
+                'msg' => '参数非法',
+            ]);
+        }
+
+        $response = $this->dispatch(new ForumJobs\LikeJob($id, $customer_id));
         return $response;
     }
 
@@ -65,7 +87,15 @@ class ForumController extends Controller
      */
     public function unlike($id)
     {
-        $response = $this->dispatch(new ForumJobs\UnlikeJob($id));
+        $customer_id = request()->input('customer_id', null);
+
+        if (is_null($customer_id)) {
+            return response()->json([
+                'code' => '80001',
+                'msg' => '参数非法',
+            ]);
+        }
+        $response = $this->dispatch(new ForumJobs\UnlikeJob($id, $customer_id));
         return $response;
     }
 }
