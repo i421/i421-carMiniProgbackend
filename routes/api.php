@@ -383,7 +383,7 @@ Route::group(['prefix' => 'v3/backend', 'namespace' => 'Backend\V3', 'middleware
         Route::get('/', 'ForumController@index');
         Route::get('{id}', 'ForumController@show');
         Route::post('/search', 'ForumController@search');
-        Route::post('/delete/{id}', 'ForumController@delete');
+        Route::post('/delete/{id}', 'ForumController@destroy');
         Route::post('/check/{id}', 'ForumController@check');
         Route::post('/top/{id}', 'ForumController@top');
     });

@@ -101,7 +101,7 @@
                 label: '操作',
                 props: {
                     align: 'center',
-                    width: '300px',
+                    width: '400px',
                 },
 
                 buttons: [{
@@ -126,7 +126,7 @@
                     label: '详情'
                 }, {
                     props: {
-                        type: 'danger',
+                        type: 'primary',
                         size: "mini",
                         icon: ''
                     },
@@ -134,6 +134,16 @@
                         this.toggle(row)
                     },
                     label: '状态切换'
+                }, {
+                    props: {
+                        type: 'danger',
+                        size: "mini",
+                        icon: ''
+                    },
+                    handler: row => {
+                        this.destroy(row)
+                    },
+                    label: '删除帖子'
                 }]
             },
         }
@@ -178,6 +188,26 @@
           //查看详情
           show(row) {
               this.$router.push({ name: 'showForum', params: {"id": row.id} })
+          },
+
+          destroy(row) {
+            this.$confirm('此操作取消拼团, 是否继续?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(() => {
+                http({
+                    url: Api.destroyForum + row.id,
+                    method: 'post',
+                }).then(response => {
+                    this.fetchForums()
+                })
+            }).catch(() => {
+                this.$notify({
+                    type: 'info',
+                    message: '已取消删除'
+                });
+            })
           },
 
           toggle(row) {

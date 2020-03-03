@@ -4,6 +4,9 @@ namespace App\Jobs\Backend\Customer;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Pagination\Paginator;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
 use App\Tables as TableModels;
 use DB;
 
@@ -53,8 +56,10 @@ class SearchJob
             $tempRes->whereIn('auth', $this->params['auth']);
         }
 
-        if (count($this->params['is_seller']) >= 1) {
-            $tempRes->whereIn('is_seller', $this->params['is_seller']);
+        if (is_array($this->params['is_seller'])) {
+            if (count($this->params['is_seller']) >= 1) {
+                $tempRes->whereIn('is_seller', $this->params['is_seller']);
+            }
         }
 
         if (count($this->params['is_buyer']) == 1) {
@@ -98,12 +103,34 @@ class SearchJob
             }
         }
 
+		$this->params['pagesize'] = isset($this->params['pagesize']) ? $this->params['pagesize'] : 15;
+        $temp = $this->paginate($customers, $this->params['pagesize']);
+		$temp = object_to_array($temp);
+
         $response = [
             'code' => trans('pheicloud.response.success.code'),
             'msg' => trans('pheicloud.response.success.msg'),
-            'data' => $customers,
+            'data' => $temp,
         ];
 
         return response()->json($response);
     }
+
+    public function paginate($items, $perPage = 15, $page = null, $baseUrl = null, $options = [])
+    {
+        $baseUrl = url()->current();
+
+        $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
+
+        $items = $items instanceof Collection ?  $items : Collection::make($items);
+
+        $lap = new LengthAwarePaginator($items->forPage($page, $perPage), $items->count(), $perPage, $page, $options);
+
+        if ($baseUrl) {
+            $lap->setPath($baseUrl);
+        }
+
+        return $lap;
+    }
+
 }

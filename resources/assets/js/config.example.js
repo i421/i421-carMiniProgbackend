@@ -128,6 +128,7 @@ const Api = {
     'showForum': 'api/v3/backend/forum/',
     'searchForum': 'api/v3/backend/forum/search',
     'checkForum': 'api/v3/backend/forum/check/',
+    'destroyForum': 'api/v3/backend/forum/delete/',
     'topForum': 'api/v3/backend/forum/top/',
 
     'banComment': 'api/v3/backend/comment/ban/',

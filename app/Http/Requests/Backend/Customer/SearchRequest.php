@@ -30,6 +30,7 @@ class SearchRequest extends FormRequest
             'auth' => 'nullable|array',
             'is_seller' => 'nullable|array',
             'is_buyer' => 'nullable|array',
+            'pageSize' => 'nullable',
         ];
     }
 }
