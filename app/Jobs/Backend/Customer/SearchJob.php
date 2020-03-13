@@ -103,14 +103,16 @@ class SearchJob
             }
         }
 
-		$this->params['pagesize'] = isset($this->params['pagesize']) ? $this->params['pagesize'] : 15;
+        $total = count($customers);
+        $this->params['pagesize'] = isset($this->params['pagesize']) ? $this->params['pagesize'] : 15;
         $temp = $this->paginate($customers, $this->params['pagesize']);
-		$temp = object_to_array($temp);
+        $temp = object_to_array($temp);
 
         $response = [
             'code' => trans('pheicloud.response.success.code'),
             'msg' => trans('pheicloud.response.success.msg'),
             'data' => $temp,
+            'total' => $total,
         ];
 
         return response()->json($response);
