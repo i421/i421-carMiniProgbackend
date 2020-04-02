@@ -191,7 +191,7 @@
           },
 
           destroy(row) {
-            this.$confirm('此操作取消拼团, 是否继续?', '提示', {
+            this.$confirm('此操作取消帖子, 是否继续?', '提示', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
                 type: 'warning'

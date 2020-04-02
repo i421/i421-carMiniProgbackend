@@ -5,6 +5,7 @@ namespace App\Jobs\Api\V3\Comment;
 use Illuminate\Bus\Queueable;
 use Illuminate\Foundation\Bus\Dispatchable;
 use App\Tables\Comment;
+use App\Tables\Customer;
 
 class StoreJob
 {
@@ -29,6 +30,16 @@ class StoreJob
      */
     public function handle()
     {
+        $customer = Customer::where('id', $this->params['customer_id'])->first();
+        if (is_null($customer) || is_null($customer->phone) && empty($customer->phone)) {
+            $response = [
+                'code' => trans('pheicloud.response.error.code'),
+                'msg' => trans('pheicloud.response.error.msg'),
+            ];
+
+            return response()->json($response);
+        }
+
         $res = Comment::create($this->params);
 
         $response = [
