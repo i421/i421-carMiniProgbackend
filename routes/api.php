@@ -395,3 +395,83 @@ Route::group(['prefix' => 'v3/backend', 'namespace' => 'Backend\V3', 'middleware
     });
 
 });
+
+//Route::group(['prefix' => 'v4/backend', 'namespace' => 'Backend\V4', 'middleware' => 'auth:api'], function () {
+Route::group(['prefix' => 'v4/backend', 'namespace' => 'Backend\V4'], function () {
+
+    Route::group(['prefix' => 'mallaccessoryclassify'], function () {
+        Route::get('/', 'MallAccessoryClassifyController@index');
+        Route::get('primary', 'MallAccessoryClassifyController@primaryClassify');
+        Route::get('{id}', 'MallAccessoryClassifyController@show');
+        Route::post('/', 'MallAccessoryClassifyController@store');
+        Route::post('update/{id}', 'MallAccessoryClassifyController@update');
+        Route::delete('{id}', 'MallAccessoryClassifyController@destroy');
+    });
+
+    Route::group(['prefix' => 'mallaccessory'], function () {
+        Route::get('/', 'MallAccessoryController@index');
+        Route::get('{id}', 'MallAccessoryController@show');
+        Route::post('/', 'MallAccessoryController@store');
+        Route::post('update/{id}', 'MallAccessoryController@update');
+        Route::delete('{id}', 'MallAccessoryController@destroy');
+    });
+
+    Route::group(['prefix' => 'mallaccessoryorder'], function () {
+        Route::get('/', 'MallAccessoryOrderController@index');
+        Route::get('{id}', 'MallAccessoryOrderController@show');
+        Route::delete('{id}', 'MallAccessoryOrderController@destroy');
+    });
+
+});
+
+Route::group(['prefix' => 'v4', 'namespace' => 'Api\V4'], function () {
+
+    // 汽配商城分类
+    Route::group(['prefix' => 'mallaccessoryclassify'], function () {
+        Route::get('/', 'MallAccessoryClassifyController@index');
+        Route::get('primary', 'MallAccessoryClassifyController@primaryClassify');
+        Route::get('primary/tree/{id}', 'MallAccessoryClassifyController@showPrimaryTree');
+        Route::get('{id}', 'MallAccessoryClassifyController@show');
+    });
+
+    // 汽配商城分类明细
+    Route::group(['prefix' => 'mallaccessory'], function () {
+        Route::get('/', 'MallAccessoryController@index');
+        Route::get('classify/{id}', 'MallAccessoryController@classify');
+        Route::get('search', 'MallAccessoryController@search');
+        Route::get('{id}', 'MallAccessoryController@show');
+    });
+
+    // 汽配商城购物车
+    Route::group(['prefix' => 'mallshoppingcart'], function () {
+        Route::get('/search', 'MallShoppingCartController@search');
+        Route::post('/', 'MallShoppingCartController@store');
+    });
+
+    // 汽配商城充值列表
+    Route::group(['prefix' => 'mallrecharge'], function () {
+        Route::get('/search', 'MallRechargeController@search');
+    });
+
+    // 汽配商城消费列表
+    Route::group(['prefix' => 'mallrecycle'], function () {
+        Route::get('/search', 'MallRecycleController@search');
+    });
+
+    // 商城收件地址
+    Route::group(['prefix' => 'malladdress'], function () {
+        Route::get('/search', 'MallAddressController@search');
+        Route::post('/', 'MallAddressController@store');
+        Route::put('update/{id}', 'MallAddressController@update');
+        Route::get('/{id}', 'MallAddressController@show');
+        Route::delete('{id}', 'MallAddressController@destroy');
+    });
+
+    // 商城订单
+    Route::group(['prefix' => 'mallorder'], function () {
+        Route::get('/search', 'MallAccessoryOrderController@search');
+        Route::get('/{id}', 'MallAccessoryOrderController@show');
+        Route::get('/toggle/status', 'MallAccessoryOrderController@toggleStatus');
+        Route::delete('{id}', 'MallAccessoryOrderController@destroy');
+    });
+});

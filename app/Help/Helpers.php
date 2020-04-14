@@ -195,3 +195,24 @@ function getTeamMember($members, $mid) {
 
     return $Teams;
 }
+
+function classifyTree($items)
+{
+    $tree = [];
+
+    foreach ($items as $item) {
+        if ($item['pid'] != 0) {
+            foreach ($tree as $k => & $v) {
+                if ($v['id'] == $item['pid']) {
+                    $v['child'][] = $item;
+                    $v['child'] = sortMultidimArray($v['child'], 'order', 'desc');
+                }
+            }
+        } else {
+            array_push($tree, $item);
+        }
+    }
+
+    $tree = sortMultidimArray($tree, 'order', 'desc');
+    return array_filter($tree);
+}

@@ -16,6 +16,7 @@ class CreatePayLogsTable extends Migration
         Schema::create('pay_logs', function (Blueprint $table) {
             $table->increments('id');
             // 根据自身业务设计的字段
+            $table->integer('type')->index()->default(1)->comment('消费类型: 1普通/2商城');
             $table->json('info')->comment('订单参数：用户信息门店信息汽车信息等');
             // 以下均是微信支付结果通知接口返回的字段
             $table->string('appid', 255)->default('')->comment('微信分配的公众账号ID');
