@@ -27,7 +27,7 @@ class IndexJob
      */
     public function handle()
     {
-        $mallAccessories = TableModels\MallAccessory::all();
+        $mallAccessories = TableModels\MallAccessory::where('status', '=', 1)->get();
 
         $response = [
             'code' => trans('pheicloud.response.success.code'),

@@ -25,7 +25,6 @@ class SearchRequest extends FormRequest
     {
         return [
             'name' => 'nullable|string',
-            'shop_id' => 'nullable|integer',
             'phone' => 'nullable|string',
             'time' => 'nullable|array',
             'lat' => 'nullable|string',

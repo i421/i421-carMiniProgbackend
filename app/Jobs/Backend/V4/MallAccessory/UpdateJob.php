@@ -11,7 +11,15 @@ class UpdateJob
     use Dispatchable, Queueable;
 
     private $id;
-    private $params;
+    private $name;
+    private $avatar;
+    private $mall_accessory_classify_id;
+    private $price;
+    private $count;
+    private $score_price;
+    private $detail;
+    private $carousel;
+    private $imgs;
 
     /**
      * Create a new job instance.
@@ -21,7 +29,15 @@ class UpdateJob
     public function __construct($id, $params)
     {
         $this->id = $id;
-        $this->params = $params;
+        $this->name = $params['name'];
+        $this->mall_accessory_classify_id = $params['mall_accessory_classify_id'];
+        $this->price = $params['price'];
+        $this->score_price = $params['score_price'];
+        $this->count = $params['count'];
+        $this->detail = $params['detail'];
+        $this->carousel = isset($params['carousel']) ? $params['carousel'] : null;
+        $this->imgs = isset($params['imgs']) ? $params['imgs'] : null;
+        $this->avatar = isset($params['avatar']) ? $params['avatar'] : null;
     }
 
     /**
@@ -31,7 +47,27 @@ class UpdateJob
      */
     public function handle()
     {
-        $res = TableModels\MallAccessory::where('id', $this->id)->update($this->params);
+        $mall_accessory = TableModels\MallAccessory::where('id', $this->id)->first();
+
+        if (!is_null($this->avatar)) {
+            $mall_accessory->avatar = $this->avatar;
+        }
+
+        if (!is_null($this->carousel)) {
+            $mall_accessory->carousel = $this->carousel;
+        }
+
+        if (!is_null($this->imgs)) {
+            $mall_accessory->imgs = $this->imgs;
+        }
+
+        $mall_accessory->name = $this->name;
+        $mall_accessory->price = $this->price;
+        $mall_accessory->score_price = $this->score_price;
+        $mall_accessory->mall_accessory_classify_id = $this->mall_accessory_classify_id;
+        $mall_accessory->count = $this->count;
+        $mall_accessory->detail = $this->detail;
+        $res = $mall_accessory->save();
 
         if ($res) {
             $code = trans('pheicloud.response.success.code');

@@ -29,7 +29,7 @@ class StoreJob
      */
     public function handle()
     {
-        $res = TableModels\MallAccessory::insert($this->params);
+        $res = TableModels\MallAccessory::create($this->params);
 
         if ($res) {
             $code = trans('pheicloud.response.success.code');

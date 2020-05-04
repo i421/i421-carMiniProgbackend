@@ -29,7 +29,8 @@ class UpdateRequest extends FormRequest
             'price' => 'required|integer',
             'min_price' => 'required|string',
             'max_price' => 'required|string',
-            'img' => 'required',
+            'seller_score' => 'required|string',
+            'img' => 'file',
             'desc' => 'string',
         ];
     }

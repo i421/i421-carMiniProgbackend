@@ -19,12 +19,12 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <meta name="keywords" content="mastiff" />
         <meta name="description" content="mastiff" />
-        <link rel="stylesheet" href="/css/app.css" media="screen">
+        <link rel="stylesheet" href="{{ mix('/css/app.css') }}" media="screen">
         @yield('css')
     </head>
     <body style="overflow-y: hidden;">
         <div id="app"> </div>
-        <script src="/js/app.js" defer="defer"></script>
+        <script src="{{ mix('/js/app.js') }}" defer="defer"></script>
         @yield('js')
     </body>
 </html>

@@ -53,7 +53,7 @@
             <el-tab-pane label="待审核" name="second">
 
                 <!-- table数据 -->
-                <data-tables border :data="notAuthTableData" :pagination-props="{ pageSizes: [10, 15, 20] }">
+                <data-tables border :data="notAuthTableData" :action-col="actionCol" :pagination-props="{ pageSizes: [10, 15, 20] }">
                     <el-table-column v-for="title in titles" :prop="title.prop" :label="title.label" :key="title.label">
                     </el-table-column>
                 </data-tables>
@@ -63,7 +63,7 @@
             <el-tab-pane label="已审核" name="third">
 
                 <!-- table数据 -->
-                <data-tables border :data="authTableData" :pagination-props="{ pageSizes: [10, 15, 20] }">
+                <data-tables border :data="authTableData" :action-col="actionCol" :pagination-props="{ pageSizes: [10, 15, 20] }">
                     <el-table-column v-for="title in titles" :prop="title.prop" :label="title.label" :key="title.label">
                     </el-table-column>
                 </data-tables>

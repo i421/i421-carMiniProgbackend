@@ -138,6 +138,22 @@ export default new Router({
                     name: 'showCar',
                     component: resolve => require(['../pages/car/Show.vue'], resolve)
                 }, {
+                    path: '/mallaccessoryclassify',
+                    name: 'mallaccessoryclassify',
+                    component: resolve => require(['../pages/mallAccessoryClassify/Index.vue'], resolve)
+                }, {
+                    path: '/mallaccessory',
+                    name: 'mallaccessory',
+                    component: resolve => require(['../pages/mallAccessory/Index.vue'], resolve)
+                }, {
+                    path: '/mallaccessroy/create',
+                    name: 'createMallAccessory',
+                    component: resolve => require(['../pages/mallAccessory/Create.vue'], resolve)
+                }, {
+                    path: '/mallaccessory/:id',
+                    name: 'showMallAccessory',
+                    component: resolve => require(['../pages/mallAccessory/Show.vue'], resolve)
+                }, {
                     path: '/fighting/group',
                     name: 'fightingGroup',
                     component: resolve => require(['../pages/fightingGroup/Index.vue'], resolve)

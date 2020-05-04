@@ -29,6 +29,24 @@ class StoreJob
      */
     public function handle()
     {
+        if ($this->params['type'] == 0) {
+            $this->params['type'] = 1;
+            $this->params['p_id'] = 0;
+            $this->params['p_name'] = '';
+        } else {
+            $mallAccessoryClassify = TableModels\MallAccessoryClassify::where('id',  $this->params['type'])->first();
+            if(is_null($mallAccessoryClassify)) {
+                $response = [
+                    'code' => trans('pheicloud.response.notExist.code'),
+                    'msg' => trans('pheicloud.response.notExist.msg'),
+                ];
+                return response()->json($response);
+            }
+            $this->params['p_name'] = $mallAccessoryClassify->name;
+            $this->params['p_id'] = $this->params['type'];
+            $this->params['type'] = 2;
+        }
+
         $res = TableModels\MallAccessoryClassify::insert($this->params);
 
         if ($res) {

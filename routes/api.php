@@ -402,6 +402,8 @@ Route::group(['prefix' => 'v4/backend', 'namespace' => 'Backend\V4'], function (
     Route::group(['prefix' => 'mallaccessoryclassify'], function () {
         Route::get('/', 'MallAccessoryClassifyController@index');
         Route::get('primary', 'MallAccessoryClassifyController@primaryClassify');
+        Route::get('second', 'MallAccessoryClassifyController@secondClassify');
+        Route::post('search', 'MallAccessoryClassifyController@search');
         Route::get('{id}', 'MallAccessoryClassifyController@show');
         Route::post('/', 'MallAccessoryClassifyController@store');
         Route::post('update/{id}', 'MallAccessoryClassifyController@update');
@@ -414,6 +416,7 @@ Route::group(['prefix' => 'v4/backend', 'namespace' => 'Backend\V4'], function (
         Route::post('/', 'MallAccessoryController@store');
         Route::post('update/{id}', 'MallAccessoryController@update');
         Route::delete('{id}', 'MallAccessoryController@destroy');
+        Route::post('/toggle/{id}', 'MallAccessoryController@toggle');
     });
 
     Route::group(['prefix' => 'mallaccessoryorder'], function () {
@@ -471,7 +474,7 @@ Route::group(['prefix' => 'v4', 'namespace' => 'Api\V4'], function () {
     Route::group(['prefix' => 'mallorder'], function () {
         Route::get('/search', 'MallAccessoryOrderController@search');
         Route::get('/{id}', 'MallAccessoryOrderController@show');
-        Route::get('/toggle/status', 'MallAccessoryOrderController@toggleStatus');
+        Route::post('/toggle/status', 'MallAccessoryOrderController@toggleStatus');
         Route::delete('{id}', 'MallAccessoryOrderController@destroy');
     });
 });

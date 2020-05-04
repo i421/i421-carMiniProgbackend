@@ -86,7 +86,9 @@ class WriteOffJob
             'updated_at' => date("Y-m-d H:i:s")
         ]);
 
-        TableModels\Customer::where('id', $this->merchant_id)->increment('score', 50);
+        $package = TableModels\Package::where('id', $this->package_id)->first();
+
+        TableModels\Customer::where('id', $this->merchant_id)->increment('score', $package->seller_score);
 
         \Log::info("merchant_id:$this->merchant_id" . "====" . "package_id=$this->package_id");
 

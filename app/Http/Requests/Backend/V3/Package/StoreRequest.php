@@ -29,6 +29,7 @@ class StoreRequest extends FormRequest
             'price' => 'required|integer',
             'min_price' => 'required|string',
             'max_price' => 'required|string',
+            'seller_score' => 'required|string',
             'img' => 'required',
             'desc' => 'string',
             'info' => 'array',

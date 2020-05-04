@@ -20,6 +20,7 @@ class CreatePackagesTable extends Migration
             $table->integer('price')->comment("价格");
             $table->string('min_price')->comment("最低价格");
             $table->string('max_price')->comment("最高价格");
+            $table->string('seller_score')->comment("商家积分");
             $table->string('desc')->nullable()->comment("描述");
             $table->string('img')->nullable()->comment("图片");
             $table->json('info')->nullable()->comment("其他信息");

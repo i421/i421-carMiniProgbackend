@@ -26,8 +26,8 @@ class StoreRequest extends FormRequest
         return [
             'name' => 'required|string',
             'type' => 'required|integer',
-            'p_name' => 'required|string',
-            'p_id' => 'required|integer',
+            'p_name' => 'nullable|string',
+            'p_id' => 'nullable|integer',
             'height' => 'required|integer',
             'img' => 'image',
             'info' => 'array',

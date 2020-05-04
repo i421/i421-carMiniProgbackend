@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Backend\V4\MallAccessoryClassify;
+namespace App\Http\Requests\Backend\V4\MallAccessory;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -29,8 +29,9 @@ class UpdateRequest extends FormRequest
             'price' => 'required|integer',
             'score_price' => 'required|integer',
             'detail' => 'required|string',
-            'carousel' => 'required',
-            'img' => 'required|image',
+            'avatar' => 'nullable|image',
+            'carousel' => 'nullable|array',
+            'imgs' => 'nullable|array',
             'info' => 'array',
         ];
     }

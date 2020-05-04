@@ -49,6 +49,10 @@
                         <el-input v-model="form.desc" width="60px"></el-input>
                     </el-form-item>
 
+                    <el-form-item label="商家积分" prop="seller_score">
+                        <el-input v-model="form.seller_score" width="60px"></el-input>
+                    </el-form-item>
+
                     <el-form-item label="图片" label-width="100px" prop="img"
                         :rules="[
                             { required: true, message: '品牌图不能为空', trigger: 'blur' },
@@ -108,6 +112,7 @@
                 maintenance_count: '',
                 min_price: '',
                 max_price: '',
+                seller_score: '',
                 desc: '',
                 img: '',
             },
@@ -137,6 +142,7 @@
             formData.append('price', this.form.price)
             formData.append('min_price', this.form.min_price)
             formData.append('max_price', this.form.max_price)
+            formData.append('seller_score', this.form.seller_score)
             formData.append('desc', this.form.desc)
             formData.append('maintenance_count', this.form.maintenance_count)
 

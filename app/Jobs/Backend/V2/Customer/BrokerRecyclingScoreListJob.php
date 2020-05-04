@@ -30,7 +30,7 @@ class BrokerRecyclingScoreListJob
     public function handle()
     {
         $tempRes = TableModels\CustomerRecycling::leftJoin('customers', 'customer_recyclings.customer_id', 'customers.id')
-            ->select("customer_recyclings.*", 'customers.nickname as nickname', 'customers.phone as phone', 'customers.openid as openid');
+            ->select("customer_recyclings.*", 'customers.nickname as nickname', 'customers.phone as phone', 'customers.openid as openid', 'broker_info');
 
         if (isset($this->params['phone']) && !empty($this->params['phone'])) {
             $tempRes->where('customers.phone', 'like', '%' . $this->params['phone'] . '%');
@@ -47,8 +47,26 @@ class BrokerRecyclingScoreListJob
             ]);
         }
 
+        if (isset($this->params['status']) && count($this->params['status']) >= 1) {
+            $tempRes->whereIn('customer_recyclings.tatus', $this->params['status']);
+        }
+
         $res = $tempRes->orderBy("customer_recyclings.created_at", 'desc')
             ->get();
+
+        foreach ($res as &$atom) {
+                $temp = json_decode($atom->broker_info,true);
+                if (isset($temp['wechat_payment_code'])) {
+                    $temp['wechat_payment_code'] = '/storage/'. $temp['wechat_payment_code'];
+                    $temp['full_wechat_payment_code'] = url('/') . $temp['wechat_payment_code'];
+                } else {
+                    $temp['full_wechat_payment_code'] = '';
+                    $temp['wechat_payment_code'] = '';
+                }
+
+                $atom->broker_info = $temp;
+        }
+
 
         if (!$res) {
 

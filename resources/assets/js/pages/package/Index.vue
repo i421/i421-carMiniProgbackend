@@ -28,6 +28,9 @@
             <el-table-column label="汽车档位(上限)" prop="max_price">
             </el-table-column>
 
+            <el-table-column label="商家积分" prop="seller_score">
+            </el-table-column>
+
             <el-table-column label="图片" prop="full_img" width="180">
                 <template slot-scope="scope">
                     <el-image style="width: 60px; height: 60px" lazy :src="scope.row.full_img"></el-image>
@@ -86,6 +89,10 @@
 			  <el-input v-model="form.desc" autocomplete="off"></el-input>
 			</el-form-item>
 
+			<el-form-item label="商家积分" :label-width="formLabelWidth">
+			  <el-input v-model="form.seller_score" autocomplete="off"></el-input>
+			</el-form-item>
+
             <el-form-item label="图片" prop="img"
                 :rules="[
                     { required: true, message: '图片', trigger: 'blur' },
@@ -130,6 +137,7 @@
 				price: '',
 				min_price: '',
 				max_price: '',
+				seller_score: '',
 				desc: '',
                 img: '',
 			},
@@ -205,6 +213,7 @@
                   formData.append('price', this.form.price)
                   formData.append('min_price', this.form.min_price)
                   formData.append('max_price', this.form.max_price)
+                  formData.append('seller_score', this.form.seller_score)
                   formData.append('desc', this.form.desc)
                   formData.append('img', this.form.img)
 

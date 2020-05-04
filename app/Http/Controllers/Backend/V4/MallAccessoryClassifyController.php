@@ -38,11 +38,13 @@ class MallAccessoryClassifyController extends Controller
     public function store(MallAccessoryClassifyRequests\StoreRequest $request)
     {
         $params = $request->all();
-        $img = $request->file('img');
-        $imgType = $img->extension();
-        $imgName = date("YmdHis") . str_random(40) . ".$imgType";
-        $imgUrl = $img->storeAs('mallAccessoryClassifyImg', $imgName, 'public');
-        $params['img'] = $imgUrl;
+        if ($request->hasFile('img')) {
+            $img = $request->file('img');
+            $imgType = $img->extension();
+            $imgName = date("YmdHis") . str_random(40) . ".$imgType";
+            $imgUrl = $img->storeAs('mallAccessoryClassifyImg', $imgName, 'public');
+            $params['img'] = $imgUrl;
+        }
         $response = $this->dispatch(new MallAccessoryClassifyJobs\StoreJob($params));
         return $response;
     }
@@ -53,7 +55,6 @@ class MallAccessoryClassifyController extends Controller
     public function update(int $id, MallAccessoryClassifyRequests\UpdateRequest $request)
     {
         $params = $request->all();
-
         if ($request->hasFile('img')) {
             $img = $request->file('img');
             $imgType = $img->extension();
@@ -61,7 +62,6 @@ class MallAccessoryClassifyController extends Controller
             $imgUrl = $img->storeAs('mallAccessoryClassifyImg', $imgName, 'public');
             $params['img'] = $imgUrl;
         }
-
         $response = $this->dispatch(new MallAccessoryClassifyJobs\UpdateJob($id, $params));
         return $response;
     }
@@ -81,6 +81,25 @@ class MallAccessoryClassifyController extends Controller
     public function primaryClassify()
     {
         $response = $this->dispatch(new MallAccessoryClassifyJobs\PrimaryClassifyJob());
+        return $response;
+    }
+
+    /**
+     * 二级分类
+     */
+    public function secondClassify()
+    {
+        $response = $this->dispatch(new MallAccessoryClassifyJobs\SecondClassifyJob());
+        return $response;
+    }
+
+    /**
+     * 查询
+     */
+    public function search()
+    {
+        $name = request()->input("name", '');
+        $response = $this->dispatch(new MallAccessoryClassifyJobs\SearchJob($name));
         return $response;
     }
 }

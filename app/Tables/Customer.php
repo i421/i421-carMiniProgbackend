@@ -62,6 +62,10 @@ class Customer extends Model
     {
         $temp = json_decode($value, true);
 
+        if (is_null($temp)) {
+                return [];
+        }
+
         if (isset($temp['id_card_front_path'])) {
             $temp['id_card_front_path'] = '/storage/'. $temp['id_card_front_path'];
             $temp['full_id_card_front_path'] = url('/') . '/' . $temp['id_card_front_path'];

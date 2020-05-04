@@ -38,11 +38,35 @@ class MallAccessoryController extends Controller
     public function store(MallAccessoryRequests\StoreRequest $request)
     {
         $params = $request->all();
-        $img = $request->file('img');
-        $imgType = $img->extension();
-        $imgName = date("YmdHis") . str_random(40) . ".$imgType";
-        $imgUrl = $img->storeAs('mallAccessoryImg', $imgName, 'public');
-        $params['img'] = $imgUrl;
+
+        $avatar = $request->file('avatar');
+        $imgType = $avatar->extension();
+        $avatarImgName = date("YmdHis") . str_random(40) . ".$imgType";
+        $avatarUrl = $avatar->storeAs('mallAccessoryImg', $avatarImgName, 'public');
+        $params['avatar'] = $avatarUrl;
+
+        //轮播图
+        $carousels = $request->file('carousel');
+        $carouselPaths = [];
+        foreach ($carousels as $carousel) {
+            $imgType = $carousel->extension();
+            $imgName = date("YmdHis") . str_random(40) . ".$imgType";
+            $imgUrl = $carousel->storeAs('mallAccessoryImg', $imgName, 'public');
+            array_push($carouselPaths, 'storage/' . $imgUrl);
+        }
+        $params['carousel'] = $carouselPaths;
+
+        //Img
+        $imgs = $request->file('imgs');
+        $imgsPaths = [];
+        foreach ($imgs as $img) {
+            $imgType = $img->extension();
+            $imgName = date("YmdHis") . str_random(40) . ".$imgType";
+            $imgUrl = $img->storeAs('mallAccessoryImg', $imgName, 'public');
+            array_push($imgsPaths, 'storage/' . $imgUrl);
+        }
+        $params['imgs'] = $imgsPaths;
+
         $response = $this->dispatch(new MallAccessoryJobs\StoreJob($params));
         return $response;
     }
@@ -54,12 +78,37 @@ class MallAccessoryController extends Controller
     {
         $params = $request->all();
 
-        if ($request->hasFile('img')) {
-            $img = $request->file('img');
-            $imgType = $img->extension();
-            $imgName = date("YmdHis") . str_random(40) . ".$imgType";
-            $imgUrl = $img->storeAs('mallAccessoryImg', $imgName, 'public');
-            $params['img'] = $imgUrl;
+        if ($request->hasFile('avatar')) {
+            //封面图
+            $avatar = $request->file('avatar');
+            $imgType = $avatar->extension();
+            $avatarImgName = date("YmdHis") . str_random(40) . ".$imgType";
+            $avatarUrl = $avatar->storeAs('mallAccessoryImg', $avatarImgName, 'public');
+            $params['avatar'] = $avatarUrl;
+        }
+
+        if ($request->hasFile('imgs')) {
+            $imgs = $request->file('imgs');
+            $imgsPaths = [];
+            foreach ($imgs as $img) {
+                $imgType = $img->extension();
+                $imgName = date("YmdHis") . str_random(40) . ".$imgType";
+                $imgUrl = $img->storeAs('mallAccessoryImg', $imgName, 'public');
+                array_push($imgsPaths, 'storage/' . $imgUrl);
+            }
+            $params['imgs'] = $imgsPaths;
+        }
+
+        if ($request->hasFile('carousel')) {
+            $carousels = $request->file('carousel');
+            $carouselPaths = [];
+            foreach ($carousels as $carousel) {
+                $imgType = $carousel->extension();
+                $imgName = date("YmdHis") . str_random(40) . ".$imgType";
+                $imgUrl = $carousel->storeAs('mallAccessoryImg', $imgName, 'public');
+                array_push($carouselPaths, 'storage/' . $imgUrl);
+            }
+            $params['carousel'] = $carouselPaths;
         }
 
         $response = $this->dispatch(new MallAccessoryJobs\UpdateJob($id, $params));
@@ -72,6 +121,16 @@ class MallAccessoryController extends Controller
     public function destroy(int $id)
     {
         $response = $this->dispatch(new MallAccessoryJobs\DestroyJob($id));
+        return $response;
+    }
+
+    /**
+     * 切换状态
+     */
+    public function toggle(int $id)
+    {
+        $status = request()->input('status');
+        $response = $this->dispatch(new MallAccessoryJobs\ToggleJob($id, $status));
         return $response;
     }
 }

@@ -26,6 +26,7 @@ class BrokerRecyclingScoreListRequest extends FormRequest
             'nickname' => 'nullable|string',
             'phone' => 'nullable|string',
             'time' => 'nullable|array',
+            'status' => 'nullable|array',
         ];
     }
 }

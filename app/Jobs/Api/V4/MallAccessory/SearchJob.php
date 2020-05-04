@@ -35,7 +35,10 @@ class SearchJob
      */
     public function handle()
     {
-        $temp = TableModels\MallAccessory::where('name', 'like', "%$this->key%");
+        $temp = TableModels\MallAccessory::where([
+            ['status', '=', "1"],
+            ['name', 'like', "%$this->key%"]
+        ]);
 
         $count = $temp->count();
 

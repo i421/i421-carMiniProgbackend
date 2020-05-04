@@ -16,6 +16,7 @@ class CreateMallAccessoriesTable extends Migration
         Schema::create('mall_accessories', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name')->index()->comment("名称");
+            $table->string('avatar')->nullable()->comment("缩略图");
             $table->integer('mall_accessory_classify_id')->unsigned()->index()->comment("类别");
             $table->integer('price')->index()->comment("原价");
             $table->integer('count')->default(0)->index()->comment("销量");

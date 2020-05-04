@@ -11,7 +11,8 @@ class SearchJob
 {
     use Dispatchable, Queueable;
 
-    private $shop_id;
+    private $phone;
+    private $time;
     private $name;
 
     /**
@@ -22,7 +23,8 @@ class SearchJob
     public function __construct(array $params)
     {
         $this->name = isset($params['name']) ? $params['name'] : null;
-        $this->shop_id = isset($params['shop_id']) ? $params['shop_id'] : null;
+        $this->time = isset($params['time']) ? $params['time'] : null;
+        $this->phone = isset($params['phone']) ? $params['phone'] : null;
     }
 
     /**
@@ -42,8 +44,15 @@ class SearchJob
             $tempRes->where('shop_repairs.name', $this->name);
         }
 
-        if (!is_null($this->shop_id) && !empty($this->shop_id)) {
-            $tempRes->where('shop_repairs.shop_id', $this->shop_id);
+        if (!is_null($this->phone) && !empty($this->phone)) {
+            $tempRes->where('shop_repairs.phone', $this->phone);
+        }
+
+        if (!is_null($this->time) && !empty($this->time)) {
+            $tempRes->where([
+                ['shop_repairs.updated_at', '>=', $this->time[0]],
+                ['shop_repairs.updated_at', '<=', $this->time[1]]
+            ]);
         }
 
         $shopRepairs = $tempRes->get();

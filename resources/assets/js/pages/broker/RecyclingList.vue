@@ -10,6 +10,13 @@
                     </div>
                 </el-col>
 
+                <el-col :span="8" style="margin-right: 5px;">
+                    <el-select v-model="conditionStatus" placeholder="打款状态" multiple="multiple" class="table-search">
+                        <el-option label="已打款" value="1"></el-option>
+                        <el-option label="未打款" value="0"></el-option>
+                    </el-select>
+                </el-col>
+
                 <el-col :span="6" :offset="1">
                     <div>
                         <el-date-picker
@@ -52,6 +59,17 @@
             <el-table-column label="分数" prop="score">
             </el-table-column>
 
+            <el-table-column label="收款码" prop="full_wechat_payment_code" width="180">
+                <template slot-scope="scope">
+                    <el-image
+                        style="width: 60px; height: 60px" lazy
+                        :src="scope.row.broker_info.full_wechat_payment_code"
+                        :preview-src-list="[scope.row.broker_info.full_wechat_payment_code]"
+                    ></el-image>
+                </template>
+            </el-table-column>
+
+
 			<el-table-column label="状态" prop="status" width="130">
 				<template slot-scope="scope">
 					<el-tag v-if="scope.row.status == 1" type="success">已打款</el-tag>
@@ -73,6 +91,7 @@
             conditionNickname: '',
             conditionPhone: '',
             conditionTime: '',
+            conditionStatus: [],
 			tableData: [],
             titles: [{
                 label: "序号",
@@ -160,6 +179,7 @@
                     'phone': this.conditionPhone,
                     'nickname': this.conditionNickname,
                     'time': this.conditionTime,
+                    'status': this.conditionStatus,
                 }
             }).then(response => {
                 this.tableData = response.data.data

@@ -1,25 +1,23 @@
 <?php
 
-namespace App\Jobs\Backend\V4\MallAccessoryOrder;
+namespace App\Jobs\Backend\V4\MallAccessoryClassify;
 
 use App\Tables as TableModels;
 use Illuminate\Bus\Queueable;
 use Illuminate\Foundation\Bus\Dispatchable;
 
-class ShowJob
+class SecondClassifyJob
 {
     use Dispatchable, Queueable;
-
-    private $id;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($id)
+    public function __construct()
     {
-        $this->id = $id;
+        //
     }
 
     /**
@@ -29,9 +27,9 @@ class ShowJob
      */
     public function handle()
     {
-        $mallAccessory = TableModels\MallAccessory::find($this->id);
+        $mallAccessoryClassifies = TableModels\MallAccessoryClassify::where("type", '=', '2')->get();
 
-        if (is_null($mallAccessory)) {
+        if (is_null($mallAccessoryClassifies)) {
             $response = [
                 'code' => trans('pheicloud.response.notExist.code'),
                 'msg' => trans('pheicloud.response.notExist.msg'),
@@ -43,7 +41,7 @@ class ShowJob
         $response = [
             'code' => trans('pheicloud.response.success.code'),
             'msg' => trans('pheicloud.response.success.msg'),
-            'data' => $mallAccessory,
+            'data' => $mallAccessoryClassifies,
         ];
 
         return response()->json($response);

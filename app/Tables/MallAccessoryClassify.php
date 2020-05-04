@@ -15,4 +15,14 @@ class MallAccessoryClassify extends Model
     protected $guarded = [
         'id', 'created_at',
     ];
+
+    /**
+     * 添加字段
+     */
+    protected $appends = ['full_img'];
+
+    public function getFullImgAttribute()
+    {
+        return url('/') . '/storage/' . $this->attributes['img'];
+    }
 }
