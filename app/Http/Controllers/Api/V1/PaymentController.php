@@ -36,4 +36,17 @@ class PaymentController extends Controller
         $response = $this->dispatch(new PaymentJobs\PaidJob($out_trade_no));
         return $response;
     }
+
+    /*
+     * 商城积分消费
+     *
+     * @param integer $payment_count
+     * @param array $info[customer_id, car_id, shop_id]
+     */
+    public function score(PaymentRequests\ScoreRequest $request)
+    {
+        $params = $request->all();
+        $response = $this->dispatch(new PaymentJobs\ScoreJob($params));
+        return $response;
+    }
 }

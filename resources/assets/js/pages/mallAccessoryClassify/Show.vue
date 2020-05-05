@@ -1,52 +1,7 @@
 <template>
     <div>
 		<!-- table工具栏 -->
-        <div id="tableTools">
-            <el-row>
-                <el-col :span="6" style="padding-right: 5px">
-                    <div style="width: 100%; min-width: 200px">
-                        <el-input class="table-search" v-model="conditionName" placeholder="配件名"></el-input>
-                    </div>
-                </el-col>
-            </el-row>
-
-            <div class="searchControl">
-                <el-button type="primary" class="table-button" icon="el-icon-search" @click="search">查询</el-button>
-                <el-button type="primary" class="table-button" icon="el-icon-refresh" @click="clearSearch">清除</el-button>
-                <el-button type="primary" class="table-button" icon="el-icon-plus" @click="addMallAccessory">新增</el-button>
-            </div>
-        </div>
-
-		<!-- table数据 -->
-        <data-tables border :data="tableData" :action-col="actionCol" :pagination-props="{ pageSizes: [10, 15, 20] }">
-
-            <el-table-column label="分类标题" prop="name">
-            </el-table-column>
-
-            <el-table-column label="上级分类" prop="p_name">
-                <template slot-scope="scope">
-                    <el-tag v-if="scope.row.p_name == ''" type="primary">一级</el-tag>
-                    <el-tag v-else type="warning">{{ scope.row.p_name }}</el-tag>
-                </template>
-            </el-table-column>
-
-            <el-table-column label="分类级别" prop="type">
-                <template slot-scope="scope">
-                    <el-tag v-if="scope.row.type == 1" type="danger">一级分类</el-tag>
-                    <el-tag v-else type="warning">二级分类</el-tag>
-                </template>
-            </el-table-column>
-
-            <el-table-column label="分类下的配件数" prop="count">
-            </el-table-column>
-
-            <el-table-column label="权重" prop="height">
-            </el-table-column>
-
-        </data-tables>
-
-		<!--添加角色表单-->
-		<el-dialog title="添加分类" :visible.sync="dialogFormVisible">
+        <div>
 		  <el-form :model="form" ref="form">
 			<el-form-item label="名称" :label-width="formLabelWidth" prop="name"
 				:rules="[
@@ -86,6 +41,13 @@
                     { required: true, message: '图片', trigger: 'blur' },
                 ]"
             >
+                <el-image
+                    style="width: 100px; height: 100px"
+                    lazy
+                    :src="previewImg"
+                    :preview-src-list="[previewImg]"
+                    fit="fit">
+                </el-image>
                 <el-upload
                     class="upload-demo"
                     ref="upload"
@@ -106,7 +68,7 @@
 			<el-button @click="cancelClassify">取 消</el-button>
 			<el-button type="primary" @click="addClassify('form')">确 定</el-button>
 		  </div>
-		</el-dialog>
+      </div>
     </div>
 </template>
 
@@ -176,13 +138,11 @@
 
           search() {
             http({
-                url: Api.searchMallAccessoryClassify,
-                method: "post",
-                data: {
-                    'name': this.conditionName,
-                }
+                url: Api.showMallaccessoryClassify + this.$route.params.id,
+                method: "get",
             }).then(response => {
-                this.tableData = response.data.data
+                this.form = response.data.data
+                this.previewImg = response.data.data.full_img;
             })
           },
 
@@ -210,7 +170,7 @@
                     }
 
                     http({
-						url: Api.storeMallAccessoryClassify,
+						url: Api.updateMallAccessoryClassify + this.$route.params.id,
                         method: 'post',
                         data: formData
                     }).then(response => {
@@ -219,10 +179,7 @@
                             'title': "提示",
                             'message': response.data.msg
                         })
-
-                        this.search();
-                        this.dialogFormVisible = false
-
+                        this.$router.push({ name: 'mallaccessoryclassify'})
                     }).catch(err => {
                         console.log(err)
                     })
@@ -233,7 +190,7 @@
           },
 
           cancelClassify() {
-            this.dialogFormVisible = false
+            this.$router.push({ name: 'mallaccessoryclassify'})
           },
 
           addFile(file, fileList) {
@@ -243,37 +200,6 @@
           removeFile(file, fileList) {
               this.form.img = {};
           },
-
-          show(row) {
-              this.$router.push({ name: 'showMallaccessoryclassify', params: {"id": row.id} })
-          },
-
-          //删除
-          destroy(row) {
-            this.$confirm('此操作将删除, 是否继续?', '提示', {
-                confirmButtonText: '确定',
-                cancelButtonText: '取消',
-                type: 'warning'
-            }).then(() => {
-
-                http({
-                    method: 'delete',
-                    url: Api.deleteMallaccessoryClassify + row.id,
-                }).then(response => {
-                    this.$notify.success({
-                        'title': "提示",
-                        'message': response.data.msg
-                    })
-                    this.search()
-                })
-
-            }).catch(() => {
-                this.$notify({
-                    type: 'info',
-                    message: '已取消删除'
-                });
-            })
-          }
       }
   }
 </script>

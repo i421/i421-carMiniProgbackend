@@ -40,7 +40,7 @@ class StoreJob
         }
 
         $response = [
-            'code' => $code,
+           'code' => $code,
             'msg' => $msg,
         ];
 

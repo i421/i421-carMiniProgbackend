@@ -101,6 +101,9 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api\V1'], function () {
         Route::post('pre_order', 'PaymentController@pre_order');
         // 请求微信接口, 查看订单支付状态
         Route::get('paid', 'PaymentController@paid');
+
+        // 商城积分支付
+        Route::post('score', 'PaymentController@score');
     });
 
     //消息管理
@@ -247,6 +250,8 @@ Route::group(['prefix' => 'v1/backend', 'namespace' => 'Backend', 'middleware' =
         Route::get('/score', 'SettingController@getScore');
         Route::get('/score/store', 'SettingController@storeScoreValue');
         Route::get('/score/update', 'SettingController@updateScoreValue');
+        Route::get('/money', 'SettingController@getMoney');
+        Route::get('/money/update', 'SettingController@updateMoneyValue');
     });
 
     //订单管理
@@ -413,6 +418,7 @@ Route::group(['prefix' => 'v4/backend', 'namespace' => 'Backend\V4'], function (
     Route::group(['prefix' => 'mallaccessory'], function () {
         Route::get('/', 'MallAccessoryController@index');
         Route::get('{id}', 'MallAccessoryController@show');
+        Route::post('search', 'MallAccessoryController@search');
         Route::post('/', 'MallAccessoryController@store');
         Route::post('update/{id}', 'MallAccessoryController@update');
         Route::delete('{id}', 'MallAccessoryController@destroy');
@@ -422,7 +428,13 @@ Route::group(['prefix' => 'v4/backend', 'namespace' => 'Backend\V4'], function (
     Route::group(['prefix' => 'mallaccessoryorder'], function () {
         Route::get('/', 'MallAccessoryOrderController@index');
         Route::get('{id}', 'MallAccessoryOrderController@show');
+        Route::post('/search', 'MallAccessoryOrderController@search');
         Route::delete('{id}', 'MallAccessoryOrderController@destroy');
+    });
+
+    // 汽配商城充值列表
+    Route::group(['prefix' => 'mallrecharge'], function () {
+        Route::post('/search', 'MallRechargeController@search');
     });
 
 });

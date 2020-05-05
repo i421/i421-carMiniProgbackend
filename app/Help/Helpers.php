@@ -131,6 +131,19 @@ function getScoreThreshold()
     return $data;
 }
 
+function getMoneyThreshold()
+{
+    $money = TableModels\Setting::where('key', 'v4_money_ratio')->first();
+
+    if (is_null($money)) {
+        $data = ['agent_return_money' => 0, 'relation_return_money' => 0, 'partner_cannot_recycle_ratio' => 50];
+    } else {
+        $data = json_decode($money->value, true);
+    }
+
+    return $data;
+}
+
 function checkFileSize($size, $limit)
 {
     if ($size > $limit) {

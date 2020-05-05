@@ -27,18 +27,34 @@
 
         </data-tables>
 
-	<div class="scorecontainer">
-	    <el-tag size="medium" style="display: inline-block; margin-bottom: 20px;">积分设置</el-tag>
-	    <div style="width: 400px;">
-	    	<el-input placeholder="" v-model.number="storeScore" style="margin-bottom: 10px">
-		    <template slot="prepend">新用户积分</template>
-	    	</el-input>	
-	    	<el-input placeholder="" v-model.number="recommendScore" style="margin-bottom: 10px">
-		    <template slot="prepend">推荐用户积分</template>
-	    	</el-input>	
-		<el-button @click="updateScore" type="primary" size="small">更新设置</el-button>
-	    </div>
-	</div>
+        <div class="scorecontainer">
+            <el-tag size="medium" style="display: inline-block; margin-bottom: 20px;">积分设置</el-tag>
+            <div style="width: 400px;">
+                <el-input placeholder="" v-model.number="storeScore" style="margin-bottom: 10px">
+                <template slot="prepend">新用户积分</template>
+                </el-input>	
+                <el-input placeholder="" v-model.number="recommendScore" style="margin-bottom: 10px">
+                <template slot="prepend">推荐用户积分</template>
+                </el-input>	
+            <el-button @click="updateScore" type="primary" size="small">更新设置</el-button>
+            </div>
+        </div>
+
+        <div class="moneycontainer">
+            <el-tag size="medium" style="display: inline-block; margin-bottom: 20px;">积分设置</el-tag>
+            <div style="width: 400px;">
+                <el-input placeholder="" v-model.number="agentReturnMoney" style="margin-bottom: 10px">
+                <template slot="prepend">代理商返佣比例</template>
+                </el-input>	
+                <el-input placeholder="" v-model.number="relationReturnMoney" style="margin-bottom: 10px">
+                    <template slot="prepend">推荐关系返佣比例</template>
+                </el-input>	
+                <el-input placeholder="" v-model.number="partnerCannotRecycleRatio" style="margin-bottom: 10px">
+                    <template slot="prepend">合作商家不能提现比例</template>
+                </el-input>	
+            <el-button @click="updateMoney" type="primary" size="small">更新设置</el-button>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -49,9 +65,12 @@
   export default {
       data() {
           return {
-	    tableData: [],
-	    storeScore: 0,
-	    recommendScore: 0,
+            tableData: [],
+            storeScore: 0,
+            recommendScore: 0,
+            relationReturnMoney: 0,
+            agentReturnMoney: 0,
+            partnerCannotRecycleRatio: 0,
             actionCol: {
                 label: '操作',
                 props: {
@@ -87,6 +106,7 @@
       created () {
           this.fetchCarousel()
           this.fetchScore()
+          this.fetchMoney()
       },
 
       methods: {
@@ -113,17 +133,46 @@
             })
         },
 
+        fetchMoney() {
+            http({
+                url: Api.settingShowMoney,
+                method: 'get',
+            }).then(response => {
+                this.agentReturnMoney = response.data.data.agent_return_money
+                this.relationReturnMoney = response.data.data.relation_return_money
+                this.partnerCannotRecycleRatio = response.data.data.partner_cannot_recycle_ratio
+            }).catch(err => {
+                console.log(err)
+            })
+        },
+
         updateScore() {
             http({
                 url: Api.settingUpdateScore,
                 method: 'get',
-		params: {value: [this.storeScore, this.recommendScore]}
+                params: {value: [this.storeScore, this.recommendScore]}
             }).then(response => {
-		this.$notify.success({
-		    'title': "提示",
-		    'message': response.data.msg
-		})
-          	this.fetchScore()
+                this.$notify.success({
+                    'title': "提示",
+                    'message': response.data.msg
+                })
+                this.fetchScore()
+            }).catch(err => {
+                console.log(err)
+            })
+        },
+
+        updateMoney() {
+            http({
+                url: Api.settingUpdateMoney,
+                method: 'get',
+                params: {value: [this.agentReturnMoney, this.relationReturnMoney, this.partnerCannotRecycleRatio]}
+            }).then(response => {
+                this.$notify.success({
+                    'title': "提示",
+                    'message': response.data.msg
+                })
+                this.fetchMoney()
             }).catch(err => {
                 console.log(err)
             })

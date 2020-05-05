@@ -133,4 +133,14 @@ class MallAccessoryController extends Controller
         $response = $this->dispatch(new MallAccessoryJobs\ToggleJob($id, $status));
         return $response;
     }
+
+    /**
+     * 查询
+     */
+    public function search()
+    {
+        $params = request()->all();
+        $response = $this->dispatch(new MallAccessoryJobs\SearchJob($params));
+        return $response;
+    }
 }

@@ -129,7 +129,8 @@
           search() {
             http({
                 url: Api.searchMallAccessory,
-                params: {
+                method: 'post',
+                data: {
                     'name': this.conditionName,
                     'classify': this.conditionClassify,
                     'min_price': this.conditionMinPrice,

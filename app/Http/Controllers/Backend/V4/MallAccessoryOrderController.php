@@ -37,4 +37,14 @@ class MallAccessoryOrderController extends Controller
         $response = $this->dispatch(new MallAccessoryOrderJobs\DestroyJob($id));
         return $response;
     }
+
+    /**
+     * 查询
+     */
+    public function search()
+    {
+        $params = request()->all();
+        $response = $this->dispatch(new MallAccessoryOrderJobs\SearchJob($params));
+        return $response;
+    }
 }

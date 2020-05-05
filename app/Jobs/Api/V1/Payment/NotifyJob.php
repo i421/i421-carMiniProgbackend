@@ -70,7 +70,7 @@ class NotifyJob
                     ]);
 
                     // 创建订单记录
-                    if ($payLog->info['type'] == 1) {
+                    if ($payLog->type == 1) {
                         TableModels\PackageOrder::insert([
                             'order_num' => $message['out_trade_no'],
                             'customer_id' => $payLog->info['customer_id'],
@@ -89,19 +89,48 @@ class NotifyJob
                             'qr_code' => "customer_id=$customer_id&package_id=$package_id",
                         ]);
 
-			if (!is_null($customer->recommender)) {
-			    $broker = TableModels\Customer::find($customer->recommender);
+                        if (!is_null($customer->recommender)) {
+                            $broker = TableModels\Customer::find($customer->recommender);
 
-			    if ((!is_null($broker)) && ($broker->is_seller == 1)) {
-				TableModels\CustomerRecharge::create([
-				    'customer_id' => $broker->id,
-				    'score' => floor($message['total_fee'] * 5/10000),
-				    'content' => '推荐人消费积分奖励',
-				]);
-			    }
-			    $broker->score = floor($message['total_fee'] * 5/10000);
-			    $broker->save();
-			}
+                            if ((!is_null($broker)) && ($broker->is_seller == 1)) {
+                                TableModels\CustomerRecharge::create([
+                                    'customer_id' => $broker->id,
+                                    'score' => floor($message['total_fee'] * 5/10000),
+                                    'content' => '推荐人消费积分奖励',
+                                ]);
+                            }
+                            $broker->score = floor($message['total_fee'] * 5/10000);
+                            $broker->save();
+                        }
+                    }
+
+                    //现金充值
+                    if ($payLog->type == 2) {
+                        TableModels\MallRecharge::insert([
+                            'customer_id' => $payLog->info['customer_id'],
+                            'count' => $message['total_fee'],
+                            'type' => 1,
+                        ]);
+
+                        // 推荐人奖励
+                        
+                        // 代理商奖励
+                    }
+
+                    //商城订单
+                    if ($payLog->type == 3) {
+                        // 更新状态为待发货
+                        TableModels\MallAccessoryOrder::where('uuid', $message['out_trade_no'])->update([
+                            'status' => 2
+                        ]);
+
+                        //商城商品销量增加
+                        TableModels\MallAccessory::where('id', $payLog->info['mall_accessory_id'])
+                            ->increment('count', $payLog->info['mall_accessory_count']);
+
+                        // 推荐人奖励
+                        
+                        // 代理商奖励
                     }
 
                     // 创建订单支付成功通知信息

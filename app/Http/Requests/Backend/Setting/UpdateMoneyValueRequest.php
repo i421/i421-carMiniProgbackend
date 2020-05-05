@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Backend\V4\MallAccessoryClassify;
+namespace App\Http\Requests\Backend\Setting;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateRequest extends FormRequest
+class UpdateMoneyValueRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,13 +24,7 @@ class UpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string',
-            'type' => 'required|integer',
-            'p_name' => 'nullable|integer',
-            'p_id' => 'nullable|integer',
-            'height' => 'required|integer',
-            'img' => 'image',
-            'info' => 'array',
+            'value' => 'required|array',
         ];
     }
 }

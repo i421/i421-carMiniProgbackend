@@ -28,7 +28,7 @@ class StoreRequest extends FormRequest
             'mall_accessory_id' => 'required|integer',
             'count' => 'required|string',
             'price' => 'required|string',
-            'status' => 'required|string',
+            'detail' => 'nullable',
         ];
     }
 }

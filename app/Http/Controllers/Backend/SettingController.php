@@ -39,6 +39,19 @@ class SettingController extends Controller
         return $response;
     }
 
+    public function updateMoneyValue(SettingRequests\UpdateMoneyValueRequest $request)
+    {
+        $params = $request->all();
+        $response = $this->dispatch(new SettingJobs\UpdateMoneyValueJob($params));
+        return $response;
+    }
+
+    public function getMoney()
+    {
+        $response = $this->dispatch(new SettingJobs\GetMoneyJob());
+        return $response;
+    }
+
     public function carouselList()
     {
         $response = $this->dispatch(new SettingJobs\CarouselListJob());
