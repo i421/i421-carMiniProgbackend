@@ -47,6 +47,10 @@ class TypeAuthStatusJob
         $customer->type_auth = $this->auth;
         $customer->save();
 
+        if ($this->auth == 1) {
+            //小程序消息通知
+		}
+
         $response = [
             'code' => trans('pheicloud.response.success.code'),
             'msg' => trans('pheicloud.response.success.msg'),

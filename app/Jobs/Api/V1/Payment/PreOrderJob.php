@@ -39,11 +39,11 @@ class PreOrderJob
         $this->type = isset($params['type']) ? $params['type'] : 1;
         $this->payment_count = $params['payment_count'];
         $this->customer_id = $params['customer_id'];
-        $this->car_id = $params['car_id'];
-        $this->shop_id = $params['shop_id'];
+        $this->car_id = isset($params['car_id']) ? $params['car_id'] : null;
+        $this->shop_id = isset($params['shop_id']) ? $params['shop_id'] : null;
         $this->mall_accessory_id = isset($params['mall_accessory_id']) ? $params['mall_accessory_id'] : null;
         $this->mall_accessory_count = isset($params['mall_accessory_count']) ? $params['mall_accessory_count'] : 1;
-        $this->mall_address_id = isset($params['mall_address_id']) ? $params['mall_address_id'] : null;
+        $this->mall_address_id = isset($params['mall_address_id']) ? $params['mall_address_id'] : 0;
         $this->mall_accessory_detail = isset($params['mall_accessory_detail']) ? json_encode($params['mall_accessory_detail']) : '';
     }
 
