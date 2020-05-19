@@ -441,6 +441,12 @@ Route::group(['prefix' => 'v4/backend', 'namespace' => 'Backend\V4'], function (
 
 Route::group(['prefix' => 'v4', 'namespace' => 'Api\V4'], function () {
 
+    // 赠送套餐
+    Route::group(['prefix' => 'customer'], function () {
+        Route::get('/packageappcode', 'CustomerController@packageAppcode');
+        Route::get('/receivepackage', 'CustomerController@receivePackage');
+    });
+
     // 汽配商城分类
     Route::group(['prefix' => 'mallaccessoryclassify'], function () {
         Route::get('/', 'MallAccessoryClassifyController@index');
