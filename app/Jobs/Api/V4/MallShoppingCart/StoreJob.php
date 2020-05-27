@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Jobs\Backend\V4\MallShoppingCart;
+namespace App\Jobs\Api\V4\MallShoppingCart;
 
 use App\Tables as TableModels;
 use Illuminate\Bus\Queueable;

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Jobs\Backend\V4\MallAddress;
+namespace App\Jobs\Api\V4\MallAddress;
 
 use App\Tables as TableModels;
 use Illuminate\Bus\Queueable;

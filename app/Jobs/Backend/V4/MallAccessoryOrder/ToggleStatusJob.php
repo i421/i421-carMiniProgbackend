@@ -1,14 +1,15 @@
 <?php
 
-namespace App\Jobs\Api\V4\MallAddress;
+namespace App\Jobs\Backend\V4\MallAccessoryOrder;
 
 use App\Tables as TableModels;
 use Illuminate\Bus\Queueable;
 use Illuminate\Foundation\Bus\Dispatchable;
 
-class ShowJob
+class ToggleStatusJob
 {
     private $id;
+    private $status;
 
     use Dispatchable, Queueable;
 
@@ -17,9 +18,10 @@ class ShowJob
      *
      * @return void
      */
-    public function __construct($id)
+    public function __construct($params)
     {
-        $this->id = $id;
+        $this->id = isset($params['id']) ? $params['id'] : null;
+        $this->status = isset($params['status']) ? $params['status'] : null;
     }
 
     /**
@@ -29,9 +31,8 @@ class ShowJob
      */
     public function handle()
     {
-        $mallAddress = TableModels\MallAddress::find($this->id);
+        if (is_null($this->status) || is_null($this->id)) {
 
-        if (is_null($mallAddress)) {
             $response = [
                 'code' => trans('pheicloud.response.notExist.code'),
                 'msg' => trans('pheicloud.response.notExist.msg'),
@@ -40,10 +41,23 @@ class ShowJob
             return response()->json($response);
         }
 
+        $mallAccessoryOrder = TableModels\MallAccessoryOrder::where([
+            ['id', '=', $this->id],
+            ['status', '=', 3],
+        ])->update(['status' => $this->status]);
+
+        if (!$mallAccessoryOrder) {
+            $response = [
+                'code' => trans('pheicloud.response.error.code'),
+                'msg' => trans('pheicloud.response.error.msg'),
+            ];
+
+            return response()->json($response);
+        }
+
         $response = [
             'code' => trans('pheicloud.response.success.code'),
             'msg' => trans('pheicloud.response.success.msg'),
-            'data' => $mallAddress,
         ];
 
         return response()->json($response);

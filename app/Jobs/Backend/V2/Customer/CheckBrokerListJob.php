@@ -29,7 +29,7 @@ class CheckBrokerListJob
      */
     public function handle()
     {
-        $tempRes = TableModels\Customer::select('id', 'openid', 'phone', 'nickname', 'type_auth as auth');
+        $tempRes = TableModels\Customer::select('id', 'openid', 'phone', 'nickname', 'type_auth as auth', 'broker_info');
 
         if (!is_null($this->params['nickname']) && !empty($this->params['nickname'])) {
             $tempRes->where('nickname', 'like', '%' . $this->params['nickname'] . '%');

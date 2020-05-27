@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api\V4;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Jobs\Api\V4\MallAddress as MallAddressJobs;
-use App\Http\Requests\Backend\V4\MallAddress as MallAddressRequests;
+use App\Http\Requests\Api\V4\MallAddress as MallAddressRequests;
 
 class MallAddressController extends Controller
 {

@@ -47,9 +47,13 @@ class ReceivePackageJob
             return response()->json($response);
         }
 
-        $customerPackage->customer_id = $this->id;
-        $customerPackage->qr_code = "customer_id=$id&package_id=$package_id";
-        $customerPackage->save();
+        $customerPackage = DB::table("customer_package")->where([
+            ['customer_id', '=', $this->customer_id],
+            ['package_id', '=', $this->package_id],
+        ])->update([
+            'customer_id' => $this->id,
+            'qr_code' => "customer_id=$this->id&package_id=$this->package_id"
+        ]);
 
 		$response = [
 			'code' => trans('pheicloud.response.success.code'),

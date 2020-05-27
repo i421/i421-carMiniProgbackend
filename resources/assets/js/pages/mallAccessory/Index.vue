@@ -42,6 +42,9 @@
             <el-table-column label="商品标题" prop="name">
             </el-table-column>
 
+            <el-table-column label="规格" prop="size">
+            </el-table-column>
+
             <el-table-column label="积分价" prop="score_price">
             </el-table-column>
 
@@ -84,6 +87,7 @@
 			tableData: [],
             groupForm: {
                 name: '',
+                size: '',
                 avatar: '',
                 score_price: '',
                 price: '',

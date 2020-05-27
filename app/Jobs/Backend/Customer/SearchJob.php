@@ -105,7 +105,8 @@ class SearchJob
 
         $total = count($customers);
         $this->params['pagesize'] = isset($this->params['pagesize']) ? $this->params['pagesize'] : 15;
-        $temp = $this->paginate($customers, $this->params['pagesize']);
+        $this->params['page'] = isset($this->params['page']) ? $this->params['page'] : 1;
+        $temp = $this->paginate($customers, $this->params['pageSize'], $this->params['page']);
         $temp = object_to_array($temp);
 
         $response = [

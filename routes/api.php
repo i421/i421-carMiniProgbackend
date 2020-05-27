@@ -320,6 +320,7 @@ Route::group(['prefix' => 'v3', 'namespace' => 'Api\V3'], function () {
     Route::group(['prefix' => 'package'], function () {
         Route::get('/', 'PackageController@index');
         Route::get('/customer/{id}', 'PackageController@customer');
+        Route::get('/order/{id}', 'PackageController@order');
         Route::get('/qrcode', 'PackageController@qrcode');
     });
 
@@ -429,6 +430,7 @@ Route::group(['prefix' => 'v4/backend', 'namespace' => 'Backend\V4'], function (
         Route::get('/', 'MallAccessoryOrderController@index');
         Route::get('{id}', 'MallAccessoryOrderController@show');
         Route::post('/search', 'MallAccessoryOrderController@search');
+        Route::post('/toggle/{id}', 'MallAccessoryOrderController@toggleStatus');
         Route::delete('{id}', 'MallAccessoryOrderController@destroy');
     });
 
@@ -482,10 +484,10 @@ Route::group(['prefix' => 'v4', 'namespace' => 'Api\V4'], function () {
     // 商城收件地址
     Route::group(['prefix' => 'malladdress'], function () {
         Route::get('/search', 'MallAddressController@search');
-        Route::post('/', 'MallAddressController@store');
-        Route::put('update/{id}', 'MallAddressController@update');
         Route::get('/{id}', 'MallAddressController@show');
-        Route::delete('{id}', 'MallAddressController@destroy');
+        Route::post('update/{id}', 'MallAddressController@update');
+        Route::post('/delete/{id}', 'MallAddressController@destroy');
+        Route::post('/', 'MallAddressController@store');
     });
 
     // 商城订单

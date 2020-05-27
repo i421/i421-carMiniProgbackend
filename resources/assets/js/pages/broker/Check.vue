@@ -46,6 +46,13 @@
                 <data-tables border :data="allTableData" :action-col="actionCol" :pagination-props="{ pageSizes: [10, 15, 20] }">
                     <el-table-column v-for="title in titles" :prop="title.prop" :label="title.label" :key="title.label">
                     </el-table-column>
+
+					<el-table-column label="收款码" prop="broker_info.wechat_payment_code" width="180">
+						<template slot-scope="scope">
+							<el-image style="width: 60px; height: 60px" :src="scope.row.broker_info.wechat_payment_code"></el-image>
+						</template>
+					</el-table-column>
+
                 </data-tables>
 
             </el-tab-pane>
@@ -56,6 +63,12 @@
                 <data-tables border :data="notAuthTableData" :action-col="actionCol" :pagination-props="{ pageSizes: [10, 15, 20] }">
                     <el-table-column v-for="title in titles" :prop="title.prop" :label="title.label" :key="title.label">
                     </el-table-column>
+
+					<el-table-column label="收款码" prop="broker_info.wechat_payment_code" width="180">
+						<template slot-scope="scope">
+							<el-image style="width: 60px; height: 60px" :src="scope.row.broker_info.wechat_payment_code"></el-image>
+						</template>
+					</el-table-column>
                 </data-tables>
 
             </el-tab-pane>
@@ -66,6 +79,12 @@
                 <data-tables border :data="authTableData" :action-col="actionCol" :pagination-props="{ pageSizes: [10, 15, 20] }">
                     <el-table-column v-for="title in titles" :prop="title.prop" :label="title.label" :key="title.label">
                     </el-table-column>
+
+					<el-table-column label="收款码" prop="broker_info.wechat_payment_code" width="180">
+						<template slot-scope="scope">
+							<el-image style="width: 60px; height: 60px" :src="scope.row.broker_info.wechat_payment_code"></el-image>
+						</template>
+					</el-table-column>
                 </data-tables>
 
             </el-tab-pane>

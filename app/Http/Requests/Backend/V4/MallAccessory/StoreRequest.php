@@ -30,6 +30,7 @@ class StoreRequest extends FormRequest
             'score_price' => 'required|integer',
             'detail' => 'required|string',
             'carousel' => 'required',
+            'size' => 'nullable|string',
             'imgs' => 'required',
             'info' => 'array',
         ];

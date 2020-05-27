@@ -119,7 +119,7 @@ const Api = {
     'destroyOrder': 'api/v1/backend/order/',
 
     'packages': 'api/v3/backend/package',
-    'storePackage': 'api/v3/backend/package',
+    'storePackage': 'api/v3/backend/package,
     'destroyPackage': 'api/v3/backend/package/',
     'showPackage': 'api/v3/backend/package/',
     'updatePackage': 'api/v3/backend/package/update/',
@@ -132,6 +132,28 @@ const Api = {
     'topForum': 'api/v3/backend/forum/top/',
 
     'banComment': 'api/v3/backend/comment/ban/',
+
+    'mallaccessories': 'api/v4/backend/mallaccessory',
+    'searchMallAccessory': 'api/v4/backend/mallaccessory/search',
+    'storeMallAccessory': 'api/v4/backend/mallaccessory',
+    'toggleMallaccessoryStatus': 'api/v4/backend/mallaccessory/toggle/',
+    'mallAccessory': 'api/v4/backend/mallaccessory/',
+    'updateMallAccessory': 'api/v4/backend/mallaccessory/update/',
+
+    'mallAccessoryClassifies': 'api/v4/backend/mallaccessoryclassify',
+    'searchMallAccessoryClassify': 'api/v4/backend/mallaccessoryclassify/search',
+    'storeMallAccessoryClassify': 'api/v4/backend/mallaccessoryclassify',
+    'updateMallAccessoryClassify': 'api/v4/backend/mallaccessoryclassify/update/',
+    'deleteMallaccessoryClassify': 'api/v4/backend/mallaccessoryclassify/',
+    'showMallaccessoryClassify': 'api/v4/backend/mallaccessoryclassify/',
+    'primaryMallAccessoryClassifies': 'api/v4/backend/mallaccessoryclassify/primary',
+    'secondMallAccessoryClassifies': 'api/v4/backend/mallaccessoryclassify/second',
+
+    'searchMallOrder': 'api/v4/backend/mallaccessoryorder/search',
+    'toggleMallOrderStatus': 'api/v4/backend/mallaccessoryorder/toggle/',
+    'showMallOrder': 'api/v4/backend/mallaccessoryorder/',
+
+    'searchMallRecharge': 'api/v4/backend/mallrecharge/search',
 }
 
 export default Api

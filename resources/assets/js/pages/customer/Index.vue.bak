@@ -57,15 +57,7 @@
         </div>
 
 		<!-- table数据 -->
-        <data-tables-server
-            border
-            :total="total"
-            :loading="loading"
-            :data="tableData"
-            :action-col="actionCol"
-            :pagination-props="{ pageSizes: [10, 15, 20, 10000] }"
-            @query-change="loadData">
-
+        <data-tables border :data="tableData" :action-col="actionCol" :pagination-props="{ pageSizes: [10, 15, 20] }">
             <el-table-column v-for="title in titles" :prop="title.prop" :label="title.label" :key="title.label">
             </el-table-column>
 
@@ -90,7 +82,7 @@
                 </template>
             </el-table-column>
 
-        </data-tables-server>
+        </data-tables>
     </div>
 </template>
 
@@ -100,17 +92,14 @@
 
   export default {
 	  data() {
-	    return {
-            pageSize: "20",
-            page: "1",
-            total: 0,
+		return {
             conditionNickname: '',
             conditionPhone: '',
             conditionBuyer: [],
             conditionAuth: [],
             conditionTime: '',
             conditionSeller: '',
-	    tableData: [],
+			tableData: [],
             titles: [{
                 label: "序号",
                 prop: "id",
@@ -186,10 +175,7 @@
       },
 
       created () {
-          this.search({
-            page: this.page,
-            pageSize: this.pageSize,
-          })
+          this.fetchCustomers()
       },
 
       methods: {
@@ -200,11 +186,11 @@
             }).then(response => {
 
                 for (let i = 0; i < response.data.data.length; i++) {
-                    response.data.data.data[i]['auth'] =  response.data.data.data[i]['auth'] == "1" ? "认证" : "未认证";
-                    response.data.data.data[i]['is_seller'] =  response.data.data.data[i]['is_seller'] == "1" ? "核销" : "无核销权限";
+                    response.data.data[i]['auth'] =  response.data.data[i]['auth'] == "1" ? "认证" : "未认证";
+                    response.data.data[i]['is_seller'] =  response.data.data[i]['is_seller'] == "1" ? "核销" : "无核销权限";
                 }
 
-                this.tableData = response.data.data.data
+                this.tableData = response.data.data
             })
           },
 
@@ -217,14 +203,8 @@
             this.conditionSeller =[]
           },
 
-	  async loadData(queryInfo) {
-            await this.search(queryInfo)
-	  },
-
           //查询
-          search(queryInfo) {
-	    this.loading = true
-            this.tableData = []
+          search() {
             http({
                 url: Api.searchCustomer,
                 method: "post",
@@ -235,18 +215,14 @@
                     'time': this.conditionTime,
                     'is_seller': this.conditionSeller,
                     'is_buyer': this.conditionBuyer,
-                    'page': queryInfo.page,
-                    'pageSize': queryInfo.pageSize,
                 }
             }).then(response => {
-		this.loading = false
 
+                console.log((response.data.data))
                 for (let i = 0; i < response.data.data.length; i++) {
                     response.data.data[i]['auth'] =  response.data.data[i]['auth'] == "1" ? "认证" : "未认证";
                     response.data.data[i]['is_seller'] =  response.data.data[i]['is_seller'] == "1" ? "核销" : "无核销权限";
                 }
-
-		this.total = response.data.total
 
                 this.tableData = response.data.data
             })
@@ -299,4 +275,3 @@
     margin: 0 10px 15px 0px;
 }
 </style>
-

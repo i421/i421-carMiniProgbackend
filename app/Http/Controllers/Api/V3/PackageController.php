@@ -22,6 +22,14 @@ class PackageController extends Controller
         return $response;
     }
 
+    public function order(int $customer_id)
+    {
+        $params = request()->all();
+        $params['customer_id'] = $customer_id;
+        $response = $this->dispatch(new PackageJobs\OrderJob($params));
+        return $response;
+    }
+
     public function qrcode(PackageRequests\QrcodeRequest $request)
     {
         $params = $request->all();

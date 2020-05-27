@@ -24,7 +24,8 @@ class PreOrderRequest extends FormRequest
     public function rules()
     {
         return [
-            'payment_count' => 'required|integer',
+            //'payment_count' => 'required|integer',
+            'payment_count' => 'required|between:0,9999999.9',
             'customer_id' => 'required|integer',
             'car_id' => 'nullable|integer',
             'shop_id' => 'nullable|integer',

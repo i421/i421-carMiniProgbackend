@@ -35,7 +35,7 @@ class PackageAppcodeJob
 		$miniProgram = \EasyWeChat::miniProgram();
 
 		$response = $miniProgram->app_code->getUnlimit("$this->id&$this->package_id", [
-			'page' => 'pages/my_recommend/my_commend',
+			'page' => 'pages/index/index',
 		]);
 
 		\Log::info($response);

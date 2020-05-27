@@ -47,4 +47,15 @@ class MallAccessoryOrderController extends Controller
         $response = $this->dispatch(new MallAccessoryOrderJobs\SearchJob($params));
         return $response;
     }
+
+    /**
+     * 更新状态
+     */
+    public function toggleStatus(int $id)
+    {
+        $params = request()->all();
+        $params['id'] = $id;
+        $response = $this->dispatch(new MallAccessoryOrderJobs\ToggleStatusJob($params));
+        return $response;
+    }
 }

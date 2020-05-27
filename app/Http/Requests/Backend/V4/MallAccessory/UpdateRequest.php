@@ -31,6 +31,7 @@ class UpdateRequest extends FormRequest
             'detail' => 'required|string',
             'avatar' => 'nullable|image',
             'carousel' => 'nullable|array',
+            'size' => 'nullable|string',
             'imgs' => 'nullable|array',
             'info' => 'array',
         ];

@@ -73,8 +73,10 @@
 
                     <el-table-column label="状态" prop="status">
                         <template slot-scope="scope">
-                            <el-tag v-if="scope.row.status == 1" type="danger">全部</el-tag>
-                            <el-tag v-else type="warning">下架</el-tag>
+                            <el-tag v-if="scope.row.status == 1" type="danger">待付款</el-tag>
+                            <el-tag v-else-if="scope.row.status == 2" type="warning">待发货</el-tag>
+                            <el-tag v-else-if="scope.row.status == 3" type="info">已发货</el-tag>
+                            <el-tag v-else type="success">已完成</el-tag>
                         </template>
                     </el-table-column>
                 </data-tables>
@@ -109,8 +111,10 @@
 
                     <el-table-column label="状态" prop="status">
                         <template slot-scope="scope">
-                            <el-tag v-if="scope.row.status == 1" type="danger">全部</el-tag>
-                            <el-tag v-else type="warning">下架</el-tag>
+                            <el-tag v-if="scope.row.status == 1" type="danger">待付款</el-tag>
+                            <el-tag v-else-if="scope.row.status == 2" type="warning">待发货</el-tag>
+                            <el-tag v-else-if="scope.row.status == 3" type="info">已发货</el-tag>
+                            <el-tag v-else type="success">已完成</el-tag>
                         </template>
                     </el-table-column>
                 </data-tables>
@@ -145,8 +149,10 @@
 
                     <el-table-column label="状态" prop="status">
                         <template slot-scope="scope">
-                            <el-tag v-if="scope.row.status == 1" type="danger">全部</el-tag>
-                            <el-tag v-else type="warning">下架</el-tag>
+                            <el-tag v-if="scope.row.status == 1" type="danger">待付款</el-tag>
+                            <el-tag v-else-if="scope.row.status == 2" type="warning">待发货</el-tag>
+                            <el-tag v-else-if="scope.row.status == 3" type="info">已发货</el-tag>
+                            <el-tag v-else type="success">已完成</el-tag>
                         </template>
                     </el-table-column>
                 </data-tables>
@@ -181,8 +187,10 @@
 
                     <el-table-column label="状态" prop="status">
                         <template slot-scope="scope">
-                            <el-tag v-if="scope.row.status == 1" type="danger">全部</el-tag>
-                            <el-tag v-else type="warning">下架</el-tag>
+                            <el-tag v-if="scope.row.status == 1" type="danger">待付款</el-tag>
+                            <el-tag v-else-if="scope.row.status == 2" type="warning">待发货</el-tag>
+                            <el-tag v-else-if="scope.row.status == 3" type="info">已发货</el-tag>
+                            <el-tag v-else type="success">已完成</el-tag>
                         </template>
                     </el-table-column>
                 </data-tables>
@@ -217,8 +225,10 @@
 
                     <el-table-column label="状态" prop="status">
                         <template slot-scope="scope">
-                            <el-tag v-if="scope.row.status == 1" type="danger">全部</el-tag>
-                            <el-tag v-else type="warning">下架</el-tag>
+                            <el-tag v-if="scope.row.status == 1" type="danger">待付款</el-tag>
+                            <el-tag v-else-if="scope.row.status == 2" type="warning">待发货</el-tag>
+                            <el-tag v-else-if="scope.row.status == 3" type="info">已发货</el-tag>
+                            <el-tag v-else type="success">已完成</el-tag>
                         </template>
                     </el-table-column>
                 </data-tables>
@@ -339,7 +349,7 @@
                     method: 'post',
                     url: Api.toggleMallOrderStatus + row.id,
                     data: {
-                        'status': row.status,
+                        'status': 4,
                     }
                 }).then(response => {
                     this.$notify.success({

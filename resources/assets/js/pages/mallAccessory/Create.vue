@@ -28,6 +28,15 @@
                         <el-input v-model="form.name"></el-input>
                     </el-form-item>
 
+                    <el-form-item label="规格" prop="size"
+                        :rules="[
+                            { required: true, message: '规则不能为空', trigger: 'blur' },
+                            { type: 'string', message: '必须为字符串', trigger: ['blur', 'change'] },
+                        ]"
+                    >
+                        <el-input v-model="form.size"></el-input>
+                    </el-form-item>
+
                     <el-form-item label="积分价" prop="score_price"
                         :rules="[
                             { required: true, message: '积分价不能为空', trigger: 'blur' },
@@ -225,6 +234,7 @@
               imgs: [],
               form: {
                   name: '',
+                  size: '',
                   avatar: '',
                   mall_accessory_classify_id: '',
                   price: '',
@@ -280,6 +290,7 @@
                 if (valid) {
                     let formData = new FormData()
                     formData.append('name', this.form.name)
+                    formData.append('size', this.form.size)
                     formData.append('mall_accessory_classify_id', this.form.mall_accessory_classify_id)
                     formData.append('price', this.form.price)
                     formData.append('score_price', this.form.score_price)

@@ -20,6 +20,7 @@ class CreateMallAccessoriesTable extends Migration
             $table->integer('mall_accessory_classify_id')->unsigned()->index()->comment("类别");
             $table->integer('price')->index()->comment("原价");
             $table->integer('count')->default(0)->index()->comment("销量");
+            $table->string('size')->nullable()->index()->comment("尺寸");
             $table->integer('score_price')->index()->comment("积分价");
             $table->json("detail")->nullable()->comment("规格: 颜色,尺寸...");
             $table->json("carousel")->nullable()->comment("轮播图");
