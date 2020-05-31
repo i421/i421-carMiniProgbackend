@@ -30,8 +30,9 @@ class PreOrderRequest extends FormRequest
             'car_id' => 'nullable|integer',
             'shop_id' => 'nullable|integer',
             'mall_accessory_id' => 'nullable|integer',
-            'mall_address_id' => 'nullable|integer',
-            'mall_accessory_count' => 'nullable|integer',
+            'mall_address_id' => 'nullable|string',
+            'mall_accessory_count' => 'nullable|string',
+            'append' => 'nullable|string',
             'mall_accessory_detail' => 'nullable|array',
             'type' => 'nullable|integer',
         ];

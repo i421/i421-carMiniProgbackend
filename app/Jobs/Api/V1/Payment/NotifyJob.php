@@ -113,6 +113,20 @@ class NotifyJob
                         ]);
 
                         // 推荐人奖励
+                        $customer = TableModels\Customer::find($customer_id);
+
+                        if (!is_null($customer->recommender)) {
+                            $broker = TableModels\Customer::find($customer->recommender);
+                            if (!is_null($broker)) {
+                                TableModels\CustomerRecharge::create([
+                                    'customer_id' => $broker->id,
+                                    'score' => floor($message['total_fee'] * (getMoneyThreshold()['relation_return_money']) / 10000),
+                                    'content' => "推荐人:" . $customer->phone . "积分充值奖励",
+                                ]);
+                            }
+                            $broker->score += floor($message['total_fee'] * (getMoneyThreshold()['relation_return_money']) / 10000);
+                            $broker->save();
+                        }
                         
                         // 代理商奖励
                     }

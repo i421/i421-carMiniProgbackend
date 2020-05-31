@@ -43,13 +43,19 @@ class SearchJob
             return response()->json($response);
         }
 
-        $temp = TableModels\MallAccessoryOrder::where('customer_id', '=', $this->customer_id);
+        $temp = TableModels\MallAccessoryOrder::where('customer_id', '=', $this->customer_id)
+                ->where('customer_id', '=', $this->customer_id);
 
         $count = $temp->count();
 
         $mallAccessoryOrders = $temp->orderBy("created_at", 'desc')->take($this->pagesize)
             ->offset(($this->page - 1) * $this->pagesize)
             ->get();
+
+        foreach ($mallAccessoryOrders as &$order) {
+            $res = TableModels\MallAccessory::select('id', 'name', 'price', 'score_price', 'avatar')->whereIn("id", $order->mall_accessory_id)->get()->toArray();
+            $order['mall_accessory_detail'] = $res;
+        }
 
         $response = [
             'code' => trans('pheicloud.response.success.code'),

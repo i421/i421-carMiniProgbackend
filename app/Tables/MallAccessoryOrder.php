@@ -15,4 +15,26 @@ class MallAccessoryOrder extends Model
     protected $guarded = [
         'id', 'created_at',
     ];
+
+    public function getMallAccessoryIdAttribute($value)
+    {
+        if (is_null($value)) {
+            return [];
+        }
+
+        $arr = explode(',', $value);
+
+        return $arr;
+    }
+
+    public function getMallAccessoryCountAttribute($value)
+    {
+        if (is_null($value)) {
+            return [];
+        }
+
+        $arr = explode(',', $value);
+
+        return $arr;
+    }
 }

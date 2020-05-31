@@ -23,9 +23,10 @@ class PreOrderJob
     private $type;
     //配件ID
     private $mall_accessory_id;
+    private $mall_accessory_count;
+    private $append;
     //收货地址ID
     private $mall_address_id;
-    private $mall_accessory_count;
     private $mall_accessory_detail;
 
     /**
@@ -42,7 +43,8 @@ class PreOrderJob
         $this->car_id = isset($params['car_id']) ? $params['car_id'] : null;
         $this->shop_id = isset($params['shop_id']) ? $params['shop_id'] : null;
         $this->mall_accessory_id = isset($params['mall_accessory_id']) ? $params['mall_accessory_id'] : null;
-        $this->mall_accessory_count = isset($params['mall_accessory_count']) ? $params['mall_accessory_count'] : 1;
+        $this->mall_accessory_count = isset($params['mall_accessory_count']) ? $params['mall_accessory_count'] : null;
+        $this->append = isset($params['append']) ? $params['append'] : null;
         $this->mall_address_id = isset($params['mall_address_id']) ? $params['mall_address_id'] : 0;
         $this->mall_accessory_detail = isset($params['mall_accessory_detail']) ? json_encode($params['mall_accessory_detail']) : '';
     }
@@ -236,6 +238,7 @@ class PreOrderJob
                 'mall_accessory_count' => $this->mall_accessory_count,
                 'mall_address_id' => $this->mall_address_id,
                 'mall_accessory_detail' => $this->mall_accessory_detail,
+                'append' => $this->append,
             ];
             //统一订单列表
             TableModels\PayLog::insert([
@@ -249,6 +252,8 @@ class PreOrderJob
             TableModels\MallAccessoryOrder::insert([
                 'customer_id' => $this->customer_id,
                 'mall_accessory_id' => $this->mall_accessory_id,
+                'mall_accessory_count' => $this->mall_accessory_count,
+                'append' => $this->append,
                 'mall_address_id' => $this->mall_address_id,
                 'status' => 1,
                 'pay_type' => 1,
