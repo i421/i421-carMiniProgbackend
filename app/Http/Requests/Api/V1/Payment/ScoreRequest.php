@@ -24,12 +24,14 @@ class ScoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'payment_count' => 'required|integer',
+            //'payment_count' => 'required|integer',
+            'payment_count' => 'required|between:0,9999999.9',
             'customer_id' => 'required|integer',
-            'mall_accessory_id' => 'nullable|integer',
             'mall_address_id' => 'nullable|integer',
-            'mall_accessory_count' => 'nullable|integer',
-            'mall_accessory_detail' => 'nullable|array',
+            'mall_accessory_id' => 'nullable|string',
+            'mall_accessory_count' => 'nullable|string',
+            'mall_accessory_detail' => 'nullable',
+            'append' => 'nullable|string',
         ];
     }
 }

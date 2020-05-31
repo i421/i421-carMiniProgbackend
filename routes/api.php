@@ -495,6 +495,7 @@ Route::group(['prefix' => 'v4', 'namespace' => 'Api\V4'], function () {
         Route::get('/search', 'MallAccessoryOrderController@search');
         Route::get('/{id}', 'MallAccessoryOrderController@show');
         Route::post('/toggle/status', 'MallAccessoryOrderController@toggleStatus');
+        Route::post('/update/express', 'MallAccessoryOrderController@updateExpress');
         Route::delete('{id}', 'MallAccessoryOrderController@destroy');
     });
 });
