@@ -35,9 +35,16 @@ class SearchJob
      */
     public function handle()
     {
-        $temp = TableModels\MallAccessory::where([
+        $temp = TableModels\MallAccessory::leftJoin(
+            'mall_accessory_classifies', 'mall_accessories.mall_accessory_classify_id', '=', 'mall_accessory_classifies.id'
+        )->select("mall_accessories.*")
+        ->where([
             ['status', '=', "1"],
-            ['name', 'like', "%$this->key%"]
+            ['mall_accessories.name', 'like', "%$this->key%"]
+        ])->orWhere([
+            ['status', '=', "1"],
+            ['mall_accessory_classifies.type', '=', 2],
+            ['mall_accessory_classifies.name', 'like', "%$this->key%"]
         ]);
 
         $count = $temp->count();

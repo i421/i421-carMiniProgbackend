@@ -27,6 +27,17 @@ class MallAccessoryOrder extends Model
         return $arr;
     }
 
+    public function getAppendAttribute($value)
+    {
+        if (is_null($value)) {
+            return [];
+        }
+
+        $arr = explode(',', $value);
+
+        return $arr;
+    }
+
     public function getMallAccessoryCountAttribute($value)
     {
         if (is_null($value)) {
