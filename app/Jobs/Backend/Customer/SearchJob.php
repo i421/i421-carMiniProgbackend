@@ -34,7 +34,7 @@ class SearchJob
     public function handle()
     {
         $tempRes = TableModels\Customer::select(
-            'id', 'phone', 'nickname', 'openid', 'gender', 'recommend_count', 'status', 'auth', 'is_seller', 'created_at', 'is_agent', 'is_partner'
+            'id', 'phone', 'nickname', 'openid', 'gender', 'recommend_count', 'status', 'auth', 'is_seller', 'created_at', 'is_agent', 'is_partner', 'type', 'type_auth'
         );
 
         if (!is_null($this->params['phone']) && !empty($this->params['phone'])) {

@@ -96,6 +96,6 @@ class Customer extends Model
      */
     public function packages()
     {
-        return $this->belongsToMany(Package::class)->withPivot('left_count', 'qr_code');
+        return $this->belongsToMany(Package::class)->withPivot('left_count', 'qr_code', 'created_at', 'updated_at');
     }
 }

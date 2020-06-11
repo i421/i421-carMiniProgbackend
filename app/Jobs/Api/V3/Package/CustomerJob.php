@@ -44,6 +44,8 @@ class CustomerJob
         foreach($packages as & $package) {
             $package->left_count = $package->pivot->left_count;
             $package->qr_code = $package->pivot->qr_code;
+            $package->created_at = $package->pivot->created_at;
+            $package->updated_at = $package->pivot->updated_at;
         }
 
         $response = [

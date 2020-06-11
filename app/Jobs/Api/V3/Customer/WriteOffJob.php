@@ -36,6 +36,8 @@ class WriteOffJob
      */
     public function handle()
     {
+        \Log::info("merchant_id:$this->merchant_id" . "====" . "package_id=$this->package_id" . "-=======-" . "customer_id=$this->customer_id");
+
         $merchant = TableModels\Customer::find($this->merchant_id);
         if ($merchant->is_seller != 1) {
             $response = [
@@ -89,6 +91,14 @@ class WriteOffJob
         $package = TableModels\Package::where('id', $this->package_id)->first();
 
         TableModels\Customer::where('id', $this->merchant_id)->increment('score', $package->seller_score);
+
+        $consumer = TableModels\Customer::where('id', $this->customer_id)->first();
+
+        TableModels\CustomerRecharge::create([
+            'customer_id' => $this->merchant_id,
+            'score' => $package->seller_score,
+            'content' => $consumer->phone . '核销积分奖励',
+        ]);
 
         \Log::info("merchant_id:$this->merchant_id" . "====" . "package_id=$this->package_id");
 

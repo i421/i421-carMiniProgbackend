@@ -63,6 +63,23 @@ class SearchJob
             return response()->json($response);
         }
 
+		foreach ($mallShoppingCart as &$atom) {
+
+			$imgs = json_decode($atom['imgs'], true);
+			$carousels = json_decode($atom['carousel'], true);
+
+			foreach ($imgs as $img) {
+				$tempImg[] = url('/') . '/' . $img;
+			}
+
+			$atom['full_imgs'] = $tempImg;
+
+			foreach ($carousels as &$carousel) {
+				$tempCarousel[] = url('/') . '/' . $img;
+			}
+			$atom['full_carousels'] = $tempCarousel;
+		}
+
         $response = [
             'code' => trans('pheicloud.response.success.code'),
             'msg' => trans('pheicloud.response.success.msg'),

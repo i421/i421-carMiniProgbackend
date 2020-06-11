@@ -90,17 +90,19 @@ class NotifyJob
                         ]);
 
                         if (!is_null($customer->recommender)) {
-                            $broker = TableModels\Customer::find($customer->recommender);
 
-                            if ((!is_null($broker)) && ($broker->is_seller == 1)) {
+                            $broker = TableModels\Customer::find($customer->recommender);
+                            \Log::info("broker: " . $broker->id . " 消费" . $message['total_fee']);
+
+                            if ((!is_null($broker)) && ($broker->type == 2) && ($broker->type_auth == 1)) {
                                 TableModels\CustomerRecharge::create([
                                     'customer_id' => $broker->id,
                                     'score' => floor($message['total_fee'] * 5/10000),
                                     'content' => '推荐人消费积分奖励',
                                 ]);
+                                $broker->score += floor($message['total_fee'] * 5/10000);
+                                $broker->save();
                             }
-                            $broker->score = floor($message['total_fee'] * 5/10000);
-                            $broker->save();
                         }
                     }
 

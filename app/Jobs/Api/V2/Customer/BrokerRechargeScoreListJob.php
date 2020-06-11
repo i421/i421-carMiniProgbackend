@@ -32,6 +32,7 @@ class BrokerRechargeScoreListJob
         $recharges = TableModels\CustomerRecharge::join('customers', 'customer_recharges.customer_id', '=', 'customers.id')
             ->where('customers.openid', $this->openid)
             ->select('customers.phone as phone', 'customers.nickname as nickname', 'customers.phone as phone', 'customer_recharges.*')
+            ->orderBy("customer_recharges.created_at", 'desc')
             ->get();
 
         $response = [

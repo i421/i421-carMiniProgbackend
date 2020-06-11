@@ -10,6 +10,22 @@
 use App\Tables as TableModels;
 
 /**
+ * 对象 转 数组
+ *
+ * @param object $obj 对象
+ * @return array
+ */
+function object_to_array($data)
+{
+    $temp = array();
+
+    foreach ($data as $key => $value) {
+        array_push($temp, $value);
+    }
+    return $temp;
+}
+
+/**
  * aes解密
  *
  * @param  string $str

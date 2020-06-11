@@ -32,12 +32,10 @@ class BindRecommenderJob
      */
     public function handle()
     {
-        $res = TableModels\Customer::where([
-            ['id', '=', $this->id],
-            ['openid', '=', $this->openid],
-        ])->first();
+        \Log::info("[bind] id:" . $this->id . '------ openid:' . $this->openid);
+        $res = TableModels\Customer::where('id', '=', $this->id)->first();
 
-        if (! is_null($res)) {
+        if (!$res) {
 
             $response = [
                 'code' => trans('pheicloud.response.normalException.code'),
@@ -52,6 +50,7 @@ class BindRecommenderJob
         if ($customer->recommender == null) {
 
             TableModels\Customer::where('id', '=', $this->id)->increment('recommend_count');
+            TableModels\Customer::where('id', '=', $this->id)->increment('score', getScoreThreshold()['recommend']);
             TableModels\Customer::where('openid', '=', $this->openid)->update(['recommender' => $this->id]);
 
             //积分计算

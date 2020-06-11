@@ -14,7 +14,7 @@ require('./bootstrap');
 import Vue from 'vue';
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
-import { DataTables } from 'vue-data-tables'
+import VueDataTables from 'vue-data-tables'
 import Http from './utils/fetch';
 import router from './router/index';
 import store from './store/index';
@@ -29,7 +29,7 @@ import 'quill/dist/quill.snow.css'
 import 'quill/dist/quill.bubble.css'
 
 Vue.use(ElementUI);
-Vue.use(DataTables)
+Vue.use(VueDataTables)
 Vue.use(Http);
 Vue.use(VueQuillEditor, /* { default global options } */)
 Vue.use(HighchartsVue)

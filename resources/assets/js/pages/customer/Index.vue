@@ -69,24 +69,31 @@
             <el-table-column v-for="title in titles" :prop="title.prop" :label="title.label" :key="title.label">
             </el-table-column>
 
-            <el-table-column  prop="is_agent" label="是否代理商">
+            <el-table-column prop="is_agent" label="是否代理商">
                 <template slot-scope="scope">
                     <el-tag v-if="scope.row.is_agent == 0" type="danger">非代理商</el-tag>
                     <el-tag v-else type="success">代理商</el-tag>
                 </template>
             </el-table-column>
 
-            <el-table-column  prop="type" label="是否合作商家">
+            <el-table-column prop="is_partner" label="是否合作商家">
                 <template slot-scope="scope">
                     <el-tag v-if="scope.row.is_partner == 0" type="danger">非合作商家</el-tag>
                     <el-tag v-else type="success">合作商家</el-tag>
                 </template>
             </el-table-column>
 
-            <el-table-column  prop="type" label="是否经纪人">
+            <el-table-column prop="type" label="是否经纪人">
                 <template slot-scope="scope">
-                    <el-tag v-if="scope.row.status == 1" type="danger">普通用户</el-tag>
+                    <el-tag v-if="scope.row.type == 1" type="danger">普通用户</el-tag>
                     <el-tag v-else type="success">经纪人</el-tag>
+                </template>
+            </el-table-column>
+
+            <el-table-column prop="type_auth" label="经纪人认证">
+                <template slot-scope="scope">
+                    <el-tag v-if="scope.row.type_auth == 1" type="success">经纪人认证</el-tag>
+                    <el-tag v-else type="danger">未认证</el-tag>
                 </template>
             </el-table-column>
 
