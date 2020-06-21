@@ -45,7 +45,7 @@ class SearchJob
 
         $temp = TableModels\MallShoppingCart::leftJoin('customers', 'mall_shopping_carts.customer_id', '=', 'customers.id')
             ->leftJoin('mall_accessories', 'mall_shopping_carts.mall_accessory_id', '=', 'mall_accessories.id')
-            ->select("mall_accessories.*", 'mall_shopping_carts.count')
+            ->select("mall_accessories.*", 'mall_shopping_carts.count', 'mall_shopping_carts.id as mall_shopping_cart_id')
             ->where('customer_id', '=', $this->customer_id);
 
         $count = $temp->count();
@@ -64,20 +64,27 @@ class SearchJob
         }
 
 		foreach ($mallShoppingCart as &$atom) {
+            
 
-			$imgs = json_decode($atom['imgs'], true);
-			$carousels = json_decode($atom['carousel'], true);
+            if (!is_null($atom['imgs'])) {
+                $imgs = json_decode($atom['imgs'], true);
+                $carousels = json_decode($atom['carousel'], true);
 
-			foreach ($imgs as $img) {
-				$tempImg[] = url('/') . '/' . $img;
-			}
+                foreach ($imgs as $img) {
+                    $tempImg[] = url('/') . '/' . $img;
+                }
 
-			$atom['full_imgs'] = $tempImg;
+                $atom['full_imgs'] = $tempImg;
+            }
 
-			foreach ($carousels as &$carousel) {
-				$tempCarousel[] = url('/') . '/' . $img;
-			}
-			$atom['full_carousels'] = $tempCarousel;
+            if (!is_null($atom['imgs'])) {
+                foreach ($carousels as &$carousel) {
+                    $tempCarousel[] = url('/') . '/' . $img;
+                }
+                $atom['full_carousels'] = $tempCarousel;
+
+            }
+            $atom['full_avatar'] = url('/') . '/storage/' . $atom['avatar'];
 		}
 
         $response = [

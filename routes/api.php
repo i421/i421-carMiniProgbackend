@@ -439,6 +439,18 @@ Route::group(['prefix' => 'v4/backend', 'namespace' => 'Backend\V4'], function (
         Route::post('/search', 'MallRechargeController@search');
     });
 
+    Route::group(['prefix' => 'customer'], function () {
+        Route::get('isAgent', 'CustomerController@isAgent');
+        Route::get('isPartner', 'CustomerController@isPartner');
+    });
+
+    Route::group(['prefix' => 'writeoff'], function () {
+        Route::post('search', 'WriteOffController@search');
+    });
+
+    Route::group(['prefix' => 'customerpackage'], function () {
+        Route::post('search', 'CustomerPackageController@search');
+    });
 });
 
 Route::group(['prefix' => 'v4', 'namespace' => 'Api\V4'], function () {
@@ -468,6 +480,8 @@ Route::group(['prefix' => 'v4', 'namespace' => 'Api\V4'], function () {
     // 汽配商城购物车
     Route::group(['prefix' => 'mallshoppingcart'], function () {
         Route::get('/search', 'MallShoppingCartController@search');
+        Route::post('/changecount', 'MallShoppingCartController@changecount');
+        Route::post('/delete/{id}', 'MallShoppingCartController@destroy');
         Route::post('/', 'MallShoppingCartController@store');
     });
 

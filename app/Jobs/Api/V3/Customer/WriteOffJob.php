@@ -36,7 +36,7 @@ class WriteOffJob
      */
     public function handle()
     {
-        \Log::info("merchant_id:$this->merchant_id" . "====" . "package_id=$this->package_id" . "-=======-" . "customer_id=$this->customer_id");
+        \Log::info("[log] merchant_id:$this->merchant_id" . "====" . "package_id=$this->package_id" . "-=======-" . "customer_id=$this->customer_id");
 
         $merchant = TableModels\Customer::find($this->merchant_id);
         if ($merchant->is_seller != 1) {
@@ -83,24 +83,51 @@ class WriteOffJob
             return response()->json($response);
         }
 
-        DB::table("customer_package")->where('id', $customer_package->id)->decrement('left_count', 1);
-        DB::table("customer_package")->where('id', $customer_package->id)->update([
-            'updated_at' => date("Y-m-d H:i:s")
-        ]);
+        // 开始事务
+        DB::beginTransaction();
 
-        $package = TableModels\Package::where('id', $this->package_id)->first();
+        try {
+            // 套餐次数减1
+            DB::table("customer_package")->where('id', $customer_package->id)->decrement('left_count', 1);
+            DB::table("customer_package")->where('id', $customer_package->id)->update([
+                'updated_at' => date("Y-m-d H:i:s")
+            ]);
 
-        TableModels\Customer::where('id', $this->merchant_id)->increment('score', $package->seller_score);
+            // 核销积分发放
+            $package = TableModels\Package::where('id', $this->package_id)->first();
+            TableModels\Customer::where('id', $this->merchant_id)->increment('score', $package->seller_score);
 
-        $consumer = TableModels\Customer::where('id', $this->customer_id)->first();
+            // 商家添加积分奖励记录
+            $consumer = TableModels\Customer::where('id', $this->customer_id)->first();
 
-        TableModels\CustomerRecharge::create([
-            'customer_id' => $this->merchant_id,
-            'score' => $package->seller_score,
-            'content' => $consumer->phone . '核销积分奖励',
-        ]);
+            TableModels\CustomerRecharge::create([
+                'customer_id' => $this->merchant_id,
+                'score' => $package->seller_score,
+                'content' => $consumer->phone . '核销积分奖励',
+            ]);
 
-        \Log::info("merchant_id:$this->merchant_id" . "====" . "package_id=$this->package_id");
+            // 核销记录持久化
+            TableModels\WriteOff::create([
+                'merchant_id' => $this->merchant_id,
+                'customer_id' => $this->customer_id,
+                'content' => "核销套餐" . $package->name . ", 奖励" . $package->seller_score,
+            ]);
+
+            \Log::info("[success] merchant_id:$this->merchant_id" . "====" . "package_id=$this->package_id");
+
+            DB::commit();
+
+        } catch (\Exception $e) {
+
+            DB::rollback();
+
+            $response = [
+                'code' => trans('pheicloud.response.error.code'),
+                'msg' => trans('pheicloud.response.error.msg'),
+            ];
+
+            return response()->json($response);
+        }
 
         $response = [
             'code' => trans('pheicloud.response.success.code'),

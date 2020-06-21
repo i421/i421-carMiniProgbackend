@@ -68,11 +68,25 @@
 
             <el-table-column v-for="title in titles" :prop="title.prop" :label="title.label" :key="title.label">
             </el-table-column>
-
-            <el-table-column prop="is_agent" label="是否代理商">
+            
+            <el-table-column prop="package_count" label="是否购买套餐">
                 <template slot-scope="scope">
-                    <el-tag v-if="scope.row.is_agent == 0" type="danger">非代理商</el-tag>
-                    <el-tag v-else type="success">代理商</el-tag>
+                    <el-tag v-if="scope.row.package_count <= 0" type="danger">未购买</el-tag>
+                    <el-tag v-else type="success">有套餐</el-tag>
+                </template>
+            </el-table-column>
+
+            <el-table-column prop="auth" label="是否认证">
+                <template slot-scope="scope">
+                    <el-tag v-if="scope.row.auth == 0" type="danger">未认证</el-tag>
+                    <el-tag v-else type="success">认证用户</el-tag>
+                </template>
+            </el-table-column>
+
+            <el-table-column prop="is_seller" label="核销">
+                <template slot-scope="scope">
+                    <el-tag v-if="scope.row.is_seller == 0" type="danger">无核销权限</el-tag>
+                    <el-tag v-else type="success">核销</el-tag>
                 </template>
             </el-table-column>
 
@@ -80,6 +94,13 @@
                 <template slot-scope="scope">
                     <el-tag v-if="scope.row.is_partner == 0" type="danger">非合作商家</el-tag>
                     <el-tag v-else type="success">合作商家</el-tag>
+                </template>
+            </el-table-column>
+
+            <el-table-column prop="is_agent" label="代理商">
+                <template slot-scope="scope">
+                    <el-tag v-if="scope.row.is_agent == 0" type="danger">非代理商</el-tag>
+                    <el-tag v-else type="success">代理商</el-tag>
                 </template>
             </el-table-column>
 
@@ -143,18 +164,15 @@
                 label: "收藏数",
                 prop: "collection_count",
             }, {
-                label: "是否认证",
-                prop: "auth",
-            }, {
-                label: "能否核销",
-                prop: "is_seller",
+                label: "创建时间",
+                prop: "created_at",
             }],
 
             actionCol: {
                 label: '操作',
                 props: {
                     align: 'center',
-                    width: '400px',
+                    width: '600px',
                 },
 
                 buttons: [{
@@ -177,6 +195,26 @@
                         this.togglePass(row)
                     },
                     label: '切换能否核销'
+                }, {
+                    props: {
+                        type: 'danger',
+                        size: "mini",
+                        icon: 'el-icon-refresh'
+                    },
+                    handler: row => {
+                        this.toggleAgent(row)
+                    },
+                    label: '标记代理商'
+                }, {
+                    props: {
+                        type: 'danger',
+                        size: "mini",
+                        icon: 'el-icon-refresh'
+                    },
+                    handler: row => {
+                        this.togglePartner(row)
+                    },
+                    label: '标记合作商家'
                 }, {
                     props: {
                         type: 'danger',
@@ -206,10 +244,12 @@
                 url: Api.customers,
             }).then(response => {
 
+                /*
                 for (let i = 0; i < response.data.data.length; i++) {
                     response.data.data.data[i]['auth'] =  response.data.data.data[i]['auth'] == "1" ? "认证" : "未认证";
                     response.data.data.data[i]['is_seller'] =  response.data.data.data[i]['is_seller'] == "1" ? "核销" : "无核销权限";
                 }
+                */
 
                 this.tableData = response.data.data.data
             })
@@ -229,7 +269,7 @@
 	  },
 
           //查询
-          search(queryInfo) {
+      search(queryInfo) {
 	    this.loading = true
             this.tableData = []
             http({
@@ -246,14 +286,16 @@
                     'pageSize': queryInfo.pageSize,
                 }
             }).then(response => {
-		this.loading = false
+                this.loading = false
 
+                /*
                 for (let i = 0; i < response.data.data.length; i++) {
                     response.data.data[i]['auth'] =  response.data.data[i]['auth'] == "1" ? "认证" : "未认证";
                     response.data.data[i]['is_seller'] =  response.data.data[i]['is_seller'] == "1" ? "核销" : "无核销权限";
                 }
+                */
 
-		this.total = response.data.total
+                this.total = response.data.total
 
                 this.tableData = response.data.data
             })
@@ -266,7 +308,7 @@
 
           togglePass(row) {
 
-              if (row.is_seller == '无核销权限') {
+              if (row.is_seller == '0') {
                 var is_seller = 1;
               } else {
                 var is_seller = 0;
@@ -279,7 +321,54 @@
                       is_seller: is_seller
                   }
               }).then(response => {
-                this.search()
+                  this.search({
+                    page: this.page,
+                    pageSize: this.pageSize,
+                  })
+              })
+          },
+
+          toggleAgent(row) {
+
+              if (row.is_agent == 0) {
+                var is_agent = 1;
+              } else {
+                var is_agent = 0;
+              }
+
+              http({
+                  url: Api.customerToggleIsAgent, 
+                  params: {
+                      id: row.id,
+                      is_agent: is_agent
+                  }
+              }).then(response => {
+                  this.search({
+                    page: this.page,
+                    pageSize: this.pageSize,
+                  })
+              })
+          },
+
+          togglePartner(row) {
+
+              if (row.is_partner == '0') {
+                var is_partner = 1;
+              } else {
+                var is_partner = 0;
+              }
+
+              http({
+                  url: Api.customerToggleIsPartner, 
+                  params: {
+                      id: row.id,
+                      is_partner: is_partner
+                  }
+              }).then(response => {
+                  this.search({
+                    page: this.page,
+                    pageSize: this.pageSize,
+                  })
               })
           },
 

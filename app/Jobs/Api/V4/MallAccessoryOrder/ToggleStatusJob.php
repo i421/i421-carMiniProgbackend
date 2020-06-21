@@ -41,7 +41,10 @@ class ToggleStatusJob
             return response()->json($response);
         }
 
-        $mallAccessoryOrder = TableModels\MallAccessoryOrder::where('id', $this->id)->update(['status' => $this->status]);
+        $mallAccessoryOrder = TableModels\MallAccessoryOrder::where([
+            ['id', '=', $this->id],
+            ['status', '=', 3],
+        ])->update(['status' => $this->status]);
 
         if (!$mallAccessoryOrder) {
             $response = [

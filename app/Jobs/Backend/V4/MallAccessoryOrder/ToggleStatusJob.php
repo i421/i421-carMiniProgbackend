@@ -43,7 +43,7 @@ class ToggleStatusJob
 
         $mallAccessoryOrder = TableModels\MallAccessoryOrder::where([
             ['id', '=', $this->id],
-            ['status', '=', 3],
+            ['status', '=', 2],
         ])->update(['status' => $this->status]);
 
         if (!$mallAccessoryOrder) {

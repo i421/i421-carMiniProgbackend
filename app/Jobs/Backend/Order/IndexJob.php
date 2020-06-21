@@ -34,7 +34,7 @@ class IndexJob
 
         foreach($roles as $role) {
 
-            if (count($role->info) < 1) {
+            if (is_null($role->info)) {
                 break;
             }
 

@@ -220,6 +220,14 @@ export default new Router({
                     path: '/test',
                     component: resolve => require(['../pages/Test.vue'], resolve)
                 }, {
+                    path: '/writeoff',
+                    name: 'writeoff',
+                    component: resolve => require(['../pages/writeoff/Index.vue'], resolve)
+                }, {
+                    path: '/customerpackage',
+                    name: 'customerpackage',
+                    component: resolve => require(['../pages/customerpackage/Index.vue'], resolve)
+                }, {
                     path: '/package',
                     name: 'package',
                     component: resolve => require(['../pages/package/Index.vue'], resolve)

@@ -122,6 +122,15 @@
                         this.toggle(row)
                     },
                     label: '切换状态'
+                }, {
+                    props: {
+                        type: 'danger',
+                        size: "mini",
+                    },
+                    handler: row => {
+                        this.destroy(row)
+                    },
+                    label: '删除配件'
                 }]
             },
           }
@@ -196,6 +205,33 @@
                 this.$notify({
                     type: 'info',
                     message: '已取消切换'
+                });
+            })
+          },
+
+          //删除配件
+          destroy(row) {
+            this.$confirm('此操作将删除配件, 是否继续?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(() => {
+
+                http({
+                    method: 'delete',
+                    url: Api.destroyMallaccessory + row.id,
+                }).then(response => {
+                    this.$notify.success({
+                        'title': "提示",
+                        'message': response.data.msg
+                    })
+                    this.fetchMallAccessories()
+                })
+
+            }).catch(() => {
+                this.$notify({
+                    type: 'info',
+                    message: '已取消删除'
                 });
             })
           }

@@ -26,6 +26,7 @@ class CreateMallAccessoriesTable extends Migration
             $table->json("carousel")->nullable()->comment("轮播图");
             $table->json("imgs")->nullable()->comment("其他图");
             $table->json("info")->nullable()->comment("其他图");
+            $table->integer("status")->default(1)->comment("状态");
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'));
         });

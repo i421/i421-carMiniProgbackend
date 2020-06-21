@@ -4,6 +4,7 @@
         default-active="2"
         router
         class="el-menu-vertical-demo"
+        :unique-opened="true"
         :collapse="isCollapse"
         @open="handleOpen"
         @close="handleClose" >
@@ -24,8 +25,14 @@
 
                 <el-menu-item-group v-for="atom in menu.child" :key="atom.name">
                     <el-menu-item :key="atom.id" :index="atom.name">
-                        <span slot="title" v-if="$store.state.language == 'zh_cn'"> {{ atom.display_zh_name }}</span>
-                        <span slot="title" v-else> {{ atom.display_en_name }} </span>
+                        <span slot="title" v-if="$store.state.language == 'zh_cn'">
+                            <i :class="atom.icon"></i>
+                            {{ atom.display_zh_name }}
+                        </span>
+                        <span slot="title" v-else>
+                            <i :class="atom.icon"></i>
+                            {{ atom.display_en_name }}
+                        </span>
                     </el-menu-item>
                 </el-menu-item-group>
             </el-submenu>

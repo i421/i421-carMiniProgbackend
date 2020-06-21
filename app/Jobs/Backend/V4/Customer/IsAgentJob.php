@@ -4,6 +4,7 @@ namespace App\Jobs\Backend\V4\Customer;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Foundation\Bus\Dispatchable;
+use App\Tables as TableModels;
 
 class IsAgentJob
 {
@@ -43,8 +44,15 @@ class IsAgentJob
 
         }
 
-        $customer->is_agent = $this->is_agent;
-        $customer->save();
+        // 如果设置为代理人， 则遍历父级判定父级中是否存在 代理人 如果存在 则设置为代理人， 并取消之前的绑定
+        if ($this->is_agent == 1) {
+            $customer->is_agent = $this->is_agent;
+            $customer->recommender = null;
+            $customer->save();
+        } else {
+            $customer->is_agent = $this->is_agent;
+            $customer->save();
+        }
 
         $response = [
             'code' => trans('pheicloud.response.success.code'),

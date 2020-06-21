@@ -69,8 +69,9 @@ class NotifyJob
                         'return_code' => $message['return_code'],
                     ]);
 
-                    // 创建订单记录
+                    // 购买套餐
                     if ($payLog->type == 1) {
+
                         TableModels\PackageOrder::insert([
                             'order_num' => $message['out_trade_no'],
                             'customer_id' => $payLog->info['customer_id'],
@@ -89,6 +90,7 @@ class NotifyJob
                             'qr_code' => "customer_id=$customer_id&package_id=$package_id",
                         ]);
 
+                        // 推荐人奖励
                         if (!is_null($customer->recommender)) {
 
                             $broker = TableModels\Customer::find($customer->recommender);
@@ -97,16 +99,20 @@ class NotifyJob
                             if ((!is_null($broker)) && ($broker->type == 2) && ($broker->type_auth == 1)) {
                                 TableModels\CustomerRecharge::create([
                                     'customer_id' => $broker->id,
-                                    'score' => floor($message['total_fee'] * 5/10000),
+                                    'score' => floor($message['total_fee'] * (\RECOMMENDER_RATIO) /10000),
                                     'content' => '推荐人消费积分奖励',
                                 ]);
-                                $broker->score += floor($message['total_fee'] * 5/10000);
+                                $broker->score += floor($message['total_fee'] * (\RECOMMENDER_RATIO) /10000);
                                 $broker->save();
                             }
                         }
+                        
+                        //代理人奖励
+                        $this->agentAddScore("购买套餐奖励", $customer_id, $customer['phone'], $message['total_fee']);
+
                     }
 
-                    //现金充值
+                    //积分充值
                     if ($payLog->type == 2) {
                         TableModels\MallRecharge::insert([
                             'customer_id' => $payLog->info['customer_id'],
@@ -114,23 +120,31 @@ class NotifyJob
                             'type' => 1,
                         ]);
 
+                        $customer_id = $payLog->info['customer_id'];
                         // 推荐人奖励
                         $customer = TableModels\Customer::find($customer_id);
 
                         if (!is_null($customer->recommender)) {
                             $broker = TableModels\Customer::find($customer->recommender);
                             if (!is_null($broker)) {
+                                // 推荐人积分记录
                                 TableModels\CustomerRecharge::create([
                                     'customer_id' => $broker->id,
-                                    'score' => floor($message['total_fee'] * (getMoneyThreshold()['relation_return_money']) / 10000),
-                                    'content' => "推荐人:" . $customer->phone . "积分充值奖励",
+                                    'score' => floor($message['total_fee'] * (\RECOMMENDER_RATIO) / 10000),
+                                    'content' => "您的推荐人:" . $customer->phone . "积分充值奖励",
                                 ]);
                             }
-                            $broker->score += floor($message['total_fee'] * (getMoneyThreshold()['relation_return_money']) / 10000);
+                            // 推荐人添加积分
+                            $broker->score += floor($message['total_fee'] * (\RECOMMENDER_RATIO) / 10000);
                             $broker->save();
                         }
                         
-                        // 代理商奖励
+                        //代理人奖励
+                        $this->agentAddScore("积分充值奖励", $customer_id, $customer['phone'], $message['total_fee']);
+
+                        // 添加积分 || 固定金钱积分比例
+                        $customer->score += \SCORE_RATIO * $message['total_fee'] / 100;
+                        $customer->save();
                     }
 
                     //商城订单
@@ -144,9 +158,28 @@ class NotifyJob
                         TableModels\MallAccessory::where('id', $payLog->info['mall_accessory_id'])
                             ->increment('count', $payLog->info['mall_accessory_count']);
 
+                        $customer_id = $payLog->info['customer_id'];
+
                         // 推荐人奖励
+                        $customer = TableModels\Customer::find($customer_id);
+
+                        if (!is_null($customer->recommender)) {
+                            $broker = TableModels\Customer::find($customer->recommender);
+                            if (!is_null($broker)) {
+                                // 推荐人积分记录
+                                TableModels\CustomerRecharge::create([
+                                    'customer_id' => $broker->id,
+                                    'score' => floor($message['total_fee'] * \RECOMMENDER_RATIO / 10000),
+                                    'content' => "您推荐人的人: $customer_id (" . $customer->phone . ")  购买商城配件奖励",
+                                ]);
+                            }
+                            // 推荐人添加积分
+                            $broker->score += floor($message['total_fee'] * \RECOMMENDER_RATIO / 10000);
+                            $broker->save();
+                        }
                         
-                        // 代理商奖励
+                        //代理人奖励
+                        $this->agentAddScore("购买商场配件奖励", $customer_id, $customer['phone'], $message['total_fee']);
                     }
 
                     // 创建订单支付成功通知信息
@@ -194,5 +227,26 @@ class NotifyJob
         });
 
         return $response;
+    }
+
+    /**
+     * @param  string $type 类型
+     * @param  int $id  消费者id
+     * @param  string $phone 手机号
+     * @param  int $total 花费
+     */
+    private function agentAddScore($type, $id, $phone, $total)
+    {
+        $mem = TableModels\Customer::select('id', 'recommender', 'is_agent')->get()->toArray();
+        $res = getAgent($mem, $id);
+        $length = count($res);
+
+        if ($length > 1) {
+            TableModels\CustomerRecharge::create([
+                'customer_id' => $res['id'],
+                'score' => floor($total * \AGENT_RATIO / 10000),
+                'content' => "您推荐的人 $phone (" . $id . ")  $type",
+            ]);
+        }
     }
 }

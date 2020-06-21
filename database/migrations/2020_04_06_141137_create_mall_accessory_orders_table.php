@@ -19,7 +19,7 @@ class CreateMallAccessoryOrdersTable extends Migration
             $table->string("uuid")->index()->comment("订单号");
             $table->integer("pay_price")->comment("支付金额");
             $table->integer("pay_type")->comment("支付类型");
-            $table->integer("status")->comment("订单状态: 1待付款|2待发货|3已收货|4已完成");
+            $table->integer("status")->comment("订单状态: 1待付款|2待发货|3已发货|4已完成");
             $table->string("mall_accessory_id")->nullable()->comment("配件id: 配件id逗号隔开");
             $table->string("mall_accessory_count")->nullable()->comment("配件销量: 配件数量逗号隔开");
             $table->integer("mall_address_id")->comment("收货地址id");

@@ -45,7 +45,7 @@ class SearchJob
                 'mall_accessory_orders.*', 'mall_accessories.name as mall_accessory_name', 'customers.gender as customer_gender',
                 'customers.type as customer_type', 'mall_accessories.price as price', 'mall_accessories.score_price as score_price',
                 'mall_accessories.avatar as mall_accessory_avatar', 'mall_addresses.name as mall_address_name',
-                'mall_addresses.phone as mall_address_phone', 'mall_addresses.detail_address as mall_address_detail',
+                'mall_addresses.phone as mall_address_phone', 'mall_addresses.detail_address as mall_address_detail'
             );
 
         if (!is_null($this->name) && !empty($this->name)) {

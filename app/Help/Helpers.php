@@ -206,14 +206,17 @@ function distanceRad($d)
 function getTeamMember($members, $mid) {
     $Teams = array();
     $mids = array($mid);
+    $temp = $mid;
     do {
         $othermids = array();
         $state = false;
         foreach ($mids as $valueone) {
             foreach ($members as $key => $valuetwo) {
                 if($valuetwo['recommender'] == $valueone){
-                    $Teams[] = $valuetwo['id'];
-                    $othermids[] = $valuetwo['id'];
+                    if ($temp != $valuetwo['id']) {
+                        $Teams[] = $valuetwo['id'];
+                        $othermids[] = $valuetwo['id'];
+                    }
                     //array_splice($members, $key, 1);//从所有会员中删除他
                     $state = true;
                 }
@@ -223,6 +226,41 @@ function getTeamMember($members, $mid) {
     } while ($state == true);
 
     return $Teams;
+}
+
+/*
+ * 设置代理人
+ * 
+ * @params array $members 所有用户
+ * @params int $id  子类的第一个父节点
+ * @return array $tree;
+ */
+function getAgent($members, $id) {
+
+    $tree = [];
+
+    while (!is_null($id)) {
+        foreach ($members as $atom) {
+            if ($atom['id'] == $id) {
+                $tree[] = $atom;
+                $id = $atom['recommender'];
+                break;
+            }
+        }
+    }
+
+    $temp = [];
+
+    foreach ($tree as $atom) {
+        if ($atom['id'] != $id) {
+            if ($atom['is_agent'] == 1) {
+                $temp = $atom;
+                break;
+            }
+        }
+    }
+
+    return $temp;
 }
 
 function classifyTree($items)

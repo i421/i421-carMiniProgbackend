@@ -33,4 +33,23 @@ class MallShoppingCartController extends Controller
         $response = $this->dispatch(new MallShoppingCartJobs\StoreJob($params));
         return $response;
     }
+
+    /**
+     * 删除
+     */
+    public function destroy(int $id)
+    {
+        $response = $this->dispatch(new MallShoppingCartJobs\DestroyJob($id));
+        return $response;
+    }
+
+    /**
+     * 删除
+     */
+    public function changecount()
+    {
+        $params = request()->all();
+        $response = $this->dispatch(new MallShoppingCartJobs\ChangecountJob($params));
+        return $response;
+    }
 }

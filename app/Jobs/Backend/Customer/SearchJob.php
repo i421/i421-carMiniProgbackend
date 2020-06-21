@@ -34,7 +34,7 @@ class SearchJob
     public function handle()
     {
         $tempRes = TableModels\Customer::select(
-            'id', 'phone', 'nickname', 'openid', 'gender', 'recommend_count', 'status', 'auth', 'is_seller', 'created_at', 'is_agent', 'is_partner', 'type', 'type_auth'
+            'id', 'phone', 'nickname', 'openid', 'gender', 'recommend_count', 'status', 'auth', 'is_seller', 'created_at', 'is_agent', 'is_partner', 'type', 'type_auth', 'created_at'
         );
 
         if (!is_null($this->params['phone']) && !empty($this->params['phone'])) {
@@ -42,7 +42,8 @@ class SearchJob
         }
 
         if (!is_null($this->params['nickname']) && !empty($this->params['nickname'])) {
-            $tempRes->where('nickname', $this->params['nickname']);
+            $nickname = $this->params['nickname'];
+            $tempRes->where('nickname', 'like', "%$nickname%");
         }
 
         if (!is_null($this->params['time']) && count($this->params['time']) >= 1) {
@@ -65,12 +66,12 @@ class SearchJob
         if (count($this->params['is_buyer']) == 1) {
             $customerIds = DB::table("customer_package")->pluck('customer_id');
             if ($this->params['is_buyer'][0] == 0) {
-                $customers = $tempRes->whereNotIn("id", $customerIds)->get();
+                $customers = $tempRes->whereNotIn("id", $customerIds)->orderBy("created_at", "desc")->get();
             } else {
-                $customers = $tempRes->whereIn("id", $customerIds)->get();
+                $customers = $tempRes->whereIn("id", $customerIds)->orderBy("created_at", "desc")->get();
             }
         } else {
-            $customers = $tempRes->get();
+            $customers = $tempRes->orderBy("created_at", "desc")->get();
         }
 
         //$customers = $tempRes->isNormal()->get();
@@ -78,6 +79,7 @@ class SearchJob
         $scores = TableModels\Score::select('customer_id', DB::raw("sum(count) as scores"))->groupBy('customer_id')->get();
         $orders = TableModels\Order::select('customer_id', DB::raw("count(*) as orders"))->where('payment_status', 1)->groupBy('customer_id')->get();
         $collections = TableModels\Collection::select('customer_id', DB::raw("count(*) as collections"))->groupBy('customer_id')->get();
+        $packages = TableModels\CustomerPackage::select('customer_id', DB::raw("count(*) as packages"))->groupBy('customer_id')->get();
 
         foreach ($customers as & $customer) {
 
@@ -85,6 +87,7 @@ class SearchJob
             $customer->score_count = 0;
             $customer->order_count = 0;
             $customer->collection_count = 0;
+            $customer->package_count = 0;
 
             foreach ($scores as $score) {
                 if ($customer->id == $score->customer_id) {
@@ -101,12 +104,17 @@ class SearchJob
                     $customer->collection_count = $collection->collections;
                 }
             }
+            foreach ($packages as $package) {
+                if ($customer->id == $package->customer_id) {
+                    $customer->package_count = $collection->packages;
+                }
+            }
         }
 
         $total = count($customers);
         $this->params['pagesize'] = isset($this->params['pagesize']) ? $this->params['pagesize'] : 15;
         $this->params['page'] = isset($this->params['page']) ? $this->params['page'] : 1;
-        $temp = $this->paginate($customers, $this->params['pageSize'], $this->params['page']);
+        $temp = $this->paginate($customers, $this->params['pagesize'], $this->params['page']);
         $temp = object_to_array($temp);
 
         $response = [

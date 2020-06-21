@@ -32,7 +32,8 @@ class BindRecommenderJob
      */
     public function handle()
     {
-        \Log::info("[bind] id:" . $this->id . '------ openid:' . $this->openid);
+	\Log::info("[bind] id:" . $this->id . "---- openid:" . $this->openid);
+
         $res = TableModels\Customer::where('id', '=', $this->id)->first();
 
         if (!$res) {
@@ -53,22 +54,29 @@ class BindRecommenderJob
             TableModels\Customer::where('id', '=', $this->id)->increment('score', getScoreThreshold()['recommend']);
             TableModels\Customer::where('openid', '=', $this->openid)->update(['recommender' => $this->id]);
 
-            //积分计算
-            TableModels\Score::create([
+            TableModels\Customer::where('openid', '=', $this->openid)->increment('score', getScoreThreshold()['store']);
+
+            //自己积分计算
+            TableModels\CustomerRecharge::create([
+                'customer_id' => $customer->id,
+                'score' => getScoreThreshold()['store'],
+                'content' => '注册积分奖励',
+            ]);
+
+            //推荐人积分计算
+            TableModels\CustomerRecharge::create([
                 'customer_id' => $this->id,
-                'count' => getScoreThreshold()['recommend'],
-                'desc' => '推荐积分奖励',
+                'score' => getScoreThreshold()['recommend'],
+                'content' => '推荐积分奖励',
             ]);
         } else {
+		$response = [
+		    'code' => '71000',
+		    'msg' => '已经绑定',
+		];
 
-            $response = [
-                'code' => trans('pheicloud.response.alreadyBind.code'),
-                'msg' => trans('pheicloud.response.alreadyBind.msg'),
-            ];
-
-            return response()->json($response);
-
-        }
+		return response()->json($response);
+	}
 
         $response = [
             'code' => trans('pheicloud.response.success.code'),

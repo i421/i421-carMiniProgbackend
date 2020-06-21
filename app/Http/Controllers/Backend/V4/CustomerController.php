@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Backend\V4;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Backend\Customer as CustomerRequests;
+use App\Http\Requests\Backend\V4\Customer as CustomerRequests;
 use App\Jobs\Backend\V4\Customer as CustomerJobs;
 
 class CustomerController extends Controller

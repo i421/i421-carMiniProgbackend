@@ -19,7 +19,7 @@ import { decryptData } from './../utils/encrypt'
 
 export const http = axios.create({
     baseURL: systemConfig.baseURL,
-    timeout: 5000
+    timeout: 8000
 })
 
 let loading

@@ -77,6 +77,8 @@ const Api = {
     'customerCheckDetail': 'api/v1/backend/customer/checkDetail/',
     'customerAuthStatus': 'api/v1/backend/customer/authStatus',
     'customerToggleIsSeller': 'api/v1/backend/customer/isSeller',
+    'customerToggleIsAgent': 'api/v4/backend/customer/isAgent',
+    'customerToggleIsPartner': 'api/v4/backend/customer/isPartner',
 
     'brokers': 'api/v2/backend/customer/broker-list',
     'showBroker': 'api/v2/backend/customer/',
@@ -137,6 +139,7 @@ const Api = {
     'searchMallAccessory': 'api/v4/backend/mallaccessory/search',
     'storeMallAccessory': 'api/v4/backend/mallaccessory',
     'toggleMallaccessoryStatus': 'api/v4/backend/mallaccessory/toggle/',
+    'destroyMallaccessory': 'api/v4/backend/mallaccessory/',
     'mallAccessory': 'api/v4/backend/mallaccessory/',
     'updateMallAccessory': 'api/v4/backend/mallaccessory/update/',
 
@@ -154,6 +157,8 @@ const Api = {
     'showMallOrder': 'api/v4/backend/mallaccessoryorder/',
 
     'searchMallRecharge': 'api/v4/backend/mallrecharge/search',
+    'searchWriteOff': 'api/v4/backend/writeoff/search',
+    'searchCustomerPackage': 'api/v4/backend/customerpackage/search',
 }
 
 export default Api

@@ -41,7 +41,7 @@ class IndexJob
         if (is_null($this->key_word)) {
             $forums = Forum::where('status', 1)
                 ->orderBy("top", 'desc')
-                ->orderBy('updated_at', 'desc')
+                ->orderBy('created_at', 'desc')
                 ->offset(($this->page -1) * $this->pagesize)
                 ->take($this->pagesize)
                 ->get();
@@ -49,7 +49,7 @@ class IndexJob
             $forums = Forum::where('status', 1)
                 ->where('title', 'like', "%$this->key_word%")
                 ->orderBy("top", 'desc')
-                ->orderBy('updated_at', 'desc')
+                ->orderBy('created_at', 'desc')
                 ->offset(($this->page -1) * $this->pagesize)
                 ->take($this->pagesize)
                 ->get();

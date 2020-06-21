@@ -39,7 +39,7 @@
             <el-button @click="updateScore" type="primary" size="small">更新设置</el-button>
             </div>
         </div>
-
+        <!--
         <div class="moneycontainer">
             <el-tag size="medium" style="display: inline-block; margin-bottom: 20px;">积分设置</el-tag>
             <div style="width: 400px;">
@@ -55,6 +55,7 @@
             <el-button @click="updateMoney" type="primary" size="small">更新设置</el-button>
             </div>
         </div>
+        -->
     </div>
 </template>
 

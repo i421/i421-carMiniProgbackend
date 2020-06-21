@@ -251,7 +251,7 @@
             conditionTime: [],
 			allTableData: [],
             toBePayTableData: [],
-            toByDeliveredTableData: [],
+            toBeDeliveredTableData: [],
             deliveredTableData: [],
             doneTableData: [],
 
@@ -302,7 +302,7 @@
             }).then(response => {
                 this.allTableData = []
                 this.toBePayTableData = []
-                this.toByDeliveredTableData = []
+                this.toBeDeliveredTableData = []
                 this.deliveredTableData = []
                 this.doneTableData = []
 
@@ -311,7 +311,7 @@
                         this.toBePayTableData.push(response.data.data[i]);
                         this.allTableData.push(response.data.data[i]);
                     } else if (response.data.data[i]['status'] == 2) {
-                        this.toByDeliveredTableData.push(response.data.data[i]);
+                        this.toBeDeliveredTableData.push(response.data.data[i]);
                         this.allTableData.push(response.data.data[i]);
                     } else if (response.data.data[i]['status'] == 3) {
                         this.deliveredTableData.push(response.data.data[i]);
@@ -349,14 +349,14 @@
                     method: 'post',
                     url: Api.toggleMallOrderStatus + row.id,
                     data: {
-                        'status': 4,
+                        'status': 3,
                     }
                 }).then(response => {
                     this.$notify.success({
                         'title': "提示",
                         'message': response.data.msg
                     })
-                    this.fetchMallAccessories()
+                    this.search()
                 })
 
             }).catch(() => {

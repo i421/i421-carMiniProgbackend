@@ -29,14 +29,28 @@ class StoreJob
      */
     public function handle()
     {
-        $res = TableModels\MallShoppingCart::insert($this->params);
+        $mallShoppingCart = TableModels\MallShoppingCart::where([
+            ['customer_id', '=', $this->params['customer_id']],
+            ['mall_accessory_id', '=', $this->params['mall_accessory_id']]
+        ])->first();
 
-        if ($res) {
+        if (!is_null($mallShoppingCart)) {
+
+            $mallShoppingCart->count += $this->params['count'];
+            $mallShoppingCart->save();
             $code = trans('pheicloud.response.success.code');
             $msg = trans('pheicloud.response.success.msg');
+
         } else {
-            $code = trans('pheicloud.response.error.code');
-            $msg = trans('pheicloud.response.error.msg');
+            $res = TableModels\MallShoppingCart::insert($this->params);
+
+            if ($res) {
+                $code = trans('pheicloud.response.success.code');
+                $msg = trans('pheicloud.response.success.msg');
+            } else {
+                $code = trans('pheicloud.response.error.code');
+                $msg = trans('pheicloud.response.error.msg');
+            }
         }
 
         $response = [
