@@ -431,6 +431,7 @@ Route::group(['prefix' => 'v4/backend', 'namespace' => 'Backend\V4'], function (
         Route::get('{id}', 'MallAccessoryOrderController@show');
         Route::post('/search', 'MallAccessoryOrderController@search');
         Route::post('/toggle/{id}', 'MallAccessoryOrderController@toggleStatus');
+        Route::post('/update/express', 'MallAccessoryOrderController@updateExpress');
         Route::delete('{id}', 'MallAccessoryOrderController@destroy');
     });
 

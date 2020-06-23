@@ -29,17 +29,36 @@ class ShowJob
      */
     public function handle()
     {
-        $mallAccessoryOrder = TableModels\MallAccessoryOrder::leftJoin('mall_accessories', 'mall_accessory_orders.mall_accessory_id', '=', 'mall_accessories.id')
-            ->leftJoin("mall_addresses", 'mall_accessory_orders.mall_address_id', '=', 'mall_addresses.id')
+        $mallAccessoryOrder = TableModels\MallAccessoryOrder::leftJoin("mall_addresses", 'mall_accessory_orders.mall_address_id', '=', 'mall_addresses.id')
             ->leftJoin("customers", 'mall_accessory_orders.customer_id', '=', 'customers.id', 'customers.nickname as customer_nickname')
             ->select(
-                'mall_accessory_orders.*', 'mall_accessories.name as mall_accessory_name', 'customers.gender as customer_gender',
-                'customers.nickname as customer_nickname', 'customers.is_agent as customer_agent',
-                'customers.type as customer_type', 'mall_accessories.price as price', 'mall_accessories.score_price as score_price',
-                'mall_accessories.avatar as mall_accessory_avatar', 'mall_addresses.name as mall_address_name',
+                'mall_accessory_orders.*', 'customers.gender as customer_gender', 'customers.phone as customer_phone',
+                'customers.nickname as customer_nickname', 'customers.is_agent as customer_agent', 'customers.type as customer_type',
                 'mall_addresses.phone as mall_address_phone', 'mall_addresses.detail_address as mall_address_detail',
-                'mall_addresses.city as mall_address_city'
+                'mall_addresses.name as mall_address_name', 'mall_addresses.city as mall_address_city'
             )->where('mall_accessory_orders.id', '=', $this->id)->first();
+
+
+        if (is_null($mallAccessoryOrder)) {
+            $response = [
+                'code' => trans('pheicloud.response.error.code'),
+                'msg' => trans('pheicloud.response.error.msg'),
+                'data' => [],
+            ];
+
+            return response()->json($response);
+        }
+
+        $mallAccessoryIds = $mallAccessoryOrder->mall_accessory_id;
+        $mallAccessoryCounts = $mallAccessoryOrder->mall_accessory_count;
+
+        $mallAccessories = TableModels\MallAccessory::whereIn('id', $mallAccessoryIds)->get()->toArray();
+
+        for ($i = 0; $i < count($mallAccessories); $i++) {
+            $mallAccessories[$i]['buy_count'] = $mallAccessoryCounts[$i];
+        }
+
+        $mallAccessoryOrder['mall_accessories'] = $mallAccessories;
 
         $response = [
             'code' => trans('pheicloud.response.success.code'),

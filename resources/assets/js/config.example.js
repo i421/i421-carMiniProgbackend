@@ -102,6 +102,10 @@ const Api = {
 
     'settingShowScore': 'api/v1/backend/setting/score',
     'settingUpdateScore': 'api/v1/backend/setting/score/update',
+
+    'settingShowMoney': 'api/v1/backend/setting/money',
+    'settingUpdateMoney': 'api/v1/backend/setting/money/update',
+
     'settingSetCarousel': 'api/v1/backend/setting/carousel',
     'settingShowCarousel': 'api/v1/backend/setting/carousel/',
     'settingUpdateCarousel': 'api/v1/backend/setting/carousel/update/',
@@ -154,6 +158,7 @@ const Api = {
 
     'searchMallOrder': 'api/v4/backend/mallaccessoryorder/search',
     'toggleMallOrderStatus': 'api/v4/backend/mallaccessoryorder/toggle/',
+    'updateMallOrderExpress': 'api/v4/backend/mallaccessoryorder/update/express',
     'showMallOrder': 'api/v4/backend/mallaccessoryorder/',
 
     'searchMallRecharge': 'api/v4/backend/mallrecharge/search',

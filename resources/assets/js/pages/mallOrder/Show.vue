@@ -15,10 +15,6 @@
                 <span v-else>
                     支付积分: {{ form.pay_price }} 积分
                 </span>
-
-                <el-divider></el-divider>
-                <span>经销商: {{ form.shop_name }}</span>
-                <el-divider></el-divider>
             </el-col>
 
             <el-col :span="12">
@@ -36,6 +32,10 @@
                 </span>
                 <el-divider></el-divider>
             </el-col>
+        </el-row>
+
+        <el-row id="userInfo">
+            <span class="infoGroup">用户信息</span>
         </el-row>
 
         <el-row id="userInfo">
@@ -60,28 +60,31 @@
             </el-col>
         </el-row>
 
-        <el-row>
-            <el-col :span="12">
-                <span>商品图:
-                    <el-avatar shape="square" :size="100" fit="fill" :src="form.avatar"></el-avatar>
-                </span>
-            </el-col>
+        <el-row id="userInfo" style="margin-bottom: 30px;">
+            <span class="infoGroup">商品信息</span>
         </el-row>
 
         <el-row id="carInfo">
-            <el-col :span="12">
-                <span>商品标题: {{ form.mall_accessory_name }}</span>
-                <el-divider></el-divider>
-                <span>原价: {{ form.price }}</span>
-                <el-divider></el-divider>
-            </el-col>
 
-            <el-col :span="12">
-                <span>_ </span>
-                <el-divider></el-divider>
-                <span>积分价: {{ form.score_price}}</span>
-                <el-divider></el-divider>
-            </el-col>
+            <div v-for="(item, i) in form.mall_accessories">
+                <el-col :span="12">
+                    <span>商品标题: {{ item.name }}</span>
+                    <el-divider></el-divider>
+                    <span>原价: {{ item.price }}</span>
+                    <el-divider></el-divider>
+                </el-col>
+
+                <el-col :span="12">
+                    <span>购买数量: {{ item.buy_count}}</span>
+                    <el-divider></el-divider>
+                    <span>积分价: {{ item.score_price}}</span>
+                    <el-divider></el-divider>
+                </el-col>
+            </div>
+        </el-row>
+
+        <el-row id="userInfo">
+            <span class="infoGroup">收货信息</span>
         </el-row>
 
         <el-row id="addressInfo">

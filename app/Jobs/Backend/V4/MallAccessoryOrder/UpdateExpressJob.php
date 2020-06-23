@@ -6,11 +6,10 @@ use App\Tables as TableModels;
 use Illuminate\Bus\Queueable;
 use Illuminate\Foundation\Bus\Dispatchable;
 
-class ToggleStatusJob
+class UpdateExpressJob
 {
     private $id;
-    private $status;
-    private $express_num;
+    private $express_number;
 
     use Dispatchable, Queueable;
 
@@ -22,8 +21,7 @@ class ToggleStatusJob
     public function __construct($params)
     {
         $this->id = isset($params['id']) ? $params['id'] : null;
-        $this->status = isset($params['status']) ? $params['status'] : null;
-        $this->express_num = isset($params['express_num']) ? $params['express_num'] : null;
+        $this->express_number = isset($params['express_number']) ? $params['express_number'] : null;
     }
 
     /**
@@ -33,7 +31,7 @@ class ToggleStatusJob
      */
     public function handle()
     {
-        if (is_null($this->status) || is_null($this->id)) {
+        if (is_null($this->express_number) || is_null($this->id)) {
 
             $response = [
                 'code' => trans('pheicloud.response.notExist.code'),
@@ -43,24 +41,16 @@ class ToggleStatusJob
             return response()->json($response);
         }
 
-        $mallAccessoryOrder = TableModels\MallAccessoryOrder::where([
-            ['id', '=', $this->id],
-            ['status', '=', 2],
-        ])->first();
+        $mallAccessoryOrder = TableModels\MallAccessoryOrder::where('id', $this->id)->update(['express_number' => $this->express_number]);
 
-        if (is_null($mallAccessoryOrder)) {
+        if (!$mallAccessoryOrder) {
             $response = [
-                'code' => trans('pheicloud.response.error.code'),
-                'msg' => trans('pheicloud.response.error.msg'),
+                'code' => trans('pheicloud.response.notExist.code'),
+                'msg' => trans('pheicloud.response.notExist.msg'),
             ];
 
             return response()->json($response);
         }
-
-        TableModels\MallAccessoryOrder::where('id', '=', $this->id)->update([
-            'express_number' => $this->express_num,
-            'status' => $this->status,
-        ]);
 
         $response = [
             'code' => trans('pheicloud.response.success.code'),

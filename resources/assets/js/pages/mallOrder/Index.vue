@@ -46,20 +46,9 @@
         <el-tabs v-model="activeName" @tab-click="handleClick">
             <el-tab-pane label="全部" name="first">
                 <!-- table数据 -->
-                <data-tables border :data="allTableData" :action-col="actionCol" :pagination-props="{ pageSizes: [10, 15, 20] }">
-                    <el-table-column label="配件主图" prop="img_url" width="180">
-                        <template slot-scope="scope">
-                            <el-image style="width: 60px; height: 60px" lazy :src="scope.row.avatar"></el-image>
-                        </template>
-                    </el-table-column>
+                <data-tables border :data="allTableData" :action-col="showActionCol" :pagination-props="{ pageSizes: [10, 15, 20] }">
 
-                    <el-table-column label="商品标题" prop="mall_accessory_name">
-                    </el-table-column>
-
-                    <el-table-column label="积分价" prop="score_price">
-                    </el-table-column>
-
-                    <el-table-column label="原价" prop="price">
+                    <el-table-column label="订单编号" prop="uuid">
                     </el-table-column>
 
                     <el-table-column label="收货姓名" prop="mall_address_name">
@@ -68,7 +57,13 @@
                     <el-table-column label="收货手机号" prop="mall_address_phone">
                     </el-table-column>
 
+                    <el-table-column label="收货地址" prop="mall_address_detail">
+                    </el-table-column>
+
                     <el-table-column label="支付金额" prop="pay_price">
+                    </el-table-column>
+
+                    <el-table-column label="快递单号" prop="express_number">
                     </el-table-column>
 
                     <el-table-column label="状态" prop="status">
@@ -84,20 +79,9 @@
 
             <el-tab-pane label="待付款" name="second">
                 <!-- table数据 -->
-                <data-tables border :data="toBePayTableData" :action-col="actionCol" :pagination-props="{ pageSizes: [10, 15, 20] }">
-                    <el-table-column label="配件主图" prop="img_url" width="180">
-                        <template slot-scope="scope">
-                            <el-image style="width: 60px; height: 60px" lazy :src="scope.row.avatar"></el-image>
-                        </template>
-                    </el-table-column>
+                <data-tables border :data="toBePayTableData" :action-col="showActionCol" :pagination-props="{ pageSizes: [10, 15, 20] }">
 
-                    <el-table-column label="商品标题" prop="mall_accessory_name">
-                    </el-table-column>
-
-                    <el-table-column label="积分价" prop="score_price">
-                    </el-table-column>
-
-                    <el-table-column label="原价" prop="price">
+                    <el-table-column label="订单编号" prop="uuid">
                     </el-table-column>
 
                     <el-table-column label="收货姓名" prop="mall_address_name">
@@ -106,7 +90,13 @@
                     <el-table-column label="收货手机号" prop="mall_address_phone">
                     </el-table-column>
 
+                    <el-table-column label="收货地址" prop="mall_address_detail">
+                    </el-table-column>
+
                     <el-table-column label="支付金额" prop="pay_price">
+                    </el-table-column>
+
+                    <el-table-column label="快递单号" prop="express_number">
                     </el-table-column>
 
                     <el-table-column label="状态" prop="status">
@@ -123,19 +113,7 @@
             <el-tab-pane label="待发货" name="third">
                 <!-- table数据 -->
                 <data-tables border :data="toBeDeliveredTableData" :action-col="actionCol" :pagination-props="{ pageSizes: [10, 15, 20] }">
-                    <el-table-column label="配件主图" prop="img_url" width="180">
-                        <template slot-scope="scope">
-                            <el-image style="width: 60px; height: 60px" lazy :src="scope.row.avatar"></el-image>
-                        </template>
-                    </el-table-column>
-
-                    <el-table-column label="商品标题" prop="mall_accessory_name">
-                    </el-table-column>
-
-                    <el-table-column label="积分价" prop="score_price">
-                    </el-table-column>
-
-                    <el-table-column label="原价" prop="price">
+                    <el-table-column label="订单编号" prop="uuid">
                     </el-table-column>
 
                     <el-table-column label="收货姓名" prop="mall_address_name">
@@ -144,7 +122,13 @@
                     <el-table-column label="收货手机号" prop="mall_address_phone">
                     </el-table-column>
 
+                    <el-table-column label="收货地址" prop="mall_address_detail">
+                    </el-table-column>
+
                     <el-table-column label="支付金额" prop="pay_price">
+                    </el-table-column>
+
+                    <el-table-column label="快递单号" prop="express_number">
                     </el-table-column>
 
                     <el-table-column label="状态" prop="status">
@@ -160,20 +144,8 @@
 
             <el-tab-pane label="已发货" name="fourth">
                 <!-- table数据 -->
-                <data-tables border :data="deliveredTableData" :action-col="actionCol" :pagination-props="{ pageSizes: [10, 15, 20] }">
-                    <el-table-column label="配件主图" prop="img_url" width="180">
-                        <template slot-scope="scope">
-                            <el-image style="width: 60px; height: 60px" lazy :src="scope.row.avatar"></el-image>
-                        </template>
-                    </el-table-column>
-
-                    <el-table-column label="商品标题" prop="mall_accessory_name">
-                    </el-table-column>
-
-                    <el-table-column label="积分价" prop="score_price">
-                    </el-table-column>
-
-                    <el-table-column label="原价" prop="price">
+                <data-tables border :data="deliveredTableData" :action-col="alreadyActionCol" :pagination-props="{ pageSizes: [10, 15, 20] }">
+                    <el-table-column label="订单编号" prop="uuid">
                     </el-table-column>
 
                     <el-table-column label="收货姓名" prop="mall_address_name">
@@ -182,7 +154,13 @@
                     <el-table-column label="收货手机号" prop="mall_address_phone">
                     </el-table-column>
 
+                    <el-table-column label="收货地址" prop="mall_address_detail">
+                    </el-table-column>
+
                     <el-table-column label="支付金额" prop="pay_price">
+                    </el-table-column>
+
+                    <el-table-column label="快递单号" prop="express_number">
                     </el-table-column>
 
                     <el-table-column label="状态" prop="status">
@@ -198,20 +176,8 @@
 
             <el-tab-pane label="已完成" name="fifth">
                 <!-- table数据 -->
-                <data-tables border :data="doneTableData" :action-col="actionCol" :pagination-props="{ pageSizes: [10, 15, 20] }">
-                    <el-table-column label="配件主图" prop="img_url" width="180">
-                        <template slot-scope="scope">
-                            <el-image style="width: 60px; height: 60px" lazy :src="scope.row.avatar"></el-image>
-                        </template>
-                    </el-table-column>
-
-                    <el-table-column label="商品标题" prop="mall_accessory_name">
-                    </el-table-column>
-
-                    <el-table-column label="积分价" prop="score_price">
-                    </el-table-column>
-
-                    <el-table-column label="原价" prop="price">
+                <data-tables border :data="doneTableData" :pagination-props="{ pageSizes: [10, 15, 20] }">
+                    <el-table-column label="订单编号" prop="uuid">
                     </el-table-column>
 
                     <el-table-column label="收货姓名" prop="mall_address_name">
@@ -220,7 +186,13 @@
                     <el-table-column label="收货手机号" prop="mall_address_phone">
                     </el-table-column>
 
+                    <el-table-column label="收货地址" prop="mall_address_detail">
+                    </el-table-column>
+
                     <el-table-column label="支付金额" prop="pay_price">
+                    </el-table-column>
+
+                    <el-table-column label="快递单号" prop="express_number">
                     </el-table-column>
 
                     <el-table-column label="状态" prop="status">
@@ -254,6 +226,54 @@
             toBeDeliveredTableData: [],
             deliveredTableData: [],
             doneTableData: [],
+
+            showActionCol: {
+                label: '操作',
+                props: {
+                    align: 'center',
+                    width: '400px',
+                },
+
+                buttons: [{
+                    props: {
+                        type: 'warning',
+                        size: "mini",
+                    },
+                    handler: row => {
+                        this.show(row)
+                    },
+                    label: '详情'
+                }]
+            },
+
+            alreadyActionCol: {
+                label: '操作',
+                props: {
+                    align: 'center',
+                    width: '400px',
+                },
+
+                buttons: [{
+                    props: {
+                        type: 'warning',
+                        size: "mini",
+                    },
+                    handler: row => {
+                        this.show(row)
+                    },
+                    label: '详情'
+                }, {
+                    props: {
+                        type: 'danger',
+                        size: "mini",
+                    },
+                    handler: row => {
+                        //发货
+                        this.updateExpress(row)
+                    },
+                    label: '更新快递单号'
+                }]
+            },
 
             actionCol: {
                 label: '操作',
@@ -337,34 +357,93 @@
               this.$router.push({ name: 'showMallOrder', params: {"id": row.id} })
           },
 
-          //切换
-          ship(row) {
-            this.$confirm('此操作将发货, 是否继续?', '提示', {
+          //更新快递单号
+          updateExpress(row) {
+
+            this.$prompt('请输入快递号', '提示', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
-                type: 'warning'
-            }).then(() => {
+            }).then(({ value }) => {
+
+                if (value.trim().length <= 1) {
+                    this.$message({
+                        type: 'error',
+                        message: "快递单号不能为空"
+                    });
+                }
+
+                http({
+                    method: 'post',
+                    url: Api.updateMallOrderExpress + row.id,
+                    data: {
+                        'express_num': value.trim(),
+                    }
+                }).then(response => {
+                    if (response.data.code != '200') {
+                        this.$notify.error({
+                            'title': "提示",
+                            'message': response.data.msg
+                        })
+                    } else {
+                        this.$notify.success({
+                            'title': "提示",
+                            'message': response.data.msg
+                        })
+                        this.search()
+                    }
+                })
+
+            }).catch(() => {
+                this.$message({
+                    type: 'info',
+                    message: '取消更新'
+                });       
+            });
+          },
+
+          //切换
+          ship(row) {
+
+            this.$prompt('请输入快递号', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+            }).then(({ value }) => {
+
+                if (value.trim().length <= 1) {
+                    this.$message({
+                        type: 'error',
+                        message: "快递单号不能为空"
+                    });
+                }
 
                 http({
                     method: 'post',
                     url: Api.toggleMallOrderStatus + row.id,
                     data: {
                         'status': 3,
+                        'express_num': value.trim(),
                     }
                 }).then(response => {
-                    this.$notify.success({
-                        'title': "提示",
-                        'message': response.data.msg
-                    })
-                    this.search()
+                    if (response.data.code != '200') {
+                        this.$notify.error({
+                            'title': "提示",
+                            'message': response.data.msg
+                        })
+                    } else {
+                        this.$notify.success({
+                            'title': "提示",
+                            'message': response.data.msg
+                        })
+                        this.search()
+                    }
                 })
 
             }).catch(() => {
-                this.$notify({
+                this.$message({
                     type: 'info',
-                    message: '已取消切换'
-                });
-            })
+                    message: '取消输入'
+                });       
+            });
           },
           //处理切换
           handleClick(tab, event) {
