@@ -374,9 +374,10 @@
 
                 http({
                     method: 'post',
-                    url: Api.updateMallOrderExpress + row.id,
+                    url: Api.updateMallOrderExpress
                     data: {
                         'express_num': value.trim(),
+                        'id': row.id
                     }
                 }).then(response => {
                     if (response.data.code != '200') {

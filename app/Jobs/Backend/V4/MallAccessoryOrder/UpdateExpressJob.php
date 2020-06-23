@@ -21,7 +21,7 @@ class UpdateExpressJob
     public function __construct($params)
     {
         $this->id = isset($params['id']) ? $params['id'] : null;
-        $this->express_number = isset($params['express_number']) ? $params['express_number'] : null;
+        $this->express_number = isset($params['express_num']) ? $params['express_num'] : null;
     }
 
     /**
