@@ -16,6 +16,12 @@
 		    <el-col :span="3">
                 <span>拼团订单</span><dynamic-number v-bind:number="group_car">辆</dynamic-number>
             </el-col>
+		    <el-col :span="3">
+                <span>配件单数</span><dynamic-number v-bind:number="mall_accessory_order_count">单</dynamic-number>
+            </el-col>
+		    <el-col :span="3">
+                <span>配件金额</span><dynamic-number v-bind:number="mall_accessory_order_price">元</dynamic-number>
+            </el-col>
         </el-row>
 
 		<el-row>
@@ -56,6 +62,8 @@
             wait_auth_customer: 0,
             now_car: 0,
             group_car: 0,
+            mall_accessory_order_count: 0,
+            mall_accessory_order_price: 0,
 			collectionRankChartOptions: {
 				chart: {
 					type: 'pie',
@@ -143,6 +151,8 @@
                 this.wait_auth_customer = response.data.data.wait_auth_customer
                 this.now_car = response.data.data.now_car
                 this.group_car = response.data.data.group_car
+                this.mall_accessory_order_count = response.data.data.mall_accessory_order.count
+                this.mall_accessory_order_price = response.data.data.mall_accessory_order.price 
             })
         },
 

@@ -74,7 +74,7 @@
                     url: Api.userPermission,
                 }).then(response => {
                     this.menus = response.data.data
-                }, response => {
+                }).catch(err => {
                     console.log(err)
                 })
             }

@@ -374,7 +374,7 @@
 
                 http({
                     method: 'post',
-                    url: Api.updateMallOrderExpress
+                    url: Api.updateMallOrderExpress,
                     data: {
                         'express_num': value.trim(),
                         'id': row.id

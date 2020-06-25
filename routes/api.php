@@ -452,6 +452,10 @@ Route::group(['prefix' => 'v4/backend', 'namespace' => 'Backend\V4'], function (
     Route::group(['prefix' => 'customerpackage'], function () {
         Route::post('search', 'CustomerPackageController@search');
     });
+    
+    Route::group(['prefix' => 'customerrecharge'], function () {
+        Route::post('search', 'CustomerRechargeController@search');
+    });
 });
 
 Route::group(['prefix' => 'v4', 'namespace' => 'Api\V4'], function () {

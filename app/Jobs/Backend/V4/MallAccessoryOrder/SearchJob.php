@@ -63,6 +63,30 @@ class SearchJob
 
         $mallAccessoryOrders = $tempRes->get();
 
+        foreach ($mallAccessoryOrders as &$mallAccessoryOrder) {
+            $mallAccessoryOrderIds = $mallAccessoryOrder->mall_accessory_id;
+            $res = TableModels\MallAccessory::select("id", "name")->whereIn("id", $mallAccessoryOrderIds)->get()->toArray();
+            $mallAccessoryOrder['mall_detail'] = $res;
+        }
+
+        unset($mallAccessoryOrder);
+
+        foreach ($mallAccessoryOrders as $key => &$atom) {
+            $temp = '';
+            foreach ($atom->mall_accessory_id as $kk => $id) {
+                foreach ($atom->mall_detail as $detail) {
+                    if ($id == $detail['id']) {
+                        $temp .= $detail['name'] . "数量";
+                    }
+                }
+
+                $temp .= $atom->mall_accessory_count[$kk] . ';';
+
+            }
+
+            $atom['detail_all'] = $temp;
+        }
+
         $response = [
             'code' => trans('pheicloud.response.success.code'),
             'msg' => trans('pheicloud.response.success.msg'),

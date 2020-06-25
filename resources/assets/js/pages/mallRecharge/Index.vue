@@ -14,9 +14,6 @@
                         <el-input class="table-search" v-model="conditionPhone" placeholder="手机号"></el-input>
                     </div>
                 </el-col>
-                <el-col :span="6" style="padding-right: 5px">
-                    <el-input class="table-search" v-model.number="conditionAgent" placeholder="代理商"></el-input>
-                </el-col>
 
                 <el-col :span="6">
                     <div>
@@ -45,7 +42,7 @@
         </div>
 
         <!-- table数据 -->
-        <data-tables border :data="tableData" :action-col="actionCol" :pagination-props="{ pageSizes: [10, 15, 20] }">
+        <data-tables border :data="tableData" :pagination-props="{ pageSizes: [10, 15, 20] }">
             <el-table-column label="ID" prop="id" width="180">
             </el-table-column>
 
@@ -71,8 +68,10 @@
             <el-table-column label="上级用户" prop="recommender">
             </el-table-column>
 
+<!--
             <el-table-column label="代理商" prop="agent">
             </el-table-column>
+-->
         </data-tables>
     </div>
 </template>
