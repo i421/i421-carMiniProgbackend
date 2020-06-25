@@ -66,6 +66,9 @@
                     <el-table-column label="快递单号" prop="express_number">
                     </el-table-column>
 
+                    <el-table-column label="订单详情" prop="detail_all">
+                    </el-table-column>
+
                     <el-table-column label="状态" prop="status">
                         <template slot-scope="scope">
                             <el-tag v-if="scope.row.status == 1" type="danger">待付款</el-tag>
@@ -97,6 +100,9 @@
                     </el-table-column>
 
                     <el-table-column label="快递单号" prop="express_number">
+                    </el-table-column>
+                    
+                    <el-table-column label="订单详情" prop="detail_all">
                     </el-table-column>
 
                     <el-table-column label="状态" prop="status">
@@ -130,6 +136,9 @@
 
                     <el-table-column label="快递单号" prop="express_number">
                     </el-table-column>
+                    
+                    <el-table-column label="订单详情" prop="detail_all">
+                    </el-table-column>
 
                     <el-table-column label="状态" prop="status">
                         <template slot-scope="scope">
@@ -162,6 +171,9 @@
 
                     <el-table-column label="快递单号" prop="express_number">
                     </el-table-column>
+                    
+                    <el-table-column label="订单详情" prop="detail_all">
+                    </el-table-column>
 
                     <el-table-column label="状态" prop="status">
                         <template slot-scope="scope">
@@ -193,6 +205,9 @@
                     </el-table-column>
 
                     <el-table-column label="快递单号" prop="express_number">
+                    </el-table-column>
+                    
+                    <el-table-column label="订单详情" prop="detail_all">
                     </el-table-column>
 
                     <el-table-column label="状态" prop="status">
