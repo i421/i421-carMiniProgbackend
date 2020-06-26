@@ -73,6 +73,12 @@ class CustomerController extends Controller
         return $response;
     }
     
+    public function getInfoById(int $id)
+    {
+        $response = $this->dispatch(new CustomerJobs\GetInfoByIdJob($id));
+        return $response;
+    }
+    
     /**
      * 更新用户信息: 昵称，性别，地址，头像,openid
      */

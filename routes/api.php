@@ -32,6 +32,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api\V1'], function () {
         Route::get('recommender/{id}', 'CustomerController@recommenderList');
         Route::get('search/recommender/{id}', 'CustomerController@searchRecommender');
         Route::get('bind/recommender', 'CustomerController@bindRecommender');
+        Route::get('/getinfobyid/{id}', 'CustomerController@getInfoById');
         Route::get('{openid}', 'CustomerController@getInfo');
     });
 
