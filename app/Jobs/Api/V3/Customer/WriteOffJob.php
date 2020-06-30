@@ -74,7 +74,8 @@ class WriteOffJob
 
         $diff = time() - strtotime($customer_package->updated_at);
 
-        if ($diff < 30) {
+        // 三个月核销一次
+        if ($diff < 7770000) {
             $response = [
                 'code' => trans('pheicloud.response.tooClose.code'),
                 'msg' => trans('pheicloud.response.tooClose.msg'),
