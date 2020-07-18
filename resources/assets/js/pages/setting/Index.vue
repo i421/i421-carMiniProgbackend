@@ -39,10 +39,19 @@
             <el-button @click="updateScore" type="primary" size="small">更新设置</el-button>
             </div>
         </div>
-        <!--
         <div class="moneycontainer">
             <el-tag size="medium" style="display: inline-block; margin-bottom: 20px;">积分设置</el-tag>
             <div style="width: 400px;">
+                <el-input placeholder="" v-model.number="oneLevelReturnMoney" style="margin-bottom: 10px">
+                <template slot="prepend">一级返佣比例</template>
+                </el-input>	
+                <el-input placeholder="" v-model.number="twoLevelReturnMoney" style="margin-bottom: 10px">
+                    <template slot="prepend">二级返佣比例</template>
+                </el-input>	
+                <el-input placeholder="" v-model.number="recycleRatio" style="margin-bottom: 10px">
+                    <template slot="prepend">提现费率</template>
+                </el-input>	
+                <!--
                 <el-input placeholder="" v-model.number="agentReturnMoney" style="margin-bottom: 10px">
                 <template slot="prepend">代理商返佣比例</template>
                 </el-input>	
@@ -52,10 +61,10 @@
                 <el-input placeholder="" v-model.number="partnerCannotRecycleRatio" style="margin-bottom: 10px">
                     <template slot="prepend">合作商家不能提现比例</template>
                 </el-input>	
+                -->
             <el-button @click="updateMoney" type="primary" size="small">更新设置</el-button>
             </div>
         </div>
-        -->
     </div>
 </template>
 
@@ -72,6 +81,11 @@
             relationReturnMoney: 0,
             agentReturnMoney: 0,
             partnerCannotRecycleRatio: 0,
+
+            oneLevelReturnMoney: 0,
+            twoLevelReturnMoney: 0,
+            recycleRatio: 0,
+
             actionCol: {
                 label: '操作',
                 props: {
@@ -139,9 +153,12 @@
                 url: Api.settingShowMoney,
                 method: 'get',
             }).then(response => {
-                this.agentReturnMoney = response.data.data.agent_return_money
-                this.relationReturnMoney = response.data.data.relation_return_money
-                this.partnerCannotRecycleRatio = response.data.data.partner_cannot_recycle_ratio
+                //this.agentReturnMoney = response.data.data.agent_return_money
+                //this.relationReturnMoney = response.data.data.relation_return_money
+                //this.partnerCannotRecycleRatio = response.data.data.partner_cannot_recycle_ratio
+                this.oneLevelReturnMoney = response.data.data.oneLevelReturnMoney
+                this.twoLevelReturnMoney = response.data.data.twoLevelReturnMoney
+                this.recycleRatio = response.data.data.recycleRatio
             }).catch(err => {
                 console.log(err)
             })
@@ -167,7 +184,8 @@
             http({
                 url: Api.settingUpdateMoney,
                 method: 'get',
-                params: {value: [this.agentReturnMoney, this.relationReturnMoney, this.partnerCannotRecycleRatio]}
+                //params: {value: [this.agentReturnMoney, this.relationReturnMoney, this.partnerCannotRecycleRatio]}
+                params: {value: [this.oneLevelReturnMoney, this.twoLevelReturnMoney, this.recycleRatio]}
             }).then(response => {
                 this.$notify.success({
                     'title': "提示",

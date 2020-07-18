@@ -4,6 +4,7 @@ namespace App\Jobs\Api\V1\Customer;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Support\Arr;
 use App\Tables as TableModels;
 use DB;
 
@@ -32,7 +33,19 @@ class RecommenderListJob
     {
         $customers = TableModels\Customer::select(
             'info->name as name', 'id', 'openid', 'nickname', 'avatar', DB::raw('DATE_FORMAT(created_at, "%Y-%m-%d") as date')
-	    )->where('recommender', '=', $this->id)->groupBy('openid', 'info', 'created_at', 'id', 'nickname', 'avatar')->get();
+        )->where('recommender', '=', $this->id)->groupBy('openid', 'info', 'created_at', 'id', 'nickname', 'avatar')->get();
+        
+        // add second recommender list 20200718
+        $ids = [];
+        foreach ($customers as $customer) {
+            array_push($ids, $customer->id);
+        }
+
+        $secondCustomers = TableModels\Customer::select(
+            'info->name as name', 'id', 'openid', 'nickname', 'avatar', DB::raw('DATE_FORMAT(created_at, "%Y-%m-%d") as date')
+            )->whereIn('recommender', $ids)->groupBy('openid', 'info', 'created_at', 'id', 'nickname', 'avatar')->get();
+
+        $customers = Arr::collapse([$customers, $secondCustomers]);
 
         $orders = TableModels\Order::select('customer_id', DB::raw("count(*) as orders"))->where('payment_status', 1)->groupBy('customer_id')->get();
 

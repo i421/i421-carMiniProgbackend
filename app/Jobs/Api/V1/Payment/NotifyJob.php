@@ -96,14 +96,40 @@ class NotifyJob
                             $broker = TableModels\Customer::find($customer->recommender);
                             \Log::info("broker: " . $broker->id . " 消费" . $message['total_fee']);
 
-                            if ((!is_null($broker)) && ($broker->type == 2) && ($broker->type_auth == 1)) {
-                                TableModels\CustomerRecharge::create([
-                                    'customer_id' => $broker->id,
-                                    'score' => floor($message['total_fee'] * (\RECOMMENDER_RATIO) /10000),
-                                    'content' => '推荐人消费积分奖励',
-                                ]);
-                                $broker->score += floor($message['total_fee'] * (\RECOMMENDER_RATIO) /10000);
-                                $broker->save();
+                            if (!is_null($broker)) {
+                                // 如果一级推荐是代理人 则直接按照比例返点
+                                if (($broker->type == 2) && ($broker->type_auth == 1)) {
+                                    TableModels\CustomerRecharge::create([
+                                        'customer_id' => $broker->id,
+                                        'score' => floor($message['total_fee'] * (\RECOMMENDER_RATIO) /10000),
+                                        'content' => '推荐人消费积分奖励',
+                                    ]);
+                                    $broker->score += floor($message['total_fee'] * (\RECOMMENDER_RATIO) /10000);
+                                    $broker->save();
+                                } else {
+                                    // 如果一级推荐不是代理人，则根据系统设置一级返点
+                                    TableModels\CustomerRecharge::create([
+                                        'customer_id' => $broker->id,
+                                        'score' => floor($message['total_fee'] * ((int)getMoneyThreshold()['oneLevelReturnMoney']) /10000),
+                                        'content' => '一级推荐人消费积分奖励',
+                                    ]);
+                                    $broker->score += floor($message['total_fee'] * ((int)getMoneyThreshold()['recycleRatio']) /10000);
+                                    $broker->save();
+
+                                }
+
+                                // 二级返点
+                                $secondBroker = TableModels\Customer::find($broker->recommender);
+
+                                if (!is_null($secondBroker)) {
+                                    TableModels\CustomerRecharge::create([
+                                        'customer_id' => $secondBroker->id,
+                                        'score' => floor($message['total_fee'] * ((int)getMoneyThreshold()['recycleRatio']) /10000),
+                                        'content' => '二级推荐人消费积分奖励',
+                                    ]);
+                                    $secondBroker->score += floor($message['total_fee'] * ((int)getMoneyThreshold()['recycleRatio']) /10000);
+                                    $secondBroker->save();
+                                }
                             }
                         }
                         

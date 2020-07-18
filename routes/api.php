@@ -60,6 +60,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api\V1'], function () {
     Route::group(['prefix' => 'setting'], function () {
         Route::get('/carousel', 'SettingController@carouselList');
         Route::get('/ad', 'SettingController@ad');
+        Route::get('/recycle/ratio', 'SettingController@recycleRatio');
     });
 
     //经销商管理(店铺管理)

@@ -122,5 +122,9 @@ return [
             'code' => '71007',
             'msg' => '两次核销时间间隔过短',
         ],
+        'missWechatPaymentCode' => [
+            'code' => '71008',
+            'msg' => '缺失收款码',
+        ]
     ],
 ];

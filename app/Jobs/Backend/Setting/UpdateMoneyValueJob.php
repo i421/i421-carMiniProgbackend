@@ -36,9 +36,12 @@ class UpdateMoneyValueJob
             $list = [
                 'key' => 'v4_money_ratio',
                 'value' => json_encode([
-                    'agent_return_money' => $this->value[0],
-                    'relation_return_money' => $this->value[1],
-                    'partner_cannot_recycle_ratio' => $this->value[2]
+                    //'agent_return_money' => $this->value[0],
+                    //'relation_return_money' => $this->value[1],
+                    //'partner_cannot_recycle_ratio' => $this->value[2]
+                    'oneLevelReturnMoney' => $this->value[0],
+                    'twoLevelReturnMoney' => $this->value[1],
+                    'recycleRatio' => $this->value[2]
                 ])
             ];
 
@@ -48,9 +51,12 @@ class UpdateMoneyValueJob
 
             $res = TableModels\Setting::where('key', 'v4_money_ratio')->update([
                 'value' => json_encode([
-                    'agent_return_money' => $this->value[0],
-                    'relation_return_money' => $this->value[1],
-                    'partner_cannot_recycle_ratio' => $this->value[2]
+                    //'agent_return_money' => $this->value[0],
+                    //'relation_return_money' => $this->value[1],
+                    //'partner_cannot_recycle_ratio' => $this->value[2]
+                    'oneLevelReturnMoney' => $this->value[0],
+                    'twoLevelReturnMoney' => $this->value[1],
+                    'recycleRatio' => $this->value[2]
                 ])
             ]);
         }

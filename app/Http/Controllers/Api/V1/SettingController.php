@@ -29,4 +29,10 @@ class SettingController extends Controller
         $response = $this->dispatch(new SettingJobs\AdJob());
         return $response;
     }
+
+    public function recycleRatio()
+    {
+        $response = $this->dispatch(new SettingJobs\RecycleRatioJob());
+        return $response;
+    }
 }
