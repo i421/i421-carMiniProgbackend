@@ -18,6 +18,7 @@ class CreateCustomerRecyclingsTable extends Migration
             $table->increments('id');
             $table->integer('customer_id')->unsigned()->comment('客户id');
             $table->integer('score')->comment('积分');
+            $table->integer('money')->default(0)->comment('钱');
             $table->integer('status')->default(0)->comment('未打款');
             $table->string('append')->nullable()->comment('其他');
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));

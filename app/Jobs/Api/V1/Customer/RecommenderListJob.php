@@ -37,13 +37,18 @@ class RecommenderListJob
         
         // add second recommender list 20200718
         $ids = [];
-        foreach ($customers as $customer) {
+        foreach ($customers as &$customer) {
             array_push($ids, $customer->id);
+            $customer['type'] = 1;
         }
 
         $secondCustomers = TableModels\Customer::select(
             'info->name as name', 'id', 'openid', 'nickname', 'avatar', DB::raw('DATE_FORMAT(created_at, "%Y-%m-%d") as date')
             )->whereIn('recommender', $ids)->groupBy('openid', 'info', 'created_at', 'id', 'nickname', 'avatar')->get();
+
+        foreach ($secondCustomers as &$secondCustomer) {
+            $secondCustomer['type'] = 2;
+        }
 
         $customers = Arr::collapse([$customers, $secondCustomers]);
 

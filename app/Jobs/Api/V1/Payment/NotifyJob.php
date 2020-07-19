@@ -113,7 +113,7 @@ class NotifyJob
                                         'score' => floor($message['total_fee'] * ((int)getMoneyThreshold()['oneLevelReturnMoney']) /10000),
                                         'content' => '一级推荐人消费积分奖励',
                                     ]);
-                                    $broker->score += floor($message['total_fee'] * ((int)getMoneyThreshold()['recycleRatio']) /10000);
+                                    $broker->score += floor($message['total_fee'] * ((int)getMoneyThreshold()['oneLevelReturnMoney']) /10000);
                                     $broker->save();
 
                                 }
@@ -124,10 +124,10 @@ class NotifyJob
                                 if (!is_null($secondBroker)) {
                                     TableModels\CustomerRecharge::create([
                                         'customer_id' => $secondBroker->id,
-                                        'score' => floor($message['total_fee'] * ((int)getMoneyThreshold()['recycleRatio']) /10000),
+                                        'score' => floor($message['total_fee'] * ((int)getMoneyThreshold()['twoLevelReturnMoney']) /10000),
                                         'content' => '二级推荐人消费积分奖励',
                                     ]);
-                                    $secondBroker->score += floor($message['total_fee'] * ((int)getMoneyThreshold()['recycleRatio']) /10000);
+                                    $secondBroker->score += floor($message['total_fee'] * ((int)getMoneyThreshold()['twoLevelReturnMoney']) /10000);
                                     $secondBroker->save();
                                 }
                             }

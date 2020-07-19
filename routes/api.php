@@ -293,6 +293,7 @@ Route::group(['prefix' => 'v2', 'namespace' => 'Api\V2'], function () {
         Route::post('apply-broker/{openid}', 'CustomerController@applyBroker');
         Route::post('improve-broker-info', 'CustomerController@improveBrokerInfo');
         Route::post('improve-broker-info-with-wechat-payment-code', 'CustomerController@improveBrokerInfoWithWechatPaymentCode');
+        Route::post('update-wechat-payment-code', 'CustomerController@updateWechatPaymentCode');
         Route::post('broker-sub-score', 'CustomerController@brokerSubScore');
         Route::get('broker-recycling-score-list/{openid}', 'CustomerController@brokerRecyclingScoreList');
         Route::get('broker-recharge-score-list/{openid}', 'CustomerController@brokerRechargeScoreList');

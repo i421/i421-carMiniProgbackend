@@ -56,7 +56,10 @@
             <el-table-column label="昵称" prop="nickname">
             </el-table-column>
 
-            <el-table-column label="分数" prop="score">
+            <el-table-column label="积分" prop="score">
+            </el-table-column>
+
+            <el-table-column label="金额(元)" prop="money">
             </el-table-column>
 
             <el-table-column label="收款码" prop="full_wechat_payment_code" width="180">

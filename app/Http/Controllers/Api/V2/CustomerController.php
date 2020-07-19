@@ -35,6 +35,16 @@ class CustomerController extends Controller
     }
 
     /**
+     * 更新收款码 wechatPaymentCode
+     */
+    public function updateWechatPaymentCode()
+    {
+        $params = request()->all();
+        $response = $this->dispatch(new CustomerJobs\UpdateWechatPaymentCodeJob($params));
+        return $response;
+    }
+
+    /**
      * 提积分
      *
      * @return void

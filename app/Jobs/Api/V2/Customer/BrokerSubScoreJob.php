@@ -64,8 +64,9 @@ class BrokerSubScoreJob
         }
 
         $total_score = TableModels\CustomerRecharge::where('customer_id', $customer_id)->sum('score');
+        $already_score = TableModels\CustomerRecycling::where('customer_id', $customer_id)->sum('score');
 
-        $can_sub = floor($total_score * 0.4);
+        $can_sub = floor($total_score * 0.4) - $already_score;
 
         if ($can_sub < (int)$this->params['score']) {
 
@@ -80,9 +81,16 @@ class BrokerSubScoreJob
         $customer->score -= $this->params['score'];
         $customer->save();
 
+        $ratio = (getMoneyThreshold()['recycleRatio']) /100;
+
+        \Log::info("score: " . $this->params['score'] . "---- ratio: " . $ratio);
+
+        $money = round($this->params['score'] * (1 - $ratio), 2);
+
         $res = TableModels\CustomerRecycling::insert([
             'customer_id' => $customer_id,
             'score' => $this->params['score'],
+            'money' => $money,
         ]);
 
         if (!$res) {
