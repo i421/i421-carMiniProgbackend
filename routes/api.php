@@ -224,6 +224,7 @@ Route::group(['prefix' => 'v1/backend', 'namespace' => 'Backend', 'middleware' =
         Route::get('/', 'CustomerController@index');
         Route::post('search', 'CustomerController@search');
         Route::post('checkList', 'CustomerController@checkList');
+        Route::post('ban/{id}', 'CustomerController@ban');
         Route::get('checkDetail/{id}', 'CustomerController@checkDetail');
         Route::get('authStatus', 'CustomerController@authStatus');
         Route::get('isSeller', 'CustomerController@isSeller');

@@ -73,6 +73,7 @@ const Api = {
     'customers': 'api/v1/backend/customer',
     'showCustomer': 'api/v1/backend/customer/',
     'searchCustomer': 'api/v1/backend/customer/search',
+    'banCustomer': 'api/v1/backend/customer/ban/',
     'cutomerCheckList': 'api/v1/backend/customer/checkList',
     'customerCheckDetail': 'api/v1/backend/customer/checkDetail/',
     'customerAuthStatus': 'api/v1/backend/customer/authStatus',

@@ -94,4 +94,15 @@ class CustomerController extends Controller
         $response = $this->dispatch(new CustomerJobs\IsSellerJob($params));
         return $response;
     }
+
+    /**
+     * 禁止
+     *
+     * @return void
+     */
+    public function ban(int $id)
+    {
+        $response = $this->dispatch(new CustomerJobs\BanJob($id));
+        return $response;
+    }
 }

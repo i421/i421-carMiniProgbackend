@@ -33,7 +33,8 @@ class IndexJob
      */
     public function handle()
     {
-        $forums = Forum::offset(($this->page -1) * $this->pagesize)->take($this->pagesize)->get();
+        //$forums = Forum::offset(($this->page -1) * $this->pagesize)->take($this->pagesize)->get();
+        $forums = Forum::all();
 
         $forumsId = []; 
         $customerIds = []; 

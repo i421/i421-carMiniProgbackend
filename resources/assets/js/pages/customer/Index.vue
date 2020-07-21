@@ -375,6 +375,15 @@
           //禁止
           ban(row) {
             //todo
+            http({
+                url: Api.banCustomer + row.id, 
+                method: "post",
+            }).then(response => {
+                this.$notify({
+                    type: 'info',
+                    message: '已禁止'
+                });
+            })
           },
 
           checkCustomer() {
