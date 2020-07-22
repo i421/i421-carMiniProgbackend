@@ -35,8 +35,8 @@ class StoreJob
 
         if ($result['errcode'] !== 0) {
                 $response = [
-                    'code' => $result['errcode'],
-                    'msg' => $result['errmsg'],
+                    'code' => '71010',
+                    'msg' => '内容含敏感信息',
                 ];
                 return response()->json($response);
         }

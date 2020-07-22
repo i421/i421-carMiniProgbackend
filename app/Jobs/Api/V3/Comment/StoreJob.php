@@ -30,6 +30,17 @@ class StoreJob
      */
     public function handle()
     {
+        $miniProgram = \EasyWeChat::miniProgram();
+        $result = $miniProgram->content_security->checkText($this->params['content']);
+
+        if ($result['errcode'] !== 0) {
+                $response = [
+                    'code' => '71010',
+                    'msg' => '内容含敏感信息',
+                ];
+                return response()->json($response);
+        }
+
         $customer = Customer::where('id', $this->params['customer_id'])->first();
         if (is_null($customer) || is_null($customer->phone) && empty($customer->phone)) {
             $response = [
